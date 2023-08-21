@@ -2,7 +2,6 @@ package cn.yapeteam.yolbi.font.cfont;
 
 
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import org.lwjgl.opengl.GL11;
@@ -72,7 +71,7 @@ public class VestigeFontRenderer extends CFont implements AbstractFontRenderer {
 
     @Override
     public float drawString(String text, float x, float y, int color, boolean shadow) {
-        return drawStringWithShadow(text, x, y, color);
+        return drawString(text, x, (double) y, color, shadow);
     }
 
     @Override
@@ -110,7 +109,6 @@ public class VestigeFontRenderer extends CFont implements AbstractFontRenderer {
     }
 
     public float drawString(String text, double x, double y, int color, boolean shadow) {
-        Minecraft mc = Minecraft.getMinecraft();
         x -= 1;
 
         if (text == null) {
