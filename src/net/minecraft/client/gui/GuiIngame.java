@@ -804,16 +804,14 @@ public class GuiIngame extends Gui
                     }
                 }
             }
-            else if (entity instanceof EntityLivingBase)
-            {
+            else if (entity instanceof EntityLivingBase) {
                 this.mc.mcProfiler.endStartSection("mountHealth");
                 EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
                 int i7 = (int) Math.ceil(entitylivingbase.getHealth());
                 float f3 = entitylivingbase.getMaxHealth();
-                int j8 = (int)(f3 + 0.5F) / 2;
+                int j8 = (int) (f3 + 0.5F) / 2;
 
-                if (j8 > 30)
-                {
+                if (j8 > 30) {
                     j8 = 30;
                 }
 
@@ -943,20 +941,18 @@ public class GuiIngame extends Gui
             p_180480_1_ = 1.0F - p_180480_1_;
             p_180480_1_ = MathHelper.clamp_float(p_180480_1_, 0.0F, 1.0F);
             WorldBorder worldborder = this.mc.theWorld.getWorldBorder();
-            float f = (float)worldborder.getClosestDistance(this.mc.thePlayer);
+            float f = (float) worldborder.getClosestDistance(this.mc.thePlayer);
             double d0 = Math.min(worldborder.getResizeSpeed() * (double) worldborder.getWarningTime() * 1000.0D, Math.abs(worldborder.getTargetSize() - worldborder.getDiameter()));
             double d1 = Math.max(worldborder.getWarningDistance(), d0);
 
             if ((double)f < d1)
             {
                 f = 1.0F - (float)((double)f / d1);
-            }
-            else
-            {
+            } else {
                 f = 0.0F;
             }
 
-            this.prevVignetteBrightness = (float)((double)this.prevVignetteBrightness + (double)(p_180480_1_ - this.prevVignetteBrightness) * 0.01D);
+            this.prevVignetteBrightness = (float) ((double) this.prevVignetteBrightness + (double) (p_180480_1_ - this.prevVignetteBrightness) * 0.01D);
             GlStateManager.disableDepth();
             GlStateManager.depthMask(false);
             GlStateManager.tryBlendFuncSeparate(0, 769, 1, 0);
