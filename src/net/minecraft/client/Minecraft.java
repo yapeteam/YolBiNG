@@ -147,6 +147,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
     private static Minecraft theMinecraft;
     public PlayerControllerMP playerController;
     private boolean fullscreen;
+    @SuppressWarnings("FieldCanBeLocal")
     private final boolean enableGLErrorChecking = true;
     private boolean hasCrashed;
 
@@ -296,8 +297,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
     private final MinecraftSessionService sessionService;
     private SkinManager skinManager;
     private final Queue<FutureTask<?>> scheduledTasks = Queues.newArrayDeque();
-    private final long field_175615_aJ = 0L;
     private final Thread mcThread = Thread.currentThread();
+    @SuppressWarnings("FieldCanBeLocal")
     private ModelManager modelManager;
 
     /**
@@ -314,9 +315,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
      * String that shows the debug information
      */
     public String debug = "";
-    public boolean field_175613_B = false;
-    public boolean field_175614_C = false;
-    public boolean field_175611_D = false;
     public boolean renderChunksMany = true;
 
     /**
@@ -379,40 +377,33 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
             return;
         }
 
-        while (true) {
-            try {
-                while (this.running) {
-                    if (!this.hasCrashed || this.crashReporter == null) {
-                        try {
-                            this.runGameLoop();
-                        } catch (OutOfMemoryError var10) {
-                            this.freeMemory();
-                            this.displayGuiScreen(new GuiMemoryErrorScreen());
-                            System.gc();
-                        }
-                    } else {
-                        this.displayCrashReport(this.crashReporter);
+        try {
+            while (this.running) {
+                if (!this.hasCrashed || this.crashReporter == null) {
+                    try {
+                        this.runGameLoop();
+                    } catch (OutOfMemoryError var10) {
+                        this.freeMemory();
+                        this.displayGuiScreen(new GuiMemoryErrorScreen());
+                        System.gc();
                     }
+                } else {
+                    this.displayCrashReport(this.crashReporter);
                 }
-            } catch (MinecraftError var12) {
-                break;
-            } catch (ReportedException reportedexception) {
-                this.addGraphicsAndWorldToCrashReport(reportedexception.getCrashReport());
-                this.freeMemory();
-                logger.fatal("Reported exception thrown!", reportedexception);
-                this.displayCrashReport(reportedexception.getCrashReport());
-                break;
-            } catch (Throwable throwable1) {
-                CrashReport crashreport1 = this.addGraphicsAndWorldToCrashReport(new CrashReport("Unexpected error", throwable1));
-                this.freeMemory();
-                logger.fatal("Unreported exception thrown!", throwable1);
-                this.displayCrashReport(crashreport1);
-                break;
-            } finally {
-                this.shutdownMinecraftApplet();
             }
-
-            return;
+        } catch (MinecraftError var12) {
+        } catch (ReportedException reportedexception) {
+            this.addGraphicsAndWorldToCrashReport(reportedexception.getCrashReport());
+            this.freeMemory();
+            logger.fatal("Reported exception thrown!", reportedexception);
+            this.displayCrashReport(reportedexception.getCrashReport());
+        } catch (Throwable throwable1) {
+            CrashReport crashreport1 = this.addGraphicsAndWorldToCrashReport(new CrashReport("Unexpected error", throwable1));
+            this.freeMemory();
+            logger.fatal("Unreported exception thrown!", throwable1);
+            this.displayCrashReport(crashreport1);
+        } finally {
+            this.shutdownMinecraftApplet();
         }
     }
 
@@ -420,6 +411,11 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
      * Starts the game: initializes the canvas, the title, the settings, etcetera.
      */
     private void startGame() throws LWJGLException, IOException {
+        if (this.displayWidth < 1100)
+            this.displayWidth = 1100;
+        if (this.displayHeight < 630)
+            this.displayHeight = 630;
+
         this.gameSettings = new GameSettings(this, this.mcDataDir);
         this.defaultResourcePacks.add(this.mcDefaultResourcePack);
         this.startTimerHackThread();
