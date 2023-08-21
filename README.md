@@ -1,0 +1,2 @@
+# YolBiNG
+yolk next generate
