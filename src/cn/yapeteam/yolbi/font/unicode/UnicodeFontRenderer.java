@@ -26,14 +26,14 @@ public class UnicodeFontRenderer extends FontRenderer implements AbstractFontRen
             this.font.addGlyphs(startCodePoint, endCodePoint);
         }
 
-        if (b) {
+        if (b)
             this.font.addGlyphs(0, 65535);
-        }
-
         try {
+            long t = System.currentTimeMillis();
             this.font.loadGlyphs();
-        } catch (SlickException var7) {
-            throw new RuntimeException(var7);
+            System.out.println("Loaded " + awtFont.getFontName() + " size: " + awtFont.getSize() + " time: " + (System.currentTimeMillis() - t) + "ms");
+        } catch (SlickException e) {
+            throw new RuntimeException(e);
         }
 
         this.FONT_HEIGHT = this.font.getHeight("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789") / 2;

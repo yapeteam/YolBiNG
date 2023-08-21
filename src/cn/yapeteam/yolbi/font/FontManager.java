@@ -10,7 +10,6 @@ import java.awt.*;
 
 @Getter
 public class FontManager {
-
     private final AbstractFontRenderer
             productSans,
             productSans23,
@@ -22,11 +21,13 @@ public class FontManager {
             PingFang18,
             PingFangBold18;
 
+
     public FontManager() {
         productSans = new VestigeFontRenderer(getFontFromTTF("product_sans", 20, Font.PLAIN), true, true);
         productSans23 = new VestigeFontRenderer(getFontFromTTF("product_sans", 23, Font.PLAIN), true, true);
         productSansTitle = new VestigeFontRenderer(getFontFromTTF("product_sans", 34, Font.PLAIN), true, true);
         comfortaa = new VestigeFontRenderer(getFontFromTTF("comfortaa", 19, Font.PLAIN), true, true);
+
         PingFang12 = getUnicode("PingFang_Normal", 12);
         PingFang14 = getUnicode("PingFang_Normal", 14);
         PingFang16 = getUnicode("PingFang_Normal", 16);
