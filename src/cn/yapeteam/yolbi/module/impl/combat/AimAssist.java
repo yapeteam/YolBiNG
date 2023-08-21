@@ -1,7 +1,7 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.RenderEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
 import cn.yapeteam.yolbi.util.misc.TimerUtil;
@@ -46,8 +46,8 @@ public class AimAssist extends Module {
 
     @Override
     public void onClientStarted() {
-        antibotModule = Vestige.instance.getModuleManager().getModule(Antibot.class);
-        teamsModule = Vestige.instance.getModuleManager().getModule(Teams.class);
+        antibotModule = YolBi.instance.getModuleManager().getModule(Antibot.class);
+        teamsModule = YolBi.instance.getModuleManager().getModule(Teams.class);
     }
 
     @Listener

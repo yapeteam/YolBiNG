@@ -48,10 +48,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.FinalPacketSendEvent;
-import cn.yapeteam.yolbi.event.impl.PacketReceiveEvent;
-import cn.yapeteam.yolbi.event.impl.PacketSendEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.network.FinalPacketSendEvent;
+import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
+import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
 import cn.yapeteam.yolbi.util.network.PacketUtil;
 
 public class NetworkManager extends SimpleChannelInboundHandler<Packet>
@@ -157,7 +157,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         {
             PacketReceiveEvent event = new PacketReceiveEvent(p_channelRead0_2_);
 
-            Vestige.instance.getEventManager().post(event);
+            YolBi.instance.getEventManager().post(event);
 
             if (event.isCancelled()) return;
 
@@ -190,7 +190,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
             PacketSendEvent event = new PacketSendEvent(packetIn);
 
             if(!PacketUtil.shouldIgnorePacket(packetIn)) {
-                Vestige.instance.getEventManager().post(event);
+                YolBi.instance.getEventManager().post(event);
             }
 
             if (event.isCancelled()) return;
@@ -216,7 +216,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         FinalPacketSendEvent event = new FinalPacketSendEvent(packetIn);
 
         if(!PacketUtil.shouldIgnorePacket(packetIn)) {
-            Vestige.instance.getEventManager().post(event);
+            YolBi.instance.getEventManager().post(event);
         }
 
         if (event.isCancelled()) return;

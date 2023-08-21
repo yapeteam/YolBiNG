@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
-import cn.yapeteam.yolbi.event.impl.UpdateEvent;
+import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;

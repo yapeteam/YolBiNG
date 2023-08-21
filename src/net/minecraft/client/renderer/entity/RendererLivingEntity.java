@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.RotationsRenderEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.render.RotationsRenderEvent;
 import cn.yapeteam.yolbi.module.impl.visual.Chams;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
@@ -144,7 +144,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
                 RotationsRenderEvent event = new RotationsRenderEvent(this.interpolateRotation(entity.prevRotationYawHead, entity.rotationYawHead, partialTicks), this.interpolateRotation(entity.prevRenderYawOffset, entity.renderYawOffset, partialTicks), entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, partialTicks);
 
                 if(entity == renderManager.livingPlayer) {
-                    Vestige.instance.getEventManager().post(event);
+                    YolBi.instance.getEventManager().post(event);
                 }
 
                 float f = event.getBodyYaw();

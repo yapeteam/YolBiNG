@@ -1,10 +1,10 @@
 package cn.yapeteam.yolbi.command;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.command.impl.Bind;
 import cn.yapeteam.yolbi.command.impl.Config;
 import cn.yapeteam.yolbi.command.impl.Toggle;
-import cn.yapeteam.yolbi.event.impl.ChatSendEvent;
+import cn.yapeteam.yolbi.event.impl.network.ChatSendEvent;
 import cn.yapeteam.yolbi.util.misc.LogUtil;
 import cn.yapeteam.yolbi.event.Listener;
 
@@ -15,7 +15,7 @@ public class CommandManager {
     public final ArrayList<Command> commands = new ArrayList<>();
 
     public CommandManager() {
-        Vestige.instance.getEventManager().register(this);
+        YolBi.instance.getEventManager().register(this);
 
         commands.add(new Toggle());
         commands.add(new Bind());

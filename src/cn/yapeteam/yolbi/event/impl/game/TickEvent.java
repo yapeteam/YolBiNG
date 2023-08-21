@@ -1,4 +1,4 @@
-package cn.yapeteam.yolbi.event.impl;
+package cn.yapeteam.yolbi.event.impl.game;
 
 import cn.yapeteam.yolbi.event.Event;
 

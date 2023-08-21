@@ -17,7 +17,7 @@ import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.ResourceLocation;
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 
 public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer>
 {
@@ -82,7 +82,7 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer>
         }
         else
         {
-            ItemStack itemstack = Vestige.instance.getSlotSpoofHandler().getSpoofedStack();
+            ItemStack itemstack = YolBi.instance.getSlotSpoofHandler().getSpoofedStack();
             modelplayer.setInvisible(true);
             modelplayer.bipedHeadwear.showModel = clientPlayer.isWearing(EnumPlayerModelParts.HAT);
             modelplayer.bipedBodyWear.showModel = clientPlayer.isWearing(EnumPlayerModelParts.JACKET);

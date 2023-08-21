@@ -94,8 +94,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.Render3DEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.render.Render3DEvent;
 import cn.yapeteam.yolbi.handler.client.CameraHandler;
 import cn.yapeteam.yolbi.module.impl.combat.Reach;
 
@@ -750,7 +750,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
         double d1 = entity.prevPosY + (entity.posY - entity.prevPosY) * (double)partialTicks + (double)f;
         double d2 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * (double)partialTicks;
 
-        CameraHandler cameraHandler = Vestige.instance.getCameraHandler();
+        CameraHandler cameraHandler = YolBi.instance.getCameraHandler();
 
         if (entity instanceof EntityLivingBase && ((EntityLivingBase)entity).isPlayerSleeping())
         {
@@ -1307,7 +1307,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
         if (this.mc.inGameHasFocus && flag)
         {
-            CameraHandler cameraHandler = Vestige.instance.getCameraHandler();
+            CameraHandler cameraHandler = YolBi.instance.getCameraHandler();
 
             if(cameraHandler.isFreelooking()) {
                 cameraHandler.overrideMouse();
@@ -1921,7 +1921,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
         }
 
         this.mc.mcProfiler.endStartSection("hand");
-        Vestige.instance.getEventManager().post(new Render3DEvent(partialTicks));
+        YolBi.instance.getEventManager().post(new Render3DEvent(partialTicks));
 
         if (this.renderHand && !Shaders.isShadowPass)
         {

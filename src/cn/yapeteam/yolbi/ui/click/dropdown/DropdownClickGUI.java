@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.ui.click.dropdown;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
@@ -57,7 +57,7 @@ public class DropdownClickGUI extends GuiScreen {
 
         for (ModuleCategory category : ModuleCategory.values()) {
             ArrayList<ModuleHolder> modules = new ArrayList<>();
-            Vestige.instance.getModuleManager().modules.stream().filter(m -> m.getCategory() == category).forEach(m -> modules.add(new ModuleHolder(m)));
+            YolBi.instance.getModuleManager().modules.stream().filter(m -> m.getCategory() == category).forEach(m -> modules.add(new ModuleHolder(m)));
 
             categories.add(new CategoryHolder(category, modules, x, y, true));
             x += categoryXOffset + 20;
@@ -73,7 +73,7 @@ public class DropdownClickGUI extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        AbstractFontRenderer fr = Vestige.instance.getFontManager().getProductSans();
+        AbstractFontRenderer fr = YolBi.instance.getFontManager().getProductSans();
 
         GL11.glTranslatef(0, scrollY, 0);
 
@@ -263,7 +263,7 @@ public class DropdownClickGUI extends GuiScreen {
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
-        AbstractFontRenderer fr = Vestige.instance.getFontManager().getProductSans();
+        AbstractFontRenderer fr = YolBi.instance.getFontManager().getProductSans();
 
         for (CategoryHolder category : categories) {
             if (category.isShown()) {

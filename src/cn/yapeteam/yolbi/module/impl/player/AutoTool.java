@@ -1,7 +1,7 @@
 package cn.yapeteam.yolbi.module.impl.player;
 
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.TickEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.game.TickEvent;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -32,7 +32,7 @@ public class AutoTool extends Module {
             wasDigging = false;
         }
 
-        Vestige.instance.getSlotSpoofHandler().stopSpoofing();
+        YolBi.instance.getSlotSpoofHandler().stopSpoofing();
     }
 
     @Listener(Priority.LOW)
@@ -46,7 +46,7 @@ public class AutoTool extends Module {
                 oldSlot = mc.thePlayer.inventory.currentItem;
 
                 if(spoof.getValue()) {
-                    Vestige.instance.getSlotSpoofHandler().startSpoofing(oldSlot);
+                    YolBi.instance.getSlotSpoofHandler().startSpoofing(oldSlot);
                 }
             }
 
@@ -68,7 +68,7 @@ public class AutoTool extends Module {
             if(wasDigging) {
                 mc.thePlayer.inventory.currentItem = oldSlot;
 
-                Vestige.instance.getSlotSpoofHandler().stopSpoofing();
+                YolBi.instance.getSlotSpoofHandler().stopSpoofing();
 
                 wasDigging = false;
             } else {

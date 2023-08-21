@@ -1,7 +1,7 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.Render3DEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.render.Render3DEvent;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import cn.yapeteam.yolbi.util.render.RenderUtil;
@@ -32,11 +32,11 @@ public class ESP extends Module {
     @Listener
     public void onRender3D(Render3DEvent event) {
         if (theme == null) {
-            theme = Vestige.instance.getModuleManager().getModule(ClientTheme.class);
+            theme = YolBi.instance.getModuleManager().getModule(ClientTheme.class);
         }
 
         if (antibotModule == null) {
-            antibotModule = Vestige.instance.getModuleManager().getModule(Antibot.class);
+            antibotModule = YolBi.instance.getModuleManager().getModule(Antibot.class);
         }
 
         Color color = new Color(theme.getColor(100));

@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.ui.listedclickui.component.impl;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.ui.Theme;
@@ -106,8 +106,8 @@ public class ModuleButton extends AbstractComponent {
                 }
             GlStateManager.color(1, 1, 1, 1);
             RenderUtil.drawRect(getX(), getY(), getX() + getWidth(), getY() + getHeight(), module.isEnabled() ? (ImplScreen.rainbow ? ColorUtil.rainbow(10, (all - 1 - index) * 10, 1, 1, 1).getRGB() : Theme.MainTheme[2].getRGB()) : (isHovering(getX(), getY(), getWidth(), getHeight(), mouseX, mouseY) && (!((Panel) getParent()).getScreenIn().getCurrentPanel().isHovering(mouseX, mouseY) || ((Panel) getParent()).isCurrent()) ? Theme.MainTheme[0].getRGB() : Theme.MainTheme[1].getRGB()));
-            AbstractFontRenderer font = Vestige.instance.getFontManager().getPingFang14();
-            AbstractFontRenderer icon = Vestige.instance.getFontManager().getFLUXICON14();
+            AbstractFontRenderer font = YolBi.instance.getFontManager().getPingFang14();
+            AbstractFontRenderer icon = YolBi.instance.getFontManager().getFLUXICON14();
             font.drawString(module.getName(), getX() + 5, getY() + (getHeight() - font.getStringHeight(module.getName())) / 2f + 1, ImplScreen.rainbow && module.isEnabled() ? Theme.MainTheme[4].getRGB() : -1);
             if (getChildComponents().size() > 1) {
                 GlStateManager.pushMatrix();

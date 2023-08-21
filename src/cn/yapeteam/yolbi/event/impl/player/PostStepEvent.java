@@ -1,4 +1,4 @@
-package cn.yapeteam.yolbi.event.impl;
+package cn.yapeteam.yolbi.event.impl.player;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,9 +8,8 @@ import cn.yapeteam.yolbi.event.Event;
 @Getter
 @Setter
 @AllArgsConstructor
-public class SlowdownEvent extends Event {
+public class PostStepEvent extends Event {
 
-    private float forward, strafe;
-    private boolean allowedSprinting;
+    private float height;
 
 }

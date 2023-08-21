@@ -1,7 +1,7 @@
 package cn.yapeteam.yolbi.module.impl.player;
 
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.MotionEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
@@ -40,7 +40,7 @@ public class NoFall extends Module {
 
     @Override
     public void onDisable() {
-        Vestige.instance.getPacketBlinkHandler().stopAll();
+        YolBi.instance.getPacketBlinkHandler().stopAll();
     }
 
     @Listener
@@ -74,10 +74,10 @@ public class NoFall extends Module {
                 if (fallDistance >= 3) {
                     if (!blinking) {
                         if (suspendAll.getValue()) {
-                            Vestige.instance.getPacketBlinkHandler().startBlinkingAll();
+                            YolBi.instance.getPacketBlinkHandler().startBlinkingAll();
                         } else {
-                            Vestige.instance.getPacketBlinkHandler().startBlinkingMove();
-                            Vestige.instance.getPacketBlinkHandler().startBlinkingOther();
+                            YolBi.instance.getPacketBlinkHandler().startBlinkingMove();
+                            YolBi.instance.getPacketBlinkHandler().startBlinkingOther();
                         }
 
                         ticks = 0;
@@ -93,7 +93,7 @@ public class NoFall extends Module {
                         ticks = 0;
                         blinking = false;
 
-                        Vestige.instance.getPacketBlinkHandler().stopAll();
+                        YolBi.instance.getPacketBlinkHandler().stopAll();
                     } else {
                         ticks++;
                     }

@@ -1,8 +1,8 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.MoveEvent;
-import cn.yapeteam.yolbi.event.impl.PacketSendEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.player.MoveEvent;
+import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
 import cn.yapeteam.yolbi.module.impl.movement.Speed;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
@@ -36,8 +36,8 @@ public class Criticals extends Module {
 
     @Override
     public void onClientStarted() {
-        speedModule = Vestige.instance.getModuleManager().getModule(Speed.class);
-        killauraModule = Vestige.instance.getModuleManager().getModule(Killaura.class);
+        speedModule = YolBi.instance.getModuleManager().getModule(Speed.class);
+        killauraModule = YolBi.instance.getModuleManager().getModule(Killaura.class);
     }
 
     @Listener
@@ -62,7 +62,7 @@ public class Criticals extends Module {
                         if (target != null && target instanceof EntityPlayer) {
                             EntityPlayer player = (EntityPlayer) target;
 
-                            if (player.hurtTime <= 4 && mc.thePlayer.onGround && !Vestige.instance.getModuleManager().getModule(Speed.class).isEnabled()) {
+                            if (player.hurtTime <= 4 && mc.thePlayer.onGround && !YolBi.instance.getModuleManager().getModule(Speed.class).isEnabled()) {
                                 PacketUtil.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.1, mc.thePlayer.posZ, false));
                                 PacketUtil.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, false));
                             }

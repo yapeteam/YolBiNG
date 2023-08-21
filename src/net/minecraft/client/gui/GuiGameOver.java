@@ -5,7 +5,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.EnumChatFormatting;
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 
 public class GuiGameOver extends GuiScreen implements GuiYesNoCallback
 {
@@ -74,7 +74,7 @@ public class GuiGameOver extends GuiScreen implements GuiYesNoCallback
             case 1:
                 if (this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled())
                 {
-                    this.mc.displayGuiScreen(Vestige.instance.getMainMenu());
+                    this.mc.displayGuiScreen(YolBi.instance.getMainMenu());
                 }
                 else
                 {
@@ -91,7 +91,7 @@ public class GuiGameOver extends GuiScreen implements GuiYesNoCallback
         {
             this.mc.theWorld.sendQuittingDisconnectingPacket();
             this.mc.loadWorld((WorldClient)null);
-            this.mc.displayGuiScreen(Vestige.instance.getMainMenu());
+            this.mc.displayGuiScreen(YolBi.instance.getMainMenu());
         }
         else
         {

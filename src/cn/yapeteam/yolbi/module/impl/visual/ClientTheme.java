@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
-import cn.yapeteam.yolbi.event.impl.RenderEvent;
+import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
 import cn.yapeteam.yolbi.util.render.ColorUtil;

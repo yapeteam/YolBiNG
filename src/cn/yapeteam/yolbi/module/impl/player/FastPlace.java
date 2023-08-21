@@ -1,8 +1,8 @@
 package cn.yapeteam.yolbi.module.impl.player;
 
-import cn.yapeteam.yolbi.event.impl.PacketSendEvent;
-import cn.yapeteam.yolbi.event.impl.RenderEvent;
-import cn.yapeteam.yolbi.event.impl.TickEvent;
+import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
+import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
+import cn.yapeteam.yolbi.event.impl.game.TickEvent;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
 import cn.yapeteam.yolbi.util.network.PacketUtil;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
@@ -54,7 +54,7 @@ public class FastPlace extends Module {
     @Listener
     public void onRender(RenderEvent event) {
         if(delay.is("No CPS cap") || (delay.is("Every tick on render") && !placedBlock)) {
-            if(mc.gameSettings.keyBindUseItem.pressed || Mouse.isButtonDown(1)) {
+            if(mc.gameSettings.keyBindUseItem.isPressed() || Mouse.isButtonDown(1)) {
                 mc.rightClickDelayTimer = 0;
                 mc.rightClickMouse();
             }

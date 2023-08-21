@@ -1,5 +1,4 @@
-package cn.yapeteam.yolbi.event.impl;
-
+package cn.yapeteam.yolbi.event.impl.game;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,8 +6,8 @@ import cn.yapeteam.yolbi.event.Event;
 
 @Getter
 @AllArgsConstructor
-public class RenderEvent extends Event {
+public class KeyPressEvent extends Event {
 
-    private float partialTicks;
+    private int key;
 
 }

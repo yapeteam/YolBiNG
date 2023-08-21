@@ -1,8 +1,8 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.RenderEvent;
+import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.util.render.FontUtil;
@@ -31,7 +31,7 @@ public class IngameInfo extends Module {
         float y = sr.getScaledHeight() - 13;
 
         if (balance.getValue()) {
-            FontUtil.drawStringWithShadow(font.getValue(), "Balance : " + Vestige.instance.getBalanceHandler().getBalanceInMS(), x, y, -1);
+            FontUtil.drawStringWithShadow(font.getValue(), "Balance : " + YolBi.instance.getBalanceHandler().getBalanceInMS(), x, y, -1);
 
             y -= 10;
         }

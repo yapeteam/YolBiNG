@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.util.render;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.util.IMinecraft;
 import cn.yapeteam.yolbi.values.Visibility;
@@ -22,8 +22,8 @@ public class FontUtil implements IMinecraft {
 
     public static void initFonts() {
         mcFont = mc.fontRendererObj;
-        productSans = Vestige.instance.getFontManager().getProductSans();
-        comfortaa = Vestige.instance.getFontManager().getComfortaa();
+        productSans = YolBi.instance.getFontManager().getProductSans();
+        comfortaa = YolBi.instance.getFontManager().getComfortaa();
     }
 
     public static void drawString(String font, String text, float x, float y, int color) {

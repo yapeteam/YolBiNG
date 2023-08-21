@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.module;
 
-import cn.yapeteam.yolbi.event.impl.RenderEvent;
+import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import lombok.Getter;
 import lombok.Setter;

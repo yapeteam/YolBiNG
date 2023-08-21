@@ -4,10 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.FinalPacketSendEvent;
-import cn.yapeteam.yolbi.event.impl.PacketReceiveEvent;
+import cn.yapeteam.yolbi.event.impl.network.FinalPacketSendEvent;
+import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
 import cn.yapeteam.yolbi.util.IMinecraft;
 
 @Getter
@@ -19,7 +19,7 @@ public class BalanceHandler implements IMinecraft {
     private long lastNanoTime;
 
     public BalanceHandler() {
-        Vestige.instance.getEventManager().register(this);
+        YolBi.instance.getEventManager().register(this);
     }
 
     @Listener

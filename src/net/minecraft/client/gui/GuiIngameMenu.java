@@ -5,7 +5,7 @@ import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.resources.I18n;
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 
 public class GuiIngameMenu extends GuiScreen
 {
@@ -57,11 +57,11 @@ public class GuiIngameMenu extends GuiScreen
 
                 if (flag)
                 {
-                    this.mc.displayGuiScreen(Vestige.instance.getMainMenu());
+                    this.mc.displayGuiScreen(YolBi.instance.getMainMenu());
                 }
                 else
                 {
-                    this.mc.displayGuiScreen(new GuiMultiplayer(Vestige.instance.getMainMenu()));
+                    this.mc.displayGuiScreen(new GuiMultiplayer(YolBi.instance.getMainMenu()));
                 }
 
             case 2:

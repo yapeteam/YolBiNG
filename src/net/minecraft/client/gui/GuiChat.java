@@ -1,6 +1,6 @@
 package net.minecraft.client.gui;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.module.AlignType;
 import cn.yapeteam.yolbi.module.HUDModule;
 import com.google.common.collect.Lists;
@@ -73,7 +73,7 @@ public class GuiChat extends GuiScreen
         Keyboard.enableRepeatEvents(false);
         this.mc.ingameGUI.getChatGUI().resetScroll();
 
-        for(HUDModule m : Vestige.instance.getModuleManager().hudModules) {
+        for(HUDModule m : YolBi.instance.getModuleManager().hudModules) {
             m.setHoldingMouse(false);
         }
     }
@@ -181,7 +181,7 @@ public class GuiChat extends GuiScreen
         {
             ScaledResolution sr = new ScaledResolution(mc);
 
-            for(HUDModule m : Vestige.instance.getModuleManager().hudModules) {
+            for(HUDModule m : YolBi.instance.getModuleManager().hudModules) {
                 double startX = m.posX.getValue();
                 double startY = m.posY.getValue();
 
@@ -216,7 +216,7 @@ public class GuiChat extends GuiScreen
 
     protected void mouseReleased(int mouseX, int mouseY, int state) {
         if(state == 0) {
-            Vestige.instance.getModuleManager().hudModules.forEach(m -> m.setHoldingMouse(false));
+            YolBi.instance.getModuleManager().hudModules.forEach(m -> m.setHoldingMouse(false));
         }
     }
 
@@ -349,7 +349,7 @@ public class GuiChat extends GuiScreen
             this.handleComponentHover(ichatcomponent, mouseX, mouseY);
         }
 
-        Vestige.instance.getModuleManager().hudModules.forEach(m -> {
+        YolBi.instance.getModuleManager().hudModules.forEach(m -> {
             double startX = m.posX.getValue();
             double startY = m.posY.getValue();
 

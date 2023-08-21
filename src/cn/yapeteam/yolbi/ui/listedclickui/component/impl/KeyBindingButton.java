@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.ui.listedclickui.component.impl;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.ui.Theme;
@@ -29,7 +29,7 @@ public class KeyBindingButton extends AbstractComponent {
     @SuppressWarnings("DuplicatedCode")
     @Override
     public void drawComponent(int mouseX, int mouseY, float partialTicks, Limitation limitation) {
-        AbstractFontRenderer font = Vestige.instance.getFontManager().getPingFang14();
+        AbstractFontRenderer font = YolBi.instance.getFontManager().getPingFang14();
         RenderUtil.drawRect(getX(), getY(), getX() + getWidth(), getY() + getHeight(), Theme.MainTheme[1].darker().getRGB());
         int index = 0, all = 0;
         for (AbstractComponent component : getParent().getParent().getChildComponents()) {

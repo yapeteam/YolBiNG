@@ -6,9 +6,9 @@ import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.FinalPacketSendEvent;
+import cn.yapeteam.yolbi.event.impl.network.FinalPacketSendEvent;
 import cn.yapeteam.yolbi.util.IMinecraft;
 import cn.yapeteam.yolbi.util.network.PacketUtil;
 
@@ -27,7 +27,7 @@ public class PacketBlinkHandler implements IMinecraft {
     private boolean clearedPackets;
 
     public PacketBlinkHandler() {
-        Vestige.instance.getEventManager().register(this);
+        YolBi.instance.getEventManager().register(this);
     }
 
     @Listener(20)

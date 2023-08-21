@@ -1,8 +1,8 @@
 package net.minecraft.entity;
 
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.JumpEvent;
-import cn.yapeteam.yolbi.event.impl.StrafeEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.player.JumpEvent;
+import cn.yapeteam.yolbi.event.impl.player.StrafeEvent;
 import cn.yapeteam.yolbi.module.impl.combat.Tickbase;
 import cn.yapeteam.yolbi.module.impl.visual.Animations;
 import com.google.common.base.Predicate;
@@ -1569,7 +1569,7 @@ public abstract class EntityLivingBase extends Entity
         JumpEvent event = new JumpEvent(jumpY, this.rotationYaw, this.isSprinting());
 
         if(this == Minecraft.getMinecraft().thePlayer) {
-            Vestige.instance.getEventManager().post(event);
+            YolBi.instance.getEventManager().post(event);
         }
 
         this.motionY = event.getMotionY();
@@ -1630,7 +1630,7 @@ public abstract class EntityLivingBase extends Entity
                     StrafeEvent event = new StrafeEvent(forward, strafe, f4, f5, this.rotationYaw);
 
                     if(this == Minecraft.getMinecraft().thePlayer) {
-                        Vestige.instance.getEventManager().post(event);
+                        YolBi.instance.getEventManager().post(event);
                     }
 
                     this.moveFlying(event.getStrafe(), event.getForward(), event.getAttributeSpeed(), event.getYaw());

@@ -1,8 +1,8 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.EntityActionEvent;
-import cn.yapeteam.yolbi.event.impl.TickEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.player.EntityActionEvent;
+import cn.yapeteam.yolbi.event.impl.game.TickEvent;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MovingObjectPosition;
@@ -37,14 +37,14 @@ public class WTap extends Module {
 
     @Override
     public void onClientStarted() {
-        killauraModule = Vestige.instance.getModuleManager().getModule(Killaura.class);
+        killauraModule = YolBi.instance.getModuleManager().getModule(Killaura.class);
     }
 
     @Listener(Priority.LOW)
     public void onTick(TickEvent event) {
         if (mode.is("Legit")) {
             if (stoppedLastTick) {
-                mc.gameSettings.keyBindForward.pressed = Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode());
+                mc.gameSettings.keyBindForward.setPressed(Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode()));
                 stoppedLastTick = false;
                 return;
             }
@@ -54,8 +54,8 @@ public class WTap extends Module {
             if (target != null) {
                 if (target.hurtTime >= 2 && mc.thePlayer.onGround && mc.thePlayer.isSprinting()) {
                     if (!taped) {
-                        mc.gameSettings.keyBindSprint.pressed = false;
-                        mc.gameSettings.keyBindForward.pressed = false;
+                        mc.gameSettings.keyBindSprint.setPressed(false);
+                        mc.gameSettings.keyBindForward.setPressed(false);
                         stoppedLastTick = true;
                         taped = true;
                     }
@@ -90,7 +90,7 @@ public class WTap extends Module {
 
     public EntityLivingBase getCurrentTarget() {
         if (killauraModule == null) {
-            killauraModule = Vestige.instance.getModuleManager().getModule(Killaura.class);
+            killauraModule = YolBi.instance.getModuleManager().getModule(Killaura.class);
         }
 
         if (killauraModule.isEnabled() && killauraModule.getTarget() != null) {

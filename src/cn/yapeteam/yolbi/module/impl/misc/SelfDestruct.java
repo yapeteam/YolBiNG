@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.module.impl.misc;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
 
@@ -12,17 +12,17 @@ public class SelfDestruct extends Module {
 
     @Override
     public void onEnable() {
-        Vestige.instance.getModuleManager().modules.forEach(m -> m.setEnabled(false));
-        Vestige.instance.getPacketDelayHandler().stopAll();
-        Vestige.instance.getPacketBlinkHandler().stopAll();
-        Vestige.instance.getCameraHandler().setFreelooking(false);
-        Vestige.instance.getSlotSpoofHandler().stopSpoofing();
+        YolBi.instance.getModuleManager().modules.forEach(m -> m.setEnabled(false));
+        YolBi.instance.getPacketDelayHandler().stopAll();
+        YolBi.instance.getPacketBlinkHandler().stopAll();
+        YolBi.instance.getCameraHandler().setFreelooking(false);
+        YolBi.instance.getSlotSpoofHandler().stopSpoofing();
 
         mc.displayGuiScreen(null);
 
         mc.timer.timerSpeed = 1F;
 
-        Vestige.instance.setDestructed(true);
+        YolBi.instance.setDestructed(true);
     }
 
 }

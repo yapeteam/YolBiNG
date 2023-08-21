@@ -1,7 +1,7 @@
 package cn.yapeteam.yolbi.module.impl.player;
 
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.UpdateEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import net.minecraft.block.Block;
@@ -32,7 +32,7 @@ public class ChestStealer extends Module {
 
     @Override
     public void onClientStarted() {
-        invManager = Vestige.instance.getModuleManager().getModule(InventoryManager.class);
+        invManager = YolBi.instance.getModuleManager().getModule(InventoryManager.class);
     }
 
     @Listener

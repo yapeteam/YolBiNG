@@ -1,4 +1,4 @@
-package cn.yapeteam.yolbi.event.impl;
+package cn.yapeteam.yolbi.event.impl.render;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package cn.yapeteam.yolbi.event.impl;
+package cn.yapeteam.yolbi.event.impl.network;
 
 import cn.yapeteam.yolbi.event.type.CancellableEvent;
 import lombok.AllArgsConstructor;

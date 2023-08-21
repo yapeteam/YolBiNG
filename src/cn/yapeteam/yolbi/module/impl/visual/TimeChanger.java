@@ -1,7 +1,7 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
-import cn.yapeteam.yolbi.event.impl.PacketReceiveEvent;
-import cn.yapeteam.yolbi.event.impl.RenderEvent;
+import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
+import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
 import cn.yapeteam.yolbi.event.Listener;

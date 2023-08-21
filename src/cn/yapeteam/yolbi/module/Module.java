@@ -1,7 +1,9 @@
 package cn.yapeteam.yolbi.module;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.util.IMinecraft;
+import cn.yapeteam.yolbi.util.misc.LanguageUtil;
+import cn.yapeteam.yolbi.util.misc.language.ChineseLanguage;
 import cn.yapeteam.yolbi.values.Value;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import lombok.Getter;
@@ -109,14 +111,14 @@ public abstract class Module implements IMinecraft {
 
     protected final void startListening() {
         if (!listening) {
-            Vestige.instance.getEventManager().register(this);
+            YolBi.instance.getEventManager().register(this);
             listening = true;
         }
     }
 
     protected final void stopListening() {
         if (listening) {
-            Vestige.instance.getEventManager().unregister(this);
+            YolBi.instance.getEventManager().unregister(this);
             listening = false;
         }
     }

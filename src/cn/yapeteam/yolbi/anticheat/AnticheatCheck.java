@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.anticheat;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.module.impl.misc.AnticheatModule;
 import cn.yapeteam.yolbi.util.misc.LogUtil;
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -16,7 +16,7 @@ public abstract class AnticheatCheck implements IMinecraft {
 
     private double buffer;
 
-    private static AnticheatModule module = Vestige.instance.getModuleManager().getModule(AnticheatModule.class);
+    private static AnticheatModule module = YolBi.instance.getModuleManager().getModule(AnticheatModule.class);
 
     public AnticheatCheck(String name, ACPlayer player) {
         this.name = name;

@@ -4,10 +4,10 @@ import lombok.Getter;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.MotionEvent;
-import cn.yapeteam.yolbi.event.impl.PacketSendEvent;
+import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
+import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
 import cn.yapeteam.yolbi.util.IMinecraft;
 import cn.yapeteam.yolbi.util.network.PacketUtil;
 
@@ -28,7 +28,7 @@ public class PacketDelayHandler implements IMinecraft {
     private final CopyOnWriteArrayList<DelayedPacket> delayedPackets = new CopyOnWriteArrayList<>();
 
     public PacketDelayHandler() {
-        Vestige.instance.getEventManager().register(this);
+        YolBi.instance.getEventManager().register(this);
     }
 
     @Listener(10)

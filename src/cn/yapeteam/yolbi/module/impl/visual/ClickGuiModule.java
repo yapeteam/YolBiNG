@@ -1,7 +1,7 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.RenderEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
@@ -61,7 +61,7 @@ public class ClickGuiModule extends Module {
 
     @Override
     public void onClientStarted() {
-        theme = Vestige.instance.getModuleManager().getModule(ClientTheme.class);
+        theme = YolBi.instance.getModuleManager().getModule(ClientTheme.class);
     }
 
     @Listener

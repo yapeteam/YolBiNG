@@ -205,8 +205,8 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.MapData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.EntityMoveEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.player.EntityMoveEvent;
 
 public class NetHandlerPlayClient implements INetHandlerPlayClient
 {
@@ -623,7 +623,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
             entity.setPositionAndRotation2(d0, d1, d2, f, f1, 3, false);
             entity.onGround = packetIn.getOnGround();
 
-            Vestige.instance.getEventManager().post(new EntityMoveEvent(entity));
+            YolBi.instance.getEventManager().post(new EntityMoveEvent(entity));
         }
     }
 
@@ -797,7 +797,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         }
         else
         {
-            this.gameController.displayGuiScreen(new GuiDisconnected(new GuiMultiplayer(Vestige.instance.getMainMenu()), "disconnect.lost", reason));
+            this.gameController.displayGuiScreen(new GuiDisconnected(new GuiMultiplayer(YolBi.instance.getMainMenu()), "disconnect.lost", reason));
         }
     }
 

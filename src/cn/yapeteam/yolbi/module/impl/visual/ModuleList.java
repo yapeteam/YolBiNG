@@ -1,8 +1,8 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.PostMotionEvent;
+import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.module.*;
 import cn.yapeteam.yolbi.util.animation.AnimationHolder;
@@ -62,11 +62,11 @@ public class ModuleList extends HUDModule {
 
     @Override
     public void onClientStarted() {
-        Vestige.instance.getModuleManager().modules.forEach(m -> modules.add(new AnimationHolder<>(m)));
+        YolBi.instance.getModuleManager().modules.forEach(m -> modules.add(new AnimationHolder<>(m)));
 
-        productSans = Vestige.instance.getFontManager().getProductSans();
+        productSans = YolBi.instance.getFontManager().getProductSans();
 
-        theme = Vestige.instance.getModuleManager().getModule(ClientTheme.class);
+        theme = YolBi.instance.getModuleManager().getModule(ClientTheme.class);
     }
 
     @Override

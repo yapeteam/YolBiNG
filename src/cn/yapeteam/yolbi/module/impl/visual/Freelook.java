@@ -1,7 +1,7 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.TickEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.game.TickEvent;
 import org.lwjgl.input.Keyboard;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.module.ModuleCategory;
@@ -28,7 +28,7 @@ public class Freelook extends Module {
         if(Keyboard.isKeyDown(getKey())) {
             wasFreelooking = true;
 
-            Vestige.instance.getCameraHandler().setFreelooking(true);
+            YolBi.instance.getCameraHandler().setFreelooking(true);
 
             mc.gameSettings.thirdPersonView = 1;
         } else {
@@ -41,7 +41,7 @@ public class Freelook extends Module {
     private void stop() {
         this.setEnabled(false);
 
-        Vestige.instance.getCameraHandler().setFreelooking(false);
+        YolBi.instance.getCameraHandler().setFreelooking(false);
         wasFreelooking = false;
 
         mc.gameSettings.thirdPersonView = 0;

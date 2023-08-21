@@ -1,7 +1,7 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
-import cn.yapeteam.yolbi.event.impl.MotionEvent;
-import cn.yapeteam.yolbi.event.impl.RotationsRenderEvent;
+import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
+import cn.yapeteam.yolbi.event.impl.render.RotationsRenderEvent;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.Priority;

@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.ui.listedclickui.component.impl;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.ui.Theme;
 import cn.yapeteam.yolbi.ui.listedclickui.ImplScreen;
@@ -50,8 +50,8 @@ public class ValueButton extends AbstractComponent {
         )) {
             GlStateManager.color(1, 1, 1, 1);
             RenderUtil.drawRect(getX(), getY(), getX() + getWidth(), getY() + getHeight(), Theme.MainTheme[1].darker().getRGB());
-            AbstractFontRenderer font = Vestige.instance.getFontManager().getPingFang12();
-            AbstractFontRenderer icon = Vestige.instance.getFontManager().getFLUXICON14();
+            AbstractFontRenderer font = YolBi.instance.getFontManager().getPingFang12();
+            AbstractFontRenderer icon = YolBi.instance.getFontManager().getFLUXICON14();
             int index = 0, all = 0;
             for (AbstractComponent component : getParent().getParent().getChildComponents()) {
                 if (component instanceof ModuleButton) {

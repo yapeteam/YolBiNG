@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.event;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -37,7 +37,7 @@ public class EventManager {
     }
 
     public void post(Event e) {
-        if (Vestige.instance.isDestructed()) return;
+        if (YolBi.instance.isDestructed()) return;
 
         listeningMethods.forEach(m -> Arrays.stream(m.method.getParameters()).filter(p -> p.getType().equals(e.getClass())).forEach(p -> {
             try {

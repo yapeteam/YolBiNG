@@ -1,9 +1,9 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.PacketReceiveEvent;
-import cn.yapeteam.yolbi.event.impl.PostMotionEvent;
-import cn.yapeteam.yolbi.event.impl.UpdateEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
+import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
+import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
 import cn.yapeteam.yolbi.module.impl.movement.Blink;
 import cn.yapeteam.yolbi.module.impl.movement.Longjump;
 import cn.yapeteam.yolbi.module.impl.movement.Speed;
@@ -57,20 +57,20 @@ public class Velocity extends Module {
         if(mode.is("Hypixel") && pendingVelocity) {
             pendingVelocity = false;
             mc.thePlayer.motionY = motionY;
-            Vestige.instance.getPacketBlinkHandler().stopBlinkingPing();
+            YolBi.instance.getPacketBlinkHandler().stopBlinkingPing();
         }
 
         if(mode.is("Packet loss")) {
-            Vestige.instance.getPacketBlinkHandler().stopAll();
+            YolBi.instance.getPacketBlinkHandler().stopAll();
         }
     }
 
     @Override
     public void onClientStarted() {
-        blinkModule = Vestige.instance.getModuleManager().getModule(Blink.class);
-        backtrackModule = Vestige.instance.getModuleManager().getModule(Backtrack.class);
-        longjumpModule = Vestige.instance.getModuleManager().getModule(Longjump.class);
-        speedModule = Vestige.instance.getModuleManager().getModule(Speed.class);
+        blinkModule = YolBi.instance.getModuleManager().getModule(Blink.class);
+        backtrackModule = YolBi.instance.getModuleManager().getModule(Backtrack.class);
+        longjumpModule = YolBi.instance.getModuleManager().getModule(Longjump.class);
+        speedModule = YolBi.instance.getModuleManager().getModule(Speed.class);
     }
 
     @Listener
@@ -108,7 +108,7 @@ public class Velocity extends Module {
 
                                 motionY = packet.getMotionY() / 8000.0;
 
-                                Vestige.instance.getPacketBlinkHandler().startBlinkingPing();
+                                YolBi.instance.getPacketBlinkHandler().startBlinkingPing();
 
                                 ticks = 12;
                             }
@@ -119,10 +119,10 @@ public class Velocity extends Module {
                             break;
                         case "Legit":
                             if(mc.currentScreen == null) {
-                                mc.gameSettings.keyBindSprint.pressed = true;
-                                mc.gameSettings.keyBindForward.pressed = true;
-                                mc.gameSettings.keyBindJump.pressed = true;
-                                mc.gameSettings.keyBindBack.pressed = false;
+                                mc.gameSettings.keyBindSprint.setPressed(true);
+                                mc.gameSettings.keyBindForward.setPressed(true);
+                                mc.gameSettings.keyBindJump.setPressed(true);
+                                mc.gameSettings.keyBindBack.setPressed(false);
 
                                 reducing = true;
                             }
@@ -136,7 +136,7 @@ public class Velocity extends Module {
                     if(pendingVelocity) {
                         pendingVelocity = false;
                         mc.thePlayer.motionY = motionY;
-                        Vestige.instance.getPacketBlinkHandler().stopBlinkingPing();
+                        YolBi.instance.getPacketBlinkHandler().stopBlinkingPing();
                     }
                     break;
             }
@@ -162,23 +162,23 @@ public class Velocity extends Module {
                 --ticks;
 
                 if(pendingVelocity) {
-                    if(offGroundTicks == 1 || !Vestige.instance.getPacketBlinkHandler().isBlinkingPing() || ticks == 1) {
+                    if(offGroundTicks == 1 || !YolBi.instance.getPacketBlinkHandler().isBlinkingPing() || ticks == 1) {
                         pendingVelocity = false;
                         mc.thePlayer.motionY = motionY;
-                        Vestige.instance.getPacketBlinkHandler().stopBlinkingPing();
+                        YolBi.instance.getPacketBlinkHandler().stopBlinkingPing();
                     }
 
-                    mc.gameSettings.keyBindJump.pressed = false;
+                    mc.gameSettings.keyBindJump.setPressed(false);
                 }
                 break;
             case "Packet loss":
-                Vestige.instance.getPacketBlinkHandler().startBlinkingPing();
+                YolBi.instance.getPacketBlinkHandler().startBlinkingPing();
 
                 if(pendingVelocity) {
-                    Vestige.instance.getPacketBlinkHandler().clearPing();
+                    YolBi.instance.getPacketBlinkHandler().clearPing();
                     pendingVelocity = false;
                 } else {
-                    Vestige.instance.getPacketBlinkHandler().releasePing();
+                    YolBi.instance.getPacketBlinkHandler().releasePing();
                 }
                 break;
         }

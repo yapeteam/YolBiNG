@@ -1,8 +1,11 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.*;
+import cn.yapeteam.yolbi.event.impl.game.TickEvent;
+import cn.yapeteam.yolbi.event.impl.player.*;
+import cn.yapeteam.yolbi.event.impl.render.ItemRenderEvent;
+import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.impl.movement.Speed;
@@ -12,6 +15,7 @@ import cn.yapeteam.yolbi.module.impl.world.Breaker;
 import cn.yapeteam.yolbi.module.impl.world.Scaffold;
 import cn.yapeteam.yolbi.util.misc.LogUtil;
 import cn.yapeteam.yolbi.util.misc.TimerUtil;
+import cn.yapeteam.yolbi.util.misc.language.EnglishLanguage;
 import cn.yapeteam.yolbi.util.network.PacketUtil;
 import cn.yapeteam.yolbi.util.player.FixedRotations;
 import cn.yapeteam.yolbi.util.player.MovementUtil;
@@ -159,7 +163,7 @@ public class Killaura extends Module {
             stopTargeting();
         }
 
-        Vestige.instance.getSlotSpoofHandler().stopSpoofing();
+        YolBi.instance.getSlotSpoofHandler().stopSpoofing();
     }
 
     private void stopTargeting() {
@@ -173,7 +177,7 @@ public class Killaura extends Module {
         attackNextTick = false;
 
         if(delayTransactions.getValue()) {
-            Vestige.instance.getPacketDelayHandler().stopAll();
+            YolBi.instance.getPacketDelayHandler().stopAll();
         }
     }
 
@@ -201,14 +205,14 @@ public class Killaura extends Module {
 
     @Override
     public void onClientStarted() {
-        antibotModule = Vestige.instance.getModuleManager().getModule(Antibot.class);
-        speedModule = Vestige.instance.getModuleManager().getModule(Speed.class);
-        teamsModule = Vestige.instance.getModuleManager().getModule(Teams.class);
-        scaffoldModule = Vestige.instance.getModuleManager().getModule(Scaffold.class);
-        autoBridgeModule = Vestige.instance.getModuleManager().getModule(AutoBridge.class);
-        breakerModule = Vestige.instance.getModuleManager().getModule(Breaker.class);
-        antivoidModule = Vestige.instance.getModuleManager().getModule(AntiVoid.class);
-        velocityModule = Vestige.instance.getModuleManager().getModule(Velocity.class);
+        antibotModule = YolBi.instance.getModuleManager().getModule(Antibot.class);
+        speedModule = YolBi.instance.getModuleManager().getModule(Speed.class);
+        teamsModule = YolBi.instance.getModuleManager().getModule(Teams.class);
+        scaffoldModule = YolBi.instance.getModuleManager().getModule(Scaffold.class);
+        autoBridgeModule = YolBi.instance.getModuleManager().getModule(AutoBridge.class);
+        breakerModule = YolBi.instance.getModuleManager().getModule(Breaker.class);
+        antivoidModule = YolBi.instance.getModuleManager().getModule(AntiVoid.class);
+        velocityModule = YolBi.instance.getModuleManager().getModule(Velocity.class);
     }
 
     @Listener
@@ -269,7 +273,7 @@ public class Killaura extends Module {
             }
 
             if(delayTransactions.getValue()) {
-                Vestige.instance.getPacketDelayHandler().startDelayingPing(2000);
+                YolBi.instance.getPacketDelayHandler().startDelayingPing(2000);
             }
 
             hadTarget = true;
@@ -326,10 +330,10 @@ public class Killaura extends Module {
             afterAttackAutoblock(attackTick);
         }
 
-        mc.gameSettings.keyBindAttack.pressed = false;
+        mc.gameSettings.keyBindAttack.setPressed(false);
 
         if(!autoblock.is("None") && !autoblock.is("Blink")) {
-            mc.gameSettings.keyBindUseItem.pressed = false;
+            mc.gameSettings.keyBindUseItem.setPressed(false);
         }
 
         if(!rotations.is("None") && isRotating() && moveFix.is("Silent")) {
@@ -354,7 +358,7 @@ public class Killaura extends Module {
             }
 
             if(forward < 0.8F) {
-                mc.gameSettings.keyBindSprint.pressed = false;
+                mc.gameSettings.keyBindSprint.setPressed(false);
                 mc.thePlayer.setSprinting(false);
             }
         }
@@ -473,7 +477,7 @@ public class Killaura extends Module {
             }
         }
 
-        return target != null && stack != null && stack.getItem() instanceof ItemSword && (whileSpeedEnabled.getValue() || !Vestige.instance.getModuleManager().getModule(Speed.class).isEnabled());
+        return target != null && stack != null && stack.getItem() instanceof ItemSword && (whileSpeedEnabled.getValue() || !YolBi.instance.getModuleManager().getModule(Speed.class).isEnabled());
     }
 
     private void beforeAttackAutoblock(boolean attackTick) {
@@ -507,10 +511,10 @@ public class Killaura extends Module {
                 if(autoblockTicks >= 2) {
                     mc.thePlayer.inventory.currentItem = lastSlot;
                     mc.playerController.syncCurrentPlayItem();
-                    Vestige.instance.getSlotSpoofHandler().stopSpoofing();
+                    YolBi.instance.getSlotSpoofHandler().stopSpoofing();
 
                     if(blinking) {
-                        Vestige.instance.getPacketBlinkHandler().releaseAll();
+                        YolBi.instance.getPacketBlinkHandler().releaseAll();
                     }
                     autoblockTicks = 0;
                 }
@@ -522,23 +526,23 @@ public class Killaura extends Module {
                     }
                 } else if(autoblockTicks == 1) {
                     if(!velocityModule.isEnabled() || !velocityModule.mode.is("Hypixel") || !speedModule.isEnabled()) {
-                        Vestige.instance.getPacketBlinkHandler().startBlinkingAll();
+                        YolBi.instance.getPacketBlinkHandler().startBlinkingAll();
                         blinking = true;
                     }
 
                     lastSlot = slot;
 
-                    Vestige.instance.getSlotSpoofHandler().startSpoofing(slot);
+                    YolBi.instance.getSlotSpoofHandler().startSpoofing(slot);
                     mc.thePlayer.inventory.currentItem = slot < 8 ? slot + 1 : 0;
                 }
                 break;
             case "Blink":
                 if (autoblockTicks > 0 && autoblockTicks < blinkTicks.getValue()) {
-                    mc.gameSettings.keyBindUseItem.pressed = false;
+                    mc.gameSettings.keyBindUseItem.setPressed(false);
                 }
 
                 if (autoblockTicks == blinkTicks.getValue() || autoblockTicks == 0) {
-                    mc.gameSettings.keyBindUseItem.pressed = true;
+                    mc.gameSettings.keyBindUseItem.setPressed(false);
 
                     autoblockTicks = 0;
                 }
@@ -547,7 +551,7 @@ public class Killaura extends Module {
                 break;
             case "Not moving":
                 if(MovementUtil.isMoving() || (target.hurtTime < hurtTime.getValue() + 1 && !whileHitting.getValue())) {
-                    mc.gameSettings.keyBindUseItem.pressed = false;
+                    mc.gameSettings.keyBindUseItem.setPressed(false);
                     blocking = false;
                 }
                 break;
@@ -587,7 +591,7 @@ public class Killaura extends Module {
                 break;
             case "Not moving":
                 if(!MovementUtil.isMoving() && (target.hurtTime >= hurtTime.getValue() + 1 || whileHitting.getValue())) {
-                    mc.gameSettings.keyBindUseItem.pressed = true;
+                    mc.gameSettings.keyBindUseItem.setPressed(true);
                     blocking = true;
                 }
                 break;
@@ -597,8 +601,8 @@ public class Killaura extends Module {
                 }
 
                 if(autoblockTicks == 0) {
-                    Vestige.instance.getPacketBlinkHandler().releaseAll();
-                    Vestige.instance.getPacketBlinkHandler().startBlinkingAll();
+                    YolBi.instance.getPacketBlinkHandler().releaseAll();
+                    YolBi.instance.getPacketBlinkHandler().startBlinkingAll();
                 }
 
                 autoblockTicks++;
@@ -624,7 +628,7 @@ public class Killaura extends Module {
         ItemStack stack = mc.thePlayer.getHeldItem();
 
         if(hadTarget && autoblock.is("Blink") && !blocking && target == null) {
-            LogUtil.addChatMessage("Autoblock test : " + Vestige.instance.getPacketBlinkHandler().isBlinking());
+            LogUtil.addChatMessage("Autoblock test : " + YolBi.instance.getPacketBlinkHandler().isBlinking());
         }
 
         int slot = mc.thePlayer.inventory.currentItem;
@@ -661,15 +665,15 @@ public class Killaura extends Module {
 
                     mc.playerController.syncCurrentPlayItem();
 
-                    Vestige.instance.getSlotSpoofHandler().stopSpoofing();
+                    YolBi.instance.getSlotSpoofHandler().stopSpoofing();
 
                     if(blinking) {
-                        Vestige.instance.getPacketBlinkHandler().stopAll();
+                        YolBi.instance.getPacketBlinkHandler().stopAll();
                         blinking = false;
                     }
                     break;
                 case "Not moving":
-                    mc.gameSettings.keyBindUseItem.pressed = false;
+                    mc.gameSettings.keyBindUseItem.setPressed(false);
                     break;
             }
 
@@ -677,10 +681,10 @@ public class Killaura extends Module {
         }
 
         if(autoblock.is("Blink") && (blinking || blocking)) {
-            Vestige.instance.getPacketBlinkHandler().stopAll();
+            YolBi.instance.getPacketBlinkHandler().stopAll();
             blinking = false;
             blocking = false;
-            mc.gameSettings.keyBindUseItem.pressed = false;
+            mc.gameSettings.keyBindUseItem.setPressed(false);
         }
 
         autoblockTicks = 0;

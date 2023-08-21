@@ -1,4 +1,4 @@
-package cn.yapeteam.yolbi.event.impl;
+package cn.yapeteam.yolbi.event.impl.player;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,8 +8,8 @@ import cn.yapeteam.yolbi.event.Event;
 @Getter
 @Setter
 @AllArgsConstructor
-public class EntityActionEvent extends Event {
+public class PreStepEvent extends Event {
 
-    private boolean sprinting, sneaking;
+    private float height;
 
 }

@@ -1,8 +1,8 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.PostMotionEvent;
-import cn.yapeteam.yolbi.event.impl.RenderEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
+import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.module.ModuleCategory;
@@ -40,7 +40,7 @@ public class Tickbase extends Module {
 
     @Override
     public void onClientStarted() {
-        killauraModule = Vestige.instance.getModuleManager().getModule(Killaura.class);
+        killauraModule = YolBi.instance.getModuleManager().getModule(Killaura.class);
     }
 
     public int getExtraTicks() {

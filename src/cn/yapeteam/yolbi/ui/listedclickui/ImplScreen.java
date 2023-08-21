@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.ui.listedclickui;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.module.impl.visual.ClickUI;
 import cn.yapeteam.yolbi.ui.listedclickui.component.AbstractComponent;
 import cn.yapeteam.yolbi.module.ModuleCategory;
@@ -46,7 +46,7 @@ public class ImplScreen extends GuiScreen {
                 panel.setY(panelY);
                 panel.setWidth(panelWidth);
                 panel.setHeight(panelTopHeight + Math.min(
-                        Vestige.instance.getModuleManager().getModulesByCategory(category).size() *
+                        YolBi.instance.getModuleManager().getModulesByCategory(category).size() *
                         (moduleHeight + moduleSpacing), panelMaxHeight
                 ));
                 panels.add(panel);
@@ -56,12 +56,12 @@ public class ImplScreen extends GuiScreen {
             currentPanel = panels.get(panels.size() - 1);
             init = true;
         }
-        if (OpenGlHelper.shadersSupported && mc.thePlayer != null && Vestige.instance.getModuleManager().getModule(ClickUI.class).getBlur().getValue()) {
+        if (OpenGlHelper.shadersSupported && mc.thePlayer != null && YolBi.instance.getModuleManager().getModule(ClickUI.class).getBlur().getValue()) {
             if (mc.entityRenderer.theShaderGroup != null) {
                 mc.entityRenderer.theShaderGroup.deleteShaderGroup();
             }
             mc.entityRenderer.loadShader(new ResourceLocation("shaders/post/blur.json"));
-            int radius = Vestige.instance.getModuleManager().getModule(ClickUI.class).getBlurRadius().getValue();
+            int radius = YolBi.instance.getModuleManager().getModule(ClickUI.class).getBlurRadius().getValue();
             mc.entityRenderer.getShaderGroup().getShaders().get(0).getShaderManager().getShaderUniform("Radius").set(radius);
             mc.entityRenderer.getShaderGroup().getShaders().get(1).getShaderManager().getShaderUniform("Radius").set(radius);
         }
@@ -74,7 +74,7 @@ public class ImplScreen extends GuiScreen {
             p.setWheel(wheel);
             p.update();
         });
-        rainbow = Vestige.instance.getModuleManager().getModule(ClickUI.class).getRainbow().getValue();
+        rainbow = YolBi.instance.getModuleManager().getModule(ClickUI.class).getRainbow().getValue();
         super.updateScreen();
     }
 
@@ -124,7 +124,7 @@ public class ImplScreen extends GuiScreen {
 
     @Override
     public boolean doesGuiPauseGame() {
-        return Vestige.instance.getModuleManager().getModule(ClickUI.class).getPauseGame().getValue();
+        return YolBi.instance.getModuleManager().getModule(ClickUI.class).getPauseGame().getValue();
     }
     public boolean isHovering(float x, float y, float width, float height, float mouseX, float mouseY) {
         return mouseX >= x && mouseY >= y && mouseX <= x + width && mouseY <= y + height;

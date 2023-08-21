@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.command.impl;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.command.Command;
 import cn.yapeteam.yolbi.util.misc.LogUtil;
 
@@ -18,7 +18,7 @@ public class Config extends Command {
 
             switch (action) {
                 case "load":
-                    boolean success = Vestige.instance.getFileSystem().loadConfig(configName, false);
+                    boolean success = YolBi.instance.getFileSystem().loadConfig(configName, false);
 
                     if(success) {
                         LogUtil.addChatMessage("Loaded config " + configName);
@@ -27,7 +27,7 @@ public class Config extends Command {
                     }
                     break;
                 case "save":
-                    Vestige.instance.getFileSystem().saveConfig(configName);
+                    YolBi.instance.getFileSystem().saveConfig(configName);
 
                     LogUtil.addChatMessage("Saved config " + configName);
                     break;

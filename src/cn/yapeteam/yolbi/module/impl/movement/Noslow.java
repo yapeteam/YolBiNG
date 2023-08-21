@@ -1,8 +1,12 @@
 package cn.yapeteam.yolbi.module.impl.movement;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.*;
+import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
+import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
+import cn.yapeteam.yolbi.event.impl.player.SlowdownEvent;
+import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
+import cn.yapeteam.yolbi.event.impl.render.ItemRenderEvent;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.impl.combat.Killaura;
@@ -56,12 +60,12 @@ public class Noslow extends Module {
 
     @Override
     public void onDisable() {
-        Vestige.instance.getPacketBlinkHandler().stopAll();
+        YolBi.instance.getPacketBlinkHandler().stopAll();
     }
 
     @Override
     public void onClientStarted() {
-        killauraModule = Vestige.instance.getModuleManager().getModule(Killaura.class);
+        killauraModule = YolBi.instance.getModuleManager().getModule(Killaura.class);
     }
 
     @Listener
@@ -118,25 +122,25 @@ public class Noslow extends Module {
         if (swordMethod.is("Blink")) {
             if (isHoldingSword() && pressingUseItem()) {
                 if (ticks == 1) {
-                    Vestige.instance.getPacketBlinkHandler().releaseAll();
-                    Vestige.instance.getPacketBlinkHandler().startBlinkingAll();
+                    YolBi.instance.getPacketBlinkHandler().releaseAll();
+                    YolBi.instance.getPacketBlinkHandler().startBlinkingAll();
                 }
 
                 if (ticks > 0 && ticks < blinkTicks.getValue()) {
-                    mc.gameSettings.keyBindUseItem.pressed = false;
+                    mc.gameSettings.keyBindUseItem.setPressed(false);
                 }
 
                 if (ticks == blinkTicks.getValue()) {
-                    Vestige.instance.getPacketBlinkHandler().stopAll();
+                    YolBi.instance.getPacketBlinkHandler().stopAll();
 
-                    mc.gameSettings.keyBindUseItem.pressed = true;
+                    mc.gameSettings.keyBindUseItem.setPressed(true);
 
                     ticks = 0;
                 }
 
                 ticks++;
             } else {
-                Vestige.instance.getPacketBlinkHandler().stopAll();
+                YolBi.instance.getPacketBlinkHandler().stopAll();
 
                 ticks = 0;
             }
@@ -144,29 +148,29 @@ public class Noslow extends Module {
 
         if (consumableMethod.is("Hypixel")) {
             if (wasEating && mc.thePlayer.isUsingItem()) {
-                Vestige.instance.getPacketBlinkHandler().startBlinkingAll();
-                mc.gameSettings.keyBindUseItem.pressed = false;
+                YolBi.instance.getPacketBlinkHandler().startBlinkingAll();
+                mc.gameSettings.keyBindUseItem.setPressed(false);
                 ticks = 32;
 
                 lastSlot = mc.thePlayer.inventory.currentItem;
 
                 mc.thePlayer.inventory.currentItem = (lastSlot + 1) % 8;
-                Vestige.instance.getSlotSpoofHandler().startSpoofing(lastSlot);
+                YolBi.instance.getSlotSpoofHandler().startSpoofing(lastSlot);
             }
 
             if (ticks == 31) {
                 mc.thePlayer.inventory.currentItem = lastSlot;
-                Vestige.instance.getSlotSpoofHandler().stopSpoofing();
+                YolBi.instance.getSlotSpoofHandler().stopSpoofing();
             }
 
             if (ticks > 1) {
-                mc.gameSettings.keyBindUseItem.pressed = false;
+                mc.gameSettings.keyBindUseItem.setPressed(false);
 
                 if (!Mouse.isButtonDown(1)) {
                     ticks = 2;
                 }
             } else if (ticks == 1) {
-                Vestige.instance.getPacketBlinkHandler().stopAll();
+                YolBi.instance.getPacketBlinkHandler().stopAll();
                 LogUtil.addChatMessage("Stopped eating");
             }
 

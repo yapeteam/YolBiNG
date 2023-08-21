@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer;
 
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.ItemRenderEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.render.ItemRenderEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -347,7 +347,7 @@ public class ItemRenderer
             if (this.itemToRender != null)
             {
                 ItemRenderEvent event = new ItemRenderEvent(abstractclientplayer.getItemInUseCount() > 0 && this.itemToRender.getItemUseAction() == EnumAction.BLOCK);
-                Vestige.instance.getEventManager().post(event);
+                YolBi.instance.getEventManager().post(event);
 
                 boolean renderedBlocking = false;
 
@@ -592,7 +592,7 @@ public class ItemRenderer
     {
         this.prevEquippedProgress = this.equippedProgress;
         EntityPlayer entityplayer = this.mc.thePlayer;
-        ItemStack itemstack = Vestige.instance.getSlotSpoofHandler().getSpoofedStack();
+        ItemStack itemstack = YolBi.instance.getSlotSpoofHandler().getSpoofedStack();
         boolean flag = false;
 
         if (this.itemToRender != null && itemstack != null)
@@ -601,12 +601,12 @@ public class ItemRenderer
             {
                 if (Reflector.ForgeItem_shouldCauseReequipAnimation.exists())
                 {
-                    boolean flag1 = Reflector.callBoolean(this.itemToRender.getItem(), Reflector.ForgeItem_shouldCauseReequipAnimation, new Object[] {this.itemToRender, itemstack, Boolean.valueOf(this.equippedItemSlot != Vestige.instance.getSlotSpoofHandler().getSpoofedSlot())});
+                    boolean flag1 = Reflector.callBoolean(this.itemToRender.getItem(), Reflector.ForgeItem_shouldCauseReequipAnimation, new Object[] {this.itemToRender, itemstack, Boolean.valueOf(this.equippedItemSlot != YolBi.instance.getSlotSpoofHandler().getSpoofedSlot())});
 
                     if (!flag1)
                     {
                         this.itemToRender = itemstack;
-                        this.equippedItemSlot = Vestige.instance.getSlotSpoofHandler().getSpoofedSlot();
+                        this.equippedItemSlot = YolBi.instance.getSlotSpoofHandler().getSpoofedSlot();
                         return;
                     }
                 }
@@ -631,7 +631,7 @@ public class ItemRenderer
         if (this.equippedProgress < 0.1F)
         {
             this.itemToRender = itemstack;
-            this.equippedItemSlot = Vestige.instance.getSlotSpoofHandler().getSpoofedSlot();
+            this.equippedItemSlot = YolBi.instance.getSlotSpoofHandler().getSpoofedSlot();
 
             if (Config.isShaders())
             {

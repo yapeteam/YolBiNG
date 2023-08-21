@@ -1,10 +1,10 @@
 package cn.yapeteam.yolbi.util.player;
 
-import cn.yapeteam.yolbi.event.impl.MoveEvent;
+import cn.yapeteam.yolbi.event.impl.player.MoveEvent;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Keyboard;
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.module.impl.combat.Killaura;
 import cn.yapeteam.yolbi.module.impl.combat.TargetStrafe;
 import cn.yapeteam.yolbi.util.IMinecraft;
@@ -33,8 +33,8 @@ public class MovementUtil implements IMinecraft {
     public static void strafe(MoveEvent event, double speed) {
         float direction = (float) Math.toRadians(getPlayerDirection());
 
-        Killaura killaura = Vestige.instance.getModuleManager().getModule(Killaura.class);
-        TargetStrafe targetStrafe = Vestige.instance.getModuleManager().getModule(TargetStrafe.class);
+        Killaura killaura = YolBi.instance.getModuleManager().getModule(Killaura.class);
+        TargetStrafe targetStrafe = YolBi.instance.getModuleManager().getModule(TargetStrafe.class);
 
         if(killaura.isEnabled() && killaura.getTarget() != null && targetStrafe.isEnabled() && (Keyboard.isKeyDown(mc.gameSettings.keyBindJump.getKeyCode()) || !targetStrafe.whilePressingSpace.getValue())) {
             direction = targetStrafe.getDirection();

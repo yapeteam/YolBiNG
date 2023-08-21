@@ -1,12 +1,12 @@
 package cn.yapeteam.yolbi.anticheat;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.anticheat.impl.BotCheck;
 import cn.yapeteam.yolbi.anticheat.impl.FlyCheck;
 import cn.yapeteam.yolbi.anticheat.impl.SpeedCheck;
-import cn.yapeteam.yolbi.event.impl.EntityMoveEvent;
-import cn.yapeteam.yolbi.event.impl.PacketReceiveEvent;
-import cn.yapeteam.yolbi.event.impl.PacketSendEvent;
+import cn.yapeteam.yolbi.event.impl.player.EntityMoveEvent;
+import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
+import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
 import cn.yapeteam.yolbi.util.network.ServerUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,7 +25,7 @@ public class Anticheat implements IMinecraft {
     private boolean isInLobby;
 
     public Anticheat() {
-        Vestige.instance.getEventManager().register(this);
+        YolBi.instance.getEventManager().register(this);
     }
 
     @Listener

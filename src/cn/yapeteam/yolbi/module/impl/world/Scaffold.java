@@ -1,8 +1,8 @@
 package cn.yapeteam.yolbi.module.impl.world;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.*;
+import cn.yapeteam.yolbi.event.impl.player.*;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.impl.combat.Killaura;
@@ -127,7 +127,7 @@ public class Scaffold extends Module {
             mc.thePlayer.inventory.currentItem = oldSlot;
         }
 
-        Vestige.instance.getSlotSpoofHandler().stopSpoofing();
+        YolBi.instance.getSlotSpoofHandler().stopSpoofing();
     }
 
     private void pickBlock() {
@@ -143,7 +143,7 @@ public class Scaffold extends Module {
         }
 
         if (blockPicker.is("Spoof")) {
-            Vestige.instance.getSlotSpoofHandler().startSpoofing(oldSlot);
+            YolBi.instance.getSlotSpoofHandler().startSpoofing(oldSlot);
         }
     }
 
@@ -156,7 +156,7 @@ public class Scaffold extends Module {
 
         pickBlock();
 
-        if (!jump.is("Disabled") || Vestige.instance.getModuleManager().getModule(Speed.class).isEnabled()) {
+        if (!jump.is("Disabled") || YolBi.instance.getModuleManager().getModule(Speed.class).isEnabled()) {
             if (mc.thePlayer.onGround || mc.gameSettings.keyBindJump.isKeyDown()) {
                 lastY = mc.thePlayer.posY;
             }
@@ -207,7 +207,7 @@ public class Scaffold extends Module {
 
         if (noSprintMode.is("Normal")) {
             if (noSprintTiming.is("Always") || ((noSprintTiming.is("When rotating") && isRotating))) {
-                mc.gameSettings.keyBindSprint.pressed = false;
+                mc.gameSettings.keyBindSprint.setPressed(false);
                 mc.thePlayer.setSprinting(false);
             }
         }
@@ -225,7 +225,7 @@ public class Scaffold extends Module {
         }
 
         if (!placed && mc.thePlayer.ticksExisted % 2 == 0) {
-            Killaura killaura = Vestige.instance.getModuleManager().getModule(Killaura.class);
+            Killaura killaura = YolBi.instance.getModuleManager().getModule(Killaura.class);
 
             if (!killaura.isEnabled() || killaura.getTarget() == null) {
                 PacketUtil.sendBlocking(true, false);
@@ -233,7 +233,7 @@ public class Scaffold extends Module {
         }
 
         if (!placed && isAirUnder && sneakOverAir.getValue() && !mc.gameSettings.keyBindJump.isKeyDown()) {
-            mc.gameSettings.keyBindSneak.pressed = true;
+            mc.gameSettings.keyBindSneak.setPressed(true);
         } else {
             KeyboardUtil.resetKeybinding(mc.gameSettings.keyBindSneak);
         }

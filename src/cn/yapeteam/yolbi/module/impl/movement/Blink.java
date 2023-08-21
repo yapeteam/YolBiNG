@@ -1,10 +1,10 @@
 package cn.yapeteam.yolbi.module.impl.movement;
 
-import cn.yapeteam.yolbi.event.impl.PacketReceiveEvent;
+import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.util.player.PendingVelocity;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
@@ -26,15 +26,15 @@ public class Blink extends Module {
         lastVelocity = null;
 
         if(suspendPositionOnly.getValue()) {
-            Vestige.instance.getPacketBlinkHandler().startBlinkingMove();
+            YolBi.instance.getPacketBlinkHandler().startBlinkingMove();
         } else {
-            Vestige.instance.getPacketBlinkHandler().startBlinkingAll();
+            YolBi.instance.getPacketBlinkHandler().startBlinkingAll();
         }
     }
 
     @Override
     public void onDisable() {
-        Vestige.instance.getPacketBlinkHandler().stopAll();
+        YolBi.instance.getPacketBlinkHandler().stopAll();
 
         if(stackVelocity.getValue() && lastVelocity != null) {
             mc.thePlayer.motionX = lastVelocity.getX();

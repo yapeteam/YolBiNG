@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
@@ -60,8 +60,8 @@ public class TargetHUD extends HUDModule {
 
     @Override
     public void onClientStarted() {
-        killauraModule = Vestige.instance.getModuleManager().getModule(Killaura.class);
-        theme = Vestige.instance.getModuleManager().getModule(ClientTheme.class);
+        killauraModule = YolBi.instance.getModuleManager().getModule(Killaura.class);
+        theme = YolBi.instance.getModuleManager().getModule(ClientTheme.class);
     }
 
     @Override

@@ -1,8 +1,10 @@
 package cn.yapeteam.yolbi.module.impl.movement;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.*;
+import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
+import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
+import cn.yapeteam.yolbi.event.impl.player.*;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
@@ -108,7 +110,7 @@ public class Fly extends Module {
     public void onDisable() {
         mc.thePlayer.capabilities.isFlying = false;
 
-        Vestige.instance.getPacketBlinkHandler().stopAll();
+        YolBi.instance.getPacketBlinkHandler().stopAll();
 
         switch (mode.getValue()) {
             case "Vanilla":
@@ -132,7 +134,7 @@ public class Fly extends Module {
                         mc.thePlayer.rotationYaw = lastYaw;
                         mc.thePlayer.rotationPitch = -90;
 
-                        mc.gameSettings.keyBindUseItem.pressed = false;
+                        mc.gameSettings.keyBindUseItem.setPressed(false);
                         break;
                     case "Bow2":
                         mc.thePlayer.motionX = lastMotionX * 0.91;
@@ -141,7 +143,7 @@ public class Fly extends Module {
 
                         mc.thePlayer.rotationPitch = -90;
 
-                        mc.gameSettings.keyBindUseItem.pressed = false;
+                        mc.gameSettings.keyBindUseItem.setPressed(false);
                         break;
                 }
                 break;
@@ -164,7 +166,7 @@ public class Fly extends Module {
                 switch (velocityMode.getValue()) {
                     case "Bow":
                         if (takingVelocity) {
-                            Vestige.instance.getPacketBlinkHandler().stopAll();
+                            YolBi.instance.getPacketBlinkHandler().stopAll();
 
                             mc.thePlayer.motionY = velocityY;
 
@@ -318,9 +320,9 @@ public class Fly extends Module {
                                 if (started) {
                                     mc.timer.timerSpeed = 1.5F;
                                 }
-                                mc.gameSettings.keyBindUseItem.pressed = true;
+                                mc.gameSettings.keyBindUseItem.setPressed(true);
                             } else {
-                                mc.gameSettings.keyBindUseItem.pressed = false;
+                                mc.gameSettings.keyBindUseItem.setPressed(false);
                             }
 
                             ticks++;
@@ -373,9 +375,9 @@ public class Fly extends Module {
                             }
 
                             if (ticks >= 1 && ticks <= 6) {
-                                mc.gameSettings.keyBindUseItem.pressed = true;
+                                mc.gameSettings.keyBindUseItem.setPressed(true);
                             } else {
-                                mc.gameSettings.keyBindUseItem.pressed = false;
+                                mc.gameSettings.keyBindUseItem.setPressed(false);
                             }
 
                             if (notMoving) {
@@ -451,7 +453,7 @@ public class Fly extends Module {
                     started = true;
                 }
 
-                Vestige.instance.getPacketBlinkHandler().startBlinkingAll();
+                YolBi.instance.getPacketBlinkHandler().startBlinkingAll();
 
                 if (started) {
                     mc.timer.timerSpeed = 0.3F;

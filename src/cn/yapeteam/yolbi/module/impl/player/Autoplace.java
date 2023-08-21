@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.module.impl.player;
 
-import cn.yapeteam.yolbi.event.impl.RenderEvent;
+import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.util.world.WorldUtil;
 import net.minecraft.util.BlockPos;
@@ -23,7 +23,7 @@ public class Autoplace extends Module {
 
     @Override
     public void onDisable() {
-        mc.gameSettings.keyBindUseItem.pressed = Mouse.isButtonDown(1);
+        mc.gameSettings.keyBindUseItem.setPressed(Mouse.isButtonDown(1));
     }
 
     @Listener(Priority.HIGH)
@@ -34,10 +34,10 @@ public class Autoplace extends Module {
             boolean canPlaceOffGround = placeUnderWhileOffground.getValue() && !mc.thePlayer.onGround && WorldUtil.isAirOrLiquid(new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1, mc.thePlayer.posZ));
 
             if((facing != EnumFacing.UP && facing != EnumFacing.DOWN) || canPlaceOffGround) {
-                mc.gameSettings.keyBindUseItem.pressed = true;
+                mc.gameSettings.keyBindUseItem.setPressed(true);
                 mc.rightClickDelayTimer = 0;
             } else {
-                mc.gameSettings.keyBindUseItem.pressed = Mouse.isButtonDown(1);
+                mc.gameSettings.keyBindUseItem.setPressed(Mouse.isButtonDown(1));
             }
         }
     }

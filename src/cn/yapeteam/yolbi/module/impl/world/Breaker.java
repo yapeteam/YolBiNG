@@ -1,10 +1,10 @@
 package cn.yapeteam.yolbi.module.impl.world;
 
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.JumpEvent;
-import cn.yapeteam.yolbi.event.impl.MotionEvent;
-import cn.yapeteam.yolbi.event.impl.StrafeEvent;
-import cn.yapeteam.yolbi.event.impl.TickEvent;
+import cn.yapeteam.yolbi.event.impl.player.JumpEvent;
+import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
+import cn.yapeteam.yolbi.event.impl.player.StrafeEvent;
+import cn.yapeteam.yolbi.event.impl.game.TickEvent;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.util.player.FixedRotations;
@@ -48,7 +48,7 @@ public class Breaker extends Module {
 
     @Override
     public void onDisable() {
-        mc.gameSettings.keyBindAttack.pressed = Mouse.isButtonDown(0);
+        mc.gameSettings.keyBindAttack.setPressed(Mouse.isButtonDown(0));
     }
 
     @Listener
@@ -75,7 +75,7 @@ public class Breaker extends Module {
 
                             mc.objectMouseOver = new MovingObjectPosition(new Vec3(posOver.getX() + 0.5, posOver.getY() + 1, posOver.getZ() + 0.5), EnumFacing.UP, posOver);
 
-                            mc.gameSettings.keyBindAttack.pressed = true;
+                            mc.gameSettings.keyBindAttack.setPressed(true);
 
                             float[] rots = RotationsUtil.getRotationsToPosition(posOver.getX() + 0.5, posOver.getY() + 1, posOver.getZ() + 0.5);
 
@@ -84,7 +84,7 @@ public class Breaker extends Module {
                         } else {
                             mc.objectMouseOver = new MovingObjectPosition(new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5), EnumFacing.UP, bedPos);
 
-                            mc.gameSettings.keyBindAttack.pressed = true;
+                            mc.gameSettings.keyBindAttack.setPressed(true);
 
                             float[] rots = RotationsUtil.getRotationsToPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
 
@@ -99,7 +99,7 @@ public class Breaker extends Module {
         }
 
         if (!found) {
-            mc.gameSettings.keyBindAttack.pressed = Mouse.isButtonDown(0);
+            mc.gameSettings.keyBindAttack.setPressed(Mouse.isButtonDown(0));
         }
 
         rotations.updateRotations(yaw, pitch);

@@ -13,9 +13,9 @@ public class KeyboardUtil implements IMinecraft {
     public static void resetKeybinding(KeyBinding key) {
         //if(mc.currentScreen instanceof GuiContainer) {
         if(mc.currentScreen != null) {
-            key.pressed = false;
+            key.setPressed(false);
         } else {
-            key.pressed = isPressed(key);
+            key.setPressed(isPressed(key));
         }
     }
 

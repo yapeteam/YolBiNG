@@ -1,8 +1,8 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.PacketReceiveEvent;
-import cn.yapeteam.yolbi.event.impl.PostMotionEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
+import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
 import cn.yapeteam.yolbi.handler.packet.DelayedPacket;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
@@ -48,7 +48,7 @@ public class Backtrack extends Module {
 
     @Override
     public void onClientStarted() {
-        killauraModule = Vestige.instance.getModuleManager().getModule(Killaura.class);
+        killauraModule = YolBi.instance.getModuleManager().getModule(Killaura.class);
     }
 
     @Listener
@@ -141,7 +141,7 @@ public class Backtrack extends Module {
 
     public EntityLivingBase getCurrentTarget() {
         if(killauraModule == null) {
-            killauraModule = Vestige.instance.getModuleManager().getModule(Killaura.class);
+            killauraModule = YolBi.instance.getModuleManager().getModule(Killaura.class);
         }
 
         if(killauraModule.isEnabled() && killauraModule.getTarget() != null) {

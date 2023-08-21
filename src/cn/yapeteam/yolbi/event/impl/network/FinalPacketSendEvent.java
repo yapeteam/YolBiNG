@@ -1,4 +1,4 @@
-package cn.yapeteam.yolbi.event.impl;
+package cn.yapeteam.yolbi.event.impl.network;
 
 import cn.yapeteam.yolbi.event.type.CancellableEvent;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Setter;
 import net.minecraft.network.Packet;
 
 @AllArgsConstructor
-public class PacketSendEvent extends CancellableEvent {
+public class FinalPacketSendEvent extends CancellableEvent {
 
     @Setter
     private Packet packet;

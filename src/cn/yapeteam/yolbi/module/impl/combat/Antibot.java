@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import cn.yapeteam.yolbi.util.misc.LogUtil;
@@ -26,7 +26,7 @@ public class Antibot extends Module {
 
     @Override
     public void onClientStarted() {
-        killauraModule = Vestige.instance.getModuleManager().getModule(Killaura.class);
+        killauraModule = YolBi.instance.getModuleManager().getModule(Killaura.class);
     }
 
     public boolean canAttack(EntityLivingBase entity, Module module) {
@@ -41,7 +41,7 @@ public class Antibot extends Module {
         }
 
         if(entity instanceof EntityPlayer) {
-            ACPlayer player = Vestige.instance.getAnticheat().getACPlayer((EntityPlayer) entity);
+            ACPlayer player = YolBi.instance.getAnticheat().getACPlayer((EntityPlayer) entity);
 
             if(player != null && player.isBot()) {
                 if(debug.getValue() && module == killauraModule) {

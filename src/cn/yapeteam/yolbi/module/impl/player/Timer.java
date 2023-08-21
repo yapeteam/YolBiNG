@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.module.impl.player;
 
-import cn.yapeteam.yolbi.event.impl.PostMotionEvent;
+import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.module.ModuleCategory;

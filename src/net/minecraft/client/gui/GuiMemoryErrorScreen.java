@@ -2,7 +2,7 @@ package net.minecraft.client.gui;
 
 import java.io.IOException;
 import net.minecraft.client.resources.I18n;
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 
 public class GuiMemoryErrorScreen extends GuiScreen
 {
@@ -24,7 +24,7 @@ public class GuiMemoryErrorScreen extends GuiScreen
     {
         if (button.id == 0)
         {
-            this.mc.displayGuiScreen(Vestige.instance.getMainMenu());
+            this.mc.displayGuiScreen(YolBi.instance.getMainMenu());
         }
         else if (button.id == 1)
         {

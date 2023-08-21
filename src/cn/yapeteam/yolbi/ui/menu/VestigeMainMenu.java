@@ -5,7 +5,7 @@ import cn.yapeteam.yolbi.util.render.ColorUtil;
 import cn.yapeteam.yolbi.util.render.DrawUtil;
 import net.minecraft.client.gui.*;
 import net.minecraft.util.ResourceLocation;
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.font.cfont.VestigeFontRenderer;
 import cn.yapeteam.yolbi.ui.menu.components.Button;
 
@@ -44,7 +44,7 @@ public class VestigeMainMenu extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        VestigeFontRenderer bigFont = (VestigeFontRenderer) Vestige.instance.getFontManager().getProductSans23();
+        VestigeFontRenderer bigFont = (VestigeFontRenderer) YolBi.instance.getFontManager().getProductSans23();
 
         ScaledResolution sr = new ScaledResolution(mc);
 

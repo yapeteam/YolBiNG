@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import cn.yapeteam.yolbi.util.player.RotationsUtil;
@@ -25,7 +25,7 @@ public class TargetStrafe extends Module {
 
     @Override
     public void onClientStarted() {
-        killaura = Vestige.instance.getModuleManager().getModule(Killaura.class);
+        killaura = YolBi.instance.getModuleManager().getModule(Killaura.class);
     }
 
     public float getDirection() {

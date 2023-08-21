@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.filesystem;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
@@ -45,7 +45,7 @@ public class FileSystem {
 
             ArrayList<String> toWrite = new ArrayList<>();
 
-            for (Module m : Vestige.instance.getModuleManager().modules) {
+            for (Module m : YolBi.instance.getModuleManager().modules) {
                 toWrite.add("State:" + m.getName() + ":" + m.isEnabled());
 
                 if (!m.getValues().isEmpty()) {
@@ -98,7 +98,7 @@ public class FileSystem {
                         String type = infos[0];
                         String moduleName = infos[1];
 
-                        Module m = Vestige.instance.getModuleManager().getModuleByName(moduleName);
+                        Module m = YolBi.instance.getModuleManager().getModuleByName(moduleName);
 
                         if (m != null) {
                             switch (type) {
@@ -151,7 +151,7 @@ public class FileSystem {
 
             ArrayList<String> toWrite = new ArrayList<>();
 
-            for (Module m : Vestige.instance.getModuleManager().modules) {
+            for (Module m : YolBi.instance.getModuleManager().modules) {
                 toWrite.add(m.getName() + ":" + m.getKey());
             }
 
@@ -189,7 +189,7 @@ public class FileSystem {
                         String moduleName = infos[0];
                         int key = Integer.parseInt(infos[1]);
 
-                        Module m = Vestige.instance.getModuleManager().getModuleByName(moduleName);
+                        Module m = YolBi.instance.getModuleManager().getModuleByName(moduleName);
 
                         if (m != null) {
                             m.setKey(key);

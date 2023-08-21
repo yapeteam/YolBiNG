@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.module.AlignType;
 import cn.yapeteam.yolbi.module.HUDModule;
@@ -29,8 +29,8 @@ public class Watermark extends HUDModule {
     }
 
     private void initialise() {
-        productSans = Vestige.instance.getFontManager().getProductSans();
-        theme = Vestige.instance.getModuleManager().getModule(ClientTheme.class);
+        productSans = YolBi.instance.getFontManager().getProductSans();
+        theme = YolBi.instance.getModuleManager().getModule(ClientTheme.class);
     }
 
     @Override
@@ -56,10 +56,10 @@ public class Watermark extends HUDModule {
     }
 
     private void renderNew() {
-        String clientName = Vestige.instance.name;
+        String clientName = YolBi.instance.name;
         String formattedClientName = String.valueOf(clientName.charAt(0)) + ChatFormatting.WHITE + clientName.substring(1);
 
-        String watermark = formattedClientName + " " + Vestige.instance.version + " | " + Minecraft.getDebugFPS() + "FPS | " + ServerUtil.getCurrentServer();
+        String watermark = formattedClientName + " " + YolBi.instance.version + " | " + Minecraft.getDebugFPS() + "FPS | " + ServerUtil.getCurrentServer();
 
         double watermarkWidth = getStringWidth(watermark);
 
@@ -79,10 +79,10 @@ public class Watermark extends HUDModule {
     }
 
     private void renderOutline() {
-        String clientName = Vestige.instance.name;
+        String clientName = YolBi.instance.name;
         String formattedClientName = String.valueOf(clientName.charAt(0)) + ChatFormatting.WHITE + clientName.substring(1);
 
-        String watermark = formattedClientName + " " + Vestige.instance.version + " | " + Minecraft.getDebugFPS() + "FPS | " + ServerUtil.getCurrentServer();
+        String watermark = formattedClientName + " " + YolBi.instance.version + " | " + Minecraft.getDebugFPS() + "FPS | " + ServerUtil.getCurrentServer();
 
         double watermarkWidth = getStringWidth(watermark);
 
@@ -107,10 +107,10 @@ public class Watermark extends HUDModule {
     }
 
     private void renderSimple() {
-        String clientName = Vestige.instance.name;
+        String clientName = YolBi.instance.name;
         //String formattedClientName = String.valueOf(clientName.charAt(0)) + ChatFormatting.WHITE + clientName.substring(1, clientName.length());
 
-        String watermark = clientName + " " + ChatFormatting.WHITE + Vestige.instance.version;
+        String watermark = clientName + " " + ChatFormatting.WHITE + YolBi.instance.version;
 
         float x = posX.getValue().floatValue();
         float y = posY.getValue().floatValue();

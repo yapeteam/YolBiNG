@@ -1,10 +1,10 @@
 package cn.yapeteam.yolbi.module.impl.world;
 
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.PacketSendEvent;
-import cn.yapeteam.yolbi.event.impl.RenderEvent;
-import cn.yapeteam.yolbi.event.impl.TickEvent;
-import cn.yapeteam.yolbi.event.impl.UpdateEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
+import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
+import cn.yapeteam.yolbi.event.impl.game.TickEvent;
+import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
 import cn.yapeteam.yolbi.util.player.FixedRotations;
@@ -68,7 +68,7 @@ public class AutoBridge extends Module {
         oldPitch = mc.thePlayer.rotationPitch;
 
         if(freelook.getValue()) {
-            Vestige.instance.getCameraHandler().setFreelooking(true);
+            YolBi.instance.getCameraHandler().setFreelooking(true);
             freelooking = true;
         }
 
@@ -98,8 +98,8 @@ public class AutoBridge extends Module {
             mc.thePlayer.rotationPitch = rotations.getPitch();
 
             if(ninjaBridge.getValue()) {
-                mc.gameSettings.keyBindForward.pressed = false;
-                mc.gameSettings.keyBindBack.pressed = true;
+                mc.gameSettings.keyBindForward.setPressed(false);
+                mc.gameSettings.keyBindBack.setPressed(true);
             } else {
                 invertKeyPresses();
             }
@@ -115,13 +115,13 @@ public class AutoBridge extends Module {
         KeyboardUtil.resetKeybindings(mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
                 mc.gameSettings.keyBindRight, mc.gameSettings.keyBindJump, mc.gameSettings.keyBindSneak);
 
-        mc.gameSettings.keyBindUseItem.pressed = false;
+        mc.gameSettings.keyBindUseItem.setPressed(false);
 
         if(freelooking) {
-            mc.thePlayer.rotationYaw = Vestige.instance.getCameraHandler().getYaw();
-            mc.thePlayer.rotationPitch = Vestige.instance.getCameraHandler().getPitch();
+            mc.thePlayer.rotationYaw = YolBi.instance.getCameraHandler().getYaw();
+            mc.thePlayer.rotationPitch = YolBi.instance.getCameraHandler().getPitch();
 
-            Vestige.instance.getCameraHandler().setFreelooking(false);
+            YolBi.instance.getCameraHandler().setFreelooking(false);
             freelooking = false;
         }
 
@@ -133,7 +133,7 @@ public class AutoBridge extends Module {
             mc.thePlayer.inventory.currentItem = oldSlot;
         }
 
-        Vestige.instance.getSlotSpoofHandler().stopSpoofing();
+        YolBi.instance.getSlotSpoofHandler().stopSpoofing();
     }
 
     private void pickBlock() {
@@ -149,7 +149,7 @@ public class AutoBridge extends Module {
         }
 
         if(blockPicker.is("Spoof")) {
-            Vestige.instance.getSlotSpoofHandler().startSpoofing(oldSlot);
+            YolBi.instance.getSlotSpoofHandler().startSpoofing(oldSlot);
         }
     }
 
@@ -166,26 +166,26 @@ public class AutoBridge extends Module {
         switch (mode.getValue()) {
             case "Godbridge":
                 if (blocksPlaced >= 9) {
-                    mc.gameSettings.keyBindJump.pressed = true;
+                    mc.gameSettings.keyBindJump.setPressed(true);
                     blocksPlaced = 0;
                 } else {
-                    mc.gameSettings.keyBindJump.pressed = false;
+                    mc.gameSettings.keyBindJump.setPressed(false);
                 }
 
                 if (started) {
-                    mc.gameSettings.keyBindUseItem.pressed = true;
+                    mc.gameSettings.keyBindUseItem.setPressed(true);
                     mc.rightClickDelayTimer = 0;
 
-                    mc.gameSettings.keyBindSneak.pressed = false;
+                    mc.gameSettings.keyBindSneak.setPressed(false);
                 } else {
-                    mc.gameSettings.keyBindSneak.pressed = true;
-                    mc.gameSettings.keyBindUseItem.pressed = false;
+                    mc.gameSettings.keyBindSneak.setPressed(true);
+                    mc.gameSettings.keyBindUseItem.setPressed(false);
                 }
 
-                mc.gameSettings.keyBindBack.pressed = true;
-                mc.gameSettings.keyBindRight.pressed = true;
-                mc.gameSettings.keyBindForward.pressed = false;
-                mc.gameSettings.keyBindLeft.pressed = false;
+                mc.gameSettings.keyBindBack.setPressed(true);
+                mc.gameSettings.keyBindRight.setPressed(true);
+                mc.gameSettings.keyBindForward.setPressed(false);
+                mc.gameSettings.keyBindLeft.setPressed(false);
 
                 if (Math.abs(mc.thePlayer.posX - mc.thePlayer.lastTickPosX) < 0.01 && Math.abs(mc.thePlayer.posZ - mc.thePlayer.lastTickPosZ) < 0.01 && WorldUtil.isAirOrLiquid(new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1, mc.thePlayer.posZ))) {
                     started = true;
@@ -199,7 +199,7 @@ public class AutoBridge extends Module {
                 }
 
                 if(eagle.getValue() && isOverAir && mc.thePlayer.onGround && (blocksPlaced == 0 || blocksPlaced % 3 != 0 || mc.thePlayer.isPotionActive(Potion.moveSpeed))) {
-                    mc.gameSettings.keyBindSneak.pressed = true;
+                    mc.gameSettings.keyBindSneak.setPressed(true);
                 } else {
                     KeyboardUtil.resetKeybinding(mc.gameSettings.keyBindSneak);
                 }
@@ -224,12 +224,12 @@ public class AutoBridge extends Module {
 
         switch (mode.getValue()) {
             case "Sprint":
-                mc.gameSettings.keyBindUseItem.pressed = false;
+                mc.gameSettings.keyBindUseItem.setPressed(false);
 
                 boolean jumping = mc.thePlayer.onGround && mc.gameSettings.keyBindJump.isKeyDown();
 
                 if(WorldUtil.isAirOrLiquid(new BlockPos(mc.thePlayer.posX, lastGroundY - 1, mc.thePlayer.posZ)) && info != null && info.getFacing() != EnumFacing.DOWN && (info.getFacing() != EnumFacing.UP || !keepY.getValue()) && !jumping) {
-                    float yaw = (freelooking ? Vestige.instance.getCameraHandler().getYaw() : oldYaw) - 180;
+                    float yaw = (freelooking ? YolBi.instance.getCameraHandler().getYaw() : oldYaw) - 180;
 
                     for(float pitch = 40F; pitch <= 90F; pitch += 0.1F) {
                         rotations.updateRotations(yaw, pitch);
@@ -240,7 +240,7 @@ public class AutoBridge extends Module {
                             mc.thePlayer.rotationYaw = rotations.getYaw();
                             mc.thePlayer.rotationPitch = rotations.getPitch();
 
-                            mc.gameSettings.keyBindUseItem.pressed = true;
+                            mc.gameSettings.keyBindUseItem.setPressed(true);
                             mc.rightClickDelayTimer = 0;
                             break;
                         }
@@ -249,7 +249,7 @@ public class AutoBridge extends Module {
                     invertKeyPresses();
                 } else {
                     if(mc.thePlayer.onGround || !alwaysRotateOffground.getValue()) {
-                        mc.thePlayer.rotationYaw = freelooking ? Vestige.instance.getCameraHandler().getYaw() : oldYaw;
+                        mc.thePlayer.rotationYaw = freelooking ? YolBi.instance.getCameraHandler().getYaw() : oldYaw;
                         mc.thePlayer.rotationPitch = oldPitch;
 
                         KeyboardUtil.resetKeybindings(mc.gameSettings.keyBindForward, mc.gameSettings.keyBindBack, mc.gameSettings.keyBindLeft,
@@ -264,10 +264,10 @@ public class AutoBridge extends Module {
                 break;
             case "No sprint":
                 if(freelooking) {
-                    mc.thePlayer.rotationYaw = Vestige.instance.getCameraHandler().getYaw() - 180;
+                    mc.thePlayer.rotationYaw = YolBi.instance.getCameraHandler().getYaw() - 180;
                 }
 
-                mc.gameSettings.keyBindUseItem.pressed = false;
+                mc.gameSettings.keyBindUseItem.setPressed(false);
 
                 if(WorldUtil.isAirOrLiquid(new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1, mc.thePlayer.posZ)) && info != null && info.getFacing() != EnumFacing.DOWN) {
                     boolean found = false;
@@ -282,10 +282,10 @@ public class AutoBridge extends Module {
                                 mc.thePlayer.rotationYaw = rotations.getYaw();
                                 mc.thePlayer.rotationPitch = rotations.getPitch();
 
-                                mc.gameSettings.keyBindUseItem.pressed = true;
+                                mc.gameSettings.keyBindUseItem.setPressed(true);
                                 mc.rightClickDelayTimer = 0;
 
-                                mc.gameSettings.keyBindSneak.pressed = false;
+                                mc.gameSettings.keyBindSneak.setPressed(false);
 
                                 found = true;
                             }
@@ -294,13 +294,13 @@ public class AutoBridge extends Module {
                     }
 
                     if(!found) {
-                        mc.gameSettings.keyBindSneak.pressed = true;
+                        mc.gameSettings.keyBindSneak.setPressed(true);
                     }
                 }
 
                 if(ninjaBridge.getValue()) {
-                    mc.gameSettings.keyBindForward.pressed = false;
-                    mc.gameSettings.keyBindBack.pressed = true;
+                    mc.gameSettings.keyBindForward.setPressed(false);
+                    mc.gameSettings.keyBindBack.setPressed(true);
 
                     boolean hasSpeed = mc.thePlayer.isPotionActive(Potion.moveSpeed);
 
@@ -308,14 +308,14 @@ public class AutoBridge extends Module {
                     boolean right = hasSpeed ? ticks % 2 == 1 : ticks % 5 == 1;
 
                     if(left) {
-                        mc.gameSettings.keyBindLeft.pressed = true;
-                        mc.gameSettings.keyBindRight.pressed = false;
+                        mc.gameSettings.keyBindLeft.setPressed(true);
+                        mc.gameSettings.keyBindRight.setPressed(false);
                     } else if(right) {
-                        mc.gameSettings.keyBindRight.pressed = true;
-                        mc.gameSettings.keyBindLeft.pressed = false;
+                        mc.gameSettings.keyBindRight.setPressed(true);
+                        mc.gameSettings.keyBindLeft.setPressed(false);
                     } else {
-                        mc.gameSettings.keyBindLeft.pressed = false;
-                        mc.gameSettings.keyBindRight.pressed = false;
+                        mc.gameSettings.keyBindLeft.setPressed(false);
+                        mc.gameSettings.keyBindRight.setPressed(false);
                     }
                 } else {
                     invertKeyPresses();
@@ -330,10 +330,10 @@ public class AutoBridge extends Module {
         boolean left = KeyboardUtil.isPressed(mc.gameSettings.keyBindLeft);
         boolean right = KeyboardUtil.isPressed(mc.gameSettings.keyBindRight);
 
-        mc.gameSettings.keyBindForward.pressed = backward;
-        mc.gameSettings.keyBindBack.pressed = forward;
-        mc.gameSettings.keyBindLeft.pressed = right;
-        mc.gameSettings.keyBindRight.pressed = left;
+        mc.gameSettings.keyBindForward.setPressed(backward);
+        mc.gameSettings.keyBindBack.setPressed(forward);
+        mc.gameSettings.keyBindLeft.setPressed(right);
+        mc.gameSettings.keyBindRight.setPressed(left);
     }
 
     @Listener

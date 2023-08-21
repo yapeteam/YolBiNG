@@ -47,9 +47,9 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.PostStepEvent;
-import cn.yapeteam.yolbi.event.impl.PreStepEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.player.PostStepEvent;
+import cn.yapeteam.yolbi.event.impl.player.PreStepEvent;
 import cn.yapeteam.yolbi.module.impl.movement.Safewalk;
 
 public abstract class Entity implements ICommandSender
@@ -738,7 +738,7 @@ public abstract class Entity implements ICommandSender
                 if(isPlayer) {
                     PreStepEvent event = new PreStepEvent(this.stepHeight);
 
-                    Vestige.instance.getEventManager().post(event);
+                    YolBi.instance.getEventManager().post(event);
 
                     y = (double) event.getHeight();
                 } else {
@@ -831,7 +831,7 @@ public abstract class Entity implements ICommandSender
                 }
 
                 if(isPlayer) {
-                    Vestige.instance.getEventManager().post(new PostStepEvent((float) (this.getEntityBoundingBox().minY - this.posY)));
+                    YolBi.instance.getEventManager().post(new PostStepEvent((float) (this.getEntityBoundingBox().minY - this.posY)));
                 }
             }
 

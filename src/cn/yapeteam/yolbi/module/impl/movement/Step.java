@@ -1,9 +1,9 @@
 package cn.yapeteam.yolbi.module.impl.movement;
 
-import cn.yapeteam.yolbi.event.impl.MotionEvent;
-import cn.yapeteam.yolbi.event.impl.PostStepEvent;
-import cn.yapeteam.yolbi.event.impl.PreStepEvent;
-import cn.yapeteam.yolbi.event.impl.UpdateEvent;
+import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
+import cn.yapeteam.yolbi.event.impl.player.PostStepEvent;
+import cn.yapeteam.yolbi.event.impl.player.PreStepEvent;
+import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
 import cn.yapeteam.yolbi.util.network.PacketUtil;

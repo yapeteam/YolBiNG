@@ -1,8 +1,12 @@
 package cn.yapeteam.yolbi.module.impl.movement;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.*;
+import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
+import cn.yapeteam.yolbi.event.impl.player.EntityActionEvent;
+import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
+import cn.yapeteam.yolbi.event.impl.player.MoveEvent;
+import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
@@ -57,7 +61,7 @@ public class Longjump extends Module {
 
     @Override
     public void onDisable() {
-        Vestige.instance.getPacketBlinkHandler().stopAll();
+        YolBi.instance.getPacketBlinkHandler().stopAll();
         mc.timer.timerSpeed = 1F;
 
         switch (mode.getValue()) {
@@ -96,9 +100,9 @@ public class Longjump extends Module {
                     }
 
                     if(ticks > 2 && ticks < waitingTicks.getValue()) {
-                        Vestige.instance.getPacketBlinkHandler().startBlinkingAll();
+                        YolBi.instance.getPacketBlinkHandler().startBlinkingAll();
                     } else {
-                        Vestige.instance.getPacketBlinkHandler().stopAll();
+                        YolBi.instance.getPacketBlinkHandler().stopAll();
                     }
 
                     if(mc.thePlayer.onGround) {
@@ -111,15 +115,15 @@ public class Longjump extends Module {
 
                         if(counter > 3) {
                             started = true;
-                            mc.gameSettings.keyBindForward.pressed = Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode());
+                            mc.gameSettings.keyBindForward.setPressed(Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode()));
                             return;
                         }
                     }
 
                     if(mc.thePlayer.motionY > 0.3) {
-                        Vestige.instance.getPacketBlinkHandler().stopAll();
+                        YolBi.instance.getPacketBlinkHandler().stopAll();
                     } else {
-                        Vestige.instance.getPacketBlinkHandler().startBlinkingAll();
+                        YolBi.instance.getPacketBlinkHandler().startBlinkingAll();
                     }
                 }
                 break;

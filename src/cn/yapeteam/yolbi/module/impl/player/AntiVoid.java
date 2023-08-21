@@ -1,9 +1,9 @@
 package cn.yapeteam.yolbi.module.impl.player;
 
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.MotionEvent;
-import cn.yapeteam.yolbi.event.impl.PacketReceiveEvent;
-import cn.yapeteam.yolbi.event.impl.TickEvent;
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
+import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
+import cn.yapeteam.yolbi.event.impl.game.TickEvent;
 import cn.yapeteam.yolbi.module.impl.movement.Fly;
 import cn.yapeteam.yolbi.module.impl.movement.Longjump;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
@@ -57,7 +57,7 @@ public class AntiVoid extends Module {
     @Override
     public void onDisable() {
         if(blinking) {
-            Vestige.instance.getPacketBlinkHandler().stopAll();
+            YolBi.instance.getPacketBlinkHandler().stopAll();
             LogUtil.addChatMessage("Stopped blinking");
             blinking = false;
         }
@@ -67,8 +67,8 @@ public class AntiVoid extends Module {
 
     @Override
     public void onClientStarted() {
-        flyModule = Vestige.instance.getModuleManager().getModule(Fly.class);
-        longjumpModule = Vestige.instance.getModuleManager().getModule(Longjump.class);
+        flyModule = YolBi.instance.getModuleManager().getModule(Fly.class);
+        longjumpModule = YolBi.instance.getModuleManager().getModule(Longjump.class);
     }
 
     @Listener(Priority.HIGHER)
@@ -107,7 +107,7 @@ public class AntiVoid extends Module {
                     receivedLagback = false;
 
                     if(blinking) {
-                        Vestige.instance.getPacketBlinkHandler().stopAll();
+                        YolBi.instance.getPacketBlinkHandler().stopAll();
                         //LogUtil.addChatMessage("Antivoid : Stopped blinking");
                         blinking = false;
                     }
@@ -136,15 +136,15 @@ public class AntiVoid extends Module {
                             mc.thePlayer.inventory.currentItem = lastSafePos.itemSlot;
                             mc.playerController.currentPlayerItem = lastSafePos.itemSlot;
 
-                            Vestige.instance.getPacketBlinkHandler().releasePing();
-                            Vestige.instance.getPacketBlinkHandler().clearMove();
-                            Vestige.instance.getPacketBlinkHandler().clearOther();
+                            YolBi.instance.getPacketBlinkHandler().releasePing();
+                            YolBi.instance.getPacketBlinkHandler().clearMove();
+                            YolBi.instance.getPacketBlinkHandler().clearOther();
 
                             LogUtil.addChatMessage("Antivoid : Set back");
                         }
                     } else {
                         if(!blinking) {
-                            Vestige.instance.getPacketBlinkHandler().startBlinkingAll();
+                            YolBi.instance.getPacketBlinkHandler().startBlinkingAll();
                             //LogUtil.addChatMessage("Antivoid : Started blinking");
                             blinking = true;
                         }
@@ -178,11 +178,11 @@ public class AntiVoid extends Module {
                 mc.thePlayer.inventory.currentItem = lastSafePos.itemSlot;
                 mc.playerController.currentPlayerItem = lastSafePos.itemSlot;
 
-                Vestige.instance.getPacketBlinkHandler().releasePing();
-                Vestige.instance.getPacketBlinkHandler().clearMove();
-                Vestige.instance.getPacketBlinkHandler().clearOther();
+                YolBi.instance.getPacketBlinkHandler().releasePing();
+                YolBi.instance.getPacketBlinkHandler().clearMove();
+                YolBi.instance.getPacketBlinkHandler().clearOther();
 
-                Vestige.instance.getPacketBlinkHandler().stopAll();
+                YolBi.instance.getPacketBlinkHandler().stopAll();
 
                 lastSafePos = new PlayerInfo(packet.getX(), packet.getY(), packet.getZ(), 0, 0, 0, packet.getYaw(), packet.getPitch(), false, mc.thePlayer.fallDistance, mc.thePlayer.inventory.currentItem);
 

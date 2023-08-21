@@ -8,14 +8,12 @@ import cn.yapeteam.yolbi.values.impl.NumberValue;
 import lombok.Getter;
 import org.lwjgl.input.Keyboard;
 
+@Getter
 public class ClickUI extends Module {
-    @Getter
+
     private final BooleanValue pauseGame = new BooleanValue("PauseGame", true);
-    @Getter
     private final BooleanValue blur = new BooleanValue("Blur background", true);
-    @Getter
     private final BooleanValue rainbow = new BooleanValue("RainBow", false);
-    @Getter
     private final NumberValue<Integer> blurRadius = new NumberValue<>("blurRadius", blur::getValue, 3, 0, 50, 1);
 
     public ClickUI() {

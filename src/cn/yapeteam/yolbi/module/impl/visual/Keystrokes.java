@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.module.AlignType;
 import cn.yapeteam.yolbi.module.HUDModule;
 import cn.yapeteam.yolbi.module.ModuleCategory;
@@ -39,7 +39,7 @@ public class Keystrokes extends HUDModule {
 
     @Override
     public void onClientStarted() {
-        theme = Vestige.instance.getModuleManager().getModule(ClientTheme.class);
+        theme = YolBi.instance.getModuleManager().getModule(ClientTheme.class);
     }
 
     private void initKeys() {

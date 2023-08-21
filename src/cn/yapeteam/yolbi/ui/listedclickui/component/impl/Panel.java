@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.ui.listedclickui.component.impl;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
@@ -32,7 +32,7 @@ public class Panel extends AbstractComponent {
     public void init() {
         getChildComponents().clear();
         float y = getY() + ImplScreen.panelTopHeight;
-        for (Module module : Vestige.instance.getModuleManager().getModulesByCategory(category)) {
+        for (Module module : YolBi.instance.getModuleManager().getModulesByCategory(category)) {
             ModuleButton moduleButton = new ModuleButton(this, module);
             moduleButton.setX(getX());
             moduleButton.setY(y);
@@ -90,7 +90,7 @@ public class Panel extends AbstractComponent {
         }
         RenderUtil.drawBloomShadow(getX(), getY(), getWidth(), getHeight(), 5, new Color(0));
         RenderUtil.drawFastRoundedRect(getX(), getY(), getX() + getWidth(), getY() + getHeight() + 1, 3, Theme.MainTheme[1].getRGB());
-        AbstractFontRenderer font = Vestige.instance.getFontManager().getPingFangBold18();
+        AbstractFontRenderer font = YolBi.instance.getFontManager().getPingFangBold18();
         font.drawString(
                 category.name(),
                 getX() + (getWidth() - font.getStringWidth(category.name())) / 2f,

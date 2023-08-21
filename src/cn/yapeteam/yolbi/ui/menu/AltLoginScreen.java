@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.ui.menu;
 
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.ui.menu.components.Button;
 import cn.yapeteam.yolbi.util.misc.AudioUtil;
@@ -56,7 +56,7 @@ public class AltLoginScreen extends GuiScreen {
         email = new GuiTextField(0, mc.fontRendererObj, sr.getScaledWidth() / 2 - 80, y, 160, 20);
         password = new GuiPasswordField(1, mc.fontRendererObj, sr.getScaledWidth() / 2 - 80, y + 30, 160, 20);
 
-        font = Vestige.instance.getFontManager().getProductSans();
+        font = YolBi.instance.getFontManager().getProductSans();
 
         for(Button button : buttons) {
             button.updateState(false);
@@ -218,7 +218,7 @@ public class AltLoginScreen extends GuiScreen {
                         }).start();
                         break;
                     case "Back":
-                        mc.displayGuiScreen(Vestige.instance.getMainMenu());
+                        mc.displayGuiScreen(YolBi.instance.getMainMenu());
                         break;
                 }
 

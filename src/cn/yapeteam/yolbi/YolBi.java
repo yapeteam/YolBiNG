@@ -8,6 +8,7 @@ import cn.yapeteam.yolbi.handler.packet.PacketBlinkHandler;
 import cn.yapeteam.yolbi.handler.packet.PacketDelayHandler;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.ui.menu.VestigeMainMenu;
+import cn.yapeteam.yolbi.util.misc.language.ChineseLanguage;
 import cn.yapeteam.yolbi.util.render.FontUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,11 +25,11 @@ import cn.yapeteam.yolbi.util.IMinecraft;
 import java.io.IOException;
 
 @Getter
-public class Vestige implements IMinecraft {
+public class YolBi implements IMinecraft {
 
-    public static final Vestige instance = new Vestige();
+    public static final YolBi instance = new YolBi();
 
-    public final String name = "Novoline";
+    public final String name = "YolBi";
     public final String version = "8.0";
 
     private EventManager eventManager;

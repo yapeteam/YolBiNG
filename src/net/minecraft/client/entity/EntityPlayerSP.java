@@ -1,6 +1,7 @@
 package net.minecraft.client.entity;
 
-import cn.yapeteam.yolbi.event.impl.*;
+import cn.yapeteam.yolbi.event.impl.network.ChatSendEvent;
+import cn.yapeteam.yolbi.event.impl.player.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -52,7 +53,7 @@ import net.minecraft.util.MovementInput;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 
 public class EntityPlayerSP extends AbstractClientPlayer
 {
@@ -171,7 +172,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     {
         if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ)))
         {
-            Vestige.instance.getEventManager().post(new UpdateEvent());
+            YolBi.instance.getEventManager().post(new UpdateEvent());
             super.onUpdate();
 
             if (this.isRiding())
@@ -183,7 +184,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
             {
                 this.onUpdateWalkingPlayer();
 
-                Vestige.instance.getEventManager().post(new PostMotionEvent());
+                YolBi.instance.getEventManager().post(new PostMotionEvent());
             }
         }
     }
@@ -192,7 +193,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     public void moveEntity(double x, double y, double z) {
         MoveEvent event = new MoveEvent(x, y, z);
 
-        Vestige.instance.getEventManager().post(event);
+        YolBi.instance.getEventManager().post(event);
 
         if (event.isCancelled()) {
             super.moveEntity(0, 0, 0);
@@ -211,7 +212,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     public void onUpdateWalkingPlayer()
     {
         EntityActionEvent actionEvent = new EntityActionEvent(this.isSprinting(), this.isSneaking());
-        Vestige.instance.getEventManager().post(actionEvent);
+        YolBi.instance.getEventManager().post(actionEvent);
 
         boolean flag = actionEvent.isSprinting();
 
@@ -246,7 +247,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
         }
 
         MotionEvent motionEvent = new MotionEvent(this.posX, this.getEntityBoundingBox().minY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround);
-        Vestige.instance.getEventManager().post(motionEvent);
+        YolBi.instance.getEventManager().post(motionEvent);
 
         if (this.isCurrentViewEntity())
         {
@@ -326,7 +327,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     public void sendChatMessage(String message)
     {
         ChatSendEvent event = new ChatSendEvent(message);
-        Vestige.instance.getEventManager().post(event);
+        YolBi.instance.getEventManager().post(event);
 
         if (event.isCancelled()) return;
 
@@ -830,7 +831,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
         if (this.isUsingItem() && !this.isRiding())
         {
             SlowdownEvent event = new SlowdownEvent(0.2F, 0.2F, false);
-            Vestige.instance.getEventManager().post(event);
+            YolBi.instance.getEventManager().post(event);
 
             this.movementInput.moveStrafe *= event.getForward();
             this.movementInput.moveForward *= event.getStrafe();

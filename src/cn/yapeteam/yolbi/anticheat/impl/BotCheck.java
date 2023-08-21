@@ -1,7 +1,7 @@
 package cn.yapeteam.yolbi.anticheat.impl;
 
 import net.minecraft.entity.player.EntityPlayer;
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.anticheat.ACPlayer;
 import cn.yapeteam.yolbi.anticheat.AnticheatCheck;
 import cn.yapeteam.yolbi.anticheat.PlayerData;
@@ -33,7 +33,7 @@ public class BotCheck extends AnticheatCheck {
             if(++buffer >= (entity.isInvisible() || entity.isInvisibleToPlayer(mc.thePlayer) ? 2 : 4) && !player.isBot()) {
                 player.setBot(true);
 
-                Antibot antibotModule = Vestige.instance.getModuleManager().getModule(Antibot.class);
+                Antibot antibotModule = YolBi.instance.getModuleManager().getModule(Antibot.class);
 
                 if(antibotModule.isEnabled() && antibotModule.advancedDetection.getValue() && antibotModule.debug.getValue()) {
                     LogUtil.addChatMessage("Detected bot : " + entity.getGameProfile().getName());

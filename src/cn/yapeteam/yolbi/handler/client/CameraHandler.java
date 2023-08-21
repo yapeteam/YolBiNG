@@ -2,7 +2,7 @@ package cn.yapeteam.yolbi.handler.client;
 
 import lombok.Setter;
 import org.lwjgl.opengl.Display;
-import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.util.IMinecraft;
 
 public class CameraHandler implements IMinecraft {
@@ -39,19 +39,19 @@ public class CameraHandler implements IMinecraft {
     }
 
     public float getYaw() {
-        return freelooking && !Vestige.instance.isDestructed() ? cameraYaw : mc.thePlayer.rotationYaw;
+        return freelooking && !YolBi.instance.isDestructed() ? cameraYaw : mc.thePlayer.rotationYaw;
     }
 
     public float getPitch() {
-        return freelooking && !Vestige.instance.isDestructed() ? cameraPitch : mc.thePlayer.rotationPitch;
+        return freelooking && !YolBi.instance.isDestructed() ? cameraPitch : mc.thePlayer.rotationPitch;
     }
 
     public float getPrevYaw() {
-        return freelooking && !Vestige.instance.isDestructed() ? cameraYaw : mc.thePlayer.prevRotationYaw;
+        return freelooking && !YolBi.instance.isDestructed() ? cameraYaw : mc.thePlayer.prevRotationYaw;
     }
 
     public float getPrevPitch() {
-        return freelooking && !Vestige.instance.isDestructed() ? cameraPitch : mc.thePlayer.rotationPitch;
+        return freelooking && !YolBi.instance.isDestructed() ? cameraPitch : mc.thePlayer.rotationPitch;
     }
 
 }
