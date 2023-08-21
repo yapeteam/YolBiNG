@@ -6,11 +6,7 @@ import net.minecraft.block.BlockPistonExtension;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockRendererDispatcher;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.init.Blocks;
@@ -47,8 +43,8 @@ public class TileEntityPistonRenderer extends TileEntitySpecialRenderer<TileEnti
                 GlStateManager.shadeModel(7424);
             }
 
-            worldrenderer.func_181668_a(7, DefaultVertexFormats.BLOCK);
-            worldrenderer.setTranslation((double)((float)x - (float)blockpos.getX() + te.getOffsetX(partialTicks)), (double)((float)y - (float)blockpos.getY() + te.getOffsetY(partialTicks)), (double)((float)z - (float)blockpos.getZ() + te.getOffsetZ(partialTicks)));
+            worldrenderer.begin(7, DefaultVertexFormats.BLOCK);
+            worldrenderer.setTranslation((double) ((float) x - (float) blockpos.getX() + te.getOffsetX(partialTicks)), (double) ((float) y - (float) blockpos.getY() + te.getOffsetY(partialTicks)), (double) ((float) z - (float) blockpos.getZ() + te.getOffsetZ(partialTicks)));
             World world = this.getWorld();
 
             if (block == Blocks.piston_head && te.getProgress(partialTicks) < 0.5F)

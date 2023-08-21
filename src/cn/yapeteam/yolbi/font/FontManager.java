@@ -1,9 +1,10 @@
 package cn.yapeteam.yolbi.font;
 
 import cn.yapeteam.yolbi.font.cfont.VestigeFontRenderer;
-import cn.yapeteam.yolbi.font.unicode.UnicodeFontRenderer;
+import cn.yapeteam.yolbi.font.fast.CFontRenderer;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
@@ -29,21 +30,22 @@ public class FontManager {
         productSansTitle = new VestigeFontRenderer(getFontFromTTF("product_sans", 34, Font.PLAIN), true, true);
         comfortaa = new VestigeFontRenderer(getFontFromTTF("comfortaa", 19, Font.PLAIN), true, true);
 
-        PingFang12 = getUnicode("PingFang_Normal", 12);
+        /*PingFang12 = getUnicode("PingFang_Normal", 12);
         PingFang14 = getUnicode("PingFang_Normal", 14);
         PingFang16 = getUnicode("PingFang_Normal", 16);
         PingFang18 = getUnicode("PingFang_Normal", 18);
-        PingFangBold18 = getUnicode("PingFang_Bold", 18);
+        PingFangBold18 = getUnicode("PingFang_Bold", 18);*/
+        PingFang12 = new FontRenderer(getFontFromTTF("PingFang_Normal", 12, Font.PLAIN), 12, true);
+        PingFang14 = new CFontRenderer(getFontFromTTF("PingFang_Normal", 14, Font.PLAIN));
+        PingFang16 = new CFontRenderer(getFontFromTTF("PingFang_Normal", 16, Font.PLAIN));
+        PingFang18 = new CFontRenderer(getFontFromTTF("PingFang_Normal", 18, Font.PLAIN));
+        PingFangBold18 = new CFontRenderer(getFontFromTTF("PingFang_Bold", 18, Font.PLAIN));
         FLUXICON14 = new VestigeFontRenderer(getFontFromTTF("fluxicon", 14, Font.PLAIN), true, true);
         /*PingFang12 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Normal", 12, Font.PLAIN)), 12);
         PingFang14 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Normal", 14, Font.PLAIN)), 14);
         PingFang16 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Normal", 16, Font.PLAIN)), 16);
         PingFang18 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Normal", 18, Font.PLAIN)), 18);
         PingFangBold18 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Bold", 18, Font.PLAIN)), 18);*/
-    }
-
-    public UnicodeFontRenderer getUnicode(String name, int size) {
-        return new UnicodeFontRenderer(getFontFromTTF(name, size, Font.PLAIN), -1, -1, false);
     }
 
     public Font getFontFromTTF(String fontName, float fontSize, int fontType) {

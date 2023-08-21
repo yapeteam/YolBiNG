@@ -21,9 +21,9 @@ public class DrawUtil implements IMinecraft {
         float f2 = (float)(startColor >> 8 & 255) / 255.0F;
         float f3 = (float)(startColor & 255) / 255.0F;
         float f4 = (float)(endColor >> 24 & 255) / 255.0F;
-        float f5 = (float)(endColor >> 16 & 255) / 255.0F;
-        float f6 = (float)(endColor >> 8 & 255) / 255.0F;
-        float f7 = (float)(endColor & 255) / 255.0F;
+        float f5 = (float) (endColor >> 16 & 255) / 255.0F;
+        float f6 = (float) (endColor >> 8 & 255) / 255.0F;
+        float f7 = (float) (endColor & 255) / 255.0F;
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
@@ -31,11 +31,11 @@ public class DrawUtil implements IMinecraft {
         GlStateManager.shadeModel(7425);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181706_f);
-        worldrenderer.func_181662_b(right, top, 0).func_181666_a(f1, f2, f3, f).func_181675_d();
-        worldrenderer.func_181662_b(left, top, 0).func_181666_a(f1, f2, f3, f).func_181675_d();
-        worldrenderer.func_181662_b(left, bottom, 0).func_181666_a(f5, f6, f7, f4).func_181675_d();
-        worldrenderer.func_181662_b(right, bottom, 0).func_181666_a(f5, f6, f7, f4).func_181675_d();
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        worldrenderer.pos(right, top, 0).color(f1, f2, f3, f).endVertex();
+        worldrenderer.pos(left, top, 0).color(f1, f2, f3, f).endVertex();
+        worldrenderer.pos(left, bottom, 0).color(f5, f6, f7, f4).endVertex();
+        worldrenderer.pos(right, bottom, 0).color(f5, f6, f7, f4).endVertex();
         tessellator.draw();
         GlStateManager.shadeModel(7424);
         GlStateManager.disableBlend();
@@ -51,8 +51,8 @@ public class DrawUtil implements IMinecraft {
 
         float f4 = (float)(endColor >> 24 & 255) / 255.0F;
         float f5 = (float)(endColor >> 16 & 255) / 255.0F;
-        float f6 = (float)(endColor >> 8 & 255) / 255.0F;
-        float f7 = (float)(endColor & 255) / 255.0F;
+        float f6 = (float) (endColor >> 8 & 255) / 255.0F;
+        float f7 = (float) (endColor & 255) / 255.0F;
 
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
@@ -61,11 +61,11 @@ public class DrawUtil implements IMinecraft {
         GlStateManager.shadeModel(7425);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181706_f);
-        worldrenderer.func_181662_b(right, top, 0).func_181666_a(f5, f6, f7, f4).func_181675_d();
-        worldrenderer.func_181662_b(left, top, 0).func_181666_a(f1, f2, f3, f).func_181675_d();
-        worldrenderer.func_181662_b(left, bottom, 0).func_181666_a(f1, f2, f3, f).func_181675_d();
-        worldrenderer.func_181662_b(right, bottom, 0).func_181666_a(f5, f6, f7, f4).func_181675_d();
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        worldrenderer.pos(right, top, 0).color(f5, f6, f7, f4).endVertex();
+        worldrenderer.pos(left, top, 0).color(f1, f2, f3, f).endVertex();
+        worldrenderer.pos(left, bottom, 0).color(f1, f2, f3, f).endVertex();
+        worldrenderer.pos(right, bottom, 0).color(f5, f6, f7, f4).endVertex();
         tessellator.draw();
         GlStateManager.shadeModel(7424);
         GlStateManager.disableBlend();
@@ -91,30 +91,30 @@ public class DrawUtil implements IMinecraft {
         GlStateManager.shadeModel(7425);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181706_f);
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
 
         if(diagonal == DiagonalType.RIGHT_TOP) {
-            worldrenderer.func_181662_b(right, top, 0).func_181666_a(f5, f6, f7, f4).func_181675_d();
+            worldrenderer.pos(right, top, 0).color(f5, f6, f7, f4).endVertex();
         } else {
-            worldrenderer.func_181662_b(right, top, 0).func_181666_a(f1, f2, f3, f).func_181675_d();
+            worldrenderer.pos(right, top, 0).color(f1, f2, f3, f).endVertex();
         }
 
         if(diagonal == DiagonalType.LEFT_TOP) {
-            worldrenderer.func_181662_b(left, top, 0).func_181666_a(f5, f6, f7, f4).func_181675_d();
+            worldrenderer.pos(left, top, 0).color(f5, f6, f7, f4).endVertex();
         } else {
-            worldrenderer.func_181662_b(left, top, 0).func_181666_a(f1, f2, f3, f).func_181675_d();
+            worldrenderer.pos(left, top, 0).color(f1, f2, f3, f).endVertex();
         }
 
         if(diagonal == DiagonalType.LEFT_BOTTOM) {
-            worldrenderer.func_181662_b(left, bottom, 0).func_181666_a(f5, f6, f7, f4).func_181675_d();
+            worldrenderer.pos(left, bottom, 0).color(f5, f6, f7, f4).endVertex();
         } else {
-            worldrenderer.func_181662_b(left, bottom, 0).func_181666_a(f1, f2, f3, f).func_181675_d();
+            worldrenderer.pos(left, bottom, 0).color(f1, f2, f3, f).endVertex();
         }
 
         if(diagonal == DiagonalType.RIGHT_BOTTOM) {
-            worldrenderer.func_181662_b(right, bottom, 0).func_181666_a(f5, f6, f7, f4).func_181675_d();
+            worldrenderer.pos(right, bottom, 0).color(f5, f6, f7, f4).endVertex();
         } else {
-            worldrenderer.func_181662_b(right, bottom, 0).func_181666_a(f1, f2, f3, f).func_181675_d();
+            worldrenderer.pos(right, bottom, 0).color(f1, f2, f3, f).endVertex();
         }
 
         tessellator.draw();

@@ -49,8 +49,7 @@ public class RenderArrow extends Render<EntityArrow>
         GlStateManager.enableRescaleNormal();
         float f9 = (float)entity.arrowShake - partialTicks;
 
-        if (f9 > 0.0F)
-        {
+        if (f9 > 0.0F) {
             float f10 = -MathHelper.sin(f9 * 3.0F) * f9;
             GlStateManager.rotate(f10, 0.0F, 0.0F, 1.0F);
         }
@@ -59,29 +58,28 @@ public class RenderArrow extends Render<EntityArrow>
         GlStateManager.scale(f8, f8, f8);
         GlStateManager.translate(-4.0F, 0.0F, 0.0F);
         GL11.glNormal3f(f8, 0.0F, 0.0F);
-        worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181707_g);
-        worldrenderer.func_181662_b(-7.0D, -2.0D, -2.0D).func_181673_a((double)f4, (double)f6).func_181675_d();
-        worldrenderer.func_181662_b(-7.0D, -2.0D, 2.0D).func_181673_a((double)f5, (double)f6).func_181675_d();
-        worldrenderer.func_181662_b(-7.0D, 2.0D, 2.0D).func_181673_a((double)f5, (double)f7).func_181675_d();
-        worldrenderer.func_181662_b(-7.0D, 2.0D, -2.0D).func_181673_a((double)f4, (double)f7).func_181675_d();
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+        worldrenderer.pos(-7.0D, -2.0D, -2.0D).tex((double) f4, (double) f6).endVertex();
+        worldrenderer.pos(-7.0D, -2.0D, 2.0D).tex((double) f5, (double) f6).endVertex();
+        worldrenderer.pos(-7.0D, 2.0D, 2.0D).tex((double) f5, (double) f7).endVertex();
+        worldrenderer.pos(-7.0D, 2.0D, -2.0D).tex((double) f4, (double) f7).endVertex();
         tessellator.draw();
         GL11.glNormal3f(-f8, 0.0F, 0.0F);
-        worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181707_g);
-        worldrenderer.func_181662_b(-7.0D, 2.0D, -2.0D).func_181673_a((double)f4, (double)f6).func_181675_d();
-        worldrenderer.func_181662_b(-7.0D, 2.0D, 2.0D).func_181673_a((double)f5, (double)f6).func_181675_d();
-        worldrenderer.func_181662_b(-7.0D, -2.0D, 2.0D).func_181673_a((double)f5, (double)f7).func_181675_d();
-        worldrenderer.func_181662_b(-7.0D, -2.0D, -2.0D).func_181673_a((double)f4, (double)f7).func_181675_d();
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+        worldrenderer.pos(-7.0D, 2.0D, -2.0D).tex((double) f4, (double) f6).endVertex();
+        worldrenderer.pos(-7.0D, 2.0D, 2.0D).tex((double) f5, (double) f6).endVertex();
+        worldrenderer.pos(-7.0D, -2.0D, 2.0D).tex((double) f5, (double) f7).endVertex();
+        worldrenderer.pos(-7.0D, -2.0D, -2.0D).tex((double) f4, (double) f7).endVertex();
         tessellator.draw();
 
-        for (int j = 0; j < 4; ++j)
-        {
+        for (int j = 0; j < 4; ++j) {
             GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
             GL11.glNormal3f(0.0F, 0.0F, f8);
-            worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181707_g);
-            worldrenderer.func_181662_b(-8.0D, -2.0D, 0.0D).func_181673_a((double)f, (double)f2).func_181675_d();
-            worldrenderer.func_181662_b(8.0D, -2.0D, 0.0D).func_181673_a((double)f1, (double)f2).func_181675_d();
-            worldrenderer.func_181662_b(8.0D, 2.0D, 0.0D).func_181673_a((double)f1, (double)f3).func_181675_d();
-            worldrenderer.func_181662_b(-8.0D, 2.0D, 0.0D).func_181673_a((double)f, (double)f3).func_181675_d();
+            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+            worldrenderer.pos(-8.0D, -2.0D, 0.0D).tex((double) f, (double) f2).endVertex();
+            worldrenderer.pos(8.0D, -2.0D, 0.0D).tex((double) f1, (double) f2).endVertex();
+            worldrenderer.pos(8.0D, 2.0D, 0.0D).tex((double) f1, (double) f3).endVertex();
+            worldrenderer.pos(-8.0D, 2.0D, 0.0D).tex((double) f, (double) f3).endVertex();
             tessellator.draw();
         }
 

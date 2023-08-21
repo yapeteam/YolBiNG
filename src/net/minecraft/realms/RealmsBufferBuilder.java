@@ -1,8 +1,9 @@
 package net.minecraft.realms;
 
-import java.nio.ByteBuffer;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.VertexFormat;
+
+import java.nio.ByteBuffer;
 
 public class RealmsBufferBuilder
 {
@@ -21,7 +22,7 @@ public class RealmsBufferBuilder
 
     public void sortQuads(float p_sortQuads_1_, float p_sortQuads_2_, float p_sortQuads_3_)
     {
-        this.b.func_181674_a(p_sortQuads_1_, p_sortQuads_2_, p_sortQuads_3_);
+        this.b.sortVertexData(p_sortQuads_1_, p_sortQuads_2_, p_sortQuads_3_);
     }
 
     public void fixupQuadColor(int p_fixupQuadColor_1_)
@@ -56,12 +57,12 @@ public class RealmsBufferBuilder
 
     public void endVertex()
     {
-        this.b.func_181675_d();
+        this.b.endVertex();
     }
 
     public RealmsBufferBuilder normal(float p_normal_1_, float p_normal_2_, float p_normal_3_)
     {
-        return this.from(this.b.func_181663_c(p_normal_1_, p_normal_2_, p_normal_3_));
+        return this.from(this.b.normal(p_normal_1_, p_normal_2_, p_normal_3_));
     }
 
     public void end()
@@ -71,12 +72,12 @@ public class RealmsBufferBuilder
 
     public void begin(int p_begin_1_, VertexFormat p_begin_2_)
     {
-        this.b.func_181668_a(p_begin_1_, p_begin_2_);
+        this.b.begin(p_begin_1_, p_begin_2_);
     }
 
     public RealmsBufferBuilder color(int p_color_1_, int p_color_2_, int p_color_3_, int p_color_4_)
     {
-        return this.from(this.b.func_181669_b(p_color_1_, p_color_2_, p_color_3_, p_color_4_));
+        return this.from(this.b.color(p_color_1_, p_color_2_, p_color_3_, p_color_4_));
     }
 
     public void faceTex2(int p_faceTex2_1_, int p_faceTex2_2_, int p_faceTex2_3_, int p_faceTex2_4_)
@@ -96,7 +97,7 @@ public class RealmsBufferBuilder
 
     public RealmsBufferBuilder color(float p_color_1_, float p_color_2_, float p_color_3_, float p_color_4_)
     {
-        return this.from(this.b.func_181666_a(p_color_1_, p_color_2_, p_color_3_, p_color_4_));
+        return this.from(this.b.color(p_color_1_, p_color_2_, p_color_3_, p_color_4_));
     }
 
     public RealmsVertexFormat getVertexFormat()
@@ -111,7 +112,7 @@ public class RealmsBufferBuilder
 
     public RealmsBufferBuilder tex2(int p_tex2_1_, int p_tex2_2_)
     {
-        return this.from(this.b.func_181671_a(p_tex2_1_, p_tex2_2_));
+        return this.from(this.b.lightmap(p_tex2_1_, p_tex2_2_));
     }
 
     public void putBulkData(int[] p_putBulkData_1_)
@@ -121,7 +122,7 @@ public class RealmsBufferBuilder
 
     public RealmsBufferBuilder tex(double p_tex_1_, double p_tex_3_)
     {
-        return this.from(this.b.func_181673_a(p_tex_1_, p_tex_3_));
+        return this.from(this.b.tex(p_tex_1_, p_tex_3_));
     }
 
     public int getVertexCount()
@@ -136,7 +137,7 @@ public class RealmsBufferBuilder
 
     public RealmsBufferBuilder vertex(double p_vertex_1_, double p_vertex_3_, double p_vertex_5_)
     {
-        return this.from(this.b.func_181662_b(p_vertex_1_, p_vertex_3_, p_vertex_5_));
+        return this.from(this.b.pos(p_vertex_1_, p_vertex_3_, p_vertex_5_));
     }
 
     public void fixupQuadColor(float p_fixupQuadColor_1_, float p_fixupQuadColor_2_, float p_fixupQuadColor_3_)

@@ -67,17 +67,17 @@ public class TexturedQuad
 
         if (Config.isShaders())
         {
-            renderer.func_181668_a(7, SVertexFormat.defVertexFormatTextured);
+            renderer.begin(7, SVertexFormat.defVertexFormatTextured);
         }
         else
         {
-            renderer.func_181668_a(7, DefaultVertexFormats.field_181703_c);
+            renderer.begin(7, DefaultVertexFormats.OLDMODEL_POSITION_TEX_NORMAL);
         }
 
         for (int i = 0; i < 4; ++i)
         {
             PositionTextureVertex positiontexturevertex = this.vertexPositions[i];
-            renderer.func_181662_b(positiontexturevertex.vector3D.xCoord * (double)scale, positiontexturevertex.vector3D.yCoord * (double)scale, positiontexturevertex.vector3D.zCoord * (double)scale).func_181673_a((double)positiontexturevertex.texturePositionX, (double)positiontexturevertex.texturePositionY).func_181663_c(f, f1, f2).func_181675_d();
+            renderer.pos(positiontexturevertex.vector3D.xCoord * (double) scale, positiontexturevertex.vector3D.yCoord * (double) scale, positiontexturevertex.vector3D.zCoord * (double) scale).tex((double) positiontexturevertex.texturePositionX, (double) positiontexturevertex.texturePositionY).normal(f, f1, f2).endVertex();
         }
 
         Tessellator.getInstance().draw();

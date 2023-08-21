@@ -307,7 +307,7 @@ public class EffectRenderer
                     GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                     Tessellator tessellator = Tessellator.getInstance();
                     WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-                    worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181704_d);
+                    worldrenderer.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
 
                     for (int k = 0; k < this.fxLayers[i][j].size(); ++k)
                     {

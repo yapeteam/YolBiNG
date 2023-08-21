@@ -1,8 +1,6 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
-import java.io.IOException;
-import java.util.List;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -11,6 +9,9 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.ChunkProviderSettings;
 import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
+import java.util.List;
 
 public class GuiScreenCustomizePresets extends GuiScreen
 {
@@ -218,11 +219,11 @@ public class GuiScreenCustomizePresets extends GuiScreen
             int k = 32;
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-            worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181707_g);
-            worldrenderer.func_181662_b((double)(i + 0), (double)(p_178051_2_ + 32), 0.0D).func_181673_a(0.0D, 1.0D).func_181675_d();
-            worldrenderer.func_181662_b((double)(i + 32), (double)(p_178051_2_ + 32), 0.0D).func_181673_a(1.0D, 1.0D).func_181675_d();
-            worldrenderer.func_181662_b((double)(i + 32), (double)(p_178051_2_ + 0), 0.0D).func_181673_a(1.0D, 0.0D).func_181675_d();
-            worldrenderer.func_181662_b((double)(i + 0), (double)(p_178051_2_ + 0), 0.0D).func_181673_a(0.0D, 0.0D).func_181675_d();
+            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+            worldrenderer.pos((double) (i + 0), (double) (p_178051_2_ + 32), 0.0D).tex(0.0D, 1.0D).endVertex();
+            worldrenderer.pos((double) (i + 32), (double) (p_178051_2_ + 32), 0.0D).tex(1.0D, 1.0D).endVertex();
+            worldrenderer.pos((double) (i + 32), (double) (p_178051_2_ + 0), 0.0D).tex(1.0D, 0.0D).endVertex();
+            worldrenderer.pos((double) (i + 0), (double) (p_178051_2_ + 0), 0.0D).tex(0.0D, 0.0D).endVertex();
             tessellator.draw();
         }
 

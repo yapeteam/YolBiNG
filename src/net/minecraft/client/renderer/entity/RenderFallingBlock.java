@@ -50,7 +50,7 @@ public class RenderFallingBlock extends Render<EntityFallingBlock>
                     GlStateManager.disableLighting();
                     Tessellator tessellator = Tessellator.getInstance();
                     WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-                    worldrenderer.func_181668_a(7, DefaultVertexFormats.BLOCK);
+                    worldrenderer.begin(7, DefaultVertexFormats.BLOCK);
                     int i = blockpos.getX();
                     int j = blockpos.getY();
                     int k = blockpos.getZ();

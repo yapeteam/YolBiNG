@@ -120,30 +120,29 @@ public class GuiSimpleScrolledSelectionListProxy extends GuiSlot
             {
                 int k1 = (this.bottom - this.top) * (this.bottom - this.top) / this.getContentHeight();
                 k1 = MathHelper.clamp_int(k1, 32, this.bottom - this.top - 8);
-                int l1 = (int)this.amountScrolled * (this.bottom - this.top - k1) / j1 + this.top;
+                int l1 = (int) this.amountScrolled * (this.bottom - this.top - k1) / j1 + this.top;
 
-                if (l1 < this.top)
-                {
+                if (l1 < this.top) {
                     l1 = this.top;
                 }
 
-                worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181709_i);
-                worldrenderer.func_181662_b((double)i, (double)this.bottom, 0.0D).func_181673_a(0.0D, 1.0D).func_181669_b(0, 0, 0, 255).func_181675_d();
-                worldrenderer.func_181662_b((double)j, (double)this.bottom, 0.0D).func_181673_a(1.0D, 1.0D).func_181669_b(0, 0, 0, 255).func_181675_d();
-                worldrenderer.func_181662_b((double)j, (double)this.top, 0.0D).func_181673_a(1.0D, 0.0D).func_181669_b(0, 0, 0, 255).func_181675_d();
-                worldrenderer.func_181662_b((double)i, (double)this.top, 0.0D).func_181673_a(0.0D, 0.0D).func_181669_b(0, 0, 0, 255).func_181675_d();
+                worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+                worldrenderer.pos((double) i, (double) this.bottom, 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+                worldrenderer.pos((double) j, (double) this.bottom, 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+                worldrenderer.pos((double) j, (double) this.top, 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 255).endVertex();
+                worldrenderer.pos((double) i, (double) this.top, 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 255).endVertex();
                 tessellator.draw();
-                worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181709_i);
-                worldrenderer.func_181662_b((double)i, (double)(l1 + k1), 0.0D).func_181673_a(0.0D, 1.0D).func_181669_b(128, 128, 128, 255).func_181675_d();
-                worldrenderer.func_181662_b((double)j, (double)(l1 + k1), 0.0D).func_181673_a(1.0D, 1.0D).func_181669_b(128, 128, 128, 255).func_181675_d();
-                worldrenderer.func_181662_b((double)j, (double)l1, 0.0D).func_181673_a(1.0D, 0.0D).func_181669_b(128, 128, 128, 255).func_181675_d();
-                worldrenderer.func_181662_b((double)i, (double)l1, 0.0D).func_181673_a(0.0D, 0.0D).func_181669_b(128, 128, 128, 255).func_181675_d();
+                worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+                worldrenderer.pos((double) i, (double) (l1 + k1), 0.0D).tex(0.0D, 1.0D).color(128, 128, 128, 255).endVertex();
+                worldrenderer.pos((double) j, (double) (l1 + k1), 0.0D).tex(1.0D, 1.0D).color(128, 128, 128, 255).endVertex();
+                worldrenderer.pos((double) j, (double) l1, 0.0D).tex(1.0D, 0.0D).color(128, 128, 128, 255).endVertex();
+                worldrenderer.pos((double) i, (double) l1, 0.0D).tex(0.0D, 0.0D).color(128, 128, 128, 255).endVertex();
                 tessellator.draw();
-                worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181709_i);
-                worldrenderer.func_181662_b((double)i, (double)(l1 + k1 - 1), 0.0D).func_181673_a(0.0D, 1.0D).func_181669_b(192, 192, 192, 255).func_181675_d();
-                worldrenderer.func_181662_b((double)(j - 1), (double)(l1 + k1 - 1), 0.0D).func_181673_a(1.0D, 1.0D).func_181669_b(192, 192, 192, 255).func_181675_d();
-                worldrenderer.func_181662_b((double)(j - 1), (double)l1, 0.0D).func_181673_a(1.0D, 0.0D).func_181669_b(192, 192, 192, 255).func_181675_d();
-                worldrenderer.func_181662_b((double)i, (double)l1, 0.0D).func_181673_a(0.0D, 0.0D).func_181669_b(192, 192, 192, 255).func_181675_d();
+                worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+                worldrenderer.pos((double) i, (double) (l1 + k1 - 1), 0.0D).tex(0.0D, 1.0D).color(192, 192, 192, 255).endVertex();
+                worldrenderer.pos((double) (j - 1), (double) (l1 + k1 - 1), 0.0D).tex(1.0D, 1.0D).color(192, 192, 192, 255).endVertex();
+                worldrenderer.pos((double) (j - 1), (double) l1, 0.0D).tex(1.0D, 0.0D).color(192, 192, 192, 255).endVertex();
+                worldrenderer.pos((double) i, (double) l1, 0.0D).tex(0.0D, 0.0D).color(192, 192, 192, 255).endVertex();
                 tessellator.draw();
             }
 

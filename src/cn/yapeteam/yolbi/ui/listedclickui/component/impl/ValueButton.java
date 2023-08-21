@@ -78,11 +78,11 @@ public class ValueButton extends AbstractComponent {
                 int w = 8, h = 8;
                 RenderUtil.drawRect2(getX() + getWidth() - 5 - w, getY() + (getHeight() - h) / 2f, w, h, Theme.MainTheme[1].getRGB());
                 if (booleanValue.getValue())
-                    icon.drawString("v", getX() + getWidth() - 5 - w + 0.5f, getY() + (font.getHeight() - h) / 2f + 2, ImplScreen.rainbow ? rainbow.getRGB() : Theme.MainTheme[2].getRGB());
+                    icon.drawString("v", getX() + getWidth() - 5 - w + 0.5f, getY() + (h - font.getHeight()) / 2f + 1, ImplScreen.rainbow ? rainbow.getRGB() : Theme.MainTheme[2].getRGB());
             } else if (value instanceof NumberValue<?>) {
                 NumberValue<?> numberValue = (NumberValue<?>) value;
-                font.drawString(numberValue.getName(), getX() + 5, getY() + 3, -1);
-                font.drawString(String.format("%.2f", numberValue.getValue().floatValue()), getX() + getWidth() - font.getStringWidth(String.format("%.2f", numberValue.getValue().floatValue())) - 5, getY() + 3, -1);
+                font.drawString(numberValue.getName(), getX() + 5, getY() + 6, -1);
+                font.drawString(String.format("%.2f", numberValue.getValue().floatValue()), getX() + getWidth() - font.getStringWidth(String.format("%.2f", numberValue.getValue().floatValue())) - 5, getY() + 6, -1);
                 float w = (getWidth() - 10) * ((numberValue.getValue().floatValue() - numberValue.getMin().floatValue()) / (numberValue.getMax().floatValue() - numberValue.getMin().floatValue()));
                 sliderAnimeWidth += (w - sliderAnimeWidth) / 10f;
                 RenderUtil.drawRect2(getX() + 5, getY() + getHeight() - 5 - 1, getWidth() - 10, 1, Theme.MainTheme[3].getRGB());
@@ -102,9 +102,9 @@ public class ValueButton extends AbstractComponent {
             } else if (value instanceof ModeValue<?>) {
                 ModeValue<?> modeValue = (ModeValue<?>) value;
                 RenderUtil.drawFastRoundedRect(getX() + 2, getY() + 2, getX() + getWidth() - 2, getY() + getHeight() - 2, 2, Theme.MainTheme[1].getRGB());
-                font.drawString(modeValue.getName() + " | " + modeValue.getValue(), getX() + (getWidth() - font.getStringWidth(modeValue.getName() + " | " + modeValue.getValue())) / 2f, getY() + (getHeight() - font.getHeight()) / 2f - 4, -1);
-                font.drawString("|", getX() + (getWidth() - font.getStringWidth("|")) / 2f, getY() + getHeight() / 2f - 1, ImplScreen.rainbow ? rainbow.getRGB() : Theme.MainTheme[2].getRGB());
-                icon.drawString("h i", getX() + (getWidth() - icon.getStringWidth("h i")) / 2f, getY() + getHeight() / 2f - 0.5f, ImplScreen.rainbow ? rainbow.getRGB() : Theme.MainTheme[2].getRGB());
+                font.drawString(modeValue.getName() + " | " + modeValue.getValue(), getX() + (getWidth() - font.getStringWidth(modeValue.getName() + " | " + modeValue.getValue())) / 2f, getY() + (getHeight() - font.getHeight()) / 2f - 3, -1);
+                font.drawString("|", getX() + (getWidth() - font.getStringWidth("|")) / 2f + 1, getY() + getHeight() / 2f + 4, ImplScreen.rainbow ? rainbow.getRGB() : Theme.MainTheme[2].getRGB());
+                icon.drawString("h i", getX() + (getWidth() - icon.getStringWidth("h i")) / 2f, getY() + getHeight() / 2f + 3, ImplScreen.rainbow ? rainbow.getRGB() : Theme.MainTheme[2].getRGB());
             } else if (value instanceof ColorValue) {
                 ColorValue colorValue = (ColorValue) value;
                 font.drawString(colorValue.getName() + ":", getX() + (getWidth() - font.getStringWidth(colorValue.getName() + ":") - 2 - 5) / 2f, getY() + 2 - 3, ImplScreen.rainbow ? rainbow.getRGB() : Theme.MainTheme[2].getRGB());

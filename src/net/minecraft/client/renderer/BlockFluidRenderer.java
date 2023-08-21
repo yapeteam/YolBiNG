@@ -126,8 +126,8 @@ public class BlockFluidRenderer
                         f18 = textureatlassprite.getInterpolatedV((double)(8.0F + (f22 + f21) * 16.0F));
                         f15 = textureatlassprite.getInterpolatedU((double)(8.0F + (f22 + f21) * 16.0F));
                         f19 = textureatlassprite.getInterpolatedV((double)(8.0F + (f22 - f21) * 16.0F));
-                        f16 = textureatlassprite.getInterpolatedU((double)(8.0F + (f22 - f21) * 16.0F));
-                        f20 = textureatlassprite.getInterpolatedV((double)(8.0F + (-f22 - f21) * 16.0F));
+                        f16 = textureatlassprite.getInterpolatedU((double) (8.0F + (f22 - f21) * 16.0F));
+                        f20 = textureatlassprite.getInterpolatedV((double) (8.0F + (-f22 - f21) * 16.0F));
                     }
 
                     int k2 = blockliquid.getMixedBrightnessForBlock(blockAccess, blockPosIn);
@@ -136,22 +136,20 @@ public class BlockFluidRenderer
                     float f24 = f4 * f;
                     float f25 = f4 * f1;
                     float f26 = f4 * f2;
-                    worldRendererIn.func_181662_b(d0 + 0.0D, d1 + (double)f7, d2 + 0.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double)f13, (double)f17).func_181671_a(l2, i3).func_181675_d();
-                    worldRendererIn.func_181662_b(d0 + 0.0D, d1 + (double)f8, d2 + 1.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double)f14, (double)f18).func_181671_a(l2, i3).func_181675_d();
-                    worldRendererIn.func_181662_b(d0 + 1.0D, d1 + (double)f9, d2 + 1.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double)f15, (double)f19).func_181671_a(l2, i3).func_181675_d();
-                    worldRendererIn.func_181662_b(d0 + 1.0D, d1 + (double)f10, d2 + 0.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double)f16, (double)f20).func_181671_a(l2, i3).func_181675_d();
+                    worldRendererIn.pos(d0 + 0.0D, d1 + (double) f7, d2 + 0.0D).color(f24, f25, f26, 1.0F).tex((double) f13, (double) f17).lightmap(l2, i3).endVertex();
+                    worldRendererIn.pos(d0 + 0.0D, d1 + (double) f8, d2 + 1.0D).color(f24, f25, f26, 1.0F).tex((double) f14, (double) f18).lightmap(l2, i3).endVertex();
+                    worldRendererIn.pos(d0 + 1.0D, d1 + (double) f9, d2 + 1.0D).color(f24, f25, f26, 1.0F).tex((double) f15, (double) f19).lightmap(l2, i3).endVertex();
+                    worldRendererIn.pos(d0 + 1.0D, d1 + (double) f10, d2 + 0.0D).color(f24, f25, f26, 1.0F).tex((double) f16, (double) f20).lightmap(l2, i3).endVertex();
 
-                    if (blockliquid.func_176364_g(blockAccess, blockPosIn.up()))
-                    {
-                        worldRendererIn.func_181662_b(d0 + 0.0D, d1 + (double)f7, d2 + 0.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double)f13, (double)f17).func_181671_a(l2, i3).func_181675_d();
-                        worldRendererIn.func_181662_b(d0 + 1.0D, d1 + (double)f10, d2 + 0.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double)f16, (double)f20).func_181671_a(l2, i3).func_181675_d();
-                        worldRendererIn.func_181662_b(d0 + 1.0D, d1 + (double)f9, d2 + 1.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double)f15, (double)f19).func_181671_a(l2, i3).func_181675_d();
-                        worldRendererIn.func_181662_b(d0 + 0.0D, d1 + (double)f8, d2 + 1.0D).func_181666_a(f24, f25, f26, 1.0F).func_181673_a((double)f14, (double)f18).func_181671_a(l2, i3).func_181675_d();
+                    if (blockliquid.func_176364_g(blockAccess, blockPosIn.up())) {
+                        worldRendererIn.pos(d0 + 0.0D, d1 + (double) f7, d2 + 0.0D).color(f24, f25, f26, 1.0F).tex((double) f13, (double) f17).lightmap(l2, i3).endVertex();
+                        worldRendererIn.pos(d0 + 1.0D, d1 + (double) f10, d2 + 0.0D).color(f24, f25, f26, 1.0F).tex((double) f16, (double) f20).lightmap(l2, i3).endVertex();
+                        worldRendererIn.pos(d0 + 1.0D, d1 + (double) f9, d2 + 1.0D).color(f24, f25, f26, 1.0F).tex((double) f15, (double) f19).lightmap(l2, i3).endVertex();
+                        worldRendererIn.pos(d0 + 0.0D, d1 + (double) f8, d2 + 1.0D).color(f24, f25, f26, 1.0F).tex((double) f14, (double) f18).lightmap(l2, i3).endVertex();
                     }
                 }
 
-                if (flag1)
-                {
+                if (flag1) {
                     worldRendererIn.setSprite(atextureatlassprite[0]);
                     float f35 = atextureatlassprite[0].getMinU();
                     float f36 = atextureatlassprite[0].getMaxU();
@@ -161,10 +159,10 @@ public class BlockFluidRenderer
                     int i2 = l1 >> 16 & 65535;
                     int j2 = l1 & 65535;
                     float f41 = FaceBakery.getFaceBrightness(EnumFacing.DOWN);
-                    worldRendererIn.func_181662_b(d0, d1, d2 + 1.0D).func_181666_a(f * f41, f1 * f41, f2 * f41, 1.0F).func_181673_a((double)f35, (double)f38).func_181671_a(i2, j2).func_181675_d();
-                    worldRendererIn.func_181662_b(d0, d1, d2).func_181666_a(f * f41, f1 * f41, f2 * f41, 1.0F).func_181673_a((double)f35, (double)f37).func_181671_a(i2, j2).func_181675_d();
-                    worldRendererIn.func_181662_b(d0 + 1.0D, d1, d2).func_181666_a(f * f41, f1 * f41, f2 * f41, 1.0F).func_181673_a((double)f36, (double)f37).func_181671_a(i2, j2).func_181675_d();
-                    worldRendererIn.func_181662_b(d0 + 1.0D, d1, d2 + 1.0D).func_181666_a(f * f41, f1 * f41, f2 * f41, 1.0F).func_181673_a((double)f36, (double)f38).func_181671_a(i2, j2).func_181675_d();
+                    worldRendererIn.pos(d0, d1, d2 + 1.0D).color(f * f41, f1 * f41, f2 * f41, 1.0F).tex((double) f35, (double) f38).lightmap(i2, j2).endVertex();
+                    worldRendererIn.pos(d0, d1, d2).color(f * f41, f1 * f41, f2 * f41, 1.0F).tex((double) f35, (double) f37).lightmap(i2, j2).endVertex();
+                    worldRendererIn.pos(d0 + 1.0D, d1, d2).color(f * f41, f1 * f41, f2 * f41, 1.0F).tex((double) f36, (double) f37).lightmap(i2, j2).endVertex();
+                    worldRendererIn.pos(d0 + 1.0D, d1, d2 + 1.0D).color(f * f41, f1 * f41, f2 * f41, 1.0F).tex((double) f36, (double) f38).lightmap(i2, j2).endVertex();
                     flag2 = true;
                 }
 
@@ -246,8 +244,8 @@ public class BlockFluidRenderer
                         flag2 = true;
                         float f42 = textureatlassprite1.getInterpolatedU(0.0D);
                         float f27 = textureatlassprite1.getInterpolatedU(8.0D);
-                        float f28 = textureatlassprite1.getInterpolatedV((double)((1.0F - f39) * 16.0F * 0.5F));
-                        float f29 = textureatlassprite1.getInterpolatedV((double)((1.0F - f40) * 16.0F * 0.5F));
+                        float f28 = textureatlassprite1.getInterpolatedV((double) ((1.0F - f39) * 16.0F * 0.5F));
+                        float f29 = textureatlassprite1.getInterpolatedV((double) ((1.0F - f40) * 16.0F * 0.5F));
                         float f30 = textureatlassprite1.getInterpolatedV(8.0D);
                         int j = blockliquid.getMixedBrightnessForBlock(blockAccess, blockpos);
                         int k = j >> 16 & 65535;
@@ -256,14 +254,14 @@ public class BlockFluidRenderer
                         float f32 = f4 * f31 * f;
                         float f33 = f4 * f31 * f1;
                         float f34 = f4 * f31 * f2;
-                        worldRendererIn.func_181662_b(d3, d1 + (double)f39, d4).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double)f42, (double)f28).func_181671_a(k, l).func_181675_d();
-                        worldRendererIn.func_181662_b(d5, d1 + (double)f40, d6).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double)f27, (double)f29).func_181671_a(k, l).func_181675_d();
-                        worldRendererIn.func_181662_b(d5, d1 + 0.0D, d6).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double)f27, (double)f30).func_181671_a(k, l).func_181675_d();
-                        worldRendererIn.func_181662_b(d3, d1 + 0.0D, d4).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double)f42, (double)f30).func_181671_a(k, l).func_181675_d();
-                        worldRendererIn.func_181662_b(d3, d1 + 0.0D, d4).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double)f42, (double)f30).func_181671_a(k, l).func_181675_d();
-                        worldRendererIn.func_181662_b(d5, d1 + 0.0D, d6).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double)f27, (double)f30).func_181671_a(k, l).func_181675_d();
-                        worldRendererIn.func_181662_b(d5, d1 + (double)f40, d6).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double)f27, (double)f29).func_181671_a(k, l).func_181675_d();
-                        worldRendererIn.func_181662_b(d3, d1 + (double)f39, d4).func_181666_a(f32, f33, f34, 1.0F).func_181673_a((double)f42, (double)f28).func_181671_a(k, l).func_181675_d();
+                        worldRendererIn.pos(d3, d1 + (double) f39, d4).color(f32, f33, f34, 1.0F).tex((double) f42, (double) f28).lightmap(k, l).endVertex();
+                        worldRendererIn.pos(d5, d1 + (double) f40, d6).color(f32, f33, f34, 1.0F).tex((double) f27, (double) f29).lightmap(k, l).endVertex();
+                        worldRendererIn.pos(d5, d1 + 0.0D, d6).color(f32, f33, f34, 1.0F).tex((double) f27, (double) f30).lightmap(k, l).endVertex();
+                        worldRendererIn.pos(d3, d1 + 0.0D, d4).color(f32, f33, f34, 1.0F).tex((double) f42, (double) f30).lightmap(k, l).endVertex();
+                        worldRendererIn.pos(d3, d1 + 0.0D, d4).color(f32, f33, f34, 1.0F).tex((double) f42, (double) f30).lightmap(k, l).endVertex();
+                        worldRendererIn.pos(d5, d1 + 0.0D, d6).color(f32, f33, f34, 1.0F).tex((double) f27, (double) f30).lightmap(k, l).endVertex();
+                        worldRendererIn.pos(d5, d1 + (double) f40, d6).color(f32, f33, f34, 1.0F).tex((double) f27, (double) f29).lightmap(k, l).endVertex();
+                        worldRendererIn.pos(d3, d1 + (double) f39, d4).color(f32, f33, f34, 1.0F).tex((double) f42, (double) f28).lightmap(k, l).endVertex();
                     }
                 }
 

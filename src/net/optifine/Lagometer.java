@@ -155,7 +155,7 @@ public class Lagometer
                 GlStateManager.disableTexture2D();
                 Tessellator tessellator = Tessellator.getInstance();
                 WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-                worldrenderer.func_181668_a(1, DefaultVertexFormats.field_181706_f);
+                worldrenderer.begin(1, DefaultVertexFormats.POSITION_COLOR);
 
                 for (int j = 0; j < timesFrame.length; ++j)
                 {
@@ -220,10 +220,9 @@ public class Lagometer
         {
             return 0L;
         }
-        else
-        {
-            tessellator.func_181662_b((double)((float)frameNum + 0.5F), (double)(baseHeight - (float)i + 0.5F), 0.0D).func_181669_b(r, g, b, 255).func_181675_d();
-            tessellator.func_181662_b((double)((float)frameNum + 0.5F), (double)(baseHeight + 0.5F), 0.0D).func_181669_b(r, g, b, 255).func_181675_d();
+        else {
+            tessellator.pos((double) ((float) frameNum + 0.5F), (double) (baseHeight - (float) i + 0.5F), 0.0D).color(r, g, b, 255).endVertex();
+            tessellator.pos((double) ((float) frameNum + 0.5F), (double) (baseHeight + 0.5F), 0.0D).color(r, g, b, 255).endVertex();
             return i;
         }
     }
@@ -236,10 +235,9 @@ public class Lagometer
         {
             return 0L;
         }
-        else
-        {
-            tessellator.func_181662_b((double)((float)frameStart + 0.5F), (double)(baseHeight - (float)i + 0.5F), 0.0D).func_181669_b(r, g, b, 255).func_181675_d();
-            tessellator.func_181662_b((double)((float)frameEnd + 0.5F), (double)(baseHeight - (float)i + 0.5F), 0.0D).func_181669_b(r, g, b, 255).func_181675_d();
+        else {
+            tessellator.pos((double) ((float) frameStart + 0.5F), (double) (baseHeight - (float) i + 0.5F), 0.0D).color(r, g, b, 255).endVertex();
+            tessellator.pos((double) ((float) frameEnd + 0.5F), (double) (baseHeight - (float) i + 0.5F), 0.0D).color(r, g, b, 255).endVertex();
             return i;
         }
     }

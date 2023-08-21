@@ -2,9 +2,6 @@ package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -20,6 +17,10 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.FlatGeneratorInfo;
 import net.minecraft.world.gen.FlatLayerInfo;
 import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 public class GuiFlatPresets extends GuiScreen
 {
@@ -242,11 +243,11 @@ public class GuiFlatPresets extends GuiScreen
             int j = 18;
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-            worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181707_g);
-            worldrenderer.func_181662_b((double)(p_148171_1_ + 0), (double)(p_148171_2_ + 18), (double)GuiFlatPresets.this.zLevel).func_181673_a((double)((float)(p_148171_3_ + 0) * 0.0078125F), (double)((float)(p_148171_4_ + 18) * 0.0078125F)).func_181675_d();
-            worldrenderer.func_181662_b((double)(p_148171_1_ + 18), (double)(p_148171_2_ + 18), (double)GuiFlatPresets.this.zLevel).func_181673_a((double)((float)(p_148171_3_ + 18) * 0.0078125F), (double)((float)(p_148171_4_ + 18) * 0.0078125F)).func_181675_d();
-            worldrenderer.func_181662_b((double)(p_148171_1_ + 18), (double)(p_148171_2_ + 0), (double)GuiFlatPresets.this.zLevel).func_181673_a((double)((float)(p_148171_3_ + 18) * 0.0078125F), (double)((float)(p_148171_4_ + 0) * 0.0078125F)).func_181675_d();
-            worldrenderer.func_181662_b((double)(p_148171_1_ + 0), (double)(p_148171_2_ + 0), (double)GuiFlatPresets.this.zLevel).func_181673_a((double)((float)(p_148171_3_ + 0) * 0.0078125F), (double)((float)(p_148171_4_ + 0) * 0.0078125F)).func_181675_d();
+            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+            worldrenderer.pos((double) (p_148171_1_ + 0), (double) (p_148171_2_ + 18), (double) GuiFlatPresets.this.zLevel).tex((double) ((float) (p_148171_3_ + 0) * 0.0078125F), (double) ((float) (p_148171_4_ + 18) * 0.0078125F)).endVertex();
+            worldrenderer.pos((double) (p_148171_1_ + 18), (double) (p_148171_2_ + 18), (double) GuiFlatPresets.this.zLevel).tex((double) ((float) (p_148171_3_ + 18) * 0.0078125F), (double) ((float) (p_148171_4_ + 18) * 0.0078125F)).endVertex();
+            worldrenderer.pos((double) (p_148171_1_ + 18), (double) (p_148171_2_ + 0), (double) GuiFlatPresets.this.zLevel).tex((double) ((float) (p_148171_3_ + 18) * 0.0078125F), (double) ((float) (p_148171_4_ + 0) * 0.0078125F)).endVertex();
+            worldrenderer.pos((double) (p_148171_1_ + 0), (double) (p_148171_2_ + 0), (double) GuiFlatPresets.this.zLevel).tex((double) ((float) (p_148171_3_ + 0) * 0.0078125F), (double) ((float) (p_148171_4_ + 0) * 0.0078125F)).endVertex();
             tessellator.draw();
         }
 

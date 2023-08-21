@@ -98,7 +98,7 @@ public class ModuleButton extends AbstractComponent {
             if (getChildComponents().size() > 1) {
                 GlStateManager.pushMatrix();
                 float x = getX() + getWidth() - icon.getStringWidth("g") - 3;
-                float tx = x + icon.getStringWidth("g") / 2f, ty = getY() + (getHeight() - icon.getHeight()) / 2f;
+                float tx = x + icon.getStringWidth("g") / 2f, ty = getY() + (getHeight() - icon.getHeight()) / 2f + 2;
                 GlStateManager.translate(tx, ty, 0.0f);
                 GlStateManager.rotate(90, 0.0f, 0.0f, 1.0f);
                 GlStateManager.translate(-tx, -ty, 0.0f);

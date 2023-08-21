@@ -1,8 +1,5 @@
 package net.optifine.shaders;
 
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockStateBase;
 import net.minecraft.block.state.IBlockState;
@@ -13,6 +10,10 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 public class SVertexBuilder
 {
@@ -120,11 +121,11 @@ public class SVertexBuilder
         {
             if (wrr.drawMode == 7 && wrr.vertexCount % 4 == 0)
             {
-                svertexbuilder.calcNormal(wrr, wrr.func_181664_j() - 4 * svertexbuilder.vertexSize);
+                svertexbuilder.calcNormal(wrr, wrr.getDistanceSq() - 4 * svertexbuilder.vertexSize);
             }
 
             long i = svertexbuilder.entityData[svertexbuilder.entityDataIndex];
-            int j = wrr.func_181664_j() - 14 + 12;
+            int j = wrr.getDistanceSq() - 14 + 12;
             wrr.rawIntBuffer.put(j, (int)i);
             wrr.rawIntBuffer.put(j + 1, (int)(i >> 32));
         }
@@ -181,7 +182,7 @@ public class SVertexBuilder
 
         if (svertexbuilder.vertexSize == 14 && wrr.drawMode == 7 && wrr.vertexCount % 4 == 0)
         {
-            svertexbuilder.calcNormal(wrr, wrr.func_181664_j() - 4 * svertexbuilder.vertexSize);
+            svertexbuilder.calcNormal(wrr, wrr.getDistanceSq() - 4 * svertexbuilder.vertexSize);
         }
     }
 
@@ -189,7 +190,7 @@ public class SVertexBuilder
     {
         FloatBuffer floatbuffer = wrr.rawFloatBuffer;
         IntBuffer intbuffer = wrr.rawIntBuffer;
-        int i = wrr.func_181664_j();
+        int i = wrr.getDistanceSq();
         float f = floatbuffer.get(baseIndex + 0 * this.vertexSize);
         float f1 = floatbuffer.get(baseIndex + 0 * this.vertexSize + 1);
         float f2 = floatbuffer.get(baseIndex + 0 * this.vertexSize + 2);

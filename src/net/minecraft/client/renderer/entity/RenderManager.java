@@ -1,29 +1,13 @@
 package net.minecraft.client.renderer.entity;
 
 import com.google.common.collect.Maps;
-import java.util.Collections;
-import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.model.ModelChicken;
-import net.minecraft.client.model.ModelCow;
-import net.minecraft.client.model.ModelHorse;
-import net.minecraft.client.model.ModelOcelot;
-import net.minecraft.client.model.ModelPig;
-import net.minecraft.client.model.ModelRabbit;
-import net.minecraft.client.model.ModelSheep2;
-import net.minecraft.client.model.ModelSlime;
-import net.minecraft.client.model.ModelSquid;
-import net.minecraft.client.model.ModelWolf;
-import net.minecraft.client.model.ModelZombie;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderGlobal;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.model.*;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.RenderEnderCrystal;
@@ -40,70 +24,20 @@ import net.minecraft.entity.ai.EntityMinecartMobSpawner;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.item.EntityBoat;
-import net.minecraft.entity.item.EntityEnderCrystal;
-import net.minecraft.entity.item.EntityEnderEye;
-import net.minecraft.entity.item.EntityEnderPearl;
-import net.minecraft.entity.item.EntityExpBottle;
-import net.minecraft.entity.item.EntityFallingBlock;
-import net.minecraft.entity.item.EntityFireworkRocket;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.item.EntityMinecartTNT;
-import net.minecraft.entity.item.EntityPainting;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.monster.EntityBlaze;
-import net.minecraft.entity.monster.EntityCaveSpider;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.monster.EntityEndermite;
-import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.monster.EntityGiantZombie;
-import net.minecraft.entity.monster.EntityGuardian;
-import net.minecraft.entity.monster.EntityIronGolem;
-import net.minecraft.entity.monster.EntityMagmaCube;
-import net.minecraft.entity.monster.EntityPigZombie;
-import net.minecraft.entity.monster.EntitySilverfish;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntitySlime;
-import net.minecraft.entity.monster.EntitySnowman;
-import net.minecraft.entity.monster.EntitySpider;
-import net.minecraft.entity.monster.EntityWitch;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.passive.EntityBat;
-import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.passive.EntityCow;
-import net.minecraft.entity.passive.EntityHorse;
-import net.minecraft.entity.passive.EntityMooshroom;
-import net.minecraft.entity.passive.EntityOcelot;
-import net.minecraft.entity.passive.EntityPig;
-import net.minecraft.entity.passive.EntityRabbit;
-import net.minecraft.entity.passive.EntitySheep;
-import net.minecraft.entity.passive.EntitySquid;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.passive.EntityWolf;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.entity.projectile.EntityEgg;
-import net.minecraft.entity.projectile.EntityFishHook;
-import net.minecraft.entity.projectile.EntityLargeFireball;
-import net.minecraft.entity.projectile.EntityPotion;
-import net.minecraft.entity.projectile.EntitySmallFireball;
-import net.minecraft.entity.projectile.EntitySnowball;
-import net.minecraft.entity.projectile.EntityWitherSkull;
+import net.minecraft.entity.item.*;
+import net.minecraft.entity.monster.*;
+import net.minecraft.entity.passive.*;
+import net.minecraft.entity.projectile.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ReportedException;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.optifine.entity.model.CustomEntityModels;
 import net.optifine.player.PlayerItemsLayer;
 import net.optifine.reflect.Reflector;
+
+import java.util.Collections;
+import java.util.Map;
 
 public class RenderManager
 {
@@ -464,18 +398,17 @@ public class RenderManager
         AxisAlignedBB axisalignedbb1 = new AxisAlignedBB(axisalignedbb.minX - entityIn.posX + p_85094_2_, axisalignedbb.minY - entityIn.posY + p_85094_4_, axisalignedbb.minZ - entityIn.posZ + p_85094_6_, axisalignedbb.maxX - entityIn.posX + p_85094_2_, axisalignedbb.maxY - entityIn.posY + p_85094_4_, axisalignedbb.maxZ - entityIn.posZ + p_85094_6_);
         RenderGlobal.func_181563_a(axisalignedbb1, 255, 255, 255, 255);
 
-        if (entityIn instanceof EntityLivingBase)
-        {
+        if (entityIn instanceof EntityLivingBase) {
             float f1 = 0.01F;
-            RenderGlobal.func_181563_a(new AxisAlignedBB(p_85094_2_ - (double)f, p_85094_4_ + (double)entityIn.getEyeHeight() - 0.009999999776482582D, p_85094_6_ - (double)f, p_85094_2_ + (double)f, p_85094_4_ + (double)entityIn.getEyeHeight() + 0.009999999776482582D, p_85094_6_ + (double)f), 255, 0, 0, 255);
+            RenderGlobal.func_181563_a(new AxisAlignedBB(p_85094_2_ - (double) f, p_85094_4_ + (double) entityIn.getEyeHeight() - 0.009999999776482582D, p_85094_6_ - (double) f, p_85094_2_ + (double) f, p_85094_4_ + (double) entityIn.getEyeHeight() + 0.009999999776482582D, p_85094_6_ + (double) f), 255, 0, 0, 255);
         }
 
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         Vec3 vec3 = entityIn.getLook(p_85094_9_);
-        worldrenderer.func_181668_a(3, DefaultVertexFormats.field_181706_f);
-        worldrenderer.func_181662_b(p_85094_2_, p_85094_4_ + (double)entityIn.getEyeHeight(), p_85094_6_).func_181669_b(0, 0, 255, 255).func_181675_d();
-        worldrenderer.func_181662_b(p_85094_2_ + vec3.xCoord * 2.0D, p_85094_4_ + (double)entityIn.getEyeHeight() + vec3.yCoord * 2.0D, p_85094_6_ + vec3.zCoord * 2.0D).func_181669_b(0, 0, 255, 255).func_181675_d();
+        worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
+        worldrenderer.pos(p_85094_2_, p_85094_4_ + (double) entityIn.getEyeHeight(), p_85094_6_).color(0, 0, 255, 255).endVertex();
+        worldrenderer.pos(p_85094_2_ + vec3.xCoord * 2.0D, p_85094_4_ + (double) entityIn.getEyeHeight() + vec3.yCoord * 2.0D, p_85094_6_ + vec3.zCoord * 2.0D).color(0, 0, 255, 255).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.enableLighting();

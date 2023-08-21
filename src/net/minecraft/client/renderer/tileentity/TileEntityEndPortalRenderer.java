@@ -1,18 +1,15 @@
 package net.minecraft.client.renderer.tileentity;
 
-import java.nio.FloatBuffer;
-import java.util.Random;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.src.Config;
 import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.ResourceLocation;
 import net.optifine.shaders.ShadersRender;
+
+import java.nio.FloatBuffer;
+import java.util.Random;
 
 public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileEntityEndPortal>
 {
@@ -93,20 +90,19 @@ public class TileEntityEndPortalRenderer extends TileEntitySpecialRenderer<TileE
                 GlStateManager.translate((float)ActiveRenderInfo.getPosition().xCoord * f4 / f8, (float)ActiveRenderInfo.getPosition().zCoord * f4 / f8, -f1);
                 Tessellator tessellator = Tessellator.getInstance();
                 WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-                worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181706_f);
+                worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
                 float f11 = (field_147527_e.nextFloat() * 0.5F + 0.1F) * f6;
                 float f12 = (field_147527_e.nextFloat() * 0.5F + 0.4F) * f6;
                 float f13 = (field_147527_e.nextFloat() * 0.5F + 0.5F) * f6;
 
-                if (i == 0)
-                {
+                if (i == 0) {
                     f11 = f12 = f13 = 1.0F * f6;
                 }
 
-                worldrenderer.func_181662_b(x, y + (double)f3, z).func_181666_a(f11, f12, f13, 1.0F).func_181675_d();
-                worldrenderer.func_181662_b(x, y + (double)f3, z + 1.0D).func_181666_a(f11, f12, f13, 1.0F).func_181675_d();
-                worldrenderer.func_181662_b(x + 1.0D, y + (double)f3, z + 1.0D).func_181666_a(f11, f12, f13, 1.0F).func_181675_d();
-                worldrenderer.func_181662_b(x + 1.0D, y + (double)f3, z).func_181666_a(f11, f12, f13, 1.0F).func_181675_d();
+                worldrenderer.pos(x, y + (double) f3, z).color(f11, f12, f13, 1.0F).endVertex();
+                worldrenderer.pos(x, y + (double) f3, z + 1.0D).color(f11, f12, f13, 1.0F).endVertex();
+                worldrenderer.pos(x + 1.0D, y + (double) f3, z + 1.0D).color(f11, f12, f13, 1.0F).endVertex();
+                worldrenderer.pos(x + 1.0D, y + (double) f3, z).color(f11, f12, f13, 1.0F).endVertex();
                 tessellator.draw();
                 GlStateManager.popMatrix();
                 GlStateManager.matrixMode(5888);

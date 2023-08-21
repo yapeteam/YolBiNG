@@ -462,19 +462,18 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
                 ResourceLocation[] aresourcelocation = titlePanoramaPaths;
 
-                if (custompanoramaproperties != null)
-                {
+                if (custompanoramaproperties != null) {
                     aresourcelocation = custompanoramaproperties.getPanoramaLocations();
                 }
 
                 this.mc.getTextureManager().bindTexture(aresourcelocation[l]);
-                worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181709_i);
+                worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
                 int i1 = 255 / (k + 1);
                 float f3 = 0.0F;
-                worldrenderer.func_181662_b(-1.0D, -1.0D, 1.0D).func_181673_a(0.0D, 0.0D).func_181669_b(255, 255, 255, i1).func_181675_d();
-                worldrenderer.func_181662_b(1.0D, -1.0D, 1.0D).func_181673_a(1.0D, 0.0D).func_181669_b(255, 255, 255, i1).func_181675_d();
-                worldrenderer.func_181662_b(1.0D, 1.0D, 1.0D).func_181673_a(1.0D, 1.0D).func_181669_b(255, 255, 255, i1).func_181675_d();
-                worldrenderer.func_181662_b(-1.0D, 1.0D, 1.0D).func_181673_a(0.0D, 1.0D).func_181669_b(255, 255, 255, i1).func_181675_d();
+                worldrenderer.pos(-1.0D, -1.0D, 1.0D).tex(0.0D, 0.0D).color(255, 255, 255, i1).endVertex();
+                worldrenderer.pos(1.0D, -1.0D, 1.0D).tex(1.0D, 0.0D).color(255, 255, 255, i1).endVertex();
+                worldrenderer.pos(1.0D, 1.0D, 1.0D).tex(1.0D, 1.0D).color(255, 255, 255, i1).endVertex();
+                worldrenderer.pos(-1.0D, 1.0D, 1.0D).tex(0.0D, 1.0D).color(255, 255, 255, i1).endVertex();
                 tessellator.draw();
                 GlStateManager.popMatrix();
             }
@@ -508,7 +507,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         GlStateManager.colorMask(true, true, true, false);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181709_i);
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
         GlStateManager.disableAlpha();
         int i = 3;
         int j = 3;
@@ -519,16 +518,15 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
             j = custompanoramaproperties.getBlur2();
         }
 
-        for (int k = 0; k < j; ++k)
-        {
-            float f = 1.0F / (float)(k + 1);
+        for (int k = 0; k < j; ++k) {
+            float f = 1.0F / (float) (k + 1);
             int l = this.width;
             int i1 = this.height;
-            float f1 = (float)(k - i / 2) / 256.0F;
-            worldrenderer.func_181662_b((double)l, (double)i1, (double)this.zLevel).func_181673_a((double)(0.0F + f1), 1.0D).func_181666_a(1.0F, 1.0F, 1.0F, f).func_181675_d();
-            worldrenderer.func_181662_b((double)l, 0.0D, (double)this.zLevel).func_181673_a((double)(1.0F + f1), 1.0D).func_181666_a(1.0F, 1.0F, 1.0F, f).func_181675_d();
-            worldrenderer.func_181662_b(0.0D, 0.0D, (double)this.zLevel).func_181673_a((double)(1.0F + f1), 0.0D).func_181666_a(1.0F, 1.0F, 1.0F, f).func_181675_d();
-            worldrenderer.func_181662_b(0.0D, (double)i1, (double)this.zLevel).func_181673_a((double)(0.0F + f1), 0.0D).func_181666_a(1.0F, 1.0F, 1.0F, f).func_181675_d();
+            float f1 = (float) (k - i / 2) / 256.0F;
+            worldrenderer.pos((double) l, (double) i1, (double) this.zLevel).tex((double) (0.0F + f1), 1.0D).color(1.0F, 1.0F, 1.0F, f).endVertex();
+            worldrenderer.pos((double) l, 0.0D, (double) this.zLevel).tex((double) (1.0F + f1), 1.0D).color(1.0F, 1.0F, 1.0F, f).endVertex();
+            worldrenderer.pos(0.0D, 0.0D, (double) this.zLevel).tex((double) (1.0F + f1), 0.0D).color(1.0F, 1.0F, 1.0F, f).endVertex();
+            worldrenderer.pos(0.0D, (double) i1, (double) this.zLevel).tex((double) (0.0F + f1), 0.0D).color(1.0F, 1.0F, 1.0F, f).endVertex();
         }
 
         tessellator.draw();
@@ -561,18 +559,18 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
         this.mc.getFramebuffer().bindFramebuffer(true);
         GlStateManager.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
-        float f2 = this.width > this.height ? 120.0F / (float)this.width : 120.0F / (float)this.height;
-        float f = (float)this.height * f2 / 256.0F;
-        float f1 = (float)this.width * f2 / 256.0F;
+        float f2 = this.width > this.height ? 120.0F / (float) this.width : 120.0F / (float) this.height;
+        float f = (float) this.height * f2 / 256.0F;
+        float f1 = (float) this.width * f2 / 256.0F;
         int k = this.width;
         int l = this.height;
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181709_i);
-        worldrenderer.func_181662_b(0.0D, (double)l, (double)this.zLevel).func_181673_a((double)(0.5F - f), (double)(0.5F + f1)).func_181666_a(1.0F, 1.0F, 1.0F, 1.0F).func_181675_d();
-        worldrenderer.func_181662_b((double)k, (double)l, (double)this.zLevel).func_181673_a((double)(0.5F - f), (double)(0.5F - f1)).func_181666_a(1.0F, 1.0F, 1.0F, 1.0F).func_181675_d();
-        worldrenderer.func_181662_b((double)k, 0.0D, (double)this.zLevel).func_181673_a((double)(0.5F + f), (double)(0.5F - f1)).func_181666_a(1.0F, 1.0F, 1.0F, 1.0F).func_181675_d();
-        worldrenderer.func_181662_b(0.0D, 0.0D, (double)this.zLevel).func_181673_a((double)(0.5F + f), (double)(0.5F + f1)).func_181666_a(1.0F, 1.0F, 1.0F, 1.0F).func_181675_d();
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+        worldrenderer.pos(0.0D, (double) l, (double) this.zLevel).tex((double) (0.5F - f), (double) (0.5F + f1)).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+        worldrenderer.pos((double) k, (double) l, (double) this.zLevel).tex((double) (0.5F - f), (double) (0.5F - f1)).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+        worldrenderer.pos((double) k, 0.0D, (double) this.zLevel).tex((double) (0.5F + f), (double) (0.5F - f1)).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+        worldrenderer.pos(0.0D, 0.0D, (double) this.zLevel).tex((double) (0.5F + f), (double) (0.5F + f1)).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
         tessellator.draw();
     }
 

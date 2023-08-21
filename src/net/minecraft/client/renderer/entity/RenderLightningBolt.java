@@ -1,12 +1,13 @@
 package net.minecraft.client.renderer.entity;
 
-import java.util.Random;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.Random;
 
 public class RenderLightningBolt extends Render<EntityLightningBolt>
 {
@@ -83,7 +84,7 @@ public class RenderLightningBolt extends Render<EntityLightningBolt>
                         d3 += (double)(random1.nextInt(31) - 15);
                     }
 
-                    worldrenderer.func_181668_a(5, DefaultVertexFormats.field_181706_f);
+                    worldrenderer.begin(5, DefaultVertexFormats.POSITION_COLOR);
                     float f = 0.5F;
                     float f1 = 0.45F;
                     float f2 = 0.45F;
@@ -120,18 +121,16 @@ public class RenderLightningBolt extends Render<EntityLightningBolt>
                         double d10 = x + 0.5D - d7;
                         double d11 = z + 0.5D - d7;
 
-                        if (j1 == 1 || j1 == 2)
-                        {
+                        if (j1 == 1 || j1 == 2) {
                             d10 += d7 * 2.0D;
                         }
 
-                        if (j1 == 2 || j1 == 3)
-                        {
+                        if (j1 == 2 || j1 == 3) {
                             d11 += d7 * 2.0D;
                         }
 
-                        worldrenderer.func_181662_b(d10 + d2, y + (double)(i1 * 16), d11 + d3).func_181666_a(0.45F, 0.45F, 0.5F, 0.3F).func_181675_d();
-                        worldrenderer.func_181662_b(d8 + d4, y + (double)((i1 + 1) * 16), d9 + d5).func_181666_a(0.45F, 0.45F, 0.5F, 0.3F).func_181675_d();
+                        worldrenderer.pos(d10 + d2, y + (double) (i1 * 16), d11 + d3).color(0.45F, 0.45F, 0.5F, 0.3F).endVertex();
+                        worldrenderer.pos(d8 + d4, y + (double) ((i1 + 1) * 16), d9 + d5).color(0.45F, 0.45F, 0.5F, 0.3F).endVertex();
                     }
 
                     tessellator.draw();

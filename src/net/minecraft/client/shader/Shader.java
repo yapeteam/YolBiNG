@@ -1,8 +1,6 @@
 package net.minecraft.client.shader;
 
 import com.google.common.collect.Lists;
-import java.io.IOException;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -11,6 +9,9 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.util.JsonException;
 import org.lwjgl.util.vector.Matrix4f;
+
+import java.io.IOException;
+import java.util.List;
 
 public class Shader
 {
@@ -81,7 +82,7 @@ public class Shader
         this.manager.getShaderUniformOrDefault("OutSize").set(f, f1);
         this.manager.getShaderUniformOrDefault("Time").set(p_148042_1_);
         Minecraft minecraft = Minecraft.getMinecraft();
-        this.manager.getShaderUniformOrDefault("ScreenSize").set((float)minecraft.displayWidth, (float)minecraft.displayHeight);
+        this.manager.getShaderUniformOrDefault("ScreenSize").set((float) minecraft.displayWidth, (float) minecraft.displayHeight);
         this.manager.useShader();
         this.framebufferOut.framebufferClear();
         this.framebufferOut.bindFramebuffer(false);
@@ -89,11 +90,11 @@ public class Shader
         GlStateManager.colorMask(true, true, true, true);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181706_f);
-        worldrenderer.func_181662_b(0.0D, (double)f1, 500.0D).func_181669_b(255, 255, 255, 255).func_181675_d();
-        worldrenderer.func_181662_b((double)f, (double)f1, 500.0D).func_181669_b(255, 255, 255, 255).func_181675_d();
-        worldrenderer.func_181662_b((double)f, 0.0D, 500.0D).func_181669_b(255, 255, 255, 255).func_181675_d();
-        worldrenderer.func_181662_b(0.0D, 0.0D, 500.0D).func_181669_b(255, 255, 255, 255).func_181675_d();
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        worldrenderer.pos(0.0D, (double) f1, 500.0D).color(255, 255, 255, 255).endVertex();
+        worldrenderer.pos((double) f, (double) f1, 500.0D).color(255, 255, 255, 255).endVertex();
+        worldrenderer.pos((double) f, 0.0D, 500.0D).color(255, 255, 255, 255).endVertex();
+        worldrenderer.pos(0.0D, 0.0D, 500.0D).color(255, 255, 255, 255).endVertex();
         tessellator.draw();
         GlStateManager.depthMask(true);
         GlStateManager.colorMask(true, true, true, true);
@@ -101,8 +102,7 @@ public class Shader
         this.framebufferOut.unbindFramebuffer();
         this.framebufferIn.unbindFramebufferTexture();
 
-        for (Object object : this.listAuxFramebuffers)
-        {
+        for (Object object : this.listAuxFramebuffers) {
             if (object instanceof Framebuffer)
             {
                 ((Framebuffer)object).unbindFramebufferTexture();

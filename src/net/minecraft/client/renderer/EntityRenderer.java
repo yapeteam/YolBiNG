@@ -2158,22 +2158,22 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
                                     j1 = 0;
                                     this.mc.getTextureManager().bindTexture(locationRainPng);
-                                    worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181704_d);
+                                    worldrenderer.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
                                 }
 
-                                double d5 = ((double)(this.rendererUpdateCount + l1 * l1 * 3121 + l1 * 45238971 + k1 * k1 * 418711 + k1 * 13761 & 31) + (double)partialTicks) / 32.0D * (3.0D + this.random.nextDouble());
-                                double d6 = (double)((float)l1 + 0.5F) - entity.posX;
-                                double d7 = (double)((float)k1 + 0.5F) - entity.posZ;
-                                float f2 = MathHelper.sqrt_double(d6 * d6 + d7 * d7) / (float)i1;
+                                double d5 = ((double) (this.rendererUpdateCount + l1 * l1 * 3121 + l1 * 45238971 + k1 * k1 * 418711 + k1 * 13761 & 31) + (double) partialTicks) / 32.0D * (3.0D + this.random.nextDouble());
+                                double d6 = (double) ((float) l1 + 0.5F) - entity.posX;
+                                double d7 = (double) ((float) k1 + 0.5F) - entity.posZ;
+                                float f2 = MathHelper.sqrt_double(d6 * d6 + d7 * d7) / (float) i1;
                                 float f3 = ((1.0F - f2 * f2) * 0.5F + 0.5F) * f5;
                                 blockpos$mutableblockpos.func_181079_c(l1, i3, k1);
                                 int j3 = world.getCombinedLight(blockpos$mutableblockpos, 0);
                                 int k3 = j3 >> 16 & 65535;
                                 int l3 = j3 & 65535;
-                                worldrenderer.func_181662_b((double)l1 - d3 + 0.5D, (double)k2, (double)k1 - d4 + 0.5D).func_181673_a(0.0D, (double)k2 * 0.25D + d5).func_181666_a(1.0F, 1.0F, 1.0F, f3).func_181671_a(k3, l3).func_181675_d();
-                                worldrenderer.func_181662_b((double)l1 + d3 + 0.5D, (double)k2, (double)k1 + d4 + 0.5D).func_181673_a(1.0D, (double)k2 * 0.25D + d5).func_181666_a(1.0F, 1.0F, 1.0F, f3).func_181671_a(k3, l3).func_181675_d();
-                                worldrenderer.func_181662_b((double)l1 + d3 + 0.5D, (double)l2, (double)k1 + d4 + 0.5D).func_181673_a(1.0D, (double)l2 * 0.25D + d5).func_181666_a(1.0F, 1.0F, 1.0F, f3).func_181671_a(k3, l3).func_181675_d();
-                                worldrenderer.func_181662_b((double)l1 - d3 + 0.5D, (double)l2, (double)k1 - d4 + 0.5D).func_181673_a(0.0D, (double)l2 * 0.25D + d5).func_181666_a(1.0F, 1.0F, 1.0F, f3).func_181671_a(k3, l3).func_181675_d();
+                                worldrenderer.pos((double) l1 - d3 + 0.5D, (double) k2, (double) k1 - d4 + 0.5D).tex(0.0D, (double) k2 * 0.25D + d5).color(1.0F, 1.0F, 1.0F, f3).lightmap(k3, l3).endVertex();
+                                worldrenderer.pos((double) l1 + d3 + 0.5D, (double) k2, (double) k1 + d4 + 0.5D).tex(1.0D, (double) k2 * 0.25D + d5).color(1.0F, 1.0F, 1.0F, f3).lightmap(k3, l3).endVertex();
+                                worldrenderer.pos((double) l1 + d3 + 0.5D, (double) l2, (double) k1 + d4 + 0.5D).tex(1.0D, (double) l2 * 0.25D + d5).color(1.0F, 1.0F, 1.0F, f3).lightmap(k3, l3).endVertex();
+                                worldrenderer.pos((double) l1 - d3 + 0.5D, (double) l2, (double) k1 - d4 + 0.5D).tex(0.0D, (double) l2 * 0.25D + d5).color(1.0F, 1.0F, 1.0F, f3).lightmap(k3, l3).endVertex();
                             }
                             else
                             {
@@ -2186,24 +2186,24 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
                                     j1 = 1;
                                     this.mc.getTextureManager().bindTexture(locationSnowPng);
-                                    worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181704_d);
+                                    worldrenderer.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
                                 }
 
                                 double d8 = (double)(((float)(this.rendererUpdateCount & 511) + partialTicks) / 512.0F);
-                                double d9 = this.random.nextDouble() + (double)f * 0.01D * (double)((float)this.random.nextGaussian());
-                                double d10 = this.random.nextDouble() + (double)(f * (float)this.random.nextGaussian()) * 0.001D;
-                                double d11 = (double)((float)l1 + 0.5F) - entity.posX;
-                                double d12 = (double)((float)k1 + 0.5F) - entity.posZ;
-                                float f6 = MathHelper.sqrt_double(d11 * d11 + d12 * d12) / (float)i1;
+                                double d9 = this.random.nextDouble() + (double) f * 0.01D * (double) ((float) this.random.nextGaussian());
+                                double d10 = this.random.nextDouble() + (double) (f * (float) this.random.nextGaussian()) * 0.001D;
+                                double d11 = (double) ((float) l1 + 0.5F) - entity.posX;
+                                double d12 = (double) ((float) k1 + 0.5F) - entity.posZ;
+                                float f6 = MathHelper.sqrt_double(d11 * d11 + d12 * d12) / (float) i1;
                                 float f4 = ((1.0F - f6 * f6) * 0.3F + 0.5F) * f5;
                                 blockpos$mutableblockpos.func_181079_c(l1, i3, k1);
                                 int i4 = (world.getCombinedLight(blockpos$mutableblockpos, 0) * 3 + 15728880) / 4;
                                 int j4 = i4 >> 16 & 65535;
                                 int k4 = i4 & 65535;
-                                worldrenderer.func_181662_b((double)l1 - d3 + 0.5D, (double)k2, (double)k1 - d4 + 0.5D).func_181673_a(0.0D + d9, (double)k2 * 0.25D + d8 + d10).func_181666_a(1.0F, 1.0F, 1.0F, f4).func_181671_a(j4, k4).func_181675_d();
-                                worldrenderer.func_181662_b((double)l1 + d3 + 0.5D, (double)k2, (double)k1 + d4 + 0.5D).func_181673_a(1.0D + d9, (double)k2 * 0.25D + d8 + d10).func_181666_a(1.0F, 1.0F, 1.0F, f4).func_181671_a(j4, k4).func_181675_d();
-                                worldrenderer.func_181662_b((double)l1 + d3 + 0.5D, (double)l2, (double)k1 + d4 + 0.5D).func_181673_a(1.0D + d9, (double)l2 * 0.25D + d8 + d10).func_181666_a(1.0F, 1.0F, 1.0F, f4).func_181671_a(j4, k4).func_181675_d();
-                                worldrenderer.func_181662_b((double)l1 - d3 + 0.5D, (double)l2, (double)k1 - d4 + 0.5D).func_181673_a(0.0D + d9, (double)l2 * 0.25D + d8 + d10).func_181666_a(1.0F, 1.0F, 1.0F, f4).func_181671_a(j4, k4).func_181675_d();
+                                worldrenderer.pos((double) l1 - d3 + 0.5D, (double) k2, (double) k1 - d4 + 0.5D).tex(0.0D + d9, (double) k2 * 0.25D + d8 + d10).color(1.0F, 1.0F, 1.0F, f4).lightmap(j4, k4).endVertex();
+                                worldrenderer.pos((double) l1 + d3 + 0.5D, (double) k2, (double) k1 + d4 + 0.5D).tex(1.0D + d9, (double) k2 * 0.25D + d8 + d10).color(1.0F, 1.0F, 1.0F, f4).lightmap(j4, k4).endVertex();
+                                worldrenderer.pos((double) l1 + d3 + 0.5D, (double) l2, (double) k1 + d4 + 0.5D).tex(1.0D + d9, (double) l2 * 0.25D + d8 + d10).color(1.0F, 1.0F, 1.0F, f4).lightmap(j4, k4).endVertex();
+                                worldrenderer.pos((double) l1 - d3 + 0.5D, (double) l2, (double) k1 - d4 + 0.5D).tex(0.0D + d9, (double) l2 * 0.25D + d8 + d10).color(1.0F, 1.0F, 1.0F, f4).lightmap(j4, k4).endVertex();
                             }
                         }
                     }
