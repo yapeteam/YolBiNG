@@ -35,7 +35,7 @@ public class ValueButton extends AbstractComponent {
 
     @Override
     public void update() {
-        if (!((ModuleButton) getParent()).isExtended()) sliderAnimeWidth = 0;
+        if (!((ModuleButton) getParent()).isExtended() || !value.getVisibility().get()) sliderAnimeWidth = 0;
         super.update();
     }
 
