@@ -15,6 +15,7 @@ public class FontManager {
             productSans23,
             productSansTitle,
             comfortaa,
+            FLUXICON14,
             PingFang12,
             PingFang14,
             PingFang16,
@@ -33,6 +34,12 @@ public class FontManager {
         PingFang16 = getUnicode("PingFang_Normal", 16);
         PingFang18 = getUnicode("PingFang_Normal", 18);
         PingFangBold18 = getUnicode("PingFang_Bold", 18);
+        FLUXICON14 = new VestigeFontRenderer(getFontFromTTF("fluxicon", 14, Font.PLAIN), true, true);
+        /*PingFang12 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Normal", 12, Font.PLAIN)), 12);
+        PingFang14 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Normal", 14, Font.PLAIN)), 14);
+        PingFang16 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Normal", 16, Font.PLAIN)), 16);
+        PingFang18 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Normal", 18, Font.PLAIN)), 18);
+        PingFangBold18 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Bold", 18, Font.PLAIN)), 18);*/
     }
 
     public UnicodeFontRenderer getUnicode(String name, int size) {

@@ -12,7 +12,6 @@ import java.util.Arrays;
 
 @Getter
 public abstract class Module implements IMinecraft {
-
     private final String name;
     private final ModuleCategory category;
 

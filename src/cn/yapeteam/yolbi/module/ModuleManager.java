@@ -1,18 +1,23 @@
 package cn.yapeteam.yolbi.module;
 
 import cn.yapeteam.yolbi.module.impl.combat.*;
-import cn.yapeteam.yolbi.module.impl.exploit.*;
-import cn.yapeteam.yolbi.module.impl.misc.*;
+import cn.yapeteam.yolbi.module.impl.exploit.Disabler;
+import cn.yapeteam.yolbi.module.impl.exploit.StrafeConverter;
+import cn.yapeteam.yolbi.module.impl.misc.AnticheatModule;
+import cn.yapeteam.yolbi.module.impl.misc.Autoplay;
+import cn.yapeteam.yolbi.module.impl.misc.SelfDestruct;
 import cn.yapeteam.yolbi.module.impl.movement.*;
 import cn.yapeteam.yolbi.module.impl.player.*;
 import cn.yapeteam.yolbi.module.impl.visual.*;
-import cn.yapeteam.yolbi.module.impl.world.*;
+import cn.yapeteam.yolbi.module.impl.world.AutoBridge;
+import cn.yapeteam.yolbi.module.impl.world.Breaker;
+import cn.yapeteam.yolbi.module.impl.world.Scaffold;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unchecked")
 public class ModuleManager {
 
     public final List<Module> modules = new ArrayList<>();
@@ -60,7 +65,8 @@ public class ModuleManager {
         modules.add(new ModuleList());
         modules.add(new IngameInfo());
         modules.add(new ClientTheme());
-        modules.add(new ClickGuiModule());
+        //modules.add(new ClickGuiModule());
+        modules.add(new ClickUI());
         modules.add(new ESP());
         modules.add(new Chams());
         modules.add(new Animations());
@@ -84,33 +90,18 @@ public class ModuleManager {
     }
 
     public <T extends Module> T getModule(Class<T> clazz) {
-        Optional<Module> module = modules.stream().filter(m -> m.getClass().equals(clazz)).findFirst();
-
-        if (module.isPresent()) {
-            return (T) module.get();
-        } else {
-            return null;
-        }
+        return (T) modules.stream().filter(m -> m.getClass().equals(clazz)).findFirst().orElse(null);
     }
 
     public <T extends Module> T getModuleByName(String name) {
-        Optional<Module> module = modules.stream().filter(m -> m.getName().equalsIgnoreCase(name)).findFirst();
-
-        if (module.isPresent()) {
-            return (T) module.get();
-        }
-
-        return null;
+        return (T) modules.stream().filter(m -> m.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
     public <T extends Module> T getModuleByNameNoSpace(String name) {
-        Optional<Module> module = modules.stream().filter(m -> m.getName().replace(" ", "").equalsIgnoreCase(name)).findFirst();
-
-        if (module.isPresent()) {
-            return (T) module.get();
-        }
-
-        return null;
+        return (T) modules.stream().filter(m -> m.getName().replace(" ", "").equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
+    public List<Module> getModulesByCategory(ModuleCategory category) {
+        return modules.stream().filter(m -> m.getCategory() == category).collect(Collectors.toList());
+    }
 }
