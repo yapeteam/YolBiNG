@@ -5,6 +5,8 @@ import java.awt.*;
 public interface AbstractFontRenderer {
     float getStringWidth(String text);
 
+    float getStringHeight(String s);
+
     float drawStringWithShadow(String name, float x, float y, int color);
 
     void drawStringWithShadow(String name, float x, float y, Color color);
@@ -21,5 +23,5 @@ public interface AbstractFontRenderer {
 
     float drawString(String name, float x, float y, int color);
 
-    int getHeight();
+    float getHeight();
 }

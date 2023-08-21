@@ -411,7 +411,7 @@ public class ModuleList extends HUDModule {
         return mc.fontRendererObj.getStringWidth(s);
     }
 
-    public int getFontHeight() {
+    public float getFontHeight() {
         switch (mode.getValue()) {
             case "Simple":
                 return mc.fontRendererObj.FONT_HEIGHT;

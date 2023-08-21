@@ -1,6 +1,7 @@
 package net.minecraft.client.gui;
 
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
+import cn.yapeteam.yolbi.font.HeightUtil;
 import cn.yapeteam.yolbi.font.unicode.IBFFontRenderer;
 import cn.yapeteam.yolbi.font.unicode.StringCache;
 import com.ibm.icu.text.ArabicShaping;
@@ -31,11 +32,11 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.*;
 
-@SuppressWarnings({"UnnecessaryUnicodeEscape", "unused", "UnusedReturnValue", "SameParameterValue"})
+@SuppressWarnings({"UnnecessaryUnicodeEscape", "unused", "UnusedReturnValue", "SameParameterValue", "DuplicatedCode"})
 public class FontRenderer implements IResourceManagerReloadListener, IBFFontRenderer, AbstractFontRenderer {
     private static final ResourceLocation[] unicodePageLocations = new ResourceLocation[256];
     private final int[] charWidth = new int[256];
-    public int FONT_HEIGHT = 9;
+    public float FONT_HEIGHT = 9;
     public Random fontRandom = new Random();
     private final byte[] glyphWidth = new byte[65536];
     private final int[] colorCode = new int[32];
@@ -368,8 +369,14 @@ public class FontRenderer implements IResourceManagerReloadListener, IBFFontRend
     }
 
     @Override
-    public int getHeight() {
+    public float getHeight() {
         return FONT_HEIGHT;
+    }
+
+
+    @Override
+    public float getStringHeight(String s) {
+        return HeightUtil.getHeight(s, FONT_HEIGHT);
     }
 
     public int drawCenteredString(String text, float x, float y, int color, boolean dropShadow) {
@@ -699,7 +706,7 @@ public class FontRenderer implements IResourceManagerReloadListener, IBFFontRend
         }
     }
 
-    public int splitStringWidth(String str, int maxLength) {
+    public float splitStringWidth(String str, int maxLength) {
         return this.FONT_HEIGHT * this.listFormattedStringToWidth(str, maxLength).size();
     }
 

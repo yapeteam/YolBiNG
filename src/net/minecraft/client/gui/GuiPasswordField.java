@@ -592,7 +592,7 @@ public class GuiPasswordField extends Gui
             if (k != j)
             {
                 int l1 = l +(int) this.fontRendererInstance.getStringWidth(s.substring(0, k));
-                this.drawCursorVertical(k1, i1 - 1, l1 - 1, i1 + 1 + this.fontRendererInstance.FONT_HEIGHT);
+                this.drawCursorVertical(k1, i1 - 1, l1 - 1, (int) (i1 + 1 + this.fontRendererInstance.FONT_HEIGHT));
             }
         }
     }

@@ -66,7 +66,7 @@ public class FontUtil implements IMinecraft {
         }
     }
 
-    public static int getFontHeight(String font) {
+    public static float getFontHeight(String font) {
         switch (font) {
             case "Product sans":
                 return productSans.getHeight();

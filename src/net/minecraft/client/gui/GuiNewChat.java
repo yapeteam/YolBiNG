@@ -1,8 +1,6 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
-import java.util.Iterator;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +9,9 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class GuiNewChat extends Gui
 {
@@ -92,7 +93,7 @@ public class GuiNewChat extends Gui
 
                 if (flag)
                 {
-                    int k2 = this.mc.fontRendererObj.FONT_HEIGHT;
+                    int k2 = (int) this.mc.fontRendererObj.FONT_HEIGHT;
                     GlStateManager.translate(-3.0F, 0.0F, 0.0F);
                     int l2 = k * k2 + k;
                     int i3 = j * k2 + j;
@@ -257,7 +258,7 @@ public class GuiNewChat extends Gui
 
                 if (j <= MathHelper.floor_float((float)this.getChatWidth() / this.getChatScale()) && k < this.mc.fontRendererObj.FONT_HEIGHT * l + l)
                 {
-                    int i1 = k / this.mc.fontRendererObj.FONT_HEIGHT + this.scrollPos;
+                    int i1 = (int) (k / this.mc.fontRendererObj.FONT_HEIGHT + this.scrollPos);
 
                     if (i1 >= 0 && i1 < this.field_146253_i.size())
                     {

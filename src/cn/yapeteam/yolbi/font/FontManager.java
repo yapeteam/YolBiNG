@@ -1,7 +1,6 @@
 package cn.yapeteam.yolbi.font;
 
 import cn.yapeteam.yolbi.font.cfont.VestigeFontRenderer;
-import cn.yapeteam.yolbi.font.fast.CFontRenderer;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -36,10 +35,10 @@ public class FontManager {
         PingFang18 = getUnicode("PingFang_Normal", 18);
         PingFangBold18 = getUnicode("PingFang_Bold", 18);*/
         PingFang12 = new FontRenderer(getFontFromTTF("PingFang_Normal", 12, Font.PLAIN), 12, true);
-        PingFang14 = new CFontRenderer(getFontFromTTF("PingFang_Normal", 14, Font.PLAIN));
-        PingFang16 = new CFontRenderer(getFontFromTTF("PingFang_Normal", 16, Font.PLAIN));
-        PingFang18 = new CFontRenderer(getFontFromTTF("PingFang_Normal", 18, Font.PLAIN));
-        PingFangBold18 = new CFontRenderer(getFontFromTTF("PingFang_Bold", 18, Font.PLAIN));
+        PingFang14 = new FontRenderer(getFontFromTTF("PingFang_Normal", 14, Font.PLAIN), 14, true);
+        PingFang16 = new FontRenderer(getFontFromTTF("PingFang_Normal", 16, Font.PLAIN), 14, true);
+        PingFang18 = new FontRenderer(getFontFromTTF("PingFang_Normal", 18, Font.PLAIN), 14, true);
+        PingFangBold18 = new FontRenderer(getFontFromTTF("PingFang_Bold", 18, Font.PLAIN), 14, true);
         FLUXICON14 = new VestigeFontRenderer(getFontFromTTF("fluxicon", 14, Font.PLAIN), true, true);
         /*PingFang12 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Normal", 12, Font.PLAIN)), 12);
         PingFang14 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Normal", 14, Font.PLAIN)), 14);
