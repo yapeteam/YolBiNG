@@ -38,7 +38,7 @@ public class FontManager {
         PingFang14 = new FontRenderer(getFontFromTTF("PingFang_Normal", 14, Font.PLAIN), 14, true);
         PingFang16 = new FontRenderer(getFontFromTTF("PingFang_Normal", 16, Font.PLAIN), 14, true);
         PingFang18 = new FontRenderer(getFontFromTTF("PingFang_Normal", 18, Font.PLAIN), 14, true);
-        PingFangBold18 = new FontRenderer(getFontFromTTF("PingFang_Bold", 18, Font.PLAIN), 14, true);
+        PingFangBold18 = new FontRenderer(getFontFromTTF("PingFang_Bold", 18, Font.PLAIN), 18, true);
         FLUXICON14 = new VestigeFontRenderer(getFontFromTTF("fluxicon", 14, Font.PLAIN), true, true);
         /*PingFang12 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Normal", 12, Font.PLAIN)), 12);
         PingFang14 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Normal", 14, Font.PLAIN)), 14);
