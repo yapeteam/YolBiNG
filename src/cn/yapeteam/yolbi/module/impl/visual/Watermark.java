@@ -53,8 +53,6 @@ public class Watermark extends HUDModule {
                 renderSimple();
                 break;
         }
-
-        Vestige.instance.getFontManager().getPingFang18().drawStringWithShadow("测试", 2, 2, -1);
     }
 
     private void renderNew() {

@@ -102,7 +102,7 @@ public class ModuleButton extends AbstractComponent {
                 GlStateManager.translate(tx, ty, 0.0f);
                 GlStateManager.rotate(90, 0.0f, 0.0f, 1.0f);
                 GlStateManager.translate(-tx, -ty, 0.0f);
-                icon.drawString("g", x, getY() + (getHeight() - icon.getHeight()) / 2f + 1, ImplScreen.rainbow && module.isEnabled() ? Theme.MainTheme[4].getRGB() : -1);
+                icon.drawString("g", x, getY() + (getHeight() - icon.getHeight()) / 2f, ImplScreen.rainbow && module.isEnabled() ? Theme.MainTheme[4].getRGB() : -1);
                 GlStateManager.popMatrix();
             }
         }
