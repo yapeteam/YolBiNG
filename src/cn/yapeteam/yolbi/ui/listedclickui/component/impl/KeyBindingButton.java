@@ -52,7 +52,7 @@ public class KeyBindingButton extends AbstractComponent {
         }
         Color rainbow = ColorUtil.rainbow(10, (all - 1 - index) * 10, 1, 1, 1);
         String text = keyBinding ? "Listening..." : EnumChatFormatting.WHITE + "Bind: " + EnumChatFormatting.RESET + Keyboard.getKeyName(module.getKey());
-        font.drawString(text, getX() + (getWidth() - font.getStringWidth(text)) / 2f, getY() + (getHeight() - font.getHeight()) / 2f, ImplScreen.rainbow ? rainbow.getRGB() : -1);
+        font.drawString(text, getX() + (getWidth() - font.getStringWidth(text)) / 2f, getY() + (getHeight() - font.getHeight()) / 2f + 2, ImplScreen.rainbow ? rainbow.getRGB() : -1);
     }
 
     @Override
