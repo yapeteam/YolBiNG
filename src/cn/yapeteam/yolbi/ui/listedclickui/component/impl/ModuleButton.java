@@ -57,6 +57,8 @@ public class ModuleButton extends AbstractComponent {
         super.init();
     }
 
+    private float cacheExpand;
+
     @Override
     public void update() {
         extend = 0;
@@ -68,6 +70,16 @@ public class ModuleButton extends AbstractComponent {
                 y += component.getHeight() + ImplScreen.valueSpacing;
             if (extended && !(component instanceof ValueButton && !((ValueButton) component).getValue().getVisibility().get()))
                 extend += component.getHeight() + ImplScreen.valueSpacing;
+        }
+
+        int extend = 0;
+        for (AbstractComponent component : getChildComponents())
+            if (!(component instanceof ValueButton && !((ValueButton) component).getValue().getVisibility().get()))
+                extend += component.getHeight() + ImplScreen.valueSpacing;
+        if (cacheExpand != extend) {
+            if (extended)
+                getParent().setHeight(getParent().getHeight() + (extend - cacheExpand));
+            cacheExpand = extend;
         }
         super.update();
     }
@@ -119,11 +131,12 @@ public class ModuleButton extends AbstractComponent {
             if (isHovering(getX(), getY(), getWidth(), getHeight(), mouseX, mouseY)) {
                 if (mouseButton == 0) module.setEnabled(!module.isEnabled());
                 if (mouseButton == 1 && getChildComponents().size() >= 1) {
-                    int expand = 0;
+                    int extend = 0;
                     for (AbstractComponent component : getChildComponents())
                         if (!(component instanceof ValueButton && !((ValueButton) component).getValue().getVisibility().get()))
-                            expand += component.getHeight() + ImplScreen.valueSpacing;
-                    getParent().setHeight(getParent().getHeight() + (!extended ? 1 : -1) * Math.min(expand, 100));
+                            extend += component.getHeight() + ImplScreen.valueSpacing;
+                    cacheExpand = (!extended ? 1 : -1) * Math.min(extend, 100);
+                    getParent().setHeight(getParent().getHeight() + (!extended ? 1 : -1) * Math.min(extend, 100));
                     extended = !extended;
                 }
             }
