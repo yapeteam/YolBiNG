@@ -5,7 +5,6 @@ import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.realms.RealmsBridge;
 import cn.yapeteam.yolbi.Vestige;
 
 public class GuiIngameMenu extends GuiScreen
@@ -52,7 +51,6 @@ public class GuiIngameMenu extends GuiScreen
 
             case 1:
                 boolean flag = this.mc.isIntegratedServerRunning();
-                boolean flag1 = this.mc.func_181540_al();
                 button.enabled = false;
                 this.mc.theWorld.sendQuittingDisconnectingPacket();
                 this.mc.loadWorld((WorldClient)null);
@@ -60,11 +58,6 @@ public class GuiIngameMenu extends GuiScreen
                 if (flag)
                 {
                     this.mc.displayGuiScreen(Vestige.instance.getMainMenu());
-                }
-                else if (flag1)
-                {
-                    RealmsBridge realmsbridge = new RealmsBridge();
-                    realmsbridge.switchToRealms(Vestige.instance.getMainMenu());
                 }
                 else
                 {
