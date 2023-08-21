@@ -1,13 +1,16 @@
 package cn.yapeteam.yolbi.module.impl.world;
 
+import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.JumpEvent;
 import cn.yapeteam.yolbi.event.impl.MotionEvent;
 import cn.yapeteam.yolbi.event.impl.StrafeEvent;
 import cn.yapeteam.yolbi.event.impl.TickEvent;
-import cn.yapeteam.yolbi.values.impl.BooleanValue;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
+import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.util.player.FixedRotations;
 import cn.yapeteam.yolbi.util.player.RotationsUtil;
+import cn.yapeteam.yolbi.values.impl.BooleanValue;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockBed;
@@ -17,9 +20,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import org.lwjgl.input.Mouse;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.module.Module;
 
 public class Breaker extends Module {
 
@@ -57,18 +57,20 @@ public class Breaker extends Module {
 
         boolean found = false;
 
+        if (rotations == null) return;
+
         float yaw = rotations.getYaw();
         float pitch = rotations.getPitch();
 
-        for(double x = mc.thePlayer.posX - range.getValue(); x <= mc.thePlayer.posX + range.getValue(); x++) {
-            for(double y = mc.thePlayer.posY + mc.thePlayer.getEyeHeight() - range.getValue(); y <= mc.thePlayer.posY + mc.thePlayer.getEyeHeight() + range.getValue(); y++) {
-                for(double z = mc.thePlayer.posZ - range.getValue(); z <= mc.thePlayer.posZ + range.getValue(); z++) {
+        for (double x = mc.thePlayer.posX - range.getValue(); x <= mc.thePlayer.posX + range.getValue(); x++) {
+            for (double y = mc.thePlayer.posY + mc.thePlayer.getEyeHeight() - range.getValue(); y <= mc.thePlayer.posY + mc.thePlayer.getEyeHeight() + range.getValue(); y++) {
+                for (double z = mc.thePlayer.posZ - range.getValue(); z <= mc.thePlayer.posZ + range.getValue(); z++) {
                     BlockPos pos = new BlockPos(x, y, z);
 
-                    if(mc.theWorld.getBlockState(pos).getBlock() instanceof BlockBed && !found) {
+                    if (mc.theWorld.getBlockState(pos).getBlock() instanceof BlockBed && !found) {
                         bedPos = pos;
 
-                        if(hypixel.getValue() && isBlockOver(bedPos)) {
+                        if (hypixel.getValue() && isBlockOver(bedPos)) {
                             BlockPos posOver = pos.add(0, 1, 0);
 
                             mc.objectMouseOver = new MovingObjectPosition(new Vec3(posOver.getX() + 0.5, posOver.getY() + 1, posOver.getZ() + 0.5), EnumFacing.UP, posOver);
@@ -96,7 +98,7 @@ public class Breaker extends Module {
             }
         }
 
-        if(!found) {
+        if (!found) {
             mc.gameSettings.keyBindAttack.pressed = Mouse.isButtonDown(0);
         }
 
@@ -117,21 +119,21 @@ public class Breaker extends Module {
 
     @Listener
     public void onStrafe(StrafeEvent event) {
-        if(bedPos != null && rotate.getValue() && moveFix.getValue()) {
+        if (bedPos != null && rotate.getValue() && moveFix.getValue()) {
             event.setYaw(rotations.getYaw());
         }
     }
 
     @Listener
     public void onJump(JumpEvent event) {
-        if(bedPos != null && rotate.getValue() && moveFix.getValue()) {
+        if (bedPos != null && rotate.getValue() && moveFix.getValue()) {
             event.setYaw(rotations.getYaw());
         }
     }
 
     @Listener
     public void onMotion(MotionEvent event) {
-        if(bedPos != null && rotate.getValue()) {
+        if (bedPos != null && rotate.getValue()) {
             event.setYaw(rotations.getYaw());
             event.setPitch(rotations.getPitch());
         }

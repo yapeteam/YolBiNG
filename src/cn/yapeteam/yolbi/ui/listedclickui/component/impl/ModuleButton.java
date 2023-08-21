@@ -74,7 +74,6 @@ public class ModuleButton extends AbstractComponent {
 
         int extend = 0;
         for (AbstractComponent component : getChildComponents())
-            if (!(component instanceof ValueButton && !((ValueButton) component).getValue().getVisibility().get()))
                 extend += component.getHeight() + ImplScreen.valueSpacing;
         if (cacheExpand != extend) {
             if (extended)
@@ -135,7 +134,6 @@ public class ModuleButton extends AbstractComponent {
                     for (AbstractComponent component : getChildComponents())
                         if (!(component instanceof ValueButton && !((ValueButton) component).getValue().getVisibility().get()))
                             extend += component.getHeight() + ImplScreen.valueSpacing;
-                    cacheExpand = (!extended ? 1 : -1) * Math.min(extend, 100);
                     getParent().setHeight(getParent().getHeight() + (!extended ? 1 : -1) * Math.min(extend, 100));
                     extended = !extended;
                 }
