@@ -19,11 +19,11 @@ public class Tickbase extends Module {
     private int counter = -1;
     public boolean freezing;
 
-    private final NumberValue ticks = new NumberValue("Ticks", 3, 1, 10, 1);
+    private final NumberValue<Integer> ticks = new NumberValue<>("Ticks", 3, 1, 10, 1);
 
     public Tickbase() {
         super("Tickbase", ModuleCategory.COMBAT);
-        this.addSettings(ticks);
+        this.addValues(ticks);
         tickbase=this;
     }
 

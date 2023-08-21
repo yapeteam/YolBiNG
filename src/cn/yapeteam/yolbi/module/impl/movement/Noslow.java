@@ -22,13 +22,13 @@ import org.lwjgl.input.Mouse;
 
 public class Noslow extends Module {
 
-    private final ModeValue swordMethod = new ModeValue("Sword method", "Vanilla", "Vanilla", "NCP", "AAC4", "AAC5", "Spoof", "Spoof2", "Blink", "None");
-    private final ModeValue consumableMethod = new ModeValue("Comsumable method", "Vanilla", "Vanilla", "Hypixel", "AAC4", "AAC5", "None");
+    private final ModeValue<String> swordMethod = new ModeValue<>("Sword method", "Vanilla", "Vanilla", "NCP", "AAC4", "AAC5", "Spoof", "Spoof2", "Blink", "None");
+    private final ModeValue<String> consumableMethod = new ModeValue<>("Comsumable method", "Vanilla", "Vanilla", "Hypixel", "AAC4", "AAC5", "None");
 
-    private final NumberValue forward = new NumberValue("Forward", 1, 0.2, 1, 0.05);
-    private final NumberValue strafe = new NumberValue("Strafe", 1, 0.2, 1, 0.05);
+    private final NumberValue<Double> forward = new NumberValue<>("Forward", 1.0, 0.2, 1.0, 0.05);
+    private final NumberValue<Double> strafe = new NumberValue<>("Strafe", 1.0, 0.2, 1.0, 0.05);
 
-    private final NumberValue blinkTicks = new NumberValue("Blink ticks", () -> swordMethod.is("Blink"), 5, 2, 10, 1);
+    private final NumberValue<Integer> blinkTicks = new NumberValue<>("Blink ticks", () -> swordMethod.is("Blink"), 5, 2, 10, 1);
 
     public final BooleanValue allowSprinting = new BooleanValue("Allow sprinting", true);
 
@@ -78,7 +78,7 @@ public class Noslow extends Module {
                         }
                         break;
                     case "AAC5":
-                        if(lastUsingItem) {
+                        if (lastUsingItem) {
                             PacketUtil.sendBlocking(true, false);
                         }
                         break;
@@ -88,7 +88,7 @@ public class Noslow extends Module {
                         PacketUtil.sendPacket(new C09PacketHeldItemChange(slot < 8 ? slot + 1 : 0));
                         PacketUtil.sendPacket(new C09PacketHeldItemChange(slot));
 
-                        if(lastUsingItem) {
+                        if (lastUsingItem) {
                             PacketUtil.sendBlocking(true, false);
                         }
                         break;
@@ -99,7 +99,7 @@ public class Noslow extends Module {
             } else {
                 switch (consumableMethod.getValue()) {
                     case "AAC4":
-                        if(lastUsingItem) {
+                        if (lastUsingItem) {
                             int slot = mc.thePlayer.inventory.currentItem;
 
                             PacketUtil.sendPacket(new C09PacketHeldItemChange(slot < 8 ? slot + 1 : 0));
@@ -107,7 +107,7 @@ public class Noslow extends Module {
                         }
                         break;
                     case "AAC5":
-                        if(lastUsingItem) {
+                        if (lastUsingItem) {
                             PacketUtil.sendBlocking(true, false);
                         }
                         break;
@@ -115,18 +115,18 @@ public class Noslow extends Module {
             }
         }
 
-        if(swordMethod.is("Blink")) {
-            if(isHoldingSword() && pressingUseItem()) {
-                if(ticks == 1) {
+        if (swordMethod.is("Blink")) {
+            if (isHoldingSword() && pressingUseItem()) {
+                if (ticks == 1) {
                     Vestige.instance.getPacketBlinkHandler().releaseAll();
                     Vestige.instance.getPacketBlinkHandler().startBlinkingAll();
                 }
 
-                if(ticks > 0 && ticks < blinkTicks.getValue()) {
+                if (ticks > 0 && ticks < blinkTicks.getValue()) {
                     mc.gameSettings.keyBindUseItem.pressed = false;
                 }
 
-                if(ticks == blinkTicks.getValue()) {
+                if (ticks == blinkTicks.getValue()) {
                     Vestige.instance.getPacketBlinkHandler().stopAll();
 
                     mc.gameSettings.keyBindUseItem.pressed = true;
@@ -142,8 +142,8 @@ public class Noslow extends Module {
             }
         }
 
-        if(consumableMethod.is("Hypixel")) {
-            if(wasEating && mc.thePlayer.isUsingItem()) {
+        if (consumableMethod.is("Hypixel")) {
+            if (wasEating && mc.thePlayer.isUsingItem()) {
                 Vestige.instance.getPacketBlinkHandler().startBlinkingAll();
                 mc.gameSettings.keyBindUseItem.pressed = false;
                 ticks = 32;
@@ -154,18 +154,18 @@ public class Noslow extends Module {
                 Vestige.instance.getSlotSpoofHandler().startSpoofing(lastSlot);
             }
 
-            if(ticks == 31) {
+            if (ticks == 31) {
                 mc.thePlayer.inventory.currentItem = lastSlot;
                 Vestige.instance.getSlotSpoofHandler().stopSpoofing();
             }
 
-            if(ticks > 1) {
+            if (ticks > 1) {
                 mc.gameSettings.keyBindUseItem.pressed = false;
 
-                if(!Mouse.isButtonDown(1)) {
+                if (!Mouse.isButtonDown(1)) {
                     ticks = 2;
                 }
-            } else if(ticks == 1) {
+            } else if (ticks == 1) {
                 Vestige.instance.getPacketBlinkHandler().stopAll();
                 LogUtil.addChatMessage("Stopped eating");
             }
@@ -192,10 +192,6 @@ public class Noslow extends Module {
                         }
                         break;
                 }
-            } else {
-                switch (consumableMethod.getValue()) {
-
-                }
             }
         }
 
@@ -206,22 +202,20 @@ public class Noslow extends Module {
 
     @Listener
     public void onSlowdown(SlowdownEvent event) {
-        if((isBlocking() && swordMethod.is("None")) || (!isBlocking() && consumableMethod.is("None"))) {
-
-        } else {
-            event.setForward((float) forward.getValue());
-            event.setStrafe((float) strafe.getValue());
+        if (!((isBlocking() && swordMethod.is("None")) || (!isBlocking() && consumableMethod.is("None")))) {
+            event.setForward(forward.getValue().floatValue());
+            event.setStrafe(strafe.getValue().floatValue());
             event.setAllowedSprinting(allowSprinting.getValue());
         }
     }
 
     @Listener
     public void onSend(PacketSendEvent event) {
-        if(event.getPacket() instanceof C07PacketPlayerDigging) {
+        if (event.getPacket() instanceof C07PacketPlayerDigging) {
             C07PacketPlayerDigging packet = event.getPacket();
 
-            if(packet.getStatus() == C07PacketPlayerDigging.Action.RELEASE_USE_ITEM) {
-                if(isHoldingSword() && swordMethod.is("Spoof")) {
+            if (packet.getStatus() == C07PacketPlayerDigging.Action.RELEASE_USE_ITEM) {
+                if (isHoldingSword() && swordMethod.is("Spoof")) {
                     event.setCancelled(true);
 
                     int slot = mc.thePlayer.inventory.currentItem;
@@ -232,14 +226,14 @@ public class Noslow extends Module {
             }
         }
     }
-    
+
     @Listener
     public void onItemRender(ItemRenderEvent event) {
-        if(isHoldingSword() && pressingUseItem() && swordMethod.is("Blink")) {
+        if (isHoldingSword() && pressingUseItem() && swordMethod.is("Blink")) {
             event.setRenderBlocking(true);
         }
 
-        if(consumableMethod.is("Hypixel") && ticks > 1) {
+        if (consumableMethod.is("Hypixel") && ticks > 1) {
             event.setRenderBlocking(true);
         }
     }

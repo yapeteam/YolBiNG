@@ -45,8 +45,8 @@ public class ModuleManager {
 
         modules.add(new ChestStealer());
         modules.add(new InventoryManager());
-        modules.add(new Nofall());
-        modules.add(new Antivoid());
+        modules.add(new NoFall());
+        modules.add(new AntiVoid());
         modules.add(new Timer());
         modules.add(new FastPlace());
         modules.add(new AutoTool());

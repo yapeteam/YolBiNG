@@ -10,8 +10,8 @@ public class Reach extends Module {
         return Ireach;
     }
 
-    public final NumberValue startingReach = new NumberValue("Starting reach", 3.5, 3, 6, 0.05);
-    public final NumberValue reach = new NumberValue("Reach", 3.5, 3, 6, 0.05);
+    public final NumberValue<Double> startingReach = new NumberValue<>("Starting reach", 3.5, 3.0, 6.0, 0.05);
+    public final NumberValue<Double> reach = new NumberValue<>("Reach", 3.5, 3.0, 6.0, 0.05);
 
     public Reach() {
         super("Reach", ModuleCategory.COMBAT);

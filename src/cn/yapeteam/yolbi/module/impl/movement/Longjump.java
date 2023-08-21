@@ -16,18 +16,18 @@ import org.lwjgl.input.Keyboard;
 
 public class Longjump extends Module {
 
-    public final ModeValue mode = new ModeValue("Mode", "Vanilla", "Vanilla", "Hycraft", "Self damage");
+    public final ModeValue<String>  mode = new ModeValue<>("Mode", "Vanilla", "Vanilla", "Hycraft", "Self damage");
 
-    private final NumberValue motionY = new NumberValue("Motion Y", () -> mode.is("Vanilla"), 0.4, 0.1, 9, 0.1);
-    private final NumberValue speed = new NumberValue("Speed", () -> mode.is("Vanilla"), 1, 0.1, 9, 0.1);
+    private final NumberValue<Double> motionY = new NumberValue<>("Motion Y", () -> mode.is("Vanilla"), 0.4, 0.1, 9.0, 0.1);
+    private final NumberValue<Double> speed = new NumberValue<>("Speed", () -> mode.is("Vanilla"), 1.0, 0.1, 9.0, 0.1);
 
     private final BooleanValue stopMovement = new BooleanValue("Stop movement", () -> mode.is("Self damage"), false);
-    private final NumberValue waitingTicks = new NumberValue("Waiting ticks", () -> mode.is("Self damage"), 10, 4, 20, 1);
-    private final ModeValue horizontalMove = new ModeValue("Horizontal move", () -> mode.is("Self damage"), "Ignore", "Legit", "Ignore", "Boost", "Verus");
+    private final NumberValue<Integer> waitingTicks = new NumberValue<>("Waiting ticks", () -> mode.is("Self damage"), 10, 4, 20, 1);
+    private final ModeValue<String>  horizontalMove = new ModeValue<>("Horizontal move", () -> mode.is("Self damage"), "Ignore", "Legit", "Ignore", "Boost", "Verus");
 
-    private final NumberValue horizontalBoostAmount = new NumberValue("Horizontal boost amount", () -> mode.is("Self damage") && horizontalMove.is("Boost"), 0.2, 0.02, 1, 0.02);
+    private final NumberValue<Double> horizontalBoostAmount = new NumberValue<>("Horizontal boost amount", () -> mode.is("Self damage") && horizontalMove.is("Boost"), 0.2, 0.02, 1.0, 0.02);
 
-    private final NumberValue afterVelocityYBoost = new NumberValue("After velocity Y boost", () -> mode.is("Self damage"), 0, 0, 0.08, 0.002);
+    private final NumberValue<Double> afterVelocityYBoost = new NumberValue<>("After velocity Y boost", () -> mode.is("Self damage"), 0.0, 0.0, 0.08, 0.002);
 
     private boolean started;
     private int counter, ticks;

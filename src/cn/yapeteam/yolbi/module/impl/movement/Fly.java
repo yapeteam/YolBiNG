@@ -25,20 +25,19 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 
 public class Fly extends Module {
+    private final ModeValue<String>  mode = new ModeValue<>("Mode", "Vanilla", "Vanilla", "Collision", "NCP", "Blocksmc", "Velocity");
 
-    private final ModeValue mode = new ModeValue("Mode", "Vanilla", "Vanilla", "Collision", "NCP", "Blocksmc", "Velocity");
+    private final ModeValue<String>  vanillaMode = new ModeValue<>("Vanilla Mode", () -> mode.is("Vanilla"), "Motion", "Motion", "Creative");
+    private final NumberValue<Double> vanillaSpeed = new NumberValue<>("Vanilla speed", () -> mode.is("Vanilla") && vanillaMode.is("Motion"), 2.0, 0.2, 9.0, 0.2);
+    private final NumberValue<Double> vanillaVerticalSpeed = new NumberValue<>("Vanilla vertical speed", () -> mode.is("Vanilla") && vanillaMode.is("Motion"), 2.0, 0.2, 9.0, 0.2);
 
-    private final ModeValue vanillaMode = new ModeValue("Vanilla Mode", () -> mode.is("Vanilla"), "Motion", "Motion", "Creative");
-    private final NumberValue vanillaSpeed = new NumberValue("Vanilla speed", () -> mode.is("Vanilla") && vanillaMode.is("Motion"), 2, 0.2, 9, 0.2);
-    private final NumberValue vanillaVerticalSpeed = new NumberValue("Vanilla vertical speed", () -> mode.is("Vanilla") && vanillaMode.is("Motion"), 2, 0.2, 9, 0.2);
+    private final ModeValue<String>  collisionMode = new ModeValue<>("Collision mode", () -> mode.is("Collision"), "Airwalk", "Airwalk", "Airjump");
 
-    private final ModeValue collisionMode = new ModeValue("Collision mode", () -> mode.is("Collision"), "Airwalk", "Airwalk", "Airjump");
-
-    private final ModeValue ncpMode = new ModeValue("NCP Mode", () -> mode.is("NCP"), "Old", "Old");
-    private final NumberValue ncpSpeed = new NumberValue("NCP speed", () -> mode.is("NCP") && ncpMode.is("Old"), 1, 0.3, 1.7, 0.05);
+    private final ModeValue<String>  ncpMode = new ModeValue<>("NCP Mode", () -> mode.is("NCP"), "Old", "Old");
+    private final NumberValue<Double> ncpSpeed = new NumberValue<>("NCP speed", () -> mode.is("NCP") && ncpMode.is("Old"), 1.0, 0.3, 1.7, 0.05);
     private final BooleanValue damage = new BooleanValue("Damage", () -> mode.is("NCP") && ncpMode.is("Old"), false);
 
-    private final ModeValue velocityMode = new ModeValue("Velocity Mode", () -> mode.is("Velocity"), "Bow", "Bow", "Bow2", "Wait for hit");
+    private final ModeValue<String>  velocityMode = new ModeValue<>("Velocity Mode", () -> mode.is("Velocity"), "Bow", "Bow", "Bow2", "Wait for hit");
     private final BooleanValue legit = new BooleanValue("Legit", () -> mode.is("Bow") || mode.is("Bow2"), false);
 
     private final BooleanValue automated = new BooleanValue("Automated", () -> mode.is("Blocksmc"), false);
@@ -48,26 +47,18 @@ public class Fly extends Module {
     private boolean takingVelocity;
 
     private double velocityX, velocityY, velocityZ;
-    private double velocityDist;
-
-    private int ticksSinceVelocity;
 
     private int counter, ticks;
 
-    private boolean started, done;
+    private boolean started;
 
     private double lastMotionX, lastMotionY, lastMotionZ;
 
-    private boolean hasBow;
-    private int oldSlot;
-
     private boolean notMoving;
 
-    private float lastYaw, lastPitch;
+    private float lastYaw;
 
     private BlockPos lastBarrier;
-
-    private double lastY;
 
     public Fly() {
         super("Fly", ModuleCategory.MOVEMENT);
@@ -76,13 +67,10 @@ public class Fly extends Module {
 
     @Override
     public void onEnable() {
-        ticksSinceVelocity = Integer.MAX_VALUE;
 
         counter = ticks = 0;
 
-        started = done = false;
-
-        hasBow = false;
+        started = false;
 
         notMoving = false;
 
@@ -91,19 +79,16 @@ public class Fly extends Module {
         lastMotionZ = mc.thePlayer.motionZ;
 
         lastYaw = mc.thePlayer.rotationYaw;
-        lastPitch = mc.thePlayer.rotationPitch;
-
-        lastY = mc.thePlayer.posY;
 
         lastBarrier = null;
 
         switch (mode.getValue()) {
             case "NCP":
-                if(ncpMode.is("Old")) {
-                    if(mc.thePlayer.onGround) {
+                if (ncpMode.is("Old")) {
+                    if (mc.thePlayer.onGround) {
                         speed = ncpSpeed.getValue();
 
-                        if(damage.getValue()) {
+                        if (damage.getValue()) {
                             PlayerUtil.ncpDamage();
                         }
                     } else {
@@ -112,7 +97,7 @@ public class Fly extends Module {
                 }
                 break;
             case "Velocity":
-                if(mc.thePlayer.onGround) {
+                if (mc.thePlayer.onGround) {
                     mc.thePlayer.jump();
                 }
                 break;
@@ -127,12 +112,12 @@ public class Fly extends Module {
 
         switch (mode.getValue()) {
             case "Vanilla":
-                if(vanillaMode.is("Motion")) {
+                if (vanillaMode.is("Motion")) {
                     MovementUtil.strafe(0);
                 }
                 break;
             case "NCP":
-                if(ncpMode.is("Old")) {
+                if (ncpMode.is("Old")) {
                     MovementUtil.strafe(0);
                 }
                 break;
@@ -165,7 +150,7 @@ public class Fly extends Module {
                 break;
         }
 
-        if(lastBarrier != null) {
+        if (lastBarrier != null) {
             mc.theWorld.setBlockToAir(lastBarrier);
         }
 
@@ -178,7 +163,7 @@ public class Fly extends Module {
             case "Velocity":
                 switch (velocityMode.getValue()) {
                     case "Bow":
-                        if(takingVelocity) {
+                        if (takingVelocity) {
                             Vestige.instance.getPacketBlinkHandler().stopAll();
 
                             mc.thePlayer.motionY = velocityY;
@@ -186,7 +171,7 @@ public class Fly extends Module {
                             boolean sameXDir = lastMotionX > 0.01 && velocityX > 0 || lastMotionX < -0.01 && velocityX < 0;
                             boolean sameZDir = lastMotionZ > 0.01 && velocityZ > 0 || lastMotionZ < -0.01 && velocityZ < 0;
 
-                            if(sameXDir && sameZDir) {
+                            if (sameXDir && sameZDir) {
                                 mc.thePlayer.motionX = velocityX;
                                 mc.thePlayer.motionZ = velocityZ;
                             }
@@ -200,12 +185,12 @@ public class Fly extends Module {
                         mc.thePlayer.onGround = true;
                         break;
                     case "Airjump":
-                        if(mc.thePlayer.onGround && !mc.gameSettings.keyBindJump.isKeyDown()) {
+                        if (mc.thePlayer.onGround && !mc.gameSettings.keyBindJump.isKeyDown()) {
                             mc.thePlayer.jump();
                         }
 
-                        if(mc.thePlayer.fallDistance > (mc.gameSettings.keyBindJump.isKeyDown() ? 0 : 0.7)) {
-                            if(lastBarrier != null) {
+                        if (mc.thePlayer.fallDistance > (mc.gameSettings.keyBindJump.isKeyDown() ? 0 : 0.7)) {
+                            if (lastBarrier != null) {
                                 mc.theWorld.setBlockToAir(lastBarrier);
                             }
 
@@ -217,12 +202,12 @@ public class Fly extends Module {
                 }
                 break;
             case "Test":
-                if(mc.thePlayer.onGround) {
-                    if(!mc.gameSettings.keyBindJump.isKeyDown()) {
+                if (mc.thePlayer.onGround) {
+                    if (!mc.gameSettings.keyBindJump.isKeyDown()) {
                         mc.thePlayer.jump();
                     }
                 } else {
-                    if(ticks >= 2 && ticks <= 8) {
+                    if (ticks >= 2 && ticks <= 8) {
                         mc.thePlayer.motionY += 0.07;
                     }
 
@@ -240,9 +225,9 @@ public class Fly extends Module {
                     case "Motion":
                         MovementUtil.strafe(event, vanillaSpeed.getValue());
 
-                        if(mc.gameSettings.keyBindJump.isKeyDown()) {
+                        if (mc.gameSettings.keyBindJump.isKeyDown()) {
                             event.setY(vanillaVerticalSpeed.getValue());
-                        } else if(mc.gameSettings.keyBindSneak.isKeyDown()) {
+                        } else if (mc.gameSettings.keyBindSneak.isKeyDown()) {
                             event.setY(-vanillaVerticalSpeed.getValue());
                         } else {
                             event.setY(0);
@@ -256,20 +241,20 @@ public class Fly extends Module {
                 }
                 break;
             case "Collision":
-                if(collisionMode.is("Airwalk")) {
+                if (collisionMode.is("Airwalk")) {
                     event.setY(mc.thePlayer.motionY = 0);
                 }
                 break;
             case "NCP":
                 switch (ncpMode.getValue()) {
                     case "Old":
-                        if(mc.thePlayer.onGround) {
+                        if (mc.thePlayer.onGround) {
                             MovementUtil.jump(event);
                             MovementUtil.strafe(event, 0.58);
                         } else {
                             event.setY(mc.thePlayer.motionY = 1E-10);
 
-                            if(!MovementUtil.isMoving() || mc.thePlayer.isCollidedHorizontally || speed < 0.28) {
+                            if (!MovementUtil.isMoving() || mc.thePlayer.isCollidedHorizontally || speed < 0.28) {
                                 speed = 0.28;
                             }
 
@@ -283,7 +268,7 @@ public class Fly extends Module {
             case "Velocity":
                 switch (velocityMode.getValue()) {
                     case "Wait for hit":
-                        if(takingVelocity) {
+                        if (takingVelocity) {
                             event.setY(mc.thePlayer.motionY = velocityY);
 
                             event.setX(mc.thePlayer.motionX = lastMotionX);
@@ -293,7 +278,7 @@ public class Fly extends Module {
 
                             ticks = 0;
                         } else {
-                            if(event.getY() < -0.3 && !notMoving) {
+                            if (event.getY() < -0.3 && !notMoving) {
                                 lastMotionX = event.getX();
                                 lastMotionY = event.getY();
                                 lastMotionZ = event.getZ();
@@ -301,7 +286,7 @@ public class Fly extends Module {
                                 notMoving = true;
                             }
 
-                            if(notMoving) {
+                            if (notMoving) {
                                 event.setY(mc.thePlayer.motionY = 0);
                                 MovementUtil.strafe(event, 0);
                             }
@@ -310,16 +295,16 @@ public class Fly extends Module {
                         }
                         break;
                     case "Bow":
-                        for(int i = 8; i >= 0; i--) {
+                        for (int i = 8; i >= 0; i--) {
                             ItemStack stack = mc.thePlayer.inventory.getStackInSlot(i);
 
-                            if(stack != null && stack.getItem() instanceof ItemBow) {
+                            if (stack != null && stack.getItem() instanceof ItemBow) {
                                 mc.thePlayer.inventory.currentItem = i;
                                 break;
                             }
                         }
 
-                        if(takingVelocity) {
+                        if (takingVelocity) {
                             mc.timer.timerSpeed = 1F;
 
                             notMoving = false;
@@ -329,8 +314,8 @@ public class Fly extends Module {
 
                             started = true;
                         } else {
-                            if(ticks <= 3) {
-                                if(started) {
+                            if (ticks <= 3) {
+                                if (started) {
                                     mc.timer.timerSpeed = 1.5F;
                                 }
                                 mc.gameSettings.keyBindUseItem.pressed = true;
@@ -341,33 +326,33 @@ public class Fly extends Module {
                             ticks++;
                         }
 
-                        if(ticks >= 6) {
+                        if (ticks >= 6) {
                             mc.timer.timerSpeed = 0.03F;
-                        } else if(ticks == 5) {
+                        } else if (ticks == 5) {
                             mc.timer.timerSpeed = 0.1F;
                         }
 
-                        if(started && !notMoving && !takingVelocity && MovementUtil.getHorizontalMotion() > 0.07) {
+                        if (started && !notMoving && !takingVelocity && MovementUtil.getHorizontalMotion() > 0.07) {
                             //event.setY(mc.thePlayer.motionY = event.getY() + 0.01);
                         }
                         break;
                     case "Bow2":
-                        for(int i = 8; i >= 0; i--) {
+                        for (int i = 8; i >= 0; i--) {
                             ItemStack stack = mc.thePlayer.inventory.getStackInSlot(i);
 
-                            if(stack != null && stack.getItem() instanceof ItemBow) {
+                            if (stack != null && stack.getItem() instanceof ItemBow) {
                                 mc.thePlayer.inventory.currentItem = i;
                                 break;
                             }
                         }
 
-                        if(takingVelocity) {
+                        if (takingVelocity) {
                             event.setY(mc.thePlayer.motionY = velocityY);
 
                             boolean sameXDir = lastMotionX > 0 && velocityX > 0 || lastMotionX < 0 && velocityX < 0;
                             boolean sameZDir = lastMotionZ > 0 && velocityZ > 0 || lastMotionZ < 0 && velocityZ < 0;
 
-                            if(sameXDir && sameZDir) {
+                            if (sameXDir && sameZDir) {
                                 event.setX(mc.thePlayer.motionX = velocityX);
                                 event.setZ(mc.thePlayer.motionZ = velocityZ);
                             } else {
@@ -379,7 +364,7 @@ public class Fly extends Module {
 
                             ticks = 0;
                         } else {
-                            if(ticks >= 6 && !notMoving) {
+                            if (ticks >= 6 && !notMoving) {
                                 lastMotionX = event.getX();
                                 lastMotionY = event.getY();
                                 lastMotionZ = event.getZ();
@@ -387,13 +372,13 @@ public class Fly extends Module {
                                 notMoving = true;
                             }
 
-                            if(ticks >= 1 && ticks <= 6) {
+                            if (ticks >= 1 && ticks <= 6) {
                                 mc.gameSettings.keyBindUseItem.pressed = true;
                             } else {
                                 mc.gameSettings.keyBindUseItem.pressed = false;
                             }
 
-                            if(notMoving) {
+                            if (notMoving) {
                                 event.setY(mc.thePlayer.motionY = 0);
                                 MovementUtil.strafe(event, 0);
                             }
@@ -404,8 +389,8 @@ public class Fly extends Module {
                 }
                 break;
             case "Blocksmc":
-                if(automated.getValue()) {
-                    if(++counter < 6) {
+                if (automated.getValue()) {
+                    if (++counter < 6) {
                         float yaw = MathHelper.wrapAngleTo180_float(mc.thePlayer.rotationYaw);
 
 
@@ -414,16 +399,16 @@ public class Fly extends Module {
 
                         EnumFacing facing = EnumFacing.UP;
 
-                        if(yaw > 135 || yaw < -135) {
+                        if (yaw > 135 || yaw < -135) {
                             z = 1;
                             facing = EnumFacing.NORTH;
-                        } else if(yaw > -135 && yaw < -45) {
+                        } else if (yaw > -135 && yaw < -45) {
                             x = -1;
                             facing = EnumFacing.EAST;
-                        } else if(yaw > -45 && yaw < 45) {
+                        } else if (yaw > -45 && yaw < 45) {
                             z = -1;
                             facing = EnumFacing.SOUTH;
-                        } else if(yaw > 45 && yaw < 135) {
+                        } else if (yaw > 45 && yaw < 135) {
                             x = 1;
                             facing = EnumFacing.WEST;
                         }
@@ -462,26 +447,26 @@ public class Fly extends Module {
 
                 BlockPos pos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY + 2, mc.thePlayer.posZ);
 
-                if(mc.theWorld.getBlockState(pos).getBlock() instanceof BlockAir) {
+                if (mc.theWorld.getBlockState(pos).getBlock() instanceof BlockAir) {
                     started = true;
                 }
 
                 Vestige.instance.getPacketBlinkHandler().startBlinkingAll();
 
-                if(started) {
+                if (started) {
                     mc.timer.timerSpeed = 0.3F;
 
-                    if(mc.thePlayer.onGround) {
-                        if(ticks > 0) {
+                    if (mc.thePlayer.onGround) {
+                        if (ticks > 0) {
                             this.setEnabled(false);
                             return;
                         }
 
-                        if(MovementUtil.isMoving()) {
+                        if (MovementUtil.isMoving()) {
                             MovementUtil.jump(event);
                             MovementUtil.strafe(event, 0.58);
                         }
-                    } else if(ticks == 1) {
+                    } else if (ticks == 1) {
                         MovementUtil.strafe(event, 9.5);
                     }
 
@@ -493,23 +478,22 @@ public class Fly extends Module {
         }
 
         takingVelocity = false;
-        ticksSinceVelocity++;
     }
 
     @Listener
     public void onEntityAction(EntityActionEvent event) {
         switch (mode.getValue()) {
             case "Velocity":
-                if(velocityMode.is("Wait for hit")) {
+                if (velocityMode.is("Wait for hit")) {
                     event.setSprinting(true);
-                } else if(velocityMode.is("Airjump")) {
-                    if(!started) {
+                } else if (velocityMode.is("Airjump")) {
+                    if (!started) {
                         event.setSprinting(false);
                     }
                 }
                 break;
             case "Blocksmc":
-                if(automated.getValue() && counter < 6) {
+                if (automated.getValue() && counter < 6) {
                     event.setSprinting(false);
                 }
                 break;
@@ -520,12 +504,12 @@ public class Fly extends Module {
     public void onMotion(MotionEvent event) {
         switch (mode.getValue()) {
             case "Velocity":
-                if(velocityMode.is("Bow") || velocityMode.is("Bow2")) {
+                if (velocityMode.is("Bow") || velocityMode.is("Bow2")) {
                     event.setPitch(-90);
                 }
                 break;
             case "Collision":
-                if(collisionMode.is("Airwalk")) {
+                if (collisionMode.is("Airwalk")) {
                     event.setOnGround(true);
                 }
                 break;
@@ -539,26 +523,24 @@ public class Fly extends Module {
 
     @Listener
     public void onReceive(PacketReceiveEvent event) {
-        if(event.getPacket() instanceof S12PacketEntityVelocity) {
+        if (event.getPacket() instanceof S12PacketEntityVelocity) {
             S12PacketEntityVelocity packet = event.getPacket();
 
-            if(mc.thePlayer.getEntityId() == packet.getEntityID()) {
+            if (mc.thePlayer.getEntityId() == packet.getEntityID()) {
                 takingVelocity = true;
 
                 velocityX = packet.getMotionX() / 8000.0;
                 velocityY = packet.getMotionY() / 8000.0;
                 velocityZ = packet.getMotionZ() / 8000.0;
 
-                velocityDist = Math.hypot(velocityX, velocityZ);
+                double velocityDist = Math.hypot(velocityX, velocityZ);
 
-                ticksSinceVelocity = 0;
-
-                if(mode.is("Velocity")) {
+                if (mode.is("Velocity")) {
                     event.setCancelled(true);
                 }
             }
-        } else if(event.getPacket() instanceof S08PacketPlayerPosLook) {
-            if(mode.is("Velocity")) {
+        } else if (event.getPacket() instanceof S08PacketPlayerPosLook) {
+            if (mode.is("Velocity")) {
                 this.setEnabled(false);
                 return;
             }
@@ -569,8 +551,8 @@ public class Fly extends Module {
     public void onSend(PacketSendEvent event) {
         switch (mode.getValue()) {
             case "Velocity":
-                if(velocityMode.is("Wait for hit") || velocityMode.is("Bow2")) {
-                    if(event.getPacket() instanceof C03PacketPlayer && notMoving) {
+                if (velocityMode.is("Wait for hit") || velocityMode.is("Bow2")) {
+                    if (event.getPacket() instanceof C03PacketPlayer && notMoving) {
                         event.setCancelled(true);
                     }
                 }

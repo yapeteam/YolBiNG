@@ -27,10 +27,10 @@ public class Breaker extends Module {
 
     private FixedRotations rotations;
 
-    private final NumberValue range = new NumberValue("Range", 4, 1, 6, 1);
+    private final NumberValue<Integer> range = new NumberValue<>("Range", 4, 1, 6, 1);
 
     private final BooleanValue rotate = new BooleanValue("Rotate", true);
-    private final BooleanValue moveFix = new BooleanValue("Move fix", () -> rotate.getValue(), false);
+    private final BooleanValue moveFix = new BooleanValue("Move fix", rotate::getValue, false);
 
     private final BooleanValue hypixel = new BooleanValue("Hypixel", false);
 
@@ -75,7 +75,7 @@ public class Breaker extends Module {
 
                             mc.gameSettings.keyBindAttack.pressed = true;
 
-                            float rots[] = RotationsUtil.getRotationsToPosition(posOver.getX() + 0.5, posOver.getY() + 1, posOver.getZ() + 0.5);
+                            float[] rots = RotationsUtil.getRotationsToPosition(posOver.getX() + 0.5, posOver.getY() + 1, posOver.getZ() + 0.5);
 
                             yaw = rots[0];
                             pitch = rots[1];
@@ -84,7 +84,7 @@ public class Breaker extends Module {
 
                             mc.gameSettings.keyBindAttack.pressed = true;
 
-                            float rots[] = RotationsUtil.getRotationsToPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                            float[] rots = RotationsUtil.getRotationsToPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
 
                             yaw = rots[0];
                             pitch = rots[1];

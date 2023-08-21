@@ -19,7 +19,7 @@ public class Rotations extends Module {
 
     public Rotations() {
         super("Rotations", ModuleCategory.VISUAL);
-        this.addSettings(smooth);
+        this.addValues(smooth);
     }
 
     @Listener(Priority.LOWER)

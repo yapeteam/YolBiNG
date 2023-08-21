@@ -5,6 +5,7 @@ import cn.yapeteam.yolbi.values.impl.ModeValue;
 import cn.yapeteam.yolbi.util.network.ServerUtil;
 import cn.yapeteam.yolbi.util.render.DrawUtil;
 import com.mojang.realmsclient.gui.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import cn.yapeteam.yolbi.font.VestigeFontRenderer;
 import cn.yapeteam.yolbi.module.AlignType;
@@ -19,11 +20,11 @@ public class Watermark extends HUDModule {
 
     private boolean initialised;
 
-    private final ModeValue mode = new ModeValue("Mode", "Simple", "Simple", "New", "Outline");
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Simple", "Simple", "New", "Outline");
 
     public Watermark() {
         super("Watermark", ModuleCategory.VISUAL, 4, 4, 100, 100, AlignType.LEFT);
-        this.addSettings(mode);
+        this.addValues(mode);
         this.setEnabledSilently(true);
     }
 
@@ -57,14 +58,14 @@ public class Watermark extends HUDModule {
 
     private void renderNew() {
         String clientName = Vestige.instance.name;
-        String formattedClientName = String.valueOf(clientName.charAt(0)) + ChatFormatting.WHITE + clientName.substring(1, clientName.length());
+        String formattedClientName = String.valueOf(clientName.charAt(0)) + ChatFormatting.WHITE + clientName.substring(1);
 
-        String watermark = formattedClientName + " " + Vestige.instance.version + " | " + mc.getDebugFPS() + "FPS | " + ServerUtil.getCurrentServer();
+        String watermark = formattedClientName + " " + Vestige.instance.version + " | " + Minecraft.getDebugFPS() + "FPS | " + ServerUtil.getCurrentServer();
 
         double watermarkWidth = getStringWidth(watermark);
 
-        float x = (float) posX.getValue();
-        float y = (float) posY.getValue();
+        float x = posX.getValue().floatValue();
+        float y = posY.getValue().floatValue();
 
         Gui.drawRect(x, y + 2, x + 2 + (int) watermarkWidth, y + 14.5F, 0x60000000);
 
@@ -80,14 +81,14 @@ public class Watermark extends HUDModule {
 
     private void renderOutline() {
         String clientName = Vestige.instance.name;
-        String formattedClientName = String.valueOf(clientName.charAt(0)) + ChatFormatting.WHITE + clientName.substring(1, clientName.length());
+        String formattedClientName = String.valueOf(clientName.charAt(0)) + ChatFormatting.WHITE + clientName.substring(1);
 
-        String watermark = formattedClientName + " " + Vestige.instance.version + " | " + mc.getDebugFPS() + "FPS | " + ServerUtil.getCurrentServer();
+        String watermark = formattedClientName + " " + Vestige.instance.version + " | " + Minecraft.getDebugFPS() + "FPS | " + ServerUtil.getCurrentServer();
 
         double watermarkWidth = getStringWidth(watermark);
 
-        float x = (float) posX.getValue();
-        float y = (float) posY.getValue();
+        float x = posX.getValue().floatValue();
+        float y = posY.getValue().floatValue();
 
         for(float i = x; i < x + 2 + watermarkWidth; i++) {
             int color = theme.getColor((int) (i * 18));
@@ -112,8 +113,8 @@ public class Watermark extends HUDModule {
 
         String watermark = clientName + " " + ChatFormatting.WHITE + Vestige.instance.version;
 
-        float x = (float) posX.getValue();
-        float y = (float) posY.getValue();
+        float x = posX.getValue().floatValue();
+        float y = posY.getValue().floatValue();
 
         drawStringWithShadow(watermark, x, y, theme.getColor(0));
 

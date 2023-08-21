@@ -16,7 +16,7 @@ import cn.yapeteam.yolbi.module.Module;
 
 public class ChestStealer extends Module {
 
-    private final NumberValue delay = new NumberValue("Delay", 1, 0, 10, 1);
+    private final NumberValue<Integer> delay = new NumberValue<>("Delay", 1, 0, 10, 1);
     private final BooleanValue filter = new BooleanValue("Filter", true);
     private final BooleanValue autoClose = new BooleanValue("Autoclose", true);
     private final BooleanValue guiDetect = new BooleanValue("Gui detect", true);

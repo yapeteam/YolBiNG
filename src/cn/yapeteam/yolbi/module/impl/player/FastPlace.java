@@ -22,7 +22,7 @@ public class FastPlace extends Module {
 
     public FastPlace() {
         super("Fastplace", ModuleCategory.PLAYER);
-        this.addSettings(delay);
+        this.addValues(delay);
     }
 
     @Override

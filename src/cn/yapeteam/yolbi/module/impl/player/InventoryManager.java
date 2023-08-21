@@ -17,7 +17,7 @@ import cn.yapeteam.yolbi.module.Module;
 
 public class InventoryManager extends Module {
 
-    private final NumberValue delaySetting = new NumberValue("Delay", 1, 0, 10, 1);
+    private final NumberValue<Integer> delaySetting = new NumberValue<>("Delay", 1, 0, 10, 1);
 
     private ItemStack helmet, chestplate, leggings, boots;
     private ItemStack weapon, pickaxe, axe, shovel;
@@ -30,12 +30,12 @@ public class InventoryManager extends Module {
     private final int leggings_slot = 7;
     private final int boots_slot = 8;
 
-    private final NumberValue weapon_slot = new NumberValue("Sword slot", 0, 0, 8, 1);
-    private final NumberValue block_stack_slot = new NumberValue("Block stack slot", 1, 0, 8, 1);
-    private final NumberValue axe_slot = new NumberValue("Axe slot", 2, 0, 8, 1);
-    private final NumberValue pickaxe_slot = new NumberValue("Pickaxe slot", 3, 0, 8, 1);
-    private final NumberValue shovel_slot = new NumberValue("Shovel slot", 4, 0, 8, 1);
-    private final NumberValue golden_apples_slot = new NumberValue("Golden apples slot", 5, 0, 8, 1);
+    private final NumberValue<Integer> weapon_slot = new NumberValue<>("Sword slot", 0, 0, 8, 1);
+    private final NumberValue<Integer> block_stack_slot = new NumberValue<>("Block stack slot", 1, 0, 8, 1);
+    private final NumberValue<Integer> axe_slot = new NumberValue<>("Axe slot", 2, 0, 8, 1);
+    private final NumberValue<Integer> pickaxe_slot = new NumberValue<>("Pickaxe slot", 3, 0, 8, 1);
+    private final NumberValue<Integer> shovel_slot = new NumberValue<>("Shovel slot", 4, 0, 8, 1);
+    private final NumberValue<Integer> golden_apples_slot = new NumberValue<>("Golden apples slot", 5, 0, 8, 1);
 
     private final boolean consider_silk_touch = false;
     private final boolean priorise_golden_tool = false;
@@ -67,9 +67,9 @@ public class InventoryManager extends Module {
         block_stack = container.getSlot(block_stack_slot.getValue() + 36).getStack();
         golden_apples = container.getSlot(golden_apples_slot.getValue() + 36).getStack();
 
-        if(mc.currentScreen instanceof GuiInventory) {
-            if(++delay > delaySetting.getValue()) {
-                for(ArmorType type : ArmorType.values()) {
+        if (mc.currentScreen instanceof GuiInventory) {
+            if (++delay > delaySetting.getValue()) {
+                for (ArmorType type : ArmorType.values()) {
                     getBestArmor(type);
                 }
 
@@ -129,17 +129,17 @@ public class InventoryManager extends Module {
         } else if (item instanceof ItemPotion) {
             ItemPotion potion = (ItemPotion) item;
 
-            for(PotionEffect effect : potion.getEffects(stack)) {
+            for (PotionEffect effect : potion.getEffects(stack)) {
                 int id = effect.getPotionID();
-                if(id == Potion.moveSlowdown.getId() || id == Potion.blindness.getId() || id == Potion.poison.getId() || id == Potion.digSlowdown.getId() || id == Potion.weakness.getId() || id == Potion.harm.getId()) {
+                if (id == Potion.moveSlowdown.getId() || id == Potion.blindness.getId() || id == Potion.poison.getId() || id == Potion.digSlowdown.getId() || id == Potion.weakness.getId() || id == Potion.harm.getId()) {
                     return true;
                 }
             }
         } else {
             String itemName = stack.getItem().getUnlocalizedName().toLowerCase();
 
-            if(itemName.contains("anvil") || itemName.contains("tnt") || itemName.contains("seed") || itemName.contains("table") || itemName.contains("string")
-                    || itemName.contains("eye") || itemName.contains("mushroom") || (itemName.contains("chest") && !itemName.contains("plate")) || itemName.contains("pressure_plate")) {
+            if (itemName.contains("anvil") || itemName.contains("tnt") || itemName.contains("seed") || itemName.contains("table") || itemName.contains("string")
+                || itemName.contains("eye") || itemName.contains("mushroom") || (itemName.contains("chest") && !itemName.contains("plate")) || itemName.contains("pressure_plate")) {
                 return true;
             }
         }
@@ -148,27 +148,27 @@ public class InventoryManager extends Module {
     }
 
     public boolean isUseless(ItemStack stack) {
-        if(!this.isEnabled()) {
+        if (!this.isEnabled()) {
             return isGarbage(stack);
         }
 
-        if(isGarbage(stack)) {
+        if (isGarbage(stack)) {
             return true;
-        } else if(helmet != null && stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).armorType == 0 && !isBetterArmor(stack, helmet, ArmorType.HELMET)) {
+        } else if (helmet != null && stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).armorType == 0 && !isBetterArmor(stack, helmet, ArmorType.HELMET)) {
             return true;
-        } else if(chestplate != null && stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).armorType == 1 && !isBetterArmor(stack, chestplate, ArmorType.CHESTPLATE)) {
+        } else if (chestplate != null && stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).armorType == 1 && !isBetterArmor(stack, chestplate, ArmorType.CHESTPLATE)) {
             return true;
-        } else if(leggings != null && stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).armorType == 2 && !isBetterArmor(stack, leggings, ArmorType.LEGGINGS)) {
+        } else if (leggings != null && stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).armorType == 2 && !isBetterArmor(stack, leggings, ArmorType.LEGGINGS)) {
             return true;
-        } else if(boots != null && stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).armorType == 3 && !isBetterArmor(stack, boots, ArmorType.BOOTS)) {
+        } else if (boots != null && stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).armorType == 3 && !isBetterArmor(stack, boots, ArmorType.BOOTS)) {
             return true;
-        } else if(stack.getItem() instanceof ItemSword && weapon != null && !isBetterWeapon(stack, weapon)) {
+        } else if (stack.getItem() instanceof ItemSword && weapon != null && !isBetterWeapon(stack, weapon)) {
             return true;
-        } else if(stack.getItem() instanceof ItemAxe && axe != null && !isBetterTool(stack, axe)) {
+        } else if (stack.getItem() instanceof ItemAxe && axe != null && !isBetterTool(stack, axe)) {
             return true;
-        } else if(stack.getItem() instanceof ItemPickaxe && pickaxe != null && !isBetterTool(stack, pickaxe)) {
+        } else if (stack.getItem() instanceof ItemPickaxe && pickaxe != null && !isBetterTool(stack, pickaxe)) {
             return true;
-        } else if(stack.getItem().getUnlocalizedName().toLowerCase().contains("shovel") && shovel != null && !isBetterTool(stack, shovel)) {
+        } else if (stack.getItem().getUnlocalizedName().toLowerCase().contains("shovel") && shovel != null && !isBetterTool(stack, shovel)) {
             return true;
         }
 
@@ -184,12 +184,12 @@ public class InventoryManager extends Module {
 
         int slot = -1;
 
-        if(block_stack == null || !shouldChooseBlock(block_stack)) {
+        if (block_stack == null || !shouldChooseBlock(block_stack)) {
             for (int i = 9; i < 45; i++) {
                 ItemStack stack = container.getSlot(i).getStack();
 
-                if(stack != null && shouldChooseBlock(stack)) {
-                    if(!(blockStack != null && stack.stackSize < blockStack.stackSize)) {
+                if (stack != null && shouldChooseBlock(stack)) {
+                    if (!(blockStack != null && stack.stackSize < blockStack.stackSize)) {
                         blockStack = stack;
                         slot = i;
                     }
@@ -197,7 +197,7 @@ public class InventoryManager extends Module {
             }
         }
 
-        if(blockStack != null) {
+        if (blockStack != null) {
             hotbarExchange(block_stack_slot.getValue(), slot);
         }
     }
@@ -207,11 +207,11 @@ public class InventoryManager extends Module {
 
         Container container = mc.thePlayer.inventoryContainer;
 
-        if(golden_apples == null || !(golden_apples.getItem() instanceof ItemAppleGold)) {
+        if (golden_apples == null || !(golden_apples.getItem() instanceof ItemAppleGold)) {
             for (int i = 9; i < 45; i++) {
                 ItemStack stack = container.getSlot(i).getStack();
 
-                if(stack != null && stack.getItem() instanceof ItemAppleGold) {
+                if (stack != null && stack.getItem() instanceof ItemAppleGold) {
                     hotbarExchange(golden_apples_slot.getValue(), i);
                     return;
                 }
@@ -236,24 +236,24 @@ public class InventoryManager extends Module {
         for (int i = 9; i < 45; i++) {
             ItemStack stack = container.getSlot(i).getStack();
 
-            if(stack != null && (stack.getItem() instanceof ItemSword)) {
-                if(i != weapon_slot.getValue() + 36) {
+            if (stack != null && (stack.getItem() instanceof ItemSword)) {
+                if (i != weapon_slot.getValue() + 36) {
                     boolean better = isBetterWeapon(stack, oldWeapon);
                     boolean worse = isWorseWeapon(stack, oldWeapon);
 
-                    if(better) {
+                    if (better) {
                         newSwordSlot = i;
                         oldWeapon = stack;
-                    } else if(stack.getItem() instanceof ItemSword /* && worse */) {
+                    } else if (stack.getItem() instanceof ItemSword /* && worse */) {
                         dropSlot = i;
                     }
                 }
             }
         }
 
-        if(newSwordSlot != -1) {
+        if (newSwordSlot != -1) {
             hotbarExchange(weapon_slot.getValue(), newSwordSlot);
-        } else if(dropSlot != -1) {
+        } else if (dropSlot != -1) {
             drop(dropSlot);
         }
     }
@@ -271,9 +271,9 @@ public class InventoryManager extends Module {
         for (int i = 9; i < 45; i++) {
             ItemStack stack = container.getSlot(i).getStack();
 
-            if(stack != null && stack.getItem() instanceof ItemAxe) {
-                if(i != axe_slot.getValue() + 36) {
-                    if(isBetterTool(stack, oldAxe)) {
+            if (stack != null && stack.getItem() instanceof ItemAxe) {
+                if (i != axe_slot.getValue() + 36) {
+                    if (isBetterTool(stack, oldAxe)) {
                         newAxeSlot = i;
                         oldAxe = stack;
                     } else {
@@ -283,9 +283,9 @@ public class InventoryManager extends Module {
             }
         }
 
-        if(newAxeSlot != -1) {
+        if (newAxeSlot != -1) {
             hotbarExchange(axe_slot.getValue(), newAxeSlot);
-        } else if(dropSlot != -1) {
+        } else if (dropSlot != -1) {
             drop(dropSlot);
         }
     }
@@ -303,9 +303,9 @@ public class InventoryManager extends Module {
         for (int i = 9; i < 45; i++) {
             ItemStack stack = container.getSlot(i).getStack();
 
-            if(stack != null && stack.getItem() instanceof ItemPickaxe) {
-                if(i != pickaxe_slot.getValue() + 36) {
-                    if(isBetterTool(stack, oldPickaxe)) {
+            if (stack != null && stack.getItem() instanceof ItemPickaxe) {
+                if (i != pickaxe_slot.getValue() + 36) {
+                    if (isBetterTool(stack, oldPickaxe)) {
                         newPickaxeSlot = i;
                         oldPickaxe = stack;
                     } else {
@@ -315,9 +315,9 @@ public class InventoryManager extends Module {
             }
         }
 
-        if(newPickaxeSlot != -1) {
+        if (newPickaxeSlot != -1) {
             hotbarExchange(pickaxe_slot.getValue(), newPickaxeSlot);
-        } else if(dropSlot != -1) {
+        } else if (dropSlot != -1) {
             drop(dropSlot);
         }
     }
@@ -335,9 +335,9 @@ public class InventoryManager extends Module {
         for (int i = 9; i < 45; i++) {
             ItemStack stack = container.getSlot(i).getStack();
 
-            if(stack != null && stack.getItem() instanceof ItemTool && stack.getItem().getUnlocalizedName().toLowerCase().contains("shovel")) {
-                if(i != shovel_slot.getValue() + 36) {
-                    if(isBetterTool(stack, oldShovel)) {
+            if (stack != null && stack.getItem() instanceof ItemTool && stack.getItem().getUnlocalizedName().toLowerCase().contains("shovel")) {
+                if (i != shovel_slot.getValue() + 36) {
+                    if (isBetterTool(stack, oldShovel)) {
                         newShovelSlot = i;
                         oldShovel = stack;
                     } else {
@@ -347,9 +347,9 @@ public class InventoryManager extends Module {
             }
         }
 
-        if(newShovelSlot != -1) {
+        if (newShovelSlot != -1) {
             hotbarExchange(shovel_slot.getValue(), newShovelSlot);
-        } else if(dropSlot != -1) {
+        } else if (dropSlot != -1) {
             drop(dropSlot);
         }
     }
@@ -369,16 +369,16 @@ public class InventoryManager extends Module {
         for (int i = 5; i < 45; i++) {
             ItemStack stack = container.getSlot(i).getStack();
 
-            if(stack != null && stack.getItem() instanceof ItemArmor) {
+            if (stack != null && stack.getItem() instanceof ItemArmor) {
                 ItemArmor armor = (ItemArmor) stack.getItem();
 
                 boolean better = isBetterArmor(stack, oldArmor, type);
                 boolean worse = isWorseArmor(stack, oldArmor, type);
 
-                if(armor.armorType == type.ordinal()) {
-                    if(better) {
-                        if(i != armorSlot) {
-                            if(oldArmor != null) {
+                if (armor.armorType == type.ordinal()) {
+                    if (better) {
+                        if (i != armorSlot) {
+                            if (oldArmor != null) {
                                 dropSlot = armorSlot;
                             } else {
                                 newArmorSlot = i;
@@ -386,10 +386,10 @@ public class InventoryManager extends Module {
                                 armorSlot = i;
                             }
                         }
-                    } else if(worse || i != armorSlot) {
+                    } else if (worse || i != armorSlot) {
                         dropSlot = i;
                     } else {
-                        if(i != armorSlot) {
+                        if (i != armorSlot) {
                             newArmorSlot = i;
                             oldArmor = stack;
                             armorSlot = i;
@@ -399,9 +399,9 @@ public class InventoryManager extends Module {
             }
         }
 
-        if(dropSlot != -1) {
+        if (dropSlot != -1) {
             drop(dropSlot);
-        } else if(newArmorSlot != -1) {
+        } else if (newArmorSlot != -1) {
             shiftClick(newArmorSlot);
         }
     }
@@ -409,8 +409,8 @@ public class InventoryManager extends Module {
     private boolean isBetterWeapon(ItemStack newWeapon, ItemStack oldWeapon) {
         Item item = newWeapon.getItem();
 
-        if(item instanceof ItemSword || item instanceof ItemTool) {
-            if(oldWeapon != null) {
+        if (item instanceof ItemSword || item instanceof ItemTool) {
+            if (oldWeapon != null) {
                 return getAttackDamage(newWeapon) > getAttackDamage(oldWeapon);
             } else {
                 return true;
@@ -423,8 +423,8 @@ public class InventoryManager extends Module {
     private boolean isWorseWeapon(ItemStack newWeapon, ItemStack oldWeapon) {
         Item item = newWeapon.getItem();
 
-        if(item instanceof ItemSword || item instanceof ItemTool) {
-            if(oldWeapon != null) {
+        if (item instanceof ItemSword || item instanceof ItemTool) {
+            if (oldWeapon != null) {
                 return getAttackDamage(newWeapon) < getAttackDamage(oldWeapon);
             } else {
                 return false;
@@ -437,8 +437,8 @@ public class InventoryManager extends Module {
     private boolean isBetterTool(ItemStack newTool, ItemStack oldTool) {
         Item item = newTool.getItem();
 
-        if(item instanceof ItemTool) {
-            if(oldTool != null) {
+        if (item instanceof ItemTool) {
+            if (oldTool != null) {
                 return getToolUsefulness(newTool) > getToolUsefulness(oldTool);
             } else {
                 return true;
@@ -449,14 +449,14 @@ public class InventoryManager extends Module {
     }
 
     private boolean isBetterArmor(ItemStack newArmor, ItemStack oldArmor, ArmorType type) {
-        if(oldArmor == null) return true;
+        if (oldArmor == null) return true;
 
         Item oldItem = oldArmor.getItem();
 
-        if(oldItem instanceof ItemArmor) {
+        if (oldItem instanceof ItemArmor) {
             ItemArmor oldItemArmor = (ItemArmor) oldItem;
 
-            if(oldArmor != null && oldItemArmor.armorType == type.ordinal()) {
+            if (oldArmor != null && oldItemArmor.armorType == type.ordinal()) {
                 return getArmorProtection(newArmor) > getArmorProtection(oldArmor);
             } else {
                 return true;
@@ -467,14 +467,14 @@ public class InventoryManager extends Module {
     }
 
     private boolean isWorseArmor(ItemStack newArmor, ItemStack oldArmor, ArmorType type) {
-        if(oldArmor == null) return false;
+        if (oldArmor == null) return false;
 
         Item oldItem = oldArmor.getItem();
 
-        if(oldItem instanceof ItemArmor) {
+        if (oldItem instanceof ItemArmor) {
             ItemArmor oldItemArmor = (ItemArmor) oldItem;
 
-            if(oldArmor != null && oldItemArmor.armorType == type.ordinal()) {
+            if (oldArmor != null && oldItemArmor.armorType == type.ordinal()) {
                 return getArmorProtection(newArmor) < getArmorProtection(oldArmor);
             } else {
                 return false;
@@ -485,7 +485,7 @@ public class InventoryManager extends Module {
     }
 
     private float getAttackDamage(ItemStack stack) {
-        if(stack == null) return 0F;
+        if (stack == null) return 0F;
 
         Item item = stack.getItem();
 
@@ -500,9 +500,9 @@ public class InventoryManager extends Module {
         }
 
         float enchantsDamage = EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, stack) * 1.25F
-                + EnchantmentHelper.getEnchantmentLevel(Enchantment.fireAspect.effectId, stack) * 0.3F
-                + EnchantmentHelper.getEnchantmentLevel(Enchantment.knockback.effectId, stack) * 0.15F
-                + EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack) * 0.1F;
+                               + EnchantmentHelper.getEnchantmentLevel(Enchantment.fireAspect.effectId, stack) * 0.3F
+                               + EnchantmentHelper.getEnchantmentLevel(Enchantment.knockback.effectId, stack) * 0.15F
+                               + EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack) * 0.1F;
 
         //LogUtil.addChatMessage("Damage : " + baseDamage + " Enchants damage : " + enchantsDamage);
 
@@ -510,7 +510,7 @@ public class InventoryManager extends Module {
     }
 
     private float getToolUsefulness(ItemStack stack) {
-        if(stack == null) return 0F;
+        if (stack == null) return 0F;
 
         Item item = stack.getItem();
 
@@ -539,15 +539,15 @@ public class InventoryManager extends Module {
         }
 
         float enchantsUsefulness = EnchantmentHelper.getEnchantmentLevel(Enchantment.fortune.effectId, stack) * 1.25F
-                + EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack) * 0.3F
-                + EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) * 0.5F
-                + (consider_silk_touch ? EnchantmentHelper.getEnchantmentLevel(Enchantment.silkTouch.effectId, stack) * 0.5F : 0F);
+                                   + EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack) * 0.3F
+                                   + EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) * 0.5F
+                                   + (consider_silk_touch ? EnchantmentHelper.getEnchantmentLevel(Enchantment.silkTouch.effectId, stack) * 0.5F : 0F);
 
         return baseUsefulness + enchantsUsefulness;
     }
 
     private float getArmorProtection(ItemStack stack) {
-        if(stack == null) return 0F;
+        if (stack == null) return 0F;
 
         Item item = stack.getItem();
 
@@ -559,11 +559,11 @@ public class InventoryManager extends Module {
         }
 
         float enchantsProtection = EnchantmentHelper.getEnchantmentLevel(Enchantment.protection.effectId, stack) * 1.25F
-                + EnchantmentHelper.getEnchantmentLevel(Enchantment.blastProtection.effectId, stack) * 0.15F
-                + EnchantmentHelper.getEnchantmentLevel(Enchantment.fireProtection.effectId, stack) * 0.15F
-                + EnchantmentHelper.getEnchantmentLevel(Enchantment.projectileProtection.effectId, stack) * 0.15F
-                + EnchantmentHelper.getEnchantmentLevel(Enchantment.thorns.effectId, stack) * 0.1F
-                + EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack) * 0.1F;
+                                   + EnchantmentHelper.getEnchantmentLevel(Enchantment.blastProtection.effectId, stack) * 0.15F
+                                   + EnchantmentHelper.getEnchantmentLevel(Enchantment.fireProtection.effectId, stack) * 0.15F
+                                   + EnchantmentHelper.getEnchantmentLevel(Enchantment.projectileProtection.effectId, stack) * 0.15F
+                                   + EnchantmentHelper.getEnchantmentLevel(Enchantment.thorns.effectId, stack) * 0.1F
+                                   + EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack) * 0.1F;
 
         return baseProtection + enchantsProtection;
     }

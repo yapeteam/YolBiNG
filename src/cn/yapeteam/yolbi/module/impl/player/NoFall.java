@@ -11,11 +11,11 @@ import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
 
-public class Nofall extends Module {
+public class NoFall extends Module {
 
-    private final ModeValue mode = new ModeValue("Mode", "Spoof", "Packet", "Spoof", "Blink");
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Spoof", "Packet", "Spoof", "Blink");
 
-    private final NumberValue blinkTicks = new NumberValue("Blink ticks", () -> mode.is("Blink"), 6, 2, 14, 1);
+    private final NumberValue<Integer> blinkTicks = new NumberValue<>("Blink ticks", () -> mode.is("Blink"), 6, 2, 14, 1);
     private final BooleanValue suspendAll = new BooleanValue("Suspend all packets", () -> mode.is("Blink"), true);
 
     private double lastY;
@@ -25,8 +25,8 @@ public class Nofall extends Module {
 
     private boolean blinking;
 
-    public Nofall() {
-        super("Nofall", ModuleCategory.PLAYER);
+    public NoFall() {
+        super("NoFall", ModuleCategory.PLAYER);
         this.addValues(mode, blinkTicks, suspendAll);
     }
 
@@ -49,31 +49,31 @@ public class Nofall extends Module {
 
         double motionY = y - lastY;
 
-        if(mc.thePlayer.onGround) {
+        if (mc.thePlayer.onGround) {
             fallDistance = 0;
         } else {
-            if(motionY < 0) {
+            if (motionY < 0) {
                 fallDistance -= motionY;
             }
         }
 
         switch (mode.getValue()) {
             case "Packet":
-                if(fallDistance >= 3) {
+                if (fallDistance >= 3) {
                     PacketUtil.sendPacket(new C03PacketPlayer(true));
                     fallDistance = 0;
                 }
                 break;
             case "Spoof":
-                if(fallDistance >= 3) {
+                if (fallDistance >= 3) {
                     event.setOnGround(true);
                     fallDistance = 0;
                 }
                 break;
             case "Blink":
-                if(fallDistance >= 3) {
-                    if(!blinking) {
-                        if(suspendAll.getValue()) {
+                if (fallDistance >= 3) {
+                    if (!blinking) {
+                        if (suspendAll.getValue()) {
                             Vestige.instance.getPacketBlinkHandler().startBlinkingAll();
                         } else {
                             Vestige.instance.getPacketBlinkHandler().startBlinkingMove();
@@ -88,8 +88,8 @@ public class Nofall extends Module {
                     fallDistance = 0;
                 }
 
-                if(blinking) {
-                    if(ticks >= blinkTicks.getValue()) {
+                if (blinking) {
+                    if (ticks >= blinkTicks.getValue()) {
                         ticks = 0;
                         blinking = false;
 

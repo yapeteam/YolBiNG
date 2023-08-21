@@ -20,15 +20,15 @@ import cn.yapeteam.yolbi.event.Priority;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
 
-public class Antivoid extends Module {
+public class AntiVoid extends Module {
 
-    private final ModeValue mode = new ModeValue("Mode", "Flag", "Flag", "Collision flag", "Blink", "Bounce");
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Flag", "Flag", "Collision flag", "Blink", "Bounce");
 
     private final BooleanValue stopHorizontalMove = new BooleanValue("Stop horizontal move", () -> mode.is("Blink"), false);
 
-    private final NumberValue bounceMotion = new NumberValue("Bounce motion", () -> mode.is("Bounce"), 1.5, 0.4, 3, 0.1);
+    private final NumberValue<Double> bounceMotion = new NumberValue<>("Bounce motion", () -> mode.is("Bounce"), 1.5, 0.4, 3.0, 0.1);
 
-    private final NumberValue minFallDist = new NumberValue("Min fall dist", 3.5, 2, 10, 0.25);
+    private final NumberValue<Double> minFallDist = new NumberValue<>("Min fall dist", 3.5, 2.0, 10.0, 0.25);
 
     private PlayerInfo lastSafePos;
 
@@ -42,8 +42,8 @@ public class Antivoid extends Module {
 
     private boolean receivedLagback;
 
-    public Antivoid() {
-        super("Antivoid", ModuleCategory.PLAYER);
+    public AntiVoid() {
+        super("AntiVoid", ModuleCategory.PLAYER);
         this.addValues(mode, stopHorizontalMove, bounceMotion, minFallDist);
     }
 

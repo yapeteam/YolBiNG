@@ -21,17 +21,17 @@ import cn.yapeteam.yolbi.module.impl.combat.Killaura;
 
 public class TargetHUD extends HUDModule {
 
-    private final ModeValue mode = new ModeValue("Mode", "Normal", "Normal", "Outline");
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Normal", "Normal", "Outline");
 
     private final ModeValue<AnimationType> animationType = AnimationUtil.getAnimationType(AnimationType.POP2);
-    private final NumberValue animationDuration = AnimationUtil.getAnimationDuration(400);
+    private final NumberValue<Integer> animationDuration = AnimationUtil.getAnimationDuration(400);
 
-    private final NumberValue healthBarDelay = new NumberValue("Healh bar delay", 100, 0, 450, 25);
+    private final NumberValue<Integer> healthBarDelay = new NumberValue<>("Healh bar delay", 100, 0, 450, 25);
     private final BooleanValue roundedHealth = new BooleanValue("Rounded health", true);
 
-    private final ModeValue font = FontUtil.getFontSetting();
+    private final ModeValue<String> font = FontUtil.getFontSetting();
 
-    private Animation animation;
+    private final Animation animation;
 
     private Killaura killauraModule;
     private ClientTheme theme;
@@ -85,8 +85,8 @@ public class TargetHUD extends HUDModule {
     }
 
     private void renderTargetHUD(EntityPlayer entity, boolean canRender) {
-        int x = (int) posX.getValue();
-        int y = (int) posY.getValue();
+        int x = posX.getValue().intValue();
+        int y = posY.getValue().intValue();
 
         animation.updateState(canRender);
 

@@ -1,22 +1,22 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
 import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.module.AlignType;
+import cn.yapeteam.yolbi.module.HUDModule;
+import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.util.animation.AnimationHolder;
 import cn.yapeteam.yolbi.util.animation.AnimationType;
 import cn.yapeteam.yolbi.util.render.FontUtil;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
-import cn.yapeteam.yolbi.module.AlignType;
-import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.module.HUDModule;
 
 import java.util.ArrayList;
 
 public class Keystrokes extends HUDModule {
 
-    private final ModeValue font = FontUtil.getFontSetting();
+    private final ModeValue<String> font = FontUtil.getFontSetting();
 
     private final ArrayList<AnimationHolder<KeyBinding>> keys = new ArrayList<>();
 
@@ -26,7 +26,7 @@ public class Keystrokes extends HUDModule {
 
     public Keystrokes() {
         super("Keystrokes", ModuleCategory.VISUAL, 15, 35, 70, 70, AlignType.LEFT);
-        this.addSettings(font);
+        this.addValues(font);
     }
 
     @Override
@@ -54,8 +54,8 @@ public class Keystrokes extends HUDModule {
 
     @Override
     public void renderModule(boolean inChat) {
-        int x = (int) posX.getValue();
-        int y = (int) posY.getValue();
+        int x = posX.getValue().intValue();
+        int y = posY.getValue().intValue();
 
         if(!keysInitiated) {
             initKeys();

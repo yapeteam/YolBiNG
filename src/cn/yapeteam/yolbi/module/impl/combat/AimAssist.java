@@ -23,10 +23,10 @@ public class AimAssist extends Module {
     private Antibot antibotModule;
     private Teams teamsModule;
 
-    private final ModeValue filter = new ModeValue("Filter", "Range", "Range", "Health");
-    private final NumberValue range = new NumberValue("Range", 4.5, 3, 8, 0.1);
+    private final ModeValue<String> filter = new ModeValue<>("Filter", "Range", "Range", "Health");
+    private final NumberValue<Double> range = new NumberValue<>("Range", 4.5, 3.0, 8.0, 0.1);
 
-    private final NumberValue speed = new NumberValue("Speed", 10, 1, 40, 1);
+    private final NumberValue<Integer> speed = new NumberValue<>("Speed", 10, 1, 40, 1);
 
     private final TimerUtil timer = new TimerUtil();
 

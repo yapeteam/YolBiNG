@@ -10,11 +10,11 @@ import cn.yapeteam.yolbi.module.Module;
 
 public class TimeChanger extends Module {
 
-    private final NumberValue customTime = new NumberValue("Custom time", 18000, 0, 24000, 500);
+    private final NumberValue<Integer> customTime = new NumberValue<>("Custom time", 18000, 0, 24000, 500);
 
     public TimeChanger() {
         super("Time Changer", ModuleCategory.VISUAL);
-        this.addSettings(customTime);
+        this.addValues(customTime);
     }
 
     @Listener
@@ -28,5 +28,4 @@ public class TimeChanger extends Module {
             event.setCancelled(true);
         }
     }
-
 }

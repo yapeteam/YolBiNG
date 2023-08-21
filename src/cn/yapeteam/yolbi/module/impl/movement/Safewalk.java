@@ -14,7 +14,7 @@ public class Safewalk extends Module {
 
     public Safewalk() {
         super("Safewalk", ModuleCategory.MOVEMENT);
-        this.addSettings(offGround);
+        this.addValues(offGround);
         safewalk=this;
     }
 

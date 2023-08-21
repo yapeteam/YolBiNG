@@ -11,7 +11,7 @@ import cn.yapeteam.yolbi.module.Module;
 
 public class TargetStrafe extends Module {
 
-    private final NumberValue maxRange = new NumberValue("Max range", 3, 1, 6, 0.1);
+    private final NumberValue<Double> maxRange = new NumberValue<>("Max range", 3.0, 1.0, 6.0, 0.1);
     public final BooleanValue whilePressingSpace = new BooleanValue("While pressing space", false);
 
     private boolean goingRight;

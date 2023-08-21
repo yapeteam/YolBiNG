@@ -18,25 +18,25 @@ public class ClickGuiModule extends Module {
 
     private DropdownClickGUI dropdownClickGUI;
 
-    private final ModeValue color = new ModeValue("Color", "Client theme", "Client theme", "Custom static", "Custom fade", "Custom 3 colors", "Rainbow");
+    private final ModeValue<String> color = new ModeValue<>("Color", "Client theme", "Client theme", "Custom static", "Custom fade", "Custom 3 colors", "Rainbow");
 
-    private final NumberValue red = new NumberValue("Red", () -> color.getValue().startsWith("Custom"), 0, 0, 255, 5);
-    private final NumberValue green = new NumberValue("Green", () -> color.getValue().startsWith("Custom"), 0, 0, 255, 5);
-    private final NumberValue blue = new NumberValue("Blue", () -> color.getValue().startsWith("Custom"), 255, 0, 255, 5);
+    private final NumberValue<Integer> red = new NumberValue<>("Red", () -> color.getValue().startsWith("Custom"), 0, 0, 255, 5);
+    private final NumberValue<Integer> green = new NumberValue<>("Green", () -> color.getValue().startsWith("Custom"), 0, 0, 255, 5);
+    private final NumberValue<Integer> blue = new NumberValue<>("Blue", () -> color.getValue().startsWith("Custom"), 255, 0, 255, 5);
 
-    private final NumberValue red2 = new NumberValue("Red 2", () -> color.is("Custom fade") || color.is("Custom 3 colors"), 0, 0, 255, 5);
-    private final NumberValue green2 = new NumberValue("Green 2", () -> color.is("Custom fade") || color.is("Custom 3 colors"), 255, 0, 255, 5);
-    private final NumberValue blue2 = new NumberValue("Blue 2", () -> color.is("Custom fade") || color.is("Custom 3 colors"), 255, 0, 255, 5);
+    private final NumberValue<Integer> red2 = new NumberValue<>("Red 2", () -> color.is("Custom fade") || color.is("Custom 3 colors"), 0, 0, 255, 5);
+    private final NumberValue<Integer> green2 = new NumberValue<>("Green 2", () -> color.is("Custom fade") || color.is("Custom 3 colors"), 255, 0, 255, 5);
+    private final NumberValue<Integer> blue2 = new NumberValue<>("Blue 2", () -> color.is("Custom fade") || color.is("Custom 3 colors"), 255, 0, 255, 5);
 
-    private final NumberValue red3 = new NumberValue("Red 3", () -> color.is("Custom 3 colors"), 0, 0, 255, 5);
-    private final NumberValue green3 = new NumberValue("Green 3", () -> color.is("Custom 3 colors"), 255, 0, 255, 5);
-    private final NumberValue blue3 = new NumberValue("Blue 3", () -> color.is("Custom 3 colors"), 255, 0, 255, 5);
+    private final NumberValue<Integer> red3 = new NumberValue<>("Red 3", () -> color.is("Custom 3 colors"), 0, 0, 255, 5);
+    private final NumberValue<Integer> green3 = new NumberValue<>("Green 3", () -> color.is("Custom 3 colors"), 255, 0, 255, 5);
+    private final NumberValue<Integer> blue3 = new NumberValue<>("Blue 3", () -> color.is("Custom 3 colors"), 255, 0, 255, 5);
 
-    private final NumberValue saturation = new NumberValue("Saturation", () -> color.is("Rainbow"), 0.9, 0.05, 1, 0.05);
-    private final NumberValue brightness = new NumberValue("Brightness", () -> color.is("Rainbow"), 0.9, 0.05, 1, 0.05);
+    private final NumberValue<Double> saturation = new NumberValue<>("Saturation", () -> color.is("Rainbow"), 0.9, 0.05, 1.0, 0.05);
+    private final NumberValue<Double> brightness = new NumberValue<>("Brightness", () -> color.is("Rainbow"), 0.9, 0.05, 1.0, 0.05);
 
     public final BooleanValue boxOnHover = new BooleanValue("Box on hover", false);
-    public final BooleanValue boxOnSettings = new BooleanValue("Box on settings", () -> boxOnHover.getValue(), false);
+    public final BooleanValue boxOnSettings = new BooleanValue("Box on settings", boxOnHover::getValue, false);
 
     private Color color1, color2, color3;
 
@@ -80,7 +80,7 @@ public class ClickGuiModule extends Module {
             case "Custom 3 colors":
                 return ColorUtil.getColor(color1, color2, color3, 3000, offset);
             case "Rainbow":
-                return ColorUtil.getRainbow(4500, (int) (offset * 0.85), (float) saturation.getValue(), (float) brightness.getValue());
+                return ColorUtil.getRainbow(4500, (int) (offset * 0.85), saturation.getValue().floatValue(), brightness.getValue().floatValue());
         }
 
         return -1;

@@ -18,7 +18,7 @@ public class Autoplace extends Module {
 
     public Autoplace() {
         super("Autoplace", ModuleCategory.PLAYER);
-        this.addSettings(placeUnderWhileOffground);
+        this.addValues(placeUnderWhileOffground);
     }
 
     @Override

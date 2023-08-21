@@ -16,8 +16,8 @@ import java.awt.*;
 
 public class ESP extends Module {
 
-    private final NumberValue lineWidth = new NumberValue("Line width", 3.25, 0.5, 4, 0.25);
-    private final NumberValue alpha = new NumberValue("Alpha", 0.8, 0.2, 1, 0.05);
+    private final NumberValue<Double> lineWidth = new NumberValue<>("Line width", 3.25, 0.5, 4.0, 0.25);
+    private final NumberValue<Double> alpha = new NumberValue<>("Alpha", 0.8, 0.2, 1.0, 0.05);
 
     private final BooleanValue renderInvisibles = new BooleanValue("Render invisibles", false);
 
@@ -41,7 +41,7 @@ public class ESP extends Module {
 
         Color color = new Color(theme.getColor(100));
 
-        RenderUtil.prepareBoxRender((float) lineWidth.getValue(), color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, alpha.getValue());
+        RenderUtil.prepareBoxRender(lineWidth.getValue().floatValue(), color.getRed() / 255.0, color.getGreen() / 255.0, color.getBlue() / 255.0, alpha.getValue());
 
         RenderManager rm = mc.getRenderManager();
         float partialTicks = event.getPartialTicks();

@@ -18,25 +18,26 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
+@SuppressWarnings("DuplicatedCode")
 public class ModuleList extends HUDModule {
 
     private boolean initialised;
 
     private final ArrayList<AnimationHolder<Module>> modules = new ArrayList<>();
 
-    private final ModeValue mode = new ModeValue("Mode", "Simple", "Simple", "New", "Outline", "Custom");
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Simple", "Simple", "New", "Outline", "Custom");
 
-    private final ModeValue font = FontUtil.getFontSetting(() -> mode.is("Custom"));
+    private final ModeValue<String> font = FontUtil.getFontSetting(() -> mode.is("Custom"));
 
     private final ModeValue<AnimationType> animType = AnimationUtil.getAnimationType(() -> mode.is("Custom"), AnimationType.POP);
-    private final NumberValue animDuration = AnimationUtil.getAnimationDuration(() -> mode.is("Custom"), 250);
+    private final NumberValue<Integer> animDuration = AnimationUtil.getAnimationDuration(() -> mode.is("Custom"), 250);
 
-    private final NumberValue verticalSpacing = new NumberValue("Vertical spacing", () -> mode.is("Custom"), 10.5, 8, 20, 0.5);
+    private final NumberValue<Double> verticalSpacing = new NumberValue<>("Vertical spacing", () -> mode.is("Custom"), 10.5, 8.0, 20.0, 0.5);
 
-    private final NumberValue extraWidth = new NumberValue("Extra width", () -> mode.is("Custom"), 0.5, 0, 6, 0.5);
+    private final NumberValue<Double> extraWidth = new NumberValue<>("Extra width", () -> mode.is("Custom"), 0.5, 0.0, 6.0, 0.5);
 
     private final BooleanValue box = new BooleanValue("Box", () -> mode.is("Custom"), false);
-    private final NumberValue boxAlpha = new NumberValue("Box alpha", () -> mode.is("Custom") && box.getValue(), 100, 5, 255, 5);
+    private final NumberValue<Integer> boxAlpha = new NumberValue<>("Box alpha", () -> mode.is("Custom") && box.getValue(), 100, 5, 255, 5);
 
     private final BooleanValue leftOutline = new BooleanValue("Left outline", () -> mode.is("Custom"), false);
     private final BooleanValue rightOutline = new BooleanValue("Right outline", () -> mode.is("Custom"), false);
@@ -59,7 +60,7 @@ public class ModuleList extends HUDModule {
 
     @Override
     public void onClientStarted() {
-        Vestige.instance.getModuleManager().modules.forEach(m -> modules.add(new AnimationHolder(m)));
+        Vestige.instance.getModuleManager().modules.forEach(m -> modules.add(new AnimationHolder<>(m)));
 
         productSans = Vestige.instance.getFontManager().getProductSans();
 
@@ -75,7 +76,7 @@ public class ModuleList extends HUDModule {
 
         alignType = alignMode.getValue();
 
-        if(mc.gameSettings.showDebugInfo) return;
+        if (mc.gameSettings.showDebugInfo) return;
 
         switch (mode.getValue()) {
             case "Simple":
@@ -109,8 +110,8 @@ public class ModuleList extends HUDModule {
     private void renderSimple() {
         ScaledResolution sr = new ScaledResolution(mc);
 
-        float x = (float) posX.getValue();
-        float y = (float) posY.getValue();
+        float x = posX.getValue().floatValue();
+        float y = posY.getValue().floatValue();
 
         float offsetY = 10.5F;
 
@@ -126,7 +127,7 @@ public class ModuleList extends HUDModule {
             float endX = alignMode.getValue() == AlignType.LEFT ? (float) (x + getStringWidth(name)) : sr.getScaledWidth() - x;
             float endY = y + offsetY;
 
-            if(Math.abs(endX - startX) > width) {
+            if (Math.abs(endX - startX) > width) {
                 width = Math.abs(endX - startX);
             }
 
@@ -140,14 +141,14 @@ public class ModuleList extends HUDModule {
         }
 
         this.width = (int) (width) + 1;
-        this.height = (int) (y - posY.getValue()) + 1;
+        this.height = (int) (y - posY.getValue().intValue()) + 1;
     }
 
     private void renderNew() {
         ScaledResolution sr = new ScaledResolution(mc);
 
-        float x = (float) posX.getValue();
-        float y = (float) posY.getValue();
+        float x = posX.getValue().floatValue();
+        float y = posY.getValue().floatValue();
 
         float offsetY = 10.5F;
 
@@ -172,7 +173,7 @@ public class ModuleList extends HUDModule {
                 float endX = alignMode.getValue() == AlignType.LEFT ? (float) (x + nameLength) : sr.getScaledWidth() - x;
                 float endY = y + offsetY;
 
-                if(Math.abs(endX - startX) > width) {
+                if (Math.abs(endX - startX) > width) {
                     width = Math.abs(endX - startX);
                 }
 
@@ -187,14 +188,14 @@ public class ModuleList extends HUDModule {
         }
 
         this.width = (int) (width) + 1;
-        this.height = (int) (y - posY.getValue()) + 1;
+        this.height = (int) (y - posY.getValue().intValue()) + 1;
     }
 
     private void renderOutline() {
         ScaledResolution sr = new ScaledResolution(mc);
 
-        float x = (float) posX.getValue();
-        float y = (float) posY.getValue();
+        float x = posX.getValue().floatValue();
+        float y = posY.getValue().floatValue();
 
         float offsetY = 11F;
 
@@ -219,7 +220,7 @@ public class ModuleList extends HUDModule {
                 float endX = alignMode.getValue() == AlignType.LEFT ? (float) (x + getStringWidth(name)) : sr.getScaledWidth() - x;
                 float endY = y + offsetY;
 
-                if(Math.abs(endX - startX) > width) {
+                if (Math.abs(endX - startX) > width) {
                     width = Math.abs(endX - startX);
                 }
 
@@ -253,16 +254,16 @@ public class ModuleList extends HUDModule {
         DrawUtil.drawGradientVerticalRect(lastStartX - 1.5, y, lastEndX + 1.5, y + 2, 0x50000000, 0);
 
         this.width = (int) (width) + 1;
-        this.height = (int) (y - posY.getValue()) + 1;
+        this.height = (int) (y - posY.getValue().intValue()) + 1;
     }
 
     private void renderCustom() {
         ScaledResolution sr = new ScaledResolution(mc);
 
-        float x = (float) posX.getValue();
-        float y = (float) posY.getValue();
+        float x = posX.getValue().floatValue();
+        float y = posY.getValue().floatValue();
 
-        float offsetY = (float) verticalSpacing.getValue();
+        float offsetY = verticalSpacing.getValue().floatValue();
         double extraWidth = this.extraWidth.getValue();
 
         float width = 0;
@@ -287,29 +288,29 @@ public class ModuleList extends HUDModule {
 
                 float endX = alignMode.getValue() == AlignType.LEFT ? (float) (x + getStringWidth(name)) : sr.getScaledWidth() - x;
 
-                if(Math.abs(endX - startX) > width) {
+                if (Math.abs(endX - startX) > width) {
                     width = Math.abs(endX - startX);
                 }
 
                 float mult = holder.getYMult();
 
-                if(leftOutline.getValue()) {
+                if (leftOutline.getValue()) {
                     Gui.drawRect(startX - 2 - extraWidth, startY, startX - extraWidth, startY + offsetY * mult, getColor((int) (startY * -17)));
                 }
 
-                if(rightOutline.getValue()) {
+                if (rightOutline.getValue()) {
                     Gui.drawRect(endX + extraWidth, startY, endX + extraWidth + 2, startY + offsetY * mult, getColor((int) (startY * -17)));
                 }
 
-                if(firstModule) {
-                    if(topOutline.getValue()) {
+                if (firstModule) {
+                    if (topOutline.getValue()) {
                         double left = leftOutline.getValue() ? startX - extraWidth - 2 : startX - extraWidth;
                         double right = rightOutline.getValue() ? endX + extraWidth + 2 : endX + extraWidth;
 
                         Gui.drawRect(left, startY - 2, right, startY, getColor((int) (startY * -17)));
                     }
                 } else {
-                    if(bottomOutline.getValue()) {
+                    if (bottomOutline.getValue()) {
                         double left = leftOutline.getValue() ? lastStartX - extraWidth - 2 : lastStartX - extraWidth;
                         double right = leftOutline.getValue() ? startX - extraWidth - 2 : startX - extraWidth;
 
@@ -317,7 +318,7 @@ public class ModuleList extends HUDModule {
                     }
                 }
 
-                if(box.getValue()) {
+                if (box.getValue()) {
                     Gui.drawRect(startX - extraWidth, startY, endX + extraWidth, startY + offsetY * mult, new Color(0, 0, 0, boxAlpha.getValue()).getRGB());
                 }
 
@@ -329,14 +330,14 @@ public class ModuleList extends HUDModule {
             }
         }
 
-        if(bottomOutline.getValue() && !firstModule) {
+        if (bottomOutline.getValue() && !firstModule) {
             double left = leftOutline.getValue() ? lastStartX - extraWidth - 2 : lastStartX - extraWidth;
             double right = rightOutline.getValue() ? lastEndX + extraWidth + 2 : lastEndX + extraWidth;
 
             Gui.drawRect(left, y, right, y + 2, getColor((int) (y * -17)));
         }
 
-        y = (float) posY.getValue();
+        y = posY.getValue().floatValue();
 
         for (AnimationHolder<Module> holder : modules) {
             Module m = holder.get();
@@ -359,7 +360,7 @@ public class ModuleList extends HUDModule {
         }
 
         this.width = (int) (width) + 1;
-        this.height = (int) (y - posY.getValue()) + 1;
+        this.height = (int) (y - posY.getValue().intValue()) + 1;
     }
 
     public void drawString(String text, float x, float y, int color) {

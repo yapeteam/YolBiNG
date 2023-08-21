@@ -17,10 +17,10 @@ import cn.yapeteam.yolbi.module.Module;
 
 public class Velocity extends Module {
 
-    public final ModeValue mode = new ModeValue("Mode", "Packet", "Packet", "Hypixel", "Packet loss", "Legit");
+    public final ModeValue<String> mode = new ModeValue<>("Mode", "Packet", "Packet", "Hypixel", "Packet loss", "Legit");
 
-    private final NumberValue horizontal = new NumberValue("Horizontal", () -> mode.is("Packet"), 0, 0, 100, 2);
-    private final NumberValue vertical = new NumberValue("Vertical", () -> mode.is("Packet"), 0, 0, 100, 2);
+    private final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", () -> mode.is("Packet"), 0, 0, 100, 2);
+    private final NumberValue<Integer> vertical = new NumberValue<>("Vertical", () -> mode.is("Packet"), 0, 0, 100, 2);
 
     private boolean reducing;
 

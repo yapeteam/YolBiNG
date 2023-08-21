@@ -22,7 +22,7 @@ public class AutoTool extends Module {
 
     public AutoTool() {
         super("AutoTool", ModuleCategory.PLAYER);
-        this.addSettings(spoof);
+        this.addValues(spoof);
     }
 
     @Override

@@ -33,11 +33,11 @@ public class DropdownClickGUI extends GuiScreen {
 
     private final int settingYOffset = 14;
 
-    private final Color moduleDisabledColor = new Color(44,46,49);
+    private final Color moduleDisabledColor = new Color(44, 46, 49);
 
-    private final Color boolSettingEnabledColor = new Color(225,225,225);
+    private final Color boolSettingEnabledColor = new Color(225, 225, 225);
 
-    private final Color boolSettingBox = new Color(25,25,25);
+    private final Color boolSettingBox = new Color(25, 25, 25);
 
     private final int mouseHoverColor = 0x30000000;
 
@@ -77,7 +77,7 @@ public class DropdownClickGUI extends GuiScreen {
 
         for (CategoryHolder category : categories) {
             if (category.isShown()) {
-                if(category.isHolded()) {
+                if (category.isHolded()) {
                     category.setX(category.getX() + mouseX - lastMouseX);
                     category.setY(category.getY() + mouseY - lastMouseY);
                 }
@@ -111,29 +111,29 @@ public class DropdownClickGUI extends GuiScreen {
 
                     Gui.drawRect(startX, startY, endX, endY, ColorUtil.getGradient(moduleDisabledColor, new Color(module.getColor((int) startX)), m.isEnabled() ? mult : 1 - mult).getRGB());
 
-                    if(module.boxOnHover.getValue() && !m.isEnabled() && mouseX > startX && mouseX < endX && mouseY > startY && mouseY < endY) {
+                    if (module.boxOnHover.getValue() && !m.isEnabled() && mouseX > startX && mouseX < endX && mouseY > startY && mouseY < endY) {
                         Gui.drawRect(startX, startY, endX, endY, mouseHoverColor);
                     }
 
                     fr.drawStringWithShadow(m.getName(), startX + 3, startY + 4, -1);
 
-                    if(holder.getSettings().size() > 0) {
+                    if (holder.getSettings().size() > 0) {
                         DrawUtil.renderTriangle(endX - 11, startY + 6, boolSettingEnabledColor.getRGB());
                     }
 
                     y += moduleYOffset;
 
-                    if(firstModule && (m.isEnabled() || mult < 1)) {
+                    if (firstModule && (m.isEnabled() || mult < 1)) {
                         firstModuleEnabled = true;
                     }
 
-                    if(holder.isSettingsShown()) {
+                    if (holder.isSettingsShown()) {
                         float startKeybindY = y;
                         float endKeybindY = y + settingYOffset;
 
                         Gui.drawRect(startX + 1, startKeybindY, endX - 1, endKeybindY, moduleDisabledColor.getRGB());
 
-                        if(module.boxOnHover.getValue() && module.boxOnSettings.getValue() && mouseX > startX + 1 && mouseX < endX - 1 && mouseY > startKeybindY && mouseY < endKeybindY) {
+                        if (module.boxOnHover.getValue() && module.boxOnSettings.getValue() && mouseX > startX + 1 && mouseX < endX - 1 && mouseY > startKeybindY && mouseY < endKeybindY) {
                             Gui.drawRect(startX + 1, startKeybindY, endX - 1, endKeybindY, mouseHoverColor);
                         }
 
@@ -141,8 +141,8 @@ public class DropdownClickGUI extends GuiScreen {
 
                         y += settingYOffset;
 
-                        for(SettingHolder settingHolder : holder.getSettings()) {
-                            if(settingHolder.getSetting().getVisibility().get()) {
+                        for (SettingHolder settingHolder : holder.getSettings()) {
+                            if (settingHolder.getSetting().getVisibility().get()) {
                                 float startSettingY = y;
                                 float endSettingY = y + settingYOffset;
 
@@ -150,49 +150,49 @@ public class DropdownClickGUI extends GuiScreen {
 
                                 boolean hoveringSetting = mouseX > startX + 1 && mouseX < endX - 1 && mouseY > startSettingY && mouseY < endSettingY;
 
-                                if(settingHolder.getSetting() instanceof ModeValue) {
+                                if (settingHolder.getSetting() instanceof ModeValue) {
                                     ModeValue setting = settingHolder.getSetting();
 
                                     String toRender = setting.getName() + " : " + setting.getValue();
 
                                     Gui.drawRect(startX + 1, endSettingY, endX - 1, endSettingY + 6, moduleDisabledColor.getRGB());
 
-                                    if(fr.getStringWidth(toRender) > categoryXOffset - 3) {
-                                        if(module.boxOnHover.getValue() && module.boxOnSettings.getValue() && mouseX > startX + 1 && mouseX < endX - 1 && mouseY > startSettingY && mouseY < endSettingY + 6) {
+                                    if (fr.getStringWidth(toRender) > categoryXOffset - 3) {
+                                        if (module.boxOnHover.getValue() && module.boxOnSettings.getValue() && mouseX > startX + 1 && mouseX < endX - 1 && mouseY > startSettingY && mouseY < endSettingY + 6) {
                                             Gui.drawRect(startX + 1, startSettingY, endX - 1, endSettingY + 6, mouseHoverColor);
                                         }
 
                                         fr.drawStringWithShadow(setting.getName() + " :", startX + 3, startSettingY + 2.5F, -1);
-                                        fr.drawStringWithShadow(setting.getValue(), startX + 3, startSettingY + 11, -1);
+                                        fr.drawStringWithShadow(setting.getValue().toString(), startX + 3, startSettingY + 11, -1);
 
                                         y += 6;
                                     } else {
-                                        if(module.boxOnHover.getValue() && module.boxOnSettings.getValue() && hoveringSetting) {
+                                        if (module.boxOnHover.getValue() && module.boxOnSettings.getValue() && hoveringSetting) {
                                             Gui.drawRect(startX + 1, startSettingY, endX - 1, endSettingY, mouseHoverColor);
                                         }
 
                                         fr.drawStringWithShadow(toRender, startX + 3, startSettingY + 3, -1);
                                     }
                                 } else {
-                                    if(module.boxOnHover.getValue() && module.boxOnSettings.getValue() && hoveringSetting) {
+                                    if (module.boxOnHover.getValue() && module.boxOnSettings.getValue() && hoveringSetting) {
                                         Gui.drawRect(startX + 1, startSettingY, endX - 1, endSettingY, mouseHoverColor);
                                     }
 
-                                    if(settingHolder.getSetting() instanceof BooleanValue) {
+                                    if (settingHolder.getSetting() instanceof BooleanValue) {
                                         BooleanValue setting = settingHolder.getSetting();
 
                                         fr.drawStringWithShadow(setting.getName(), startX + 3, startSettingY + 3, -1);
 
                                         Gui.drawRect(endX - 13.5, startSettingY + 2, endX - 4, startSettingY + 12, boolSettingBox.getRGB());
 
-                                        if(setting.getValue()) {
+                                        if (setting.getValue()) {
                                             Gui.drawRect(endX - 12, startSettingY + 3.5, endX - 5.5, startSettingY + 10.5, module.getColor((int) (endX - 12 + y)));
                                         }
-                                    } else if(settingHolder.getSetting() instanceof ModeValue) {
+                                    } else if (settingHolder.getSetting() instanceof ModeValue) {
                                         ModeValue setting = settingHolder.getSetting();
 
-                                        fr.drawStringWithShadow(setting.getName() + " : " + setting.getValue().name(), startX + 3, startSettingY + 3, -1);
-                                    } else if(settingHolder.getSetting() instanceof NumberValue) {
+                                        fr.drawStringWithShadow(setting.getName() + " : " + setting.getValue().toString(), startX + 3, startSettingY + 3, -1);
+                                    } else if (settingHolder.getSetting() instanceof NumberValue) {
                                         NumberValue setting = settingHolder.getSetting();
 
                                         float startSettingX = startX + 1;
@@ -205,15 +205,15 @@ public class DropdownClickGUI extends GuiScreen {
                                             double mousePos = mouseX - startSettingX;
                                             double thing = (mousePos / length);
 
-                                            setting.setValue(thing * (setting.getMax() - setting.getMin()) + setting.getMin());
+                                            setting.setValue(thing * (setting.getMax().doubleValue() - setting.getMin().doubleValue()) + setting.getMin().doubleValue());
                                         }
 
-                                        double numberX = startSettingX + ((setting.getValue() - setting.getMin()) * length / (setting.getMax() - setting.getMin()));
+                                        double numberX = startSettingX + ((setting.getValue().doubleValue() - setting.getMin().doubleValue()) * length / (setting.getMax().doubleValue() - setting.getMin().doubleValue()));
 
                                         Gui.drawRect(startSettingX, startSettingY, numberX, endSettingY, 0x75000000);
 
-                                        fr.drawStringWithShadow(setting.getName() + " : " + setting.getStringValue(), startSettingX + 2, startSettingY + 3, -1);
-                                    } else if(settingHolder.getSetting() instanceof NumberValue) {
+                                        fr.drawStringWithShadow(setting.getName() + " : " + String.format("%.2f", setting.getValue().floatValue()), startSettingX + 2, startSettingY + 3, -1);
+                                    } else if (settingHolder.getSetting() instanceof NumberValue) {
                                         NumberValue setting = settingHolder.getSetting();
 
                                         float startSettingX = startX + 1;
@@ -226,12 +226,12 @@ public class DropdownClickGUI extends GuiScreen {
                                             double mousePos = mouseX - startSettingX;
                                             double thing = (mousePos / length);
 
-                                            int value = (int) (thing * (setting.getMax() - setting.getMin()) + setting.getMin());
+                                            int value = (int) (thing * (setting.getMax().doubleValue() - setting.getMin().doubleValue()) + setting.getMin().doubleValue());
 
                                             setting.setValue(value);
                                         }
 
-                                        double numberX = startSettingX + ((setting.getValue() - setting.getMin()) * length / (setting.getMax() - setting.getMin()));
+                                        double numberX = startSettingX + ((setting.getValue().doubleValue() - setting.getMin().doubleValue()) * length / (setting.getMax().doubleValue() - setting.getMin().doubleValue()));
 
                                         Gui.drawRect(startSettingX, startSettingY, numberX, endSettingY, 0x75000000);
 
@@ -247,7 +247,7 @@ public class DropdownClickGUI extends GuiScreen {
                     firstModule = false;
                 }
 
-                if(firstModuleEnabled) {
+                if (firstModuleEnabled) {
                     DrawUtil.drawGradientVerticalRect(startX, category.getY() + categoryYOffset, endX, category.getY() + categoryYOffset + 2, 0x50000000, 0x15000000);
                 }
             }
@@ -264,7 +264,7 @@ public class DropdownClickGUI extends GuiScreen {
         VestigeFontRenderer fr = Vestige.instance.getFontManager().getProductSans();
 
         for (CategoryHolder category : categories) {
-            if(category.isShown()) {
+            if (category.isShown()) {
                 int x = category.getX();
                 int y = category.getY() + scrollY;
 
@@ -284,29 +284,29 @@ public class DropdownClickGUI extends GuiScreen {
                     float startY = y;
                     float endY = startY + moduleYOffset;
 
-                    if(mouseX > startX && mouseX < endX && mouseY > startY && mouseY < endY) {
-                        if(button == 0) {
+                    if (mouseX > startX && mouseX < endX && mouseY > startY && mouseY < endY) {
+                        if (button == 0) {
                             m.toggle();
                             holder.updateState();
-                        } else if(button == 1) {
+                        } else if (button == 1) {
                             holder.setSettingsShown(!holder.isSettingsShown());
                         }
                     }
 
                     y += moduleYOffset;
 
-                    if(holder.isSettingsShown()) {
+                    if (holder.isSettingsShown()) {
                         float startKeybindY = y;
                         float endKeybindY = y + settingYOffset;
 
-                        if(button == 0 && mouseX > startX && mouseX < endX && mouseY > startKeybindY && mouseY < endKeybindY) {
+                        if (button == 0 && mouseX > startX && mouseX < endX && mouseY > startKeybindY && mouseY < endKeybindY) {
                             keyChangeModule = m;
                         }
 
                         y += settingYOffset;
 
-                        for(SettingHolder settingHolder : holder.getSettings()) {
-                            if(settingHolder.getSetting().getVisibility().get()) {
+                        for (SettingHolder settingHolder : holder.getSettings()) {
+                            if (settingHolder.getSetting().getVisibility().get()) {
                                 float startSettingY = y;
                                 float endSettingY = y + settingYOffset;
 
@@ -314,51 +314,51 @@ public class DropdownClickGUI extends GuiScreen {
 
                                 boolean hovering = mouseX > startX && mouseX < endX && mouseY > startSettingY && mouseY < realEndSettingY;
 
-                                if(settingHolder.getSetting() instanceof BooleanValue) {
+                                if (settingHolder.getSetting() instanceof BooleanValue) {
                                     BooleanValue setting = settingHolder.getSetting();
 
-                                    if(button == 0 && hovering) {
+                                    if (button == 0 && hovering) {
                                         setting.setValue(!setting.getValue());
                                     }
-                                } else if(settingHolder.getSetting() instanceof ModeValue) {
+                                } else if (settingHolder.getSetting() instanceof ModeValue) {
                                     ModeValue setting = settingHolder.getSetting();
 
                                     String toRender = setting.getName() + " : " + setting.getValue();
 
-                                    if(fr.getStringWidth(toRender) > categoryXOffset - 3) {
-                                        if(mouseX > startX && mouseX < endX && mouseY > startSettingY && mouseY < endSettingY + 6) {
+                                    if (fr.getStringWidth(toRender) > categoryXOffset - 3) {
+                                        if (mouseX > startX && mouseX < endX && mouseY > startSettingY && mouseY < endSettingY + 6) {
                                             realEndSettingY = endSettingY + 6;
 
-                                            if(button == 0) {
+                                            if (button == 0) {
                                                 setting.increment();
-                                            } else if(button == 1) {
+                                            } else if (button == 1) {
                                                 setting.decrement();
                                             }
                                         }
 
                                         y += 6;
                                     } else {
-                                        if(hovering) {
-                                            if(button == 0) {
+                                        if (hovering) {
+                                            if (button == 0) {
                                                 setting.increment();
-                                            } else if(button == 1) {
+                                            } else if (button == 1) {
                                                 setting.decrement();
                                             }
                                         }
                                     }
-                                } else if(settingHolder.getSetting() instanceof ModeValue) {
+                                } else if (settingHolder.getSetting() instanceof ModeValue) {
                                     ModeValue setting = settingHolder.getSetting();
 
-                                    if(hovering) {
-                                        if(button == 0) {
+                                    if (hovering) {
+                                        if (button == 0) {
                                             setting.increment();
-                                        } else if(button == 1) {
+                                        } else if (button == 1) {
                                             setting.decrement();
                                         }
                                     }
                                 }
 
-                                if(hovering && button == 0) {
+                                if (hovering && button == 0) {
                                     settingHolder.setHoldingMouse(true);
                                 }
 
@@ -400,7 +400,7 @@ public class DropdownClickGUI extends GuiScreen {
             }
         }
 
-        if(keyChangeModule != null) {
+        if (keyChangeModule != null) {
             keyChangeModule.setKey(key == 14 ? 0 : key);
             keyChangeModule = null;
         }

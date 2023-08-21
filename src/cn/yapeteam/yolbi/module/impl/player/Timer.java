@@ -8,11 +8,11 @@ import cn.yapeteam.yolbi.module.Module;
 
 public class Timer extends Module {
 
-    private final NumberValue speed = new NumberValue("Speed", 1.1, 0.1, 5, 0.1);
+    private final NumberValue<Double> speed = new NumberValue<>("Speed", 1.1, 0.1, 5.0, 0.1);
 
     public Timer() {
         super("Timer", ModuleCategory.PLAYER);
-        this.addSettings(speed);
+        this.addValues(speed);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class Timer extends Module {
 
     @Listener
     public void onPostMotion(PostMotionEvent event) {
-        mc.timer.timerSpeed = (float) speed.getValue();
+        mc.timer.timerSpeed = speed.getValue().floatValue();
     }
 
 }

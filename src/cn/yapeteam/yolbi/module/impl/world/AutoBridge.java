@@ -26,7 +26,7 @@ import cn.yapeteam.yolbi.module.Module;
 
 public class AutoBridge extends Module {
 
-    private final ModeValue mode = new ModeValue("Mode", "Sprint", "Sprint", "No sprint", "Godbridge");
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Sprint", "Sprint", "No sprint", "Godbridge");
 
     private final BooleanValue keepY = new BooleanValue("Keep Y", () -> mode.is("Sprint"), true);
 
@@ -37,7 +37,7 @@ public class AutoBridge extends Module {
 
     private final BooleanValue freelook = new BooleanValue("Freelook", true);
 
-    private final ModeValue blockPicker = new ModeValue("Block picker", "Switch", "None", "Switch", "Spoof");
+    private final ModeValue<String> blockPicker = new ModeValue<>("Block picker", "Switch", "None", "Switch", "Spoof");
 
     private FixedRotations rotations;
 

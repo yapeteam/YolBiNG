@@ -14,10 +14,10 @@ import cn.yapeteam.yolbi.module.Module;
 
 public class Step extends Module {
 
-    private final ModeValue mode = new ModeValue("Mode", "Vanilla", "Vanilla", "NCP");
-    private final NumberValue height = new NumberValue("Height", () -> mode.is("Vanilla"), 1, 1, 9, 0.5);
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Vanilla", "Vanilla", "NCP");
+    private final NumberValue<Double> height = new NumberValue<>("Height", () -> mode.is("Vanilla"), 1.0, 1.0, 9.0, 0.5);
 
-    private final NumberValue timer = new NumberValue("Timer", 1, 0.1, 1, 0.05);
+    private final NumberValue<Double> timer = new NumberValue<>("Timer", 1.0, 0.1, 1.0, 0.05);
 
     private boolean prevOffGround;
 
@@ -40,14 +40,14 @@ public class Step extends Module {
     public void onUpdate(UpdateEvent event) {
         switch (mode.getValue()) {
             case "Vanilla":
-                mc.thePlayer.stepHeight = (float) height.getValue();
+                mc.thePlayer.stepHeight = height.getValue().floatValue();
                 break;
             case "NCP":
                 mc.thePlayer.stepHeight = 1F;
                 break;
         }
 
-        if(timerTick) {
+        if (timerTick) {
             mc.timer.timerSpeed = 1F;
             timerTick = false;
         }
@@ -55,9 +55,9 @@ public class Step extends Module {
 
     @Listener
     public void onPreStep(PreStepEvent event) {
-        if(!mode.is("Vanilla")) {
-            if(mc.thePlayer.onGround && prevOffGround) {
-                if(event.getHeight() > 0.6) {
+        if (!mode.is("Vanilla")) {
+            if (mc.thePlayer.onGround && prevOffGround) {
+                if (event.getHeight() > 0.6) {
                     event.setHeight(0.6F);
                 }
             }
@@ -66,17 +66,15 @@ public class Step extends Module {
 
     @Listener
     public void onPostStep(PostStepEvent event) {
-        if(event.getHeight() > 0.6F) {
-            if(timer.getValue() < 1) {
-                mc.timer.timerSpeed = (float) timer.getValue();
+        if (event.getHeight() > 0.6F) {
+            if (timer.getValue() < 1) {
+                mc.timer.timerSpeed = timer.getValue().floatValue();
                 timerTick = true;
             }
 
-            switch (mode.getValue()) {
-                case "NCP":
-                    PacketUtil.sendPacket(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ, false));
-                    PacketUtil.sendPacket(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.75, mc.thePlayer.posZ, false));
-                    break;
+            if (mode.getValue().equals("NCP")) {
+                PacketUtil.sendPacket(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42, mc.thePlayer.posZ, false));
+                PacketUtil.sendPacket(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.75, mc.thePlayer.posZ, false));
             }
         }
     }

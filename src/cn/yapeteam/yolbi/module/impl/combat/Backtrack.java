@@ -23,11 +23,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Backtrack extends Module {
 
-    private final NumberValue delay = new NumberValue("Delay", 500, 100, 2000, 50);
-    private final NumberValue minRange = new NumberValue("Min range", 2.8, 1, 6, 0.1);
+    private final NumberValue<Integer> delay = new NumberValue<>("Delay", 500, 100, 2000, 50);
+    private final NumberValue<Double> minRange = new NumberValue<>("Min range", 2.8, 1.0, 6.0, 0.1);
 
     private final BooleanValue delayPing = new BooleanValue("Delay ping", true);
-    private final BooleanValue delayVelocity = new BooleanValue("Delay velocity", () -> delayPing.getValue(), true);
+    private final BooleanValue delayVelocity = new BooleanValue("Delay velocity", delayPing::getValue, true);
 
     private final CopyOnWriteArrayList<DelayedPacket> delayedPackets = new CopyOnWriteArrayList<>();
 

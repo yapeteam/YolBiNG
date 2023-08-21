@@ -9,8 +9,8 @@ import cn.yapeteam.yolbi.event.Listener;
 
 public abstract class HUDModule extends Module {
 
-    public final NumberValue posX;
-    public final NumberValue posY;
+    public final NumberValue<Double> posX;
+    public final NumberValue<Double> posY;
 
     @Getter
     protected int width, height;
@@ -25,8 +25,8 @@ public abstract class HUDModule extends Module {
     public HUDModule(String name, ModuleCategory category, double defaultX, double defaultY, int width, int height, AlignType alignType) {
         super(name, category);
 
-        posX = new NumberValue("Pos X", () -> false, defaultX, 0, 1000, 0.5);
-        posY = new NumberValue("Pos Y", () -> false, defaultY, 0, 1000, 0.5);
+        posX = new NumberValue<>("Pos X", () -> false, defaultX, 0.0, 1000.0, 0.5);
+        posY = new NumberValue<>("Pos Y", () -> false, defaultY, 0.0, 1000.0, 0.5);
 
         this.width = width;
         this.height = height;

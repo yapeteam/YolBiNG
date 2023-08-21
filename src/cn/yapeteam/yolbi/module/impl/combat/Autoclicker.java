@@ -18,8 +18,8 @@ public class Autoclicker extends Module {
 
     private final TimerUtil timer = new TimerUtil();
 
-    private final NumberValue minCPS = new NumberValue("Min CPS", 8, 1, 20, 1);
-    private final NumberValue maxCPS = new NumberValue("Max CPS", 15, 1, 20, 1);
+    private final NumberValue<Integer> minCPS = new NumberValue<>("Min CPS", 8, 1, 20, 1);
+    private final NumberValue<Integer> maxCPS = new NumberValue<>("Max CPS", 15, 1, 20, 1);
 
     public Autoclicker() {
         super("Autoclicker", ModuleCategory.COMBAT);
@@ -33,13 +33,13 @@ public class Autoclicker extends Module {
 
     @Listener
     public void onRender(RenderEvent event) {
-        if(wasHoldingMouse) {
+        if (wasHoldingMouse) {
             long maxDelay = (long) (1000.0 / minCPS.getValue());
             long minDelay = (long) (1000.0 / maxCPS.getValue());
 
             long delay = maxDelay > minDelay ? ThreadLocalRandom.current().nextLong(minDelay, maxDelay) : minDelay;
 
-            if(timer.getTimeElapsed() >= delay) {
+            if (timer.getTimeElapsed() >= delay) {
                 clickingTick = true;
                 timer.reset();
             }
@@ -48,8 +48,8 @@ public class Autoclicker extends Module {
 
     @Listener
     public void onTick(TickEvent event) {
-        if(Mouse.isButtonDown(0)) {
-            if(wasHoldingMouse && clickingTick) {
+        if (Mouse.isButtonDown(0)) {
+            if (wasHoldingMouse && clickingTick) {
                 mc.leftClickCounter = 0;
                 mc.clickMouse();
 

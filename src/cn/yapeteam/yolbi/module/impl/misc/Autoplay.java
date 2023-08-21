@@ -12,9 +12,9 @@ import cn.yapeteam.yolbi.module.Module;
 
 public class Autoplay extends Module {
 
-    private final ModeValue mode = new ModeValue("Mode", "Solo insane", "Solo normal", "Solo insane");
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Solo insane", "Solo normal", "Solo insane");
 
-    private final NumberValue delay = new NumberValue("Delay", 1500, 0, 4000, 50);
+    private final NumberValue<Integer> delay = new NumberValue<>("Delay", 1500, 0, 4000, 50);
 
     private final String winMessage = "You won! Want to play again? Click here!",
             loseMessage = "You died! Want to play again? Click here!";

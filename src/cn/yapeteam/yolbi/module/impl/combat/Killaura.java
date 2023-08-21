@@ -6,7 +6,7 @@ import cn.yapeteam.yolbi.event.impl.*;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.impl.movement.Speed;
-import cn.yapeteam.yolbi.module.impl.player.Antivoid;
+import cn.yapeteam.yolbi.module.impl.player.AntiVoid;
 import cn.yapeteam.yolbi.module.impl.world.AutoBridge;
 import cn.yapeteam.yolbi.module.impl.world.Breaker;
 import cn.yapeteam.yolbi.module.impl.world.Scaffold;
@@ -119,7 +119,7 @@ public class Killaura extends Module {
     private Scaffold scaffoldModule;
     private AutoBridge autoBridgeModule;
     private Breaker breakerModule;
-    private Antivoid antivoidModule;
+    private AntiVoid antivoidModule;
     private Velocity velocityModule;
 
     private boolean couldBlock;
@@ -207,7 +207,7 @@ public class Killaura extends Module {
         scaffoldModule = Vestige.instance.getModuleManager().getModule(Scaffold.class);
         autoBridgeModule = Vestige.instance.getModuleManager().getModule(AutoBridge.class);
         breakerModule = Vestige.instance.getModuleManager().getModule(Breaker.class);
-        antivoidModule = Vestige.instance.getModuleManager().getModule(Antivoid.class);
+        antivoidModule = Vestige.instance.getModuleManager().getModule(AntiVoid.class);
         velocityModule = Vestige.instance.getModuleManager().getModule(Velocity.class);
     }
 
