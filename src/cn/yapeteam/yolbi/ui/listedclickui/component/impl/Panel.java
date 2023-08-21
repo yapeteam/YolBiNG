@@ -68,7 +68,8 @@ public class Panel extends AbstractComponent {
         if (!getChildComponents().isEmpty()) {
             float allExpand = 0;
             for (AbstractComponent component : getChildComponents())
-                allExpand += ((ModuleButton) component).getExtend();
+                if (component instanceof ModuleButton)
+                    allExpand += ((ModuleButton) component).getExtend();
             if (this.scroll > 0 || -this.scroll > getChildComponents().size() * (ImplScreen.moduleHeight + ImplScreen.moduleSpacing) - ImplScreen.moduleSpacing + allExpand - (getHeight() - ImplScreen.panelTopHeight))
                 this.scroll = 0;
             if (isHovering(getX(), getY(), getWidth(), getHeight(), mouseX, mouseY)) {

@@ -13,6 +13,8 @@ import cn.yapeteam.yolbi.values.Value;
 import lombok.Getter;
 import net.minecraft.client.renderer.GlStateManager;
 
+import java.util.stream.Collectors;
+
 /**
  * @author TIMER_err
  */
@@ -62,8 +64,9 @@ public class ModuleButton extends AbstractComponent {
         for (AbstractComponent component : getChildComponents()) {
             component.setX(getX());
             component.setY(y);
-            y += component.getHeight() + ImplScreen.valueSpacing;
-            if (extended)
+            if (!(component instanceof ValueButton && !((ValueButton) component).getValue().getVisibility().get()))
+                y += component.getHeight() + ImplScreen.valueSpacing;
+            if (extended && !(component instanceof ValueButton && !((ValueButton) component).getValue().getVisibility().get()))
                 extend += component.getHeight() + ImplScreen.valueSpacing;
         }
         super.update();
@@ -107,7 +110,7 @@ public class ModuleButton extends AbstractComponent {
             }
         }
         if (extended)
-            super.drawComponent(mouseX, mouseY, partialTicks, limitation);
+            getChildComponents().stream().filter(c -> !(c instanceof ValueButton && !((ValueButton) c).getValue().getVisibility().get())).collect(Collectors.toList()).forEach(c -> c.drawComponent(mouseX, mouseY, partialTicks, limitation));
     }
 
     @Override
@@ -124,13 +127,13 @@ public class ModuleButton extends AbstractComponent {
                 }
             }
         if (extended)
-            super.mouseClicked(mouseX, mouseY, mouseButton);
+            getChildComponents().stream().filter(c -> !(c instanceof ValueButton && !((ValueButton) c).getValue().getVisibility().get())).collect(Collectors.toList()).forEach(c -> c.mouseClicked(mouseX, mouseY, mouseButton));
     }
 
     @Override
     public void mouseReleased(float mouseX, float mouseY, int state) {
         if (extended)
-            super.mouseReleased(mouseX, mouseY, state);
+            getChildComponents().stream().filter(c -> !(c instanceof ValueButton && !((ValueButton) c).getValue().getVisibility().get())).collect(Collectors.toList()).forEach(c -> c.mouseReleased(mouseX, mouseY, state));
     }
 
     public void setRealY(float realY) {

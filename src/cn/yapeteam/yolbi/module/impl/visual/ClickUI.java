@@ -31,6 +31,5 @@ public class ClickUI extends Module {
     protected void onEnable() {
         setEnabled(false);
         mc.displayGuiScreen(screen);
-        System.out.println(1);
     }
 }
