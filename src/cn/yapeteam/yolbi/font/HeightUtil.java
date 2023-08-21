@@ -68,11 +68,11 @@ public class HeightUtil {
     }
 
     public static float getHeight(String str, float fullHeight) {
-        if (allMiddle(str)) return (fullHeight / 4 * 2);
+        if (allMiddle(str)) return (fullHeight / 3 * 2);
         if ((hasUp(str) || hasUpperCase(str) || hasNotIn26(str)) && hasDown(str))
-            return (fullHeight);
-        if (hasUp(str) || hasDown(str) || hasUpperCase(str)) return (fullHeight / 4 * 3);
-        if (hasNotIn26(str)) return (fullHeight / 4 * 3);
-        return (fullHeight);
+            return (fullHeight / 3 * 4);
+        if (hasUp(str) || hasDown(str) || hasUpperCase(str)) return (fullHeight);
+        if (hasNotIn26(str)) return (fullHeight);
+        return (fullHeight / 3 * 4);
     }
 }

@@ -94,7 +94,7 @@ public class Panel extends AbstractComponent {
         font.drawString(
                 category.name(),
                 getX() + (getWidth() - font.getStringWidth(category.name())) / 2f,
-                getY() + (ImplScreen.panelTopHeight - font.getHeight()) / 2f,
+                getY() + (ImplScreen.panelTopHeight - font.getStringHeight(category.name())) / 2f,
                 -1
         );
         Limitation limitation = new Limitation(getX(), getY() + ImplScreen.panelTopHeight, getWidth(), getHeight() - ImplScreen.panelTopHeight);

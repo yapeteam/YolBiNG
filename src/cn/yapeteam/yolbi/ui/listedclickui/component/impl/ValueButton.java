@@ -74,7 +74,7 @@ public class ValueButton extends AbstractComponent {
             Color rainbow = ColorUtil.rainbow(10, (all - 1 - index) * 10, 1, 1, 1);
             if (value instanceof BooleanValue) {
                 BooleanValue booleanValue = (BooleanValue) value;
-                font.drawString(value.getName(), getX() + 5, getY() + (getHeight() - font.getHeight()) / 2f, -1);
+                font.drawString(value.getName(), getX() + 5, getY() + (getHeight() - font.getStringHeight(value.getName())) / 2f, -1);
                 int w = 8, h = 8;
                 RenderUtil.drawRect2(getX() + getWidth() - 5 - w, getY() + (getHeight() - h) / 2f, w, h, Theme.MainTheme[1].getRGB());
                 if (booleanValue.getValue())
@@ -102,7 +102,8 @@ public class ValueButton extends AbstractComponent {
             } else if (value instanceof ModeValue<?>) {
                 ModeValue<?> modeValue = (ModeValue<?>) value;
                 RenderUtil.drawFastRoundedRect(getX() + 2, getY() + 2, getX() + getWidth() - 2, getY() + getHeight() - 2, 2, Theme.MainTheme[1].getRGB());
-                font.drawString(modeValue.getName() + " | " + modeValue.getValue(), getX() + (getWidth() - font.getStringWidth(modeValue.getName() + " | " + modeValue.getValue())) / 2f, getY() + (getHeight() - font.getHeight()) / 2f - 3, -1);
+                String text = modeValue.getName() + " | " + modeValue.getValue();
+                font.drawString(text, getX() + (getWidth() - font.getStringWidth(text)) / 2f, getY() + (getHeight() - font.getStringHeight(text)) / 2f - 3, -1);
                 font.drawString("|", getX() + (getWidth() - font.getStringWidth("|")) / 2f, getY() + getHeight() / 2f - 0.5f, ImplScreen.rainbow ? rainbow.getRGB() : Theme.MainTheme[2].getRGB());
                 icon.drawString("h i", getX() + (getWidth() - icon.getStringWidth("h i")) / 2f, getY() + getHeight() / 2f + 3, ImplScreen.rainbow ? rainbow.getRGB() : Theme.MainTheme[2].getRGB());
             } else if (value instanceof ColorValue) {
