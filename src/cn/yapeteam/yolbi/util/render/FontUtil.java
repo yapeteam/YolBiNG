@@ -1,7 +1,7 @@
 package cn.yapeteam.yolbi.util.render;
 
 import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.font.VestigeFontRenderer;
+import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.util.IMinecraft;
 import cn.yapeteam.yolbi.values.Visibility;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
@@ -10,7 +10,7 @@ import net.minecraft.client.gui.FontRenderer;
 public class FontUtil implements IMinecraft {
 
     private static FontRenderer mcFont;
-    private static VestigeFontRenderer productSans, comfortaa;
+    private static AbstractFontRenderer productSans, comfortaa;
 
     public static ModeValue<String> getFontSetting() {
         return new ModeValue<>("Font", "Minecraft", "Minecraft", "Product sans", "Comfortaa");

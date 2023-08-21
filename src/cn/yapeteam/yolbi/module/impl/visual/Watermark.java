@@ -1,20 +1,20 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
 import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.font.AbstractFontRenderer;
+import cn.yapeteam.yolbi.module.AlignType;
+import cn.yapeteam.yolbi.module.HUDModule;
+import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.util.network.ServerUtil;
 import cn.yapeteam.yolbi.util.render.DrawUtil;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import cn.yapeteam.yolbi.font.VestigeFontRenderer;
-import cn.yapeteam.yolbi.module.AlignType;
-import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.module.HUDModule;
 
 public class Watermark extends HUDModule {
 
-    private VestigeFontRenderer productSans;
+    private AbstractFontRenderer productSans;
 
     private ClientTheme theme;
 
@@ -30,18 +30,17 @@ public class Watermark extends HUDModule {
 
     private void initialise() {
         productSans = Vestige.instance.getFontManager().getProductSans();
-
         theme = Vestige.instance.getModuleManager().getModule(ClientTheme.class);
     }
 
     @Override
     protected void renderModule(boolean inChat) {
-        if(!initialised) {
+        if (!initialised) {
             initialise();
             initialised = true;
         }
 
-        if(mc.gameSettings.showDebugInfo) return;
+        if (mc.gameSettings.showDebugInfo) return;
 
         switch (mode.getValue()) {
             case "New":
@@ -54,6 +53,8 @@ public class Watermark extends HUDModule {
                 renderSimple();
                 break;
         }
+
+        Vestige.instance.getFontManager().getPingFang18().drawStringWithShadow("测试", 2, 2, -1);
     }
 
     private void renderNew() {
@@ -69,7 +70,7 @@ public class Watermark extends HUDModule {
 
         Gui.drawRect(x, y + 2, x + 2 + (int) watermarkWidth, y + 14.5F, 0x60000000);
 
-        for(float i = x; i < x + 1 + watermarkWidth; i++) {
+        for (float i = x; i < x + 1 + watermarkWidth; i++) {
             Gui.drawRect(i, y, i + 1, y + 2, theme.getColor((int) (i * 10)));
         }
 
@@ -90,7 +91,7 @@ public class Watermark extends HUDModule {
         float x = posX.getValue().floatValue();
         float y = posY.getValue().floatValue();
 
-        for(float i = x; i < x + 2 + watermarkWidth; i++) {
+        for (float i = x; i < x + 2 + watermarkWidth; i++) {
             int color = theme.getColor((int) (i * 18));
 
             Gui.drawRect(i, y, i + 1, y + 2.5F, color);

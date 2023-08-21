@@ -126,7 +126,7 @@ public class GuiSpectator extends Gui implements ISpectatorMenuRecipient
 
             if (s != null)
             {
-                int j = (p_175263_1_.getScaledWidth() - this.field_175268_g.fontRendererObj.getStringWidth(s)) / 2;
+                int j = (int) ((p_175263_1_.getScaledWidth() - this.field_175268_g.fontRendererObj.getStringWidth(s)) / 2);
                 int k = p_175263_1_.getScaledHeight() - 35;
                 GlStateManager.pushMatrix();
                 GlStateManager.enableBlend();

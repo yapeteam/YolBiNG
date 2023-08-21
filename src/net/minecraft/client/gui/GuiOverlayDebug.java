@@ -2,9 +2,6 @@ package net.minecraft.client.gui;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map.Entry;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -16,11 +13,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.src.Config;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.*;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.WorldType;
@@ -31,6 +24,10 @@ import net.optifine.reflect.Reflector;
 import net.optifine.util.NativeMemory;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map.Entry;
 
 public class GuiOverlayDebug extends Gui
 {
@@ -76,7 +73,7 @@ public class GuiOverlayDebug extends Gui
             if (!Strings.isNullOrEmpty(s))
             {
                 int j = this.fontRenderer.FONT_HEIGHT;
-                int k = this.fontRenderer.getStringWidth(s);
+                int k = (int) this.fontRenderer.getStringWidth(s);
                 int l = 2;
                 int i1 = 2 + j * i;
                 drawRect(1, i1 - 1, 2 + k + 1, i1 + j - 1, -1873784752);
@@ -96,7 +93,7 @@ public class GuiOverlayDebug extends Gui
             if (!Strings.isNullOrEmpty(s))
             {
                 int j = this.fontRenderer.FONT_HEIGHT;
-                int k = this.fontRenderer.getStringWidth(s);
+                int k = (int) this.fontRenderer.getStringWidth(s);
                 int l = p_175239_1_.getScaledWidth() - 2 - k;
                 int i1 = 2 + j * i;
                 drawRect(l - 1, i1 - 1, l + k + 1, i1 + j - 1, -1873784752);

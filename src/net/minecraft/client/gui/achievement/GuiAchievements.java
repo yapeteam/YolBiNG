@@ -1,7 +1,5 @@
 package net.minecraft.client.gui.achievement;
 
-import java.io.IOException;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -22,6 +20,9 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
+
+import java.io.IOException;
+import java.util.Random;
 
 public class GuiAchievements extends GuiScreen implements IProgressMeter
 {
@@ -504,7 +505,7 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter
 
             if (this.statFileWriter.canUnlockAchievement(achievement))
             {
-                int j8 = Math.max(this.fontRendererObj.getStringWidth(s), 120);
+                int j8 =(int) Math.max(this.fontRendererObj.getStringWidth(s), 120);
                 int i9 = this.fontRendererObj.splitStringWidth(s1, j8);
 
                 if (this.statFileWriter.hasAchievementUnlocked(achievement))
@@ -523,7 +524,7 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter
             else if (i8 == 3)
             {
                 s = I18n.format("achievement.unknown", new Object[0]);
-                int k8 = Math.max(this.fontRendererObj.getStringWidth(s), 120);
+                int k8 = (int)Math.max(this.fontRendererObj.getStringWidth(s), 120);
                 String s2 = (new ChatComponentTranslation("achievement.requires", new Object[] {achievement.parentAchievement.getStatName()})).getUnformattedText();
                 int i5 = this.fontRendererObj.splitStringWidth(s2, k8);
                 this.drawGradientRect(i7 - 3, k7 - 3, i7 + k8 + 3, k7 + i5 + 12 + 3, -1073741824, -1073741824);
@@ -531,7 +532,7 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter
             }
             else if (i8 < 3)
             {
-                int l8 = Math.max(this.fontRendererObj.getStringWidth(s), 120);
+                int l8 =(int) Math.max(this.fontRendererObj.getStringWidth(s), 120);
                 String s3 = (new ChatComponentTranslation("achievement.requires", new Object[] {achievement.parentAchievement.getStatName()})).getUnformattedText();
                 int j9 = this.fontRendererObj.splitStringWidth(s3, l8);
                 this.drawGradientRect(i7 - 3, k7 - 3, i7 + l8 + 3, k7 + j9 + 12 + 3, -1073741824, -1073741824);

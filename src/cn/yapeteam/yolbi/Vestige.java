@@ -6,6 +6,7 @@ import cn.yapeteam.yolbi.handler.client.KeybindHandler;
 import cn.yapeteam.yolbi.handler.client.SlotSpoofHandler;
 import cn.yapeteam.yolbi.handler.packet.PacketBlinkHandler;
 import cn.yapeteam.yolbi.handler.packet.PacketDelayHandler;
+import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.ui.menu.VestigeMainMenu;
 import cn.yapeteam.yolbi.util.render.FontUtil;
 import lombok.Getter;
@@ -73,7 +74,7 @@ public class Vestige implements IMinecraft {
         fileSystem.loadDefaultConfig();
         fileSystem.loadKeybinds();
 
-        moduleManager.modules.forEach(m -> m.onClientStarted());
+        moduleManager.modules.forEach(Module::onClientStarted);
 
         FontUtil.initFonts();
     }

@@ -393,7 +393,7 @@ public abstract class Render<T extends Entity> implements IEntityRenderer
                 i = -10;
             }
 
-            int j = fontrenderer.getStringWidth(str) / 2;
+            int j = (int)fontrenderer.getStringWidth(str) / 2;
             GlStateManager.disableTexture2D();
             worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181706_f);
             worldrenderer.func_181662_b((double)(-j - 1), (double)(-1 + i), 0.0D).func_181666_a(0.0F, 0.0F, 0.0F, 0.25F).func_181675_d();

@@ -3,14 +3,16 @@ package cn.yapeteam.yolbi.module.impl.visual;
 import cn.yapeteam.yolbi.Vestige;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.PostMotionEvent;
-import cn.yapeteam.yolbi.font.VestigeFontRenderer;
+import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.module.*;
-import cn.yapeteam.yolbi.values.impl.*;
 import cn.yapeteam.yolbi.util.animation.AnimationHolder;
 import cn.yapeteam.yolbi.util.animation.AnimationType;
 import cn.yapeteam.yolbi.util.animation.AnimationUtil;
 import cn.yapeteam.yolbi.util.render.DrawUtil;
 import cn.yapeteam.yolbi.util.render.FontUtil;
+import cn.yapeteam.yolbi.values.impl.BooleanValue;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 
@@ -46,7 +48,7 @@ public class ModuleList extends HUDModule {
 
     private final ModeValue<AlignType> alignMode = new ModeValue<>("Align type", AlignType.RIGHT, AlignType.values());
 
-    private VestigeFontRenderer productSans;
+    private AbstractFontRenderer productSans;
 
     private ClientTheme theme;
 

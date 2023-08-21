@@ -1,6 +1,5 @@
 package net.minecraft.client.gui;
 
-import java.io.IOException;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.GlStateManager;
@@ -15,6 +14,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.gen.FlatGeneratorInfo;
 import net.minecraft.world.gen.FlatLayerInfo;
+
+import java.io.IOException;
 
 public class GuiCreateFlatWorld extends GuiScreen
 {
@@ -131,7 +132,7 @@ public class GuiCreateFlatWorld extends GuiScreen
         this.drawCenteredString(this.fontRendererObj, this.flatWorldTitle, this.width / 2, 8, 16777215);
         int i = this.width / 2 - 92 - 16;
         this.drawString(this.fontRendererObj, this.field_146394_i, i, 32, 16777215);
-        this.drawString(this.fontRendererObj, this.field_146391_r, i + 2 + 213 - this.fontRendererObj.getStringWidth(this.field_146391_r), 32, 16777215);
+        this.drawString(this.fontRendererObj, this.field_146391_r, i + 2 + 213 - (int)this.fontRendererObj.getStringWidth(this.field_146391_r), 32, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

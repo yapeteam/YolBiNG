@@ -1,16 +1,18 @@
 package cn.yapeteam.yolbi.ui.click.dropdown;
 
 import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.font.VestigeFontRenderer;
-import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.impl.visual.ClickGuiModule;
-import cn.yapeteam.yolbi.values.impl.*;
 import cn.yapeteam.yolbi.ui.click.dropdown.impl.CategoryHolder;
 import cn.yapeteam.yolbi.ui.click.dropdown.impl.ModuleHolder;
 import cn.yapeteam.yolbi.ui.click.dropdown.impl.SettingHolder;
 import cn.yapeteam.yolbi.util.render.ColorUtil;
 import cn.yapeteam.yolbi.util.render.DrawUtil;
+import cn.yapeteam.yolbi.values.impl.BooleanValue;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
@@ -71,7 +73,7 @@ public class DropdownClickGUI extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        VestigeFontRenderer fr = Vestige.instance.getFontManager().getProductSans();
+        AbstractFontRenderer fr = Vestige.instance.getFontManager().getProductSans();
 
         GL11.glTranslatef(0, scrollY, 0);
 
@@ -91,7 +93,7 @@ public class DropdownClickGUI extends GuiScreen {
                 String capital = categoryName.substring(0, 1).toUpperCase();
                 String rest = categoryName.substring(1);
 
-                fr.drawStringWithShadow(capital + rest, x + 4, y + 5.5, -1);
+                fr.drawStringWithShadow(capital + rest, (float) (x + 4), (float) (y + 5.5), -1);
 
                 float startX = x;
                 float endX = startX + categoryXOffset;
@@ -261,7 +263,7 @@ public class DropdownClickGUI extends GuiScreen {
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
-        VestigeFontRenderer fr = Vestige.instance.getFontManager().getProductSans();
+        AbstractFontRenderer fr = Vestige.instance.getFontManager().getProductSans();
 
         for (CategoryHolder category : categories) {
             if (category.isShown()) {

@@ -1,16 +1,11 @@
 package net.minecraft.client.gui;
 
+import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.module.impl.visual.NameProtect;
+import cn.yapeteam.yolbi.util.IMinecraft;
 import com.ibm.icu.text.ArabicShaping;
 import com.ibm.icu.text.ArabicShapingException;
 import com.ibm.icu.text.Bidi;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
-import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -28,9 +23,11 @@ import net.optifine.render.GlBlendState;
 import net.optifine.util.FontUtils;
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.opengl.GL11;
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.module.impl.visual.NameProtect;
-import cn.yapeteam.yolbi.util.IMinecraft;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 public class FontRenderer implements IResourceManagerReloadListener, IMinecraft
 {
@@ -376,7 +373,7 @@ public class FontRenderer implements IResourceManagerReloadListener, IMinecraft
     /**
      * Draws the specified string with a shadow.
      */
-    public int drawStringWithShadow(String text, float x, float y, int color)
+    public float drawStringWithShadow(String text, float x, float y, int color)
     {
         return this.drawString(text, x, y, color, true);
     }
@@ -384,7 +381,7 @@ public class FontRenderer implements IResourceManagerReloadListener, IMinecraft
     /**
      * Draws the specified string.
      */
-    public int drawString(String text, float x, float y, int color)
+    public float drawString(String text, float x, float y, int color)
     {
         return this.drawString(text, x, y, color, false);
     }
@@ -392,7 +389,7 @@ public class FontRenderer implements IResourceManagerReloadListener, IMinecraft
     /**
      * Draws the specified string.
      */
-    public int drawString(String text, float x, float y, int color, boolean dropShadow)
+    public float drawString(String text, float x, float y, int color, boolean dropShadow)
     {
         this.enableAlpha();
 
@@ -546,7 +543,7 @@ public class FontRenderer implements IResourceManagerReloadListener, IMinecraft
 
                 if (this.randomStyle && j != -1)
                 {
-                    int k = this.getCharWidth(c0);
+                    int k = (int) this.getCharWidth(c0);
                     char c1;
 
                     while (true)
@@ -648,7 +645,7 @@ public class FontRenderer implements IResourceManagerReloadListener, IMinecraft
     {
         if (this.bidiFlag)
         {
-            int i = this.getStringWidth(this.bidiReorder(text));
+            int i = (int) this.getStringWidth(this.bidiReorder(text));
             x = x + p_78274_4_ - i;
         }
 
@@ -696,7 +693,7 @@ public class FontRenderer implements IResourceManagerReloadListener, IMinecraft
     /**
      * Returns the width of this string. Equivalent of FontMetrics.stringWidth(String s).
      */
-    public int getStringWidth(String text)
+    public float getStringWidth(String text)
     {
         if (text == null)
         {
@@ -747,7 +744,7 @@ public class FontRenderer implements IResourceManagerReloadListener, IMinecraft
     /**
      * Returns the width of this character as rendered.
      */
-    public int getCharWidth(char character)
+    public float getCharWidth(char character)
     {
         return Math.round(this.getCharWidthFloat(character));
     }

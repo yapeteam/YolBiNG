@@ -1,16 +1,13 @@
 package net.minecraft.client.resources;
 
-import java.util.List;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiListExtended;
-import net.minecraft.client.gui.GuiScreenResourcePacks;
-import net.minecraft.client.gui.GuiYesNo;
-import net.minecraft.client.gui.GuiYesNoCallback;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.List;
 
 public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListEntry
 {
@@ -113,11 +110,11 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
             }
         }
 
-        int i1 = this.mc.fontRendererObj.getStringWidth(s);
+        int i1 =(int) this.mc.fontRendererObj.getStringWidth(s);
 
         if (i1 > 157)
         {
-            s = this.mc.fontRendererObj.trimStringToWidth(s, 157 - this.mc.fontRendererObj.getStringWidth("...")) + "...";
+            s = this.mc.fontRendererObj.trimStringToWidth(s, 157 -(int) this.mc.fontRendererObj.getStringWidth("...")) + "...";
         }
 
         this.mc.fontRendererObj.drawStringWithShadow(s, (float)(x + 32 + 2), (float)(y + 1), 16777215);

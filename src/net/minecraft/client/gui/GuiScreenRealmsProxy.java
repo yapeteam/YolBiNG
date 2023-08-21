@@ -1,12 +1,13 @@
 package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 import net.minecraft.item.ItemStack;
 import net.minecraft.realms.RealmsButton;
 import net.minecraft.realms.RealmsScreen;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 public class GuiScreenRealmsProxy extends GuiScreen
 {
@@ -135,7 +136,7 @@ public class GuiScreenRealmsProxy extends GuiScreen
 
     public int func_154326_c(String p_154326_1_)
     {
-        return this.fontRendererObj.getStringWidth(p_154326_1_);
+        return (int)this.fontRendererObj.getStringWidth(p_154326_1_);
     }
 
     public void func_154319_c(String p_154319_1_, int p_154319_2_, int p_154319_3_, int p_154319_4_)

@@ -1,5 +1,8 @@
 package cn.yapeteam.yolbi.ui.menu;
 
+import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.font.AbstractFontRenderer;
+import cn.yapeteam.yolbi.ui.menu.components.Button;
 import cn.yapeteam.yolbi.util.misc.AudioUtil;
 import cn.yapeteam.yolbi.util.network.MicrosoftExternalLogin;
 import cn.yapeteam.yolbi.util.render.ColorUtil;
@@ -11,9 +14,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.gui.*;
 import net.minecraft.util.Session;
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.font.VestigeFontRenderer;
-import cn.yapeteam.yolbi.ui.menu.components.Button;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -39,7 +39,7 @@ public class AltLoginScreen extends GuiScreen {
     @Setter
     private String status;
 
-    private VestigeFontRenderer font;
+    private AbstractFontRenderer font;
 
     private final int textColor = new Color(220, 220, 220).getRGB();
 
@@ -82,14 +82,14 @@ public class AltLoginScreen extends GuiScreen {
 
         int totalHeight = buttonHeight * buttons.length;
 
-        double y = Math.max(sr.getScaledHeight() / 2 - totalHeight * 0.2, 140);
+        double y = Math.max(sr.getScaledHeight() / 2f - totalHeight * 0.2, 140);
 
         double titleY = Math.max(sr.getScaledHeight() / 2 - totalHeight / 2 - 110, 20);
 
         String altLogin = "Alt login";
 
-        font.drawStringWithShadow(altLogin, sr.getScaledWidth() / 2 - font.getStringWidth(altLogin) / 2, titleY, -1);
-        font.drawStringWithShadow(status, sr.getScaledWidth() / 2 - font.getStringWidth(status) / 2, titleY + 25, -1);
+        font.drawStringWithShadow(altLogin, (float) (sr.getScaledWidth() / 2 - font.getStringWidth(altLogin) / 2), (float) titleY, -1);
+        font.drawStringWithShadow(status, (float) (sr.getScaledWidth() / 2 - font.getStringWidth(status) / 2), (float) (titleY + 25), -1);
 
         int startX = sr.getScaledWidth() / 2 - buttonWidth / 2;
         int endX = sr.getScaledWidth() / 2 + buttonWidth / 2;
@@ -107,7 +107,7 @@ public class AltLoginScreen extends GuiScreen {
 
             String buttonName = button.getName();
 
-            font.drawStringWithShadow(buttonName, sr.getScaledWidth() / 2 - font.getStringWidth(buttonName) / 2, y + 6, textColor);
+            font.drawStringWithShadow(buttonName, (float) (sr.getScaledWidth() / 2 - font.getStringWidth(buttonName) / 2), (float) (y + 6), textColor);
 
             y += buttonHeight;
         }

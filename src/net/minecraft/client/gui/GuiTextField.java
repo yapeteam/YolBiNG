@@ -550,7 +550,7 @@ public class GuiTextField extends Gui
             if (s.length() > 0)
             {
                 String s1 = flag ? s.substring(0, j) : s;
-                j1 = this.fontRendererInstance.drawStringWithShadow(s1, (float)l, (float)i1, i);
+                j1 = (int)this.fontRendererInstance.drawStringWithShadow(s1, (float)l, (float)i1, i);
             }
 
             boolean flag2 = this.cursorPosition < this.text.length() || this.text.length() >= this.getMaxStringLength();
@@ -568,7 +568,7 @@ public class GuiTextField extends Gui
 
             if (s.length() > 0 && flag && j < s.length())
             {
-                j1 = this.fontRendererInstance.drawStringWithShadow(s.substring(j), (float)j1, (float)i1, i);
+                j1 = (int)this.fontRendererInstance.drawStringWithShadow(s.substring(j), (float)j1, (float)i1, i);
             }
 
             if (flag1)
@@ -585,7 +585,7 @@ public class GuiTextField extends Gui
 
             if (k != j)
             {
-                int l1 = l + this.fontRendererInstance.getStringWidth(s.substring(0, k));
+                int l1 = l + (int)this.fontRendererInstance.getStringWidth(s.substring(0, k));
                 this.drawCursorVertical(k1, i1 - 1, l1 - 1, i1 + 1 + this.fontRendererInstance.FONT_HEIGHT);
             }
         }

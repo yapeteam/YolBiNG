@@ -1,18 +1,15 @@
 package net.minecraft.client.renderer.entity;
 
+import cn.yapeteam.yolbi.Vestige;
+import cn.yapeteam.yolbi.event.impl.RotationsRenderEvent;
+import cn.yapeteam.yolbi.module.impl.visual.Chams;
 import com.google.common.collect.Lists;
-import java.nio.FloatBuffer;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelSpider;
-import net.minecraft.client.renderer.GLAllocation;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -31,9 +28,9 @@ import net.optifine.shaders.Shaders;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
-import cn.yapeteam.yolbi.Vestige;
-import cn.yapeteam.yolbi.event.impl.RotationsRenderEvent;
-import cn.yapeteam.yolbi.module.impl.visual.Chams;
+
+import java.nio.FloatBuffer;
+import java.util.List;
 
 public abstract class RendererLivingEntity<T extends EntityLivingBase> extends Render<T>
 {
@@ -683,7 +680,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
                         GlStateManager.enableBlend();
                         GlStateManager.disableTexture2D();
                         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-                        int i = fontrenderer.getStringWidth(s) / 2;
+                        int i = (int)fontrenderer.getStringWidth(s) / 2;
                         Tessellator tessellator = Tessellator.getInstance();
                         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
                         worldrenderer.func_181668_a(7, DefaultVertexFormats.field_181706_f);
