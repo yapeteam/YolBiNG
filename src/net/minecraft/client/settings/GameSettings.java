@@ -132,7 +132,6 @@ public class GameSettings
     private Map<SoundCategory, Float> mapSoundLevels = Maps.newEnumMap(SoundCategory.class);
     public boolean field_181150_U = true;
     public boolean field_181151_V = true;
-    public boolean field_183509_X = true;
     public KeyBinding keyBindForward = new KeyBinding("key.forward", 17, "key.categories.movement");
     public KeyBinding keyBindLeft = new KeyBinding("key.left", 30, "key.categories.movement");
     public KeyBinding keyBindBack = new KeyBinding("key.back", 31, "key.categories.movement");
@@ -608,10 +607,7 @@ public class GameSettings
             this.field_181151_V = !this.field_181151_V;
         }
 
-        if (p_74306_1_ == GameSettings.Options.REALMS_NOTIFICATIONS)
-        {
-            this.field_183509_X = !this.field_183509_X;
-        }
+
 
         this.saveOptions();
     }
@@ -686,8 +682,6 @@ public class GameSettings
             case ENTITY_SHADOWS:
                 return this.field_181151_V;
 
-            case REALMS_NOTIFICATIONS:
-                return this.field_183509_X;
 
             default:
                 return false;
@@ -1096,10 +1090,7 @@ public class GameSettings
                                 this.field_181151_V = astring[1].equals("true");
                             }
 
-                            if (astring[0].equals("realmsNotifications"))
-                            {
-                                this.field_183509_X = astring[1].equals("true");
-                            }
+
 
                             for (KeyBinding keybinding : this.keyBindings)
                             {
@@ -1239,7 +1230,6 @@ public class GameSettings
             printwriter.println("reducedDebugInfo:" + this.reducedDebugInfo);
             printwriter.println("useNativeTransport:" + this.field_181150_U);
             printwriter.println("entityShadows:" + this.field_181151_V);
-            printwriter.println("realmsNotifications:" + this.field_183509_X);
 
             for (KeyBinding keybinding : this.keyBindings)
             {
@@ -3239,7 +3229,6 @@ public class GameSettings
         BLOCK_ALTERNATIVES("options.blockAlternatives", false, true),
         REDUCED_DEBUG_INFO("options.reducedDebugInfo", false, true),
         ENTITY_SHADOWS("options.entityShadows", false, true),
-        REALMS_NOTIFICATIONS("options.realmsNotifications", false, true),
         FOG_FANCY("of.options.FOG_FANCY", false, false),
         FOG_START("of.options.FOG_START", false, false),
         MIPMAP_TYPE("of.options.MIPMAP_TYPE", true, false, 0.0F, 3.0F, 1.0F),

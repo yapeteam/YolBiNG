@@ -157,7 +157,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
     private CrashReport crashReporter;
     public int displayWidth;
     public int displayHeight;
-    private boolean field_181541_X = false;
     public final Timer timer = new Timer(20.0F);
 
     /**
@@ -2598,11 +2597,5 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
         return map;
     }
 
-    public boolean func_181540_al() {
-        return this.field_181541_X;
-    }
 
-    public void func_181537_a(boolean p_181537_1_) {
-        this.field_181541_X = p_181537_1_;
-    }
 }
