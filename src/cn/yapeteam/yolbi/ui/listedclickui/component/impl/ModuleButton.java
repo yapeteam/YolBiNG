@@ -121,7 +121,8 @@ public class ModuleButton extends AbstractComponent {
                 if (mouseButton == 1 && getChildComponents().size() >= 1) {
                     int expand = 0;
                     for (AbstractComponent component : getChildComponents())
-                        expand += component.getHeight() + ImplScreen.valueSpacing;
+                        if (!(component instanceof ValueButton && !((ValueButton) component).getValue().getVisibility().get()))
+                            expand += component.getHeight() + ImplScreen.valueSpacing;
                     getParent().setHeight(getParent().getHeight() + (!extended ? 1 : -1) * Math.min(expand, 100));
                     extended = !extended;
                 }
