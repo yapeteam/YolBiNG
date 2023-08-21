@@ -57,7 +57,7 @@ public class ModuleButton extends AbstractComponent {
         super.init();
     }
 
-    private float cacheExpand;
+    private float lastExpand;
 
     @Override
     public void update() {
@@ -74,11 +74,11 @@ public class ModuleButton extends AbstractComponent {
 
         int extend = 0;
         for (AbstractComponent component : getChildComponents())
-                extend += component.getHeight() + ImplScreen.valueSpacing;
-        if (cacheExpand != extend) {
+            extend += component.getHeight() + ImplScreen.valueSpacing;
+        if (lastExpand != extend) {
             if (extended)
-                getParent().setHeight(getParent().getHeight() + (extend - cacheExpand));
-            cacheExpand = extend;
+                getParent().setHeight(getParent().getHeight() + (extend - lastExpand));//更新展开长度
+            lastExpand = extend;
         }
         super.update();
     }
@@ -134,8 +134,8 @@ public class ModuleButton extends AbstractComponent {
                     for (AbstractComponent component : getChildComponents())
                         if (!(component instanceof ValueButton && !((ValueButton) component).getValue().getVisibility().get()))
                             extend += component.getHeight() + ImplScreen.valueSpacing;
-                    getParent().setHeight(getParent().getHeight() + (!extended ? 1 : -1) * Math.min(extend, 100));
                     extended = !extended;
+                    getParent().setHeight(getParent().getHeight() + (extended ? 1 : -1) * Math.min(extend, 100));
                 }
             }
         if (extended)
