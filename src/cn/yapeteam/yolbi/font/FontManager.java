@@ -28,23 +28,12 @@ public class FontManager {
         productSans23 = new VestigeFontRenderer(getFontFromTTF("product_sans", 23, Font.PLAIN), true, true);
         productSansTitle = new VestigeFontRenderer(getFontFromTTF("product_sans", 34, Font.PLAIN), true, true);
         comfortaa = new VestigeFontRenderer(getFontFromTTF("comfortaa", 19, Font.PLAIN), true, true);
-
-        /*PingFang12 = getUnicode("PingFang_Normal", 12);
-        PingFang14 = getUnicode("PingFang_Normal", 14);
-        PingFang16 = getUnicode("PingFang_Normal", 16);
-        PingFang18 = getUnicode("PingFang_Normal", 18);
-        PingFangBold18 = getUnicode("PingFang_Bold", 18);*/
         PingFang12 = new FontRenderer(getFontFromTTF("PingFang_Normal", 12, Font.PLAIN), 12, true);
         PingFang14 = new FontRenderer(getFontFromTTF("PingFang_Normal", 14, Font.PLAIN), 14, true);
         PingFang16 = new FontRenderer(getFontFromTTF("PingFang_Normal", 16, Font.PLAIN), 14, true);
         PingFang18 = new FontRenderer(getFontFromTTF("PingFang_Normal", 18, Font.PLAIN), 14, true);
         PingFangBold18 = new FontRenderer(getFontFromTTF("PingFang_Bold", 18, Font.PLAIN), 18, true);
         FLUXICON14 = new VestigeFontRenderer(getFontFromTTF("fluxicon", 14, Font.PLAIN), true, true);
-        /*PingFang12 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Normal", 12, Font.PLAIN)), 12);
-        PingFang14 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Normal", 14, Font.PLAIN)), 14);
-        PingFang16 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Normal", 16, Font.PLAIN)), 16);
-        PingFang18 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Normal", 18, Font.PLAIN)), 18);
-        PingFangBold18 = new WrappedVertexFontRenderer(new VertexFontRenderer(getFontFromTTF("PingFang_Bold", 18, Font.PLAIN)), 18);*/
     }
 
     public Font getFontFromTTF(String fontName, float fontSize, int fontType) {
