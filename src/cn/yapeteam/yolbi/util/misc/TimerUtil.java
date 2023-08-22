@@ -16,6 +16,10 @@ public class TimerUtil {
         this.lastTime = System.currentTimeMillis() - time;
     }
 
+    public boolean delay(long time) {
+        return getTimeElapsed() >= time;
+    }
+
     public void reset() {
         lastTime = System.currentTimeMillis();
     }

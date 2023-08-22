@@ -31,7 +31,7 @@ public class ModeValue<T> extends Value<T> {
         return getValue().equals(str);
     }
 
-    public void setValue(String str) {
+    public void setMode(String str) {
         Arrays.stream(modes).filter(m -> m.toString().equals(str)).findFirst().ifPresent(toSet -> value = toSet);
     }
 

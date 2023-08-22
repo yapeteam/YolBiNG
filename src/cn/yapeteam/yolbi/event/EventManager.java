@@ -32,7 +32,7 @@ public class EventManager {
 
     private void updateListeningMethods() {
         listeningMethods.clear();
-        listeningObjects.forEach(o -> Arrays.stream(o.getClass().getMethods()).filter(m -> m.isAnnotationPresent(Listener.class) && m.getParameters().length == 1).forEach(m -> listeningMethods.add(new ListeningMethod(m, o))));
+        listeningObjects.forEach(o -> Arrays.stream(o.getClass().getDeclaredMethods()).filter(m -> m.isAnnotationPresent(Listener.class) && m.getParameters().length == 1).forEach(m -> listeningMethods.add(new ListeningMethod(m, o))));
         listeningMethods.sort(Comparator.comparingInt(m -> m.method.getAnnotation(Listener.class).value()));
     }
 
@@ -46,30 +46,16 @@ public class EventManager {
                 throw new RuntimeException(ex);
             }
         }));
-
-        /*
-        listeningMethods.forEach(m -> {
-            for (Parameter p : m.method.getParameters()) {
-                if (e.getClass().equals(p.getType())) {
-                    try {
-                        m.method.invoke(m.instance, e);
-                    } catch (IllegalAccessException | InvocationTargetException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        });
-        */
     }
 
-    private class ListeningMethod {
+    private static class ListeningMethod {
         private final Method method;
         private final Object instance;
 
         private ListeningMethod(Method method, Object instance) {
+            method.setAccessible(true);
             this.method = method;
             this.instance = instance;
         }
     }
-
 }

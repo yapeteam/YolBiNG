@@ -137,9 +137,11 @@ public class ValueButton extends AbstractComponent {
                     ModeValue<?> modeValue = (ModeValue<?>) value;
                     int index = Arrays.asList(modeValue.getModes()).indexOf(modeValue.getValue());
                     if (isHovering(getX(), getY(), getWidth() / 2f, getHeight(), mouseX, mouseY))
-                        modeValue.setValue(modeValue.getModes()[index > 0 ? index - 1 : modeValue.getModes().length - 1].toString());
+                        if (modeValue.getModes().length != 0)
+                            modeValue.setMode(modeValue.getModes()[index > 0 ? index - 1 : modeValue.getModes().length - 1].toString());
                     if (isHovering(getX() + getWidth() / 2f, getY(), getWidth() / 2f, getHeight(), mouseX, mouseY))
-                        modeValue.setValue(modeValue.getModes()[index < modeValue.getModes().length - 1 ? index + 1 : 0].toString());
+                        if (modeValue.getModes().length != 0)
+                            modeValue.setMode(modeValue.getModes()[index < modeValue.getModes().length - 1 ? index + 1 : 0].toString());
                 }
             }
     }

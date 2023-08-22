@@ -5,6 +5,7 @@ import cn.yapeteam.yolbi.module.impl.exploit.Disabler;
 import cn.yapeteam.yolbi.module.impl.exploit.StrafeConverter;
 import cn.yapeteam.yolbi.module.impl.misc.AnticheatModule;
 import cn.yapeteam.yolbi.module.impl.misc.Autoplay;
+import cn.yapeteam.yolbi.module.impl.misc.NoteBot;
 import cn.yapeteam.yolbi.module.impl.misc.SelfDestruct;
 import cn.yapeteam.yolbi.module.impl.movement.*;
 import cn.yapeteam.yolbi.module.impl.player.*;
@@ -85,6 +86,7 @@ public class ModuleManager {
         modules.add(new AnticheatModule());
         modules.add(new Autoplay());
         modules.add(new SelfDestruct());
+        modules.add(new NoteBot());
 
         hudModules = modules.stream().filter(HUDModule.class::isInstance).map(HUDModule.class::cast).collect(Collectors.toList());
     }

@@ -123,7 +123,7 @@ public class FileSystem {
                                             booleanValue.setValue(Boolean.parseBoolean(infos[3]));
                                         } else if (value instanceof ModeValue) {
                                             ModeValue<?> modeValue = (ModeValue<?>) value;
-                                            modeValue.setValue(infos[3]);
+                                            modeValue.setMode(infos[3]);
                                         } else if (value instanceof NumberValue) {
                                             NumberValue<?> numberValue = (NumberValue<?>) value;
                                             numberValue.setValue(Double.parseDouble(infos[3]));

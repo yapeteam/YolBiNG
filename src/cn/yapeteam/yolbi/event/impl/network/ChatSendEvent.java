@@ -9,7 +9,5 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ChatSendEvent extends CancellableEvent {
-
     private String message;
-
 }
