@@ -1,7 +1,9 @@
 package net.minecraft.client.renderer.entity;
 
+import cn.yapeteam.yolbi.module.impl.combat.Killaura;
 import net.minecraft.block.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -49,6 +51,8 @@ public class RenderItem implements IResourceManagerReloadListener
     public ModelManager modelManager = null;
     private boolean renderModelHasEmissive = false;
     private boolean renderModelEmissive = false;
+    private EntityLivingBase lastEntityToRenderFor;
+
 
     public RenderItem(TextureManager textureManager, ModelManager modelManager)
     {
@@ -345,6 +349,8 @@ public class RenderItem implements IResourceManagerReloadListener
         if (stack != null && entityToRenderFor != null)
         {
             IBakedModel ibakedmodel = this.itemModelMesher.getItemModel(stack);
+            lastEntityToRenderFor = entityToRenderFor;
+
 
             if (entityToRenderFor instanceof EntityPlayer)
             {
@@ -419,6 +425,28 @@ public class RenderItem implements IResourceManagerReloadListener
             }
         }
 
+        // 1.7 third person block animations
+        if (cameraTransformType == ItemCameraTransforms.TransformType.THIRD_PERSON && lastEntityToRenderFor instanceof EntityPlayer) {
+            EntityPlayer p = (EntityPlayer) lastEntityToRenderFor;
+            ItemStack heldStack = p.getHeldItem();
+            if (heldStack != null) {
+                EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+                if (lastEntityToRenderFor == player) {      //TODO killaura Blocking  || KillAura.blocking
+                    if (heldStack.getItem() instanceof ItemSword && (p.getItemInUseCount() > 0 || player.isBlocking())  ) {
+                        doThirdPersonBlockTransformations();
+                    } else if (heldStack.getItem() instanceof ItemSword && ( Killaura.getInstance().isEnabled()&&Killaura.getInstance().canRenderBlocking())){
+                        doThirdPersonBlockTransformations();
+                    }
+                } else if (p.getItemInUseCount() > 0 && heldStack.getItemUseAction() == EnumAction.BLOCK) {
+                    doThirdPersonBlockTransformations();
+                }
+            }
+        }
+
+
+
+
+
         this.renderItem(stack, model);
         GlStateManager.cullFace(1029);
         GlStateManager.popMatrix();
@@ -427,6 +455,13 @@ public class RenderItem implements IResourceManagerReloadListener
         this.textureManager.bindTexture(TextureMap.locationBlocksTexture);
         this.textureManager.getTexture(TextureMap.locationBlocksTexture).restoreLastBlurMipmap();
     }
+
+    private void doThirdPersonBlockTransformations() {
+        GlStateManager.translate(-0.15F, -0.2F, 0);
+        GlStateManager.rotate(70, 1, 0, 0);
+        GlStateManager.translate(0.119F, 0.2F, -0.024F);
+    }
+
 
     private boolean func_183005_a(ItemTransformVec3f p_183005_1_)
     {

@@ -36,6 +36,7 @@ import net.minecraft.util.*;
 import net.minecraft.world.border.WorldBorder;
 import net.optifine.CustomColors;
 
+import java.awt.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -575,15 +576,15 @@ public class GuiIngame extends Gui
             int k = (int) (j1 - j * this.getFontRenderer().FONT_HEIGHT);
             int l = p_180475_2_.getScaledWidth() - k1 + 2;
             drawRect(l1 - 2, k, l, k + this.getFontRenderer().FONT_HEIGHT, 1342177280);
-            this.getFontRenderer().drawString(s1, l1, k, 553648127);
-            this.getFontRenderer().drawString(s2, l - this.getFontRenderer().getStringWidth(s2), k, 553648127);
+            this.getFontRenderer().drawString(s1, l1, k, new Color(0xFFFFFF));
+            this.getFontRenderer().drawString(s2, l - this.getFontRenderer().getStringWidth(s2), k, new Color(0xFFFFFF));
 
             if (j == collection.size())
             {
                 String s3 = p_180475_1_.getDisplayName();
-                drawRect(l1 - 2, k - this.getFontRenderer().FONT_HEIGHT - 1, l, k - 1, 1610612736);
-                drawRect(l1 - 2, k - 1, l, k, 1342177280);
-                this.getFontRenderer().drawString(s3, l1 + i / 2f - this.getFontRenderer().getStringWidth(s3) / 2, k - this.getFontRenderer().FONT_HEIGHT, 553648127);
+                drawRect(l1 - 2, k - this.getFontRenderer().FONT_HEIGHT - 1, l, k - 1, new Color(0,0,0,103).getRGB());
+                drawRect(l1 - 2, k - 1, l, k, new Color(0,0,0, 103).getRGB());
+                this.getFontRenderer().drawString(s3, l1 + i / 2f - this.getFontRenderer().getStringWidth(s3) / 2, k - this.getFontRenderer().FONT_HEIGHT, new Color(255,255,255).getRGB());
             }
         }
     }

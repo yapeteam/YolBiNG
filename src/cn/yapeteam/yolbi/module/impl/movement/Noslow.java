@@ -2,6 +2,7 @@ package cn.yapeteam.yolbi.module.impl.movement;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
+import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
 import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
 import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
 import cn.yapeteam.yolbi.event.impl.player.SlowdownEvent;
@@ -10,6 +11,7 @@ import cn.yapeteam.yolbi.event.impl.render.ItemRenderEvent;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.impl.combat.Killaura;
+import cn.yapeteam.yolbi.util.misc.TimerUtil;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
@@ -20,14 +22,18 @@ import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemSword;
-import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import net.minecraft.network.play.client.C09PacketHeldItemChange;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.INetHandlerPlayServer;
+import net.minecraft.network.play.client.*;
+import net.minecraft.util.BlockPos;
 import org.lwjgl.input.Mouse;
+
+import java.util.LinkedList;
 
 public class Noslow extends Module {
 
-    private final ModeValue<String> swordMethod = new ModeValue<>("Sword method", "Vanilla", "Vanilla", "NCP", "AAC4", "AAC5", "Spoof", "Spoof2", "Blink", "None");
-    private final ModeValue<String> consumableMethod = new ModeValue<>("Comsumable method", "Vanilla", "Vanilla", "Hypixel", "AAC4", "AAC5", "None");
+    private final ModeValue<String> swordMethod = new ModeValue<>("Sword method", "Vanilla", "Vanilla", "NCP", "AAC4", "AAC5", "Spoof", "Spoof2", "Blink","GrimAC", "None");
+    private final ModeValue<String> consumableMethod = new ModeValue<>("Comsumable method", "Vanilla", "Vanilla", "Hypixel", "AAC4", "AAC5","GrimAC", "None");
 
     private final NumberValue<Double> forward = new NumberValue<>("Forward", 1.0, 0.2, 1.0, 0.05);
     private final NumberValue<Double> strafe = new NumberValue<>("Strafe", 1.0, 0.2, 1.0, 0.05);
@@ -39,11 +45,16 @@ public class Noslow extends Module {
     private Killaura killauraModule;
 
     private boolean lastUsingItem;
+    private TimerUtil msTimer = new TimerUtil();
+    private boolean nextTemp = false;
+    private LinkedList packetBuf = new LinkedList<Packet<INetHandlerPlayServer>>();
+
     private int ticks;
 
     private int lastSlot;
 
     private boolean wasEating;
+    private boolean lastBlockingStat = false;
 
     public Noslow() {
         super("Noslow", ModuleCategory.MOVEMENT);
@@ -53,13 +64,15 @@ public class Noslow extends Module {
     @Override
     public void onEnable() {
         lastUsingItem = wasEating = false;
+        nextTemp = false;
         lastSlot = mc.thePlayer.inventory.currentItem;
-
+        msTimer.reset();
         ticks = 0;
     }
 
     @Override
     public void onDisable() {
+        nextTemp = false;
         YolBi.instance.getPacketBlinkHandler().stopAll();
     }
 
@@ -99,6 +112,34 @@ public class Noslow extends Module {
                     case "Spoof2":
                         PacketUtil.sendPacket(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
                         break;
+                    case "GrimAC":
+                        if (msTimer.getTimeElapsed() >=230l && nextTemp){
+                            PacketUtil.sendPacketNoEvent(new C09PacketHeldItemChange((mc.thePlayer.inventory.currentItem + 1) % 9));
+                            PacketUtil.sendPacketNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                            if (!packetBuf.isEmpty()){
+                                boolean canAttack = false;
+                                for(Object packet : packetBuf) {
+                                    if((Packet)packet instanceof C03PacketPlayer) {
+                                        canAttack = true;
+                                    }
+                                    if(!(((Packet)packet instanceof C02PacketUseEntity || (Packet)packet instanceof C0APacketAnimation) && !canAttack)) {
+                                        PacketUtil.sendPacketNoEvent((Packet) packet);
+                                    }
+                                }
+                                packetBuf.clear();
+                            }
+                        }
+                        if(!nextTemp) {
+                            lastBlockingStat = mc.thePlayer.isBlocking();
+                            if (!mc.thePlayer.isBlocking()) {
+                                return;
+                            }
+                            PacketUtil.sendPacketNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.thePlayer.inventory.getCurrentItem(), 0f, 0f, 0f));
+                            nextTemp = true;
+                            msTimer.reset();
+                        }
+
+                        break;
                 }
             } else {
                 switch (consumableMethod.getValue()) {
@@ -114,6 +155,34 @@ public class Noslow extends Module {
                         if (lastUsingItem) {
                             PacketUtil.sendBlocking(true, false);
                         }
+                        break;
+                    case "GrimAC":
+                        if (msTimer.getTimeElapsed() >=230l && nextTemp){
+                            PacketUtil.sendPacketNoEvent(new C09PacketHeldItemChange((mc.thePlayer.inventory.currentItem + 1) % 9));
+                            PacketUtil.sendPacketNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                            if (!packetBuf.isEmpty()){
+                                boolean canAttack = false;
+                                for(Object packet : packetBuf) {
+                                    if((Packet)packet instanceof C03PacketPlayer) {
+                                        canAttack = true;
+                                    }
+                                    if(!(((Packet)packet instanceof C02PacketUseEntity || (Packet)packet instanceof C0APacketAnimation) && !canAttack)) {
+                                        PacketUtil.sendPacketNoEvent((Packet) packet);
+                                    }
+                                }
+                                packetBuf.clear();
+                            }
+                        }
+                        if(!nextTemp) {
+                            lastBlockingStat = mc.thePlayer.isUsingItem();
+                            if (!mc.thePlayer.isBlocking()) {
+                                return;
+                            }
+                            PacketUtil.sendPacketNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.thePlayer.inventory.getCurrentItem(), 0f, 0f, 0f));
+                            nextTemp = true;
+                            msTimer.reset();
+                        }
+
                         break;
                 }
             }
@@ -226,6 +295,17 @@ public class Noslow extends Module {
 
                     PacketUtil.sendPacketFinal(new C09PacketHeldItemChange(slot < 8 ? slot + 1 : 0));
                     PacketUtil.sendPacketFinal(new C09PacketHeldItemChange(slot));
+                }
+            }
+        }
+    }
+    @Listener
+    public void onReceive(PacketReceiveEvent event){
+        Packet packet = event.getPacket();
+        if (swordMethod.is("GrimAC") || consumableMethod.is("GrimAC")){
+            if (nextTemp){
+                if((packet instanceof C07PacketPlayerDigging || packet instanceof C08PacketPlayerBlockPlacement) && mc.thePlayer.getHeldItem()!=null &&( mc.thePlayer.isUsingItem() || mc.thePlayer.isBlocking())) {
+                    event.setCancelled(true);
                 }
             }
         }
