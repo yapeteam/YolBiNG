@@ -3,22 +3,23 @@ package net.minecraft.client.resources;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import net.minecraft.util.ResourceLocation;
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-import net.minecraft.util.ResourceLocation;
-import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
 
 public class Locale
 {
     /** Splits on "=" */
     private static final Splitter splitter = Splitter.on('=').limit(2);
     private static final Pattern pattern = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
-    Map<String, String> properties = Maps.<String, String>newHashMap();
+    Map<String, String> properties = Maps.newHashMap();
     private boolean unicode;
 
     /**

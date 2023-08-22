@@ -691,6 +691,38 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
         }
     }
 
+    public void refreshLanguage() {
+        List<IResourcePack> list = Lists.newArrayList(this.defaultResourcePacks);
+
+        for (ResourcePackRepository.Entry resourcepackrepository$entry : this.mcResourcePackRepository.getRepositoryEntries()) {
+            list.add(resourcepackrepository$entry.getResourcePack());
+        }
+
+        if (this.mcResourcePackRepository.getResourcePackInstance() != null) {
+            list.add(this.mcResourcePackRepository.getResourcePackInstance());
+        }
+
+        try {
+            ((SimpleReloadableResourceManager) this.mcResourceManager).reloadLanguages(list);
+            net.optifine.Lang.resourcesReloaded();
+        } catch (RuntimeException runtimeexception) {
+            logger.info("Caught error stitching, removing all assigned resourcepacks", runtimeexception);
+            list.clear();
+            list.addAll(this.defaultResourcePacks);
+            this.mcResourcePackRepository.setRepositories(Collections.emptyList());
+            ((SimpleReloadableResourceManager) this.mcResourceManager).reloadLanguages(list);
+            this.gameSettings.resourcePacks.clear();
+            this.gameSettings.field_183018_l.clear();
+            this.gameSettings.saveOptions();
+        }
+
+        this.mcLanguageManager.parseLanguageMetadata(list);
+
+        if (this.renderGlobal != null) {
+            this.renderGlobal.loadRenderers();
+        }
+    }
+
     private ByteBuffer readImageToBuffer(InputStream imageStream) throws IOException {
         BufferedImage bufferedimage = ImageIO.read(imageStream);
         int[] aint = bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), null, 0, bufferedimage.getWidth());
