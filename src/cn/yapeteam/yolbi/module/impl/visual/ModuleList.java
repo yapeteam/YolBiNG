@@ -10,6 +10,7 @@ import cn.yapeteam.yolbi.util.animation.AnimationType;
 import cn.yapeteam.yolbi.util.animation.AnimationUtil;
 import cn.yapeteam.yolbi.util.render.DrawUtil;
 import cn.yapeteam.yolbi.util.render.FontUtil;
+import cn.yapeteam.yolbi.util.render.RenderUtil;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
@@ -27,7 +28,7 @@ public class ModuleList extends HUDModule {
 
     private final ArrayList<AnimationHolder<Module>> modules = new ArrayList<>();
 
-    private final ModeValue<String> mode = new ModeValue<>("Mode", "Simple", "Simple", "New", "Outline", "Custom");
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Simple", "Simple", "New", "Outline","Bloom" ,"Custom");
 
     private final ModeValue<String> font = FontUtil.getFontSetting(() -> mode.is("Custom"));
 
@@ -90,6 +91,9 @@ public class ModuleList extends HUDModule {
             case "Outline":
                 renderOutline();
                 break;
+            case "Bloom":
+                renderBloom();
+                break;
             case "Custom":
                 renderCustom();
                 break;
@@ -139,6 +143,58 @@ public class ModuleList extends HUDModule {
             if (!holder.isAnimDone() || holder.isRendered()) {
                 holder.render(() -> drawStringWithShadow(name, startX, startY, getColor((int) (startY * -17))), startX, startY, endX, endY);
                 y += offsetY * holder.getYMult();
+            }
+        }
+
+        this.width = (int) (width) + 1;
+        this.height = (int) (y - posY.getValue().intValue()) + 1;
+    }
+
+    private void renderBloom() {
+        ScaledResolution sr = new ScaledResolution(mc);
+
+        float x = posX.getValue().floatValue();
+        float y = posY.getValue().floatValue();
+
+        float offsetY = 10.5F;
+
+        float width = 0;
+
+        for (AnimationHolder<Module> holder : modules) {
+            Module m = holder.get();
+
+            holder.setAnimType(AnimationType.SLIDE);
+            holder.setAnimDuration(350);
+            holder.updateState(m.isEnabled());
+
+            if (!holder.isAnimDone() || holder.isRendered()) {
+                String name = m.getName();
+                double nameLength = getStringWidth(name);
+
+                float mult = holder.getYMult();
+
+                float startX = alignMode.getValue() == AlignType.LEFT ? x - 5 : (float) (sr.getScaledWidth() - nameLength - x - 5);
+                float startY = y;
+
+                float endX = alignMode.getValue() == AlignType.LEFT ? (float) (x + nameLength) : sr.getScaledWidth() - x;
+                float endY = y + offsetY;
+
+                if (Math.abs(endX - startX) > width) {
+                    width = Math.abs(endX - startX);
+                }
+
+                holder.render(() -> {
+                    //RenderUtil.drawBloomShadow();
+                    //Gui.drawRect(startX, startY, startX + 2, endY, getColor((int) (startY * -17)));
+                    Color alColor = new Color(getColor((int) (startY * -17)));
+                    RenderUtil.drawBloomShadow(startX + 2, startY, endX-startX-2, endY-startY,20,
+                            new Color(alColor.getRed(),alColor.getGreen(),alColor.getBlue(),200)
+                            );
+                    //Gui.drawRect(startX + 2, startY, endX, endY, 0x70000000);
+                    drawStringWithShadow(name, startX + 3.5F, startY + 1.5F, getColor((int) (startY * -17)));
+                }, startX, startY, endX, startY + offsetY * mult);
+
+                y += offsetY * Math.min(mult * 4, 1);
             }
         }
 
@@ -371,6 +427,7 @@ public class ModuleList extends HUDModule {
                 mc.fontRendererObj.drawString(text, x, y, color);
                 return;
             case "New":
+            case "Bloom":
             case "Outline":
                 productSans.drawString(text, x, y, color);
                 return;
@@ -388,6 +445,7 @@ public class ModuleList extends HUDModule {
                 mc.fontRendererObj.drawStringWithShadow(text, x, y, color);
                 break;
             case "New":
+            case "Bloom":
             case "Outline":
                 productSans.drawStringWithShadow(text, x, y, color);
                 break;
@@ -402,6 +460,7 @@ public class ModuleList extends HUDModule {
             case "Simple":
                 return mc.fontRendererObj.getStringWidth(s);
             case "New":
+            case "Bloom":
             case "Outline":
                 return productSans.getStringWidth(s);
             case "Custom":
@@ -416,6 +475,7 @@ public class ModuleList extends HUDModule {
             case "Simple":
                 return mc.fontRendererObj.FONT_HEIGHT;
             case "New":
+            case "Bloom":
             case "Outline":
                 return productSans.getHeight();
             case "Custom":
@@ -428,5 +488,6 @@ public class ModuleList extends HUDModule {
     public int getColor(int offset) {
         return theme.getColor(offset);
     }
+
 
 }
