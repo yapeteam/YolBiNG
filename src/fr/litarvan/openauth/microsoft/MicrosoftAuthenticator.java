@@ -29,11 +29,13 @@ import fr.litarvan.openauth.microsoft.model.request.MinecraftLoginRequest;
 import fr.litarvan.openauth.microsoft.model.request.XSTSAuthorizationProperties;
 import fr.litarvan.openauth.microsoft.model.request.XboxLiveLoginProperties;
 import fr.litarvan.openauth.microsoft.model.request.XboxLoginRequest;
-import fr.litarvan.openauth.microsoft.model.response.*;
+import fr.litarvan.openauth.microsoft.model.response.MicrosoftRefreshResponse;
+import fr.litarvan.openauth.microsoft.model.response.MinecraftLoginResponse;
+import fr.litarvan.openauth.microsoft.model.response.MinecraftProfile;
+import fr.litarvan.openauth.microsoft.model.response.XboxLoginResponse;
 
 import java.io.UnsupportedEncodingException;
 import java.net.*;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -211,7 +213,7 @@ public class MicrosoftAuthenticator {
 
         String userHash = xstsResponse.getDisplayClaims().getUsers()[0].getUserHash();
         MinecraftLoginResponse minecraftResponse = minecraftLogin(userHash, xstsResponse.getToken());
-        MinecraftStoreResponse storeResponse = http.getJson(
+        /*MinecraftStoreResponse storeResponse = http.getJson(
                 MINECRAFT_STORE_ENDPOINT,
                 minecraftResponse.getAccessToken(),
                 MinecraftStoreResponse.class
@@ -219,7 +221,7 @@ public class MicrosoftAuthenticator {
 
         if (Arrays.stream(storeResponse.getItems()).noneMatch(item -> item.getName().equals(MINECRAFT_STORE_IDENTIFIER))) {
             throw new MicrosoftAuthenticationException("Player didn't buy Minecraft Java Edition or did not migrate its account");
-        }
+        }*/
         MinecraftProfile profile = null;
         if (retrieveProfile) {
             profile = http.getJson(

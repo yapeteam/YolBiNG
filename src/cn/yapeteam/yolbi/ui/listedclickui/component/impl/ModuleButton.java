@@ -74,7 +74,8 @@ public class ModuleButton extends AbstractComponent {
 
         int extend = 0;
         for (AbstractComponent component : getChildComponents())
-            extend += component.getHeight() + ImplScreen.valueSpacing;
+            if (!(component instanceof ValueButton && !((ValueButton) component).getValue().getVisibility().get()))
+                extend += component.getHeight() + ImplScreen.valueSpacing;
         if (lastExpand != extend) {
             if (extended)
                 getParent().setHeight(getParent().getHeight() + (extend - lastExpand));//更新展开长度
