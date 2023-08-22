@@ -224,7 +224,6 @@ public class TextureUtils {
             TextureAnimations.update();
             CustomColors.update();
             CustomSky.update();
-            RandomEntities.update();
             CustomItems.updateModels();
             CustomEntityModels.update();
             Shaders.resourcesReloaded();

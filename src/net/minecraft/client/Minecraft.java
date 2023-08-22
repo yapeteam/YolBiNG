@@ -90,6 +90,7 @@ import net.minecraft.world.chunk.storage.AnvilSaveConverter;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
+import net.optifine.Lang;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
@@ -692,35 +693,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
     }
 
     public void refreshLanguage() {
-        List<IResourcePack> list = Lists.newArrayList(this.defaultResourcePacks);
-
-        for (ResourcePackRepository.Entry resourcepackrepository$entry : this.mcResourcePackRepository.getRepositoryEntries()) {
-            list.add(resourcepackrepository$entry.getResourcePack());
-        }
-
-        if (this.mcResourcePackRepository.getResourcePackInstance() != null) {
-            list.add(this.mcResourcePackRepository.getResourcePackInstance());
-        }
-
-        try {
-            ((SimpleReloadableResourceManager) this.mcResourceManager).reloadLanguages(list);
-            net.optifine.Lang.resourcesReloaded();
-        } catch (RuntimeException runtimeexception) {
-            logger.info("Caught error stitching, removing all assigned resourcepacks", runtimeexception);
-            list.clear();
-            list.addAll(this.defaultResourcePacks);
-            this.mcResourcePackRepository.setRepositories(Collections.emptyList());
-            ((SimpleReloadableResourceManager) this.mcResourceManager).reloadLanguages(list);
-            this.gameSettings.resourcePacks.clear();
-            this.gameSettings.field_183018_l.clear();
-            this.gameSettings.saveOptions();
-        }
-
-        this.mcLanguageManager.parseLanguageMetadata(list);
-
-        if (this.renderGlobal != null) {
-            this.renderGlobal.loadRenderers();
-        }
+        ((SimpleReloadableResourceManager) this.mcResourceManager).reloadLanguages();
+        Lang.resourcesReloaded();
+        this.mcLanguageManager.parseLanguageMetadata(Lists.newArrayList(this.defaultResourcePacks));
     }
 
     private ByteBuffer readImageToBuffer(InputStream imageStream) throws IOException {

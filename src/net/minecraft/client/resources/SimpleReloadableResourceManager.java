@@ -82,14 +82,8 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
         this.notifyReloadListeners();
     }
 
-    public void reloadLanguages(List<IResourcePack> p_110541_1_) {
-        this.clearResources();
-        logger.info("Reloading ResourceManager: " + joinerResourcePacks.join(p_110541_1_.stream().map(IResourcePack::getPackName).collect(Collectors.toList())));
-
-        for (IResourcePack iresourcepack : p_110541_1_) {
-            this.reloadResourcePack(iresourcepack);
-        }
-
+    public void reloadLanguages() {
+        logger.info("Reloading Language...");
         this.notifyReloadLanguageListeners();
     }
 
