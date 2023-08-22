@@ -230,10 +230,7 @@ public class RenderUtil implements IMinecraft {
         float _X = x - 0.25f;
         float _Y = y + 0.25f;
 
-        int identifier =
-                ((int) (width * 100) & 0xFF) << 24 |
-                ((int) (height * 100) & 0xFF) << 16 |
-                ((blurRadius * 100) & 0xFF) << 8;
+        int identifier = (width + "," + height + "," + blurRadius).hashCode();
 
         glEnable(GL11.GL_TEXTURE_2D);
         glDisable(GL_CULL_FACE);
