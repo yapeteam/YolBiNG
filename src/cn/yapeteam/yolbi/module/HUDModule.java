@@ -43,7 +43,7 @@ public abstract class HUDModule extends Module {
     private void onRender(RenderEvent event) {
         boolean inChat = mc.currentScreen instanceof GuiChat;
 
-        if (this.isEnabled() || inChat) {
+        if (this.isEnabled()) {
             renderModule(inChat);
         }
     }

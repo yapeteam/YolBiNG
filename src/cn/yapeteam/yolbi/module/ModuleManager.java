@@ -75,7 +75,7 @@ public class ModuleManager {
         modules.add(new TargetHUD());
         modules.add(new Keystrokes());
         modules.add(new Freelook());
-        modules.add(new TimeChanger());
+        modules.add(new Ambience());
         modules.add(new Fullbright());
         modules.add(new NameProtect());
         modules.add(new Xray());

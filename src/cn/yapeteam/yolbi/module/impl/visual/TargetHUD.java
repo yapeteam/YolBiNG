@@ -1,6 +1,7 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
 import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.util.render.RenderUtil;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
@@ -19,9 +20,11 @@ import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.HUDModule;
 import cn.yapeteam.yolbi.module.impl.combat.Killaura;
 
+import java.awt.*;
+
 public class TargetHUD extends HUDModule {
 
-    private final ModeValue<String> mode = new ModeValue<>("Mode", "Normal", "Normal", "Outline");
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Normal", "Normal", "Bloom");
 
     private final ModeValue<AnimationType> animationType = AnimationUtil.getAnimationType(AnimationType.POP2);
     private final NumberValue<Integer> animationDuration = AnimationUtil.getAnimationDuration(400);
@@ -43,6 +46,7 @@ public class TargetHUD extends HUDModule {
     private float renderedHealth;
 
     private boolean hadTarget;
+    private int f=1;
 
     public TargetHUD() {
         super("TargetHUD", ModuleCategory.VISUAL, 0, 0, 140, 50, AlignType.LEFT);
@@ -87,7 +91,6 @@ public class TargetHUD extends HUDModule {
     private void renderTargetHUD(EntityPlayer entity, boolean canRender) {
         int x = posX.getValue().intValue();
         int y = posY.getValue().intValue();
-
         animation.updateState(canRender);
 
         animation.setAnimDuration(animationDuration.getValue());
@@ -122,18 +125,13 @@ public class TargetHUD extends HUDModule {
                             Gui.drawRect(i, y + 35, i + 1, y + 45, theme.getColor((int) (200 + i * 5)));
                         }
                         break;
-                    case "Outline":
-                        int startColor = 0x50000000;
-
-                        DrawUtil.drawGradientVerticalRect(x, y, x + width - 3, y + 3, 0, startColor);
-                        DrawUtil.drawGradientVerticalRect(x, y + height - 3, x + width - 3, y + height, startColor, 0);
-
-                        DrawUtil.drawGradientSideRect(x - 3, y + 3, x, y + height - 2, 0, startColor);
-                        DrawUtil.drawGradientSideRect(x + width - 3, y + 3, x + width, y + height - 2, startColor, 0);
-
-                        for (double i = x + 52; i < endAnimX; i++) {
-                            Gui.drawRect(i, y + 35, i + 1, y + 45, theme.getColor((int) (200 + i * 5)));
-                        }
+                    case "Bloom":
+                        if (f >= endAnimX) f = x+52;
+                        Color tcolor = new Color(theme.getColor(f));
+                        Color acolor = new Color(tcolor.getRed(),tcolor.getGreen(),tcolor.getBlue(),200);
+                        RenderUtil.drawBloomShadow(x, y,  width, height,20,10,acolor);
+                        f = f + 1;
+                        Gui.drawRect(x+52, y + 35, endAnimX , y + 45, tcolor.getRGB());
                         break;
                 }
 

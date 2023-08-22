@@ -4,6 +4,7 @@ import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.impl.render.Render3DEvent;
 import cn.yapeteam.yolbi.handler.client.CameraHandler;
 import cn.yapeteam.yolbi.module.impl.combat.Reach;
+import cn.yapeteam.yolbi.module.impl.visual.Ambience;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
@@ -74,6 +75,7 @@ import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
 
+import java.awt.*;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.Calendar;
@@ -85,8 +87,11 @@ import java.util.concurrent.Callable;
 public class EntityRenderer implements IResourceManagerReloadListener
 {
     private static final Logger logger = LogManager.getLogger();
-    private static final ResourceLocation locationRainPng = new ResourceLocation("textures/environment/rain.png");
-    private static final ResourceLocation locationSnowPng = new ResourceLocation("textures/environment/snow.png");
+    private static final ResourceLocation TEXTURE_RAIN = new ResourceLocation("textures/environment/rain.png");
+    private static final ResourceLocation TEXTURE_SNOW_HEAVY = new ResourceLocation("textures/environment/snow.png");
+    private static final ResourceLocation TEXTURE_SNOW_LIGHT = new ResourceLocation("textures/environment/snow_light.png");
+    private static final ResourceLocation TEXTURE_NETHER_PARTICLES = new ResourceLocation("textures/environment/nether_particles.png");
+
     public static boolean anaglyphEnable;
 
     /** Anaglyph field (0=R, 1=GB) */
@@ -1957,6 +1962,10 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
     private void addRainParticles()
     {
+
+        Ambience ambience = Ambience.getInstance();
+        if (ambience != null && ambience.skipRainParticles()) return;
+
         float f = this.mc.theWorld.getRainStrength(1.0F);
 
         if (!Config.isRainFancy())
@@ -2035,166 +2044,172 @@ public class EntityRenderer implements IResourceManagerReloadListener
         }
     }
 
+
+
     /**
      * Render rain and snow
      */
-    protected void renderRainSnow(float partialTicks)
-    {
-        if (Reflector.ForgeWorldProvider_getWeatherRenderer.exists())
-        {
-            WorldProvider worldprovider = this.mc.theWorld.provider;
-            Object object = Reflector.call(worldprovider, Reflector.ForgeWorldProvider_getWeatherRenderer, new Object[0]);
+    protected void renderRainSnow(final float partialTicks) {
+        if (Reflector.ForgeWorldProvider_getWeatherRenderer.exists()) {
+            final WorldProvider worldprovider = this.mc.theWorld.provider;
+            final Object object = Reflector.call(worldprovider, Reflector.ForgeWorldProvider_getWeatherRenderer);
 
-            if (object != null)
-            {
-                Reflector.callVoid(object, Reflector.IRenderHandler_render, new Object[] {Float.valueOf(partialTicks), this.mc.theWorld, this.mc});
+            if (object != null) {
+                Reflector.callVoid(object, Reflector.IRenderHandler_render, partialTicks, this.mc.theWorld, this.mc);
                 return;
             }
         }
 
-        float f5 = this.mc.theWorld.getRainStrength(partialTicks);
+        final float f5 = this.mc.theWorld.getRainStrength(partialTicks);
 
-        if (f5 > 0.0F)
-        {
-            if (Config.isRainOff())
-            {
+        if (f5 > 0.0F) {
+            if (Config.isRainOff()) {
                 return;
             }
 
             this.enableLightmap();
-            Entity entity = this.mc.getRenderViewEntity();
-            World world = this.mc.theWorld;
-            int i = MathHelper.floor_double(entity.posX);
-            int j = MathHelper.floor_double(entity.posY);
-            int k = MathHelper.floor_double(entity.posZ);
-            Tessellator tessellator = Tessellator.getInstance();
-            WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+            final Entity entity = this.mc.getRenderViewEntity();
+            final World world = this.mc.theWorld;
+            final int i = MathHelper.floor_double(entity.posX);
+            final int j = MathHelper.floor_double(entity.posY);
+            final int k = MathHelper.floor_double(entity.posZ);
+            final Tessellator tessellator = Tessellator.getInstance();
+            final WorldRenderer worldrenderer = tessellator.getWorldRenderer();
             GlStateManager.disableCull();
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             GlStateManager.alphaFunc(516, 0.1F);
-            double d0 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double)partialTicks;
-            double d1 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double)partialTicks;
-            double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double)partialTicks;
-            int l = MathHelper.floor_double(d1);
+            final double d0 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double) partialTicks;
+            final double d1 = (entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double) partialTicks) + entity.getEyeHeight();
+            final double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double) partialTicks;
+            final int l = MathHelper.floor_double(d1);
             int i1 = 5;
 
-            if (Config.isRainFancy())
-            {
+            if (Config.isRainFancy()) {
                 i1 = 10;
             }
 
             int j1 = -1;
-            float f = (float)this.rendererUpdateCount + partialTicks;
+            final float f = (float) this.rendererUpdateCount + partialTicks;
             worldrenderer.setTranslation(-d0, -d1, -d2);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+            final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
-            for (int k1 = k - i1; k1 <= k + i1; ++k1)
-            {
-                for (int l1 = i - i1; l1 <= i + i1; ++l1)
-                {
-                    int i2 = (k1 - k + 16) * 32 + l1 - i + 16;
-                    double d3 = (double)this.rainXCoords[i2] * 0.5D;
-                    double d4 = (double)this.rainYCoords[i2] * 0.5D;
+            for (int k1 = k - i1; k1 <= k + i1; ++k1) {
+                for (int l1 = i - i1; l1 <= i + i1; ++l1) {
+                    final int i2 = (k1 - k + 16) * 32 + l1 - i + 16;
+                    final double d3 = (double) this.rainXCoords[i2] * 0.5D;
+                    final double d4 = (double) this.rainYCoords[i2] * 0.5D;
                     blockpos$mutableblockpos.func_181079_c(l1, 0, k1);
-                    BiomeGenBase biomegenbase = world.getBiomeGenForCoords(blockpos$mutableblockpos);
+                    final BiomeGenBase biomegenbase = world.getBiomeGenForCoords(blockpos$mutableblockpos);
 
-                    if (biomegenbase.canSpawnLightningBolt() || biomegenbase.getEnableSnow())
-                    {
-                        int j2 = world.getPrecipitationHeight(blockpos$mutableblockpos).getY();
+                    if (biomegenbase.canSpawnLightningBolt() || biomegenbase.getEnableSnow()) {
+                        final int j2 = world.getPrecipitationHeight(blockpos$mutableblockpos).getY();
                         int k2 = j - i1;
                         int l2 = j + i1;
 
-                        if (k2 < j2)
-                        {
+                        if (k2 < j2) {
                             k2 = j2;
                         }
 
-                        if (l2 < j2)
-                        {
+                        if (l2 < j2) {
                             l2 = j2;
                         }
 
-                        int i3 = j2;
+                        final int i3 = Math.max(j2, l);
 
-                        if (j2 < l)
-                        {
-                            i3 = l;
-                        }
-
-                        if (k2 != l2)
-                        {
-                            this.random.setSeed((long)(l1 * l1 * 3121 + l1 * 45238971 ^ k1 * k1 * 418711 + k1 * 13761));
+                        // Render rain
+                        if (k2 != l2) {
+                            this.random.setSeed(l1 * l1 * 3121 + l1 * 45238971 ^ k1 * k1 * 418711 + k1 * 13761);
                             blockpos$mutableblockpos.func_181079_c(l1, k2, k1);
-                            float f1 = biomegenbase.getFloatTemperature(blockpos$mutableblockpos);
 
-                            if (world.getWorldChunkManager().getTemperatureAtHeight(f1, j2) >= 0.15F)
-                            {
-                                if (j1 != 0)
-                                {
-                                    if (j1 >= 0)
-                                    {
+                            final Ambience ambience = Ambience.getInstance();
+
+                            final float f1 = ambience.getFloatTemperature(blockpos$mutableblockpos, biomegenbase);
+
+                            if (world.getWorldChunkManager().getTemperatureAtHeight(f1, j2) >= 0.15F) {
+                                if (j1 != 0) {
+                                    if (j1 >= 0) {
                                         tessellator.draw();
                                     }
 
                                     j1 = 0;
-                                    this.mc.getTextureManager().bindTexture(locationRainPng);
+                                    this.mc.getTextureManager().bindTexture(TEXTURE_RAIN);
                                     worldrenderer.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
                                 }
 
-                                double d5 = ((double) (this.rendererUpdateCount + l1 * l1 * 3121 + l1 * 45238971 + k1 * k1 * 418711 + k1 * 13761 & 31) + (double) partialTicks) / 32.0D * (3.0D + this.random.nextDouble());
-                                double d6 = (double) ((float) l1 + 0.5F) - entity.posX;
-                                double d7 = (double) ((float) k1 + 0.5F) - entity.posZ;
-                                float f2 = MathHelper.sqrt_double(d6 * d6 + d7 * d7) / (float) i1;
-                                float f3 = ((1.0F - f2 * f2) * 0.5F + 0.5F) * f5;
+                                final double d5 = ((double) (this.rendererUpdateCount + l1 * l1 * 3121 + l1 * 45238971 + k1 * k1 * 418711 + k1 * 13761 & 31) + (double) partialTicks) / 32.0D * (3.0D + this.random.nextDouble());
+                                final double d6 = (double) ((float) l1 + 0.5F) - entity.posX;
+                                final double d7 = (double) ((float) k1 + 0.5F) - entity.posZ;
+                                final float f2 = MathHelper.sqrt_double(d6 * d6 + d7 * d7) / (float) i1;
+                                final float f3 = ((1.0F - f2 * f2) * 0.5F + 0.5F) * f5;
                                 blockpos$mutableblockpos.func_181079_c(l1, i3, k1);
-                                int j3 = world.getCombinedLight(blockpos$mutableblockpos, 0);
-                                int k3 = j3 >> 16 & 65535;
-                                int l3 = j3 & 65535;
-                                worldrenderer.pos((double) l1 - d3 + 0.5D, (double) k2, (double) k1 - d4 + 0.5D).tex(0.0D, (double) k2 * 0.25D + d5).color(1.0F, 1.0F, 1.0F, f3).lightmap(k3, l3).endVertex();
-                                worldrenderer.pos((double) l1 + d3 + 0.5D, (double) k2, (double) k1 + d4 + 0.5D).tex(1.0D, (double) k2 * 0.25D + d5).color(1.0F, 1.0F, 1.0F, f3).lightmap(k3, l3).endVertex();
-                                worldrenderer.pos((double) l1 + d3 + 0.5D, (double) l2, (double) k1 + d4 + 0.5D).tex(1.0D, (double) l2 * 0.25D + d5).color(1.0F, 1.0F, 1.0F, f3).lightmap(k3, l3).endVertex();
-                                worldrenderer.pos((double) l1 - d3 + 0.5D, (double) l2, (double) k1 - d4 + 0.5D).tex(0.0D, (double) l2 * 0.25D + d5).color(1.0F, 1.0F, 1.0F, f3).lightmap(k3, l3).endVertex();
+                                final int j3 = world.getCombinedLight(blockpos$mutableblockpos, 0);
+                                final int k3 = j3 >> 16 & 65535;
+                                final int l3 = j3 & 65535;
+                                worldrenderer.pos((double) l1 - d3 + 0.5D, k2, (double) k1 - d4 + 0.5D).tex(0.0D, (double) k2 * 0.25D + d5).color(1.0F, 1.0F, 1.0F, f3).lightmap(k3, l3).endVertex();
+                                worldrenderer.pos((double) l1 + d3 + 0.5D, k2, (double) k1 + d4 + 0.5D).tex(1.0D, (double) k2 * 0.25D + d5).color(1.0F, 1.0F, 1.0F, f3).lightmap(k3, l3).endVertex();
+                                worldrenderer.pos((double) l1 + d3 + 0.5D, l2, (double) k1 + d4 + 0.5D).tex(1.0D, (double) l2 * 0.25D + d5).color(1.0F, 1.0F, 1.0F, f3).lightmap(k3, l3).endVertex();
+                                worldrenderer.pos((double) l1 - d3 + 0.5D, l2, (double) k1 - d4 + 0.5D).tex(0.0D, (double) l2 * 0.25D + d5).color(1.0F, 1.0F, 1.0F, f3).lightmap(k3, l3).endVertex();
                             }
-                            else
-                            {
-                                if (j1 != 1)
-                                {
-                                    if (j1 >= 0)
-                                    {
+
+                            // Render snow
+                            else {
+                                Color color = Color.WHITE;
+                                ResourceLocation texture = TEXTURE_SNOW_HEAVY;
+
+                                // Determine what texture we want to draw with
+                                if (ambience.isEnabled()) {
+                                    color = ambience.getSnowColor().getValue();
+                                    if (ambience.getWeather().is("Light Snow"))
+                                        texture = TEXTURE_SNOW_LIGHT;
+                                    else if (ambience.getWeather().is("Nether Particles")) {
+                                        texture = TEXTURE_NETHER_PARTICLES;
+                                        color = new Color(220, 200, 230);
+                                    }
+                                }
+
+                                if (j1 != 1) {
+                                    if (j1 >= 0) {
                                         tessellator.draw();
                                     }
 
                                     j1 = 1;
-                                    this.mc.getTextureManager().bindTexture(locationSnowPng);
+                                    this.mc.getTextureManager().bindTexture(texture);
                                     worldrenderer.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
                                 }
 
-                                double d8 = (double)(((float)(this.rendererUpdateCount & 511) + partialTicks) / 512.0F);
-                                double d9 = this.random.nextDouble() + (double) f * 0.01D * (double) ((float) this.random.nextGaussian());
-                                double d10 = this.random.nextDouble() + (double) (f * (float) this.random.nextGaussian()) * 0.001D;
-                                double d11 = (double) ((float) l1 + 0.5F) - entity.posX;
-                                double d12 = (double) ((float) k1 + 0.5F) - entity.posZ;
-                                float f6 = MathHelper.sqrt_double(d11 * d11 + d12 * d12) / (float) i1;
-                                float f4 = ((1.0F - f6 * f6) * 0.3F + 0.5F) * f5;
+                                final double d8 = ((float) (this.rendererUpdateCount & 511) + partialTicks) / 512.0F;
+                                final double d9 = this.random.nextDouble() + (double) f * 0.01D * (double) ((float) this.random.nextGaussian());
+                                final double d10 = this.random.nextDouble() + (double) (f * (float) this.random.nextGaussian()) * 0.001D;
+                                final double d11 = (double) ((float) l1 + 0.5F) - entity.posX;
+                                final double d12 = (double) ((float) k1 + 0.5F) - entity.posZ;
+                                final float f6 = MathHelper.sqrt_double(d11 * d11 + d12 * d12) / (float) i1;
+                                final float f4 = ((1.0F - f6 * f6) * 0.3F + 0.5F) * f5;
                                 blockpos$mutableblockpos.func_181079_c(l1, i3, k1);
-                                int i4 = (world.getCombinedLight(blockpos$mutableblockpos, 0) * 3 + 15728880) / 4;
-                                int j4 = i4 >> 16 & 65535;
-                                int k4 = i4 & 65535;
-                                worldrenderer.pos((double) l1 - d3 + 0.5D, (double) k2, (double) k1 - d4 + 0.5D).tex(0.0D + d9, (double) k2 * 0.25D + d8 + d10).color(1.0F, 1.0F, 1.0F, f4).lightmap(j4, k4).endVertex();
-                                worldrenderer.pos((double) l1 + d3 + 0.5D, (double) k2, (double) k1 + d4 + 0.5D).tex(1.0D + d9, (double) k2 * 0.25D + d8 + d10).color(1.0F, 1.0F, 1.0F, f4).lightmap(j4, k4).endVertex();
-                                worldrenderer.pos((double) l1 + d3 + 0.5D, (double) l2, (double) k1 + d4 + 0.5D).tex(1.0D + d9, (double) l2 * 0.25D + d8 + d10).color(1.0F, 1.0F, 1.0F, f4).lightmap(j4, k4).endVertex();
-                                worldrenderer.pos((double) l1 - d3 + 0.5D, (double) l2, (double) k1 - d4 + 0.5D).tex(0.0D + d9, (double) l2 * 0.25D + d8 + d10).color(1.0F, 1.0F, 1.0F, f4).lightmap(j4, k4).endVertex();
+                                final int i4 = (world.getCombinedLight(blockpos$mutableblockpos, 0) * 3 + 15728880) / 4;
+                                final int j4 = i4 >> 16 & 65535;
+                                final int k4 = i4 & 65535;
+
+                                worldrenderer.pos((double) l1 - d3 + 0.5D, k2, (double) k1 - d4 + 0.5D).tex(0.0D + d9, (double) k2 * 0.25D + d8 + d10).color(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, f4).lightmap(j4, k4).endVertex();
+                                worldrenderer.pos((double) l1 + d3 + 0.5D, k2, (double) k1 + d4 + 0.5D).tex(1.0D + d9, (double) k2 * 0.25D + d8 + d10).color(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, f4).lightmap(j4, k4).endVertex();
+                                worldrenderer.pos((double) l1 + d3 + 0.5D, l2, (double) k1 + d4 + 0.5D).tex(1.0D + d9, (double) l2 * 0.25D + d8 + d10).color(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, f4).lightmap(j4, k4).endVertex();
+                                worldrenderer.pos((double) l1 - d3 + 0.5D, l2, (double) k1 - d4 + 0.5D).tex(0.0D + d9, (double) l2 * 0.25D + d8 + d10).color(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, f4).lightmap(j4, k4).endVertex();
+                                if (ambience.getNetherFog().getValue()) {
+                                    this.fogColorRed = ambience.getNetherFogColor().getValue().getRed();
+                                    this.fogColorGreen = ambience.getNetherFogColor().getValue().getGreen();
+                                    this.fogColorBlue = ambience.getNetherFogColor().getValue().getBlue();
+                                    Shaders.setClearColor(this.fogColorRed, this.fogColorGreen, this.fogColorBlue, 0.0F);
+
+                                }
                             }
                         }
                     }
                 }
             }
 
-            if (j1 >= 0)
-            {
+            if (j1 >= 0) {
                 tessellator.draw();
             }
 
@@ -2205,6 +2220,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
             this.disableLightmap();
         }
     }
+
 
     /**
      * Setup orthogonal projection for rendering GUI screen overlays

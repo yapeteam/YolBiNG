@@ -8,6 +8,7 @@ import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
 
+@Deprecated
 public class TimeChanger extends Module {
 
     private final NumberValue<Integer> customTime = new NumberValue<>("Custom time", 18000, 0, 24000, 500);
