@@ -1,7 +1,6 @@
 package net.minecraft.entity.monster;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -25,15 +24,13 @@ import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 
-public class EntitySlime extends EntityLiving implements IMob
-{
+public class EntitySlime extends EntityMob implements IMob {
     public float squishAmount;
     public float squishFactor;
     public float prevSquishFactor;
     private boolean wasOnGround;
 
-    public EntitySlime(World worldIn)
-    {
+    public EntitySlime(World worldIn) {
         super(worldIn);
         this.moveHelper = new EntitySlime.SlimeMoveHelper(this);
         this.tasks.addTask(1, new EntitySlime.AISlimeFloat(this));
