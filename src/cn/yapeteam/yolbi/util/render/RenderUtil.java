@@ -231,9 +231,9 @@ public class RenderUtil implements IMinecraft {
         float _Y = y + 0.25f;
 
         int identifier =
-                ((int) (width * 100) & 0xFF) << 2 |
-                ((int) (height * 100) & 0xFF) << 4 |
-                ((blurRadius * 100) & 0xFF) << 6;
+                ((int) (width * 100) & 0xFF) << 24 |
+                ((int) (height * 100) & 0xFF) << 16 |
+                ((blurRadius * 100) & 0xFF) << 8;
 
         glEnable(GL11.GL_TEXTURE_2D);
         glDisable(GL_CULL_FACE);
