@@ -63,7 +63,7 @@ public class MicrosoftAuthenticator {
     public static final String MICROSOFT_REDIRECTION_ENDPOINT = "https://login.live.com/oauth20_desktop.srf";
 
     public static final String XBOX_LIVE_AUTH_HOST = "user.auth.xboxlive.com";
-    public static final String XBOX_LIVE_CLIENT_ID = "000000004C12AE6F";
+    public static final String XBOX_LIVE_CLIENT_ID = "baeb6344-8129-4340-b9a7-d72d4e8d36d3";
     public static final String XBOX_LIVE_SERVICE_SCOPE = "service::user.auth.xboxlive.com::MBI_SSL";
 
     public static final String XBOX_LIVE_AUTHORIZATION_ENDPOINT = "https://user.auth.xboxlive.com/user/authenticate";
