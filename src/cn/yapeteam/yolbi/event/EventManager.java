@@ -15,7 +15,7 @@ public class EventManager {
     private final CopyOnWriteArrayList<ListeningMethod> listeningMethods = new CopyOnWriteArrayList<>();
 
     public void register(Object o) {
-        if(!listeningObjects.contains(o)) {
+        if (!listeningObjects.contains(o)) {
             listeningObjects.add(o);
         }
 
@@ -23,9 +23,7 @@ public class EventManager {
     }
 
     public void unregister(Object o) {
-        if(listeningObjects.contains(o)) {
-            listeningObjects.remove(o);
-        }
+        listeningObjects.remove(o);
 
         updateListeningMethods();
     }
@@ -33,6 +31,8 @@ public class EventManager {
     private void updateListeningMethods() {
         listeningMethods.clear();
         listeningObjects.forEach(o -> Arrays.stream(o.getClass().getDeclaredMethods()).filter(m -> m.isAnnotationPresent(Listener.class) && m.getParameters().length == 1).forEach(m -> listeningMethods.add(new ListeningMethod(m, o))));
+        //for super
+        listeningObjects.forEach(o -> Arrays.stream(o.getClass().getSuperclass().getDeclaredMethods()).filter(m -> m.isAnnotationPresent(Listener.class) && m.getParameters().length == 1).forEach(m -> listeningMethods.add(new ListeningMethod(m, o))));
         listeningMethods.sort(Comparator.comparingInt(m -> m.method.getAnnotation(Listener.class).value()));
     }
 

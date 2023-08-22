@@ -1,11 +1,11 @@
 package cn.yapeteam.yolbi.module;
 
+import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.gui.GuiChat;
-import cn.yapeteam.yolbi.event.Listener;
 
 public abstract class HUDModule extends Module {
 
@@ -40,10 +40,10 @@ public abstract class HUDModule extends Module {
     }
 
     @Listener
-    public final void onRender(RenderEvent event) {
+    private void onRender(RenderEvent event) {
         boolean inChat = mc.currentScreen instanceof GuiChat;
 
-        if(this.isEnabled() || inChat) {
+        if (this.isEnabled() || inChat) {
             renderModule(inChat);
         }
     }
