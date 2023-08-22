@@ -5,9 +5,8 @@ import cn.yapeteam.yolbi.event.impl.game.KeyPressEvent;
 import cn.yapeteam.yolbi.event.impl.game.TickEvent;
 import cn.yapeteam.yolbi.module.impl.combat.DelayRemover;
 import cn.yapeteam.yolbi.module.impl.combat.Killaura;
-import cn.yapeteam.yolbi.module.impl.combat.Tickbase;
+import cn.yapeteam.yolbi.module.impl.combat.TickBase;
 import cn.yapeteam.yolbi.ui.menu.VestigeMainMenu;
-import cn.yapeteam.yolbi.util.misc.language.ChineseLanguage;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
@@ -927,7 +926,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
                 boolean skip = false;
 
                 if (j == 0) {
-                    Tickbase tickBase = Tickbase.getInstance();
+                    TickBase tickBase = TickBase.getInstance();
 
                     if (tickBase.isEnabled()) {
                         int extraTicks = tickBase.getExtraTicks();

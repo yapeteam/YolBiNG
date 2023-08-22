@@ -24,5 +24,4 @@ public class Timer extends Module {
     public void onPostMotion(PostMotionEvent event) {
         mc.timer.timerSpeed = speed.getValue().floatValue();
     }
-
 }

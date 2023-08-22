@@ -333,9 +333,7 @@ public class Scaffold extends Module {
 
             //LogUtil.addChatMessage("Diff " + diff + " : Test " + a);
 
-            float value = event.getForward() != 0 ? Math.abs(event.getForward()) : Math.abs(event.getStrafe());
-
-            float forward = value;
+            float forward = event.getForward() != 0 ? Math.abs(event.getForward()) : Math.abs(event.getStrafe());
             float strafe = 0;
 
             for (int i = 0; i < 8 - a; i++) {
@@ -531,8 +529,6 @@ public class Scaffold extends Module {
             } else {
                 mc.thePlayer.swingItem();
             }
-
-            BlockInfo prevBlockInfo = info;
 
             placeDelay = 0;
         }

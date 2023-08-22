@@ -21,18 +21,18 @@ public class Freelook extends Module {
 
     @Listener
     public void onTick(TickEvent event) {
-        if(mc.thePlayer.ticksExisted < 10) {
+        if (mc.thePlayer.ticksExisted < 10) {
             stop();
         }
 
-        if(Keyboard.isKeyDown(getKey())) {
+        if (Keyboard.isKeyDown(getKey())) {
             wasFreelooking = true;
 
             YolBi.instance.getCameraHandler().setFreelooking(true);
 
             mc.gameSettings.thirdPersonView = 1;
         } else {
-            if(wasFreelooking) {
+            if (wasFreelooking) {
                 stop();
             }
         }
@@ -46,5 +46,4 @@ public class Freelook extends Module {
 
         mc.gameSettings.thirdPersonView = 0;
     }
-
 }

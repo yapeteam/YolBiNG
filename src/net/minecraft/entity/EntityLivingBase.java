@@ -3,7 +3,7 @@ package net.minecraft.entity;
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.impl.player.JumpEvent;
 import cn.yapeteam.yolbi.event.impl.player.StrafeEvent;
-import cn.yapeteam.yolbi.module.impl.combat.Tickbase;
+import cn.yapeteam.yolbi.module.impl.combat.TickBase;
 import cn.yapeteam.yolbi.module.impl.visual.Animations;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -1314,7 +1314,7 @@ public abstract class EntityLivingBase extends Entity
      */
     private int getArmSwingAnimationEnd()
     {
-        Tickbase tickbase = Tickbase.getInstance();
+        TickBase tickbase = TickBase.getInstance();
 
         if(tickbase.freezing) {
             return 0;

@@ -27,7 +27,7 @@ public class Sprint extends Module {
     }
 
     @Listener
-    public void onStrafe(StrafeEvent event){
+    public void onStrafe(StrafeEvent event) {
         if (Objects.equals(mode.getValue(), "Legit")) mc.gameSettings.keyBindSprint.setPressed(true);
     }
 

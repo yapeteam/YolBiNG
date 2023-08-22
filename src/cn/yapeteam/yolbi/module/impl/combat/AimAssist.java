@@ -20,7 +20,7 @@ import java.util.Comparator;
 
 public class AimAssist extends Module {
 
-    private Antibot antibotModule;
+    private AntiBot antibotModule;
     private Teams teamsModule;
 
     private final ModeValue<String> filter = new ModeValue<>("Filter", "Range", "Range", "Health");
@@ -46,7 +46,7 @@ public class AimAssist extends Module {
 
     @Override
     public void onClientStarted() {
-        antibotModule = YolBi.instance.getModuleManager().getModule(Antibot.class);
+        antibotModule = YolBi.instance.getModuleManager().getModule(AntiBot.class);
         teamsModule = YolBi.instance.getModuleManager().getModule(Teams.class);
     }
 

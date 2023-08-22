@@ -29,14 +29,14 @@ public class ModuleManager {
         modules.add(new TargetStrafe());
         modules.add(new Teams());
         modules.add(new Backtrack());
-        modules.add(new Tickbase());
+        modules.add(new TickBase());
         modules.add(new Reach());
         modules.add(new Autoclicker());
         modules.add(new AimAssist());
         modules.add(new DelayRemover());
         modules.add(new WTap());
         modules.add(new Criticals());
-        modules.add(new Antibot());
+        modules.add(new AntiBot());
 
         modules.add(new Sprint());
         modules.add(new Fly());

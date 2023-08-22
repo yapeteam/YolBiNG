@@ -18,5 +18,4 @@ public class Animations extends Module {
         this.addValues(swingSlowdown);
         animations = this;
     }
-
 }

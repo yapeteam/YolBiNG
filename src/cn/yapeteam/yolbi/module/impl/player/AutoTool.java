@@ -27,7 +27,7 @@ public class AutoTool extends Module {
 
     @Override
     public void onDisable() {
-        if(wasDigging) {
+        if (wasDigging) {
             mc.thePlayer.inventory.currentItem = oldSlot;
             wasDigging = false;
         }
@@ -37,26 +37,26 @@ public class AutoTool extends Module {
 
     @Listener(Priority.LOW)
     public void onTick(TickEvent event) {
-        if((Mouse.isButtonDown(0) || mc.gameSettings.keyBindAttack.isKeyDown()) && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+        if ((Mouse.isButtonDown(0) || mc.gameSettings.keyBindAttack.isKeyDown()) && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
             Block block = mc.theWorld.getBlockState(mc.objectMouseOver.getBlockPos()).getBlock();
 
             float strength = 0;
 
-            if(!wasDigging) {
+            if (!wasDigging) {
                 oldSlot = mc.thePlayer.inventory.currentItem;
 
-                if(spoof.getValue()) {
+                if (spoof.getValue()) {
                     YolBi.instance.getSlotSpoofHandler().startSpoofing(oldSlot);
                 }
             }
 
-            for(int i = 0; i <= 8; i++) {
+            for (int i = 0; i <= 8; i++) {
                 ItemStack stack = mc.thePlayer.inventory.getStackInSlot(i);
 
-                if(stack != null) {
+                if (stack != null) {
                     float slotStrength = stack.getStrVsBlock(block);
 
-                    if(slotStrength > strength) {
+                    if (slotStrength > strength) {
                         mc.thePlayer.inventory.currentItem = i;
                         strength = slotStrength;
                     }
@@ -65,7 +65,7 @@ public class AutoTool extends Module {
 
             wasDigging = true;
         } else {
-            if(wasDigging) {
+            if (wasDigging) {
                 mc.thePlayer.inventory.currentItem = oldSlot;
 
                 YolBi.instance.getSlotSpoofHandler().stopSpoofing();

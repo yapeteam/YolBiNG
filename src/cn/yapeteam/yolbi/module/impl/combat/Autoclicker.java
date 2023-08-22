@@ -23,6 +23,8 @@ public class Autoclicker extends Module {
 
     public Autoclicker() {
         super("Autoclicker", ModuleCategory.COMBAT);
+        minCPS.setCallback((oldV, newV) -> newV > maxCPS.getValue() ? oldV : newV);
+        maxCPS.setCallback((oldV, newV) -> newV < minCPS.getValue() ? oldV : newV);
         this.addValues(minCPS, maxCPS);
     }
 

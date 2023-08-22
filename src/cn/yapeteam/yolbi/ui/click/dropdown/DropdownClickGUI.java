@@ -22,7 +22,7 @@ import org.lwjgl.opengl.GL11;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-
+@Deprecated
 public class DropdownClickGUI extends GuiScreen {
 
     private final ClickGuiModule module;

@@ -31,7 +31,7 @@ public class Keystrokes extends HUDModule {
 
     @Override
     public void onEnable() {
-        if(!keysInitiated) {
+        if (!keysInitiated) {
             initKeys();
             keysInitiated = true;
         }
@@ -57,7 +57,7 @@ public class Keystrokes extends HUDModule {
         int x = posX.getValue().intValue();
         int y = posY.getValue().intValue();
 
-        if(!keysInitiated) {
+        if (!keysInitiated) {
             initKeys();
             keysInitiated = true;
         }
@@ -70,11 +70,11 @@ public class Keystrokes extends HUDModule {
         int currentX = x + length + spacing;
         int currentY = y;
 
-        for(AnimationHolder<KeyBinding> key : keys) {
+        for (AnimationHolder<KeyBinding> key : keys) {
             key.setAnimType(AnimationType.POP);
             key.setAnimDuration(150);
 
-            if(index == 4) {
+            if (index == 4) {
                 currentX = x;
                 currentY = y + (length + spacing) * 2;
 
@@ -87,7 +87,7 @@ public class Keystrokes extends HUDModule {
 
                 key.updateState(key.get().isKeyDown());
 
-                if(key.isRendered() || !key.isAnimDone()) {
+                if (key.isRendered() || !key.isAnimDone()) {
                     key.render(() -> Gui.drawRect(finalRenderX, finalRenderY, finalRenderX + totalLength, finalRenderY + length * 0.85, theme.getColor(100 + finalRenderX + length + spacing)), finalRenderX, finalRenderY, finalRenderX + totalLength, finalRenderY + length * 0.85F);
                 }
 
@@ -95,7 +95,7 @@ public class Keystrokes extends HUDModule {
 
                 FontUtil.drawStringWithShadow(font.getValue(), toRender, (float) (currentX + totalLength / 2 - FontUtil.getStringWidth(font.getValue(), toRender) / 2), currentY + 1, -1);
             } else {
-                if(index == 1) {
+                if (index == 1) {
                     currentX = x;
                     currentY = y + length + spacing;
                 }
@@ -107,7 +107,7 @@ public class Keystrokes extends HUDModule {
 
                 key.updateState(key.get().isKeyDown());
 
-                if(key.isRendered() || !key.isAnimDone()) {
+                if (key.isRendered() || !key.isAnimDone()) {
                     key.render(() -> Gui.drawRect(finalRenderX, finalRenderY, finalRenderX + length, finalRenderY + length, theme.getColor(100 + finalRenderX * 3)), finalRenderX, finalRenderY, finalRenderX + length, finalRenderY + length);
                 }
 
@@ -121,5 +121,4 @@ public class Keystrokes extends HUDModule {
             }
         }
     }
-
 }

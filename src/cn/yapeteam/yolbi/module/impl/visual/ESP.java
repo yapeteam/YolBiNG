@@ -5,7 +5,7 @@ import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.render.Render3DEvent;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.module.impl.combat.Antibot;
+import cn.yapeteam.yolbi.module.impl.combat.AntiBot;
 import cn.yapeteam.yolbi.util.render.RenderUtil;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
@@ -22,7 +22,7 @@ public class ESP extends Module {
     private final BooleanValue renderInvisibles = new BooleanValue("Render invisibles", false);
 
     private ClientTheme theme;
-    private Antibot antibotModule;
+    private AntiBot antibotModule;
 
     public ESP() {
         super("ESP", ModuleCategory.VISUAL);
@@ -36,7 +36,7 @@ public class ESP extends Module {
         }
 
         if (antibotModule == null) {
-            antibotModule = YolBi.instance.getModuleManager().getModule(Antibot.class);
+            antibotModule = YolBi.instance.getModuleManager().getModule(AntiBot.class);
         }
 
         Color color = new Color(theme.getColor(100));

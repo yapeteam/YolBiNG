@@ -32,7 +32,7 @@ public class Value<T> {
 
     public void setValue(T value) {
         if (callback != null)
-            callback.run(this.value, value);
-        this.value = value;
+            this.value = callback.run(this.value, value);
+        else this.value = value;
     }
 }

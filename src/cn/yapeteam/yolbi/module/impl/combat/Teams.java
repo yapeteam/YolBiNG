@@ -10,20 +10,17 @@ public class Teams extends Module {
         super("Teams", ModuleCategory.COMBAT);
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean canAttack(EntityPlayer entity) {
         if (!this.isEnabled()) return true;
 
-        if(mc.thePlayer.getTeam() != null && entity.getTeam() != null) {
+        if (mc.thePlayer.getTeam() != null && entity.getTeam() != null) {
             Character targetColor = entity.getDisplayName().getFormattedText().charAt(1);
             Character playerColor = mc.thePlayer.getDisplayName().getFormattedText().charAt(1);
-            if(playerColor.equals(targetColor)) {
-                return false;
-            }
+            return !playerColor.equals(targetColor);
         } else {
             return false;
         }
-
-        return true;
     }
 
 }

@@ -29,7 +29,7 @@ public class TargetStrafe extends Module {
     }
 
     public float getDirection() {
-        if(mc.thePlayer.isCollidedHorizontally || !WorldUtil.isBlockUnder(3)) {
+        if (mc.thePlayer.isCollidedHorizontally || !WorldUtil.isBlockUnder(3)) {
             goingRight = !goingRight;
         }
 
@@ -39,12 +39,12 @@ public class TargetStrafe extends Module {
 
         float direction;
 
-        if(distance > maxRange.getValue()) {
+        if (distance > maxRange.getValue()) {
             direction = RotationsUtil.getRotationsToEntity(target, false)[0];
         } else {
             double offset = (90 - killaura.getDistanceToEntity(target) * 5);
 
-            if(!goingRight) {
+            if (!goingRight) {
                 offset = -offset;
             }
 

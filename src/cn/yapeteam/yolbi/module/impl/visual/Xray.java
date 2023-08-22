@@ -6,7 +6,8 @@ import cn.yapeteam.yolbi.module.ModuleCategory;
 
 public class Xray extends Module {
     private static Xray xray;
-    public static Xray getInstance(){
+
+    public static Xray getInstance() {
         return xray;
     }
 
@@ -16,7 +17,7 @@ public class Xray extends Module {
 
     public Xray() {
         super("Xray", ModuleCategory.VISUAL);
-        xray=this;
+        xray = this;
     }
 
     @Override
@@ -38,8 +39,8 @@ public class Xray extends Module {
     }
 
     public boolean shouldRenderBlock(Block block) {
-        for(int id : blockIds) {
-            if(block == Block.getBlockById(id)) {
+        for (int id : blockIds) {
+            if (block == Block.getBlockById(id)) {
                 return true;
             }
         }

@@ -16,24 +16,14 @@ import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
 
 public class Velocity extends Module {
-
     public final ModeValue<String> mode = new ModeValue<>("Mode", "Packet", "Packet", "Hypixel", "Packet loss", "Legit");
-
     private final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", () -> mode.is("Packet"), 0, 0, 100, 2);
     private final NumberValue<Integer> vertical = new NumberValue<>("Vertical", () -> mode.is("Packet"), 0, 0, 100, 2);
-
     private boolean reducing;
-
     private boolean pendingVelocity;
-
     private double motionY;
-
     private int ticks;
-
     private int offGroundTicks;
-
-    private boolean wasVelocityEffective;
-
     private Blink blinkModule;
     private Backtrack backtrackModule;
     private Longjump longjumpModule;
@@ -49,18 +39,17 @@ public class Velocity extends Module {
         reducing = false;
         offGroundTicks = 0;
 
-        wasVelocityEffective = false;
     }
 
     @Override
     public void onDisable() {
-        if(mode.is("Hypixel") && pendingVelocity) {
+        if (mode.is("Hypixel") && pendingVelocity) {
             pendingVelocity = false;
             mc.thePlayer.motionY = motionY;
             YolBi.instance.getPacketBlinkHandler().stopBlinkingPing();
         }
 
-        if(mode.is("Packet loss")) {
+        if (mode.is("Packet loss")) {
             YolBi.instance.getPacketBlinkHandler().stopAll();
         }
     }
@@ -75,20 +64,20 @@ public class Velocity extends Module {
 
     @Listener
     public void onReceive(PacketReceiveEvent event) {
-        if(canEditVelocity()) {
-            if(event.getPacket() instanceof S12PacketEntityVelocity) {
+        if (canEditVelocity()) {
+            if (event.getPacket() instanceof S12PacketEntityVelocity) {
                 S12PacketEntityVelocity packet = event.getPacket();
 
-                if(packet.getEntityID() == mc.thePlayer.getEntityId()) {
+                if (packet.getEntityID() == mc.thePlayer.getEntityId()) {
                     switch (mode.getValue()) {
                         case "Packet":
                             double horizontalMult = horizontal.getValue() / 100.0;
                             double verticalMult = vertical.getValue() / 100.0;
 
-                            if(horizontalMult == 0) {
+                            if (horizontalMult == 0) {
                                 event.setCancelled(true);
 
-                                if(verticalMult > 0) {
+                                if (verticalMult > 0) {
                                     mc.thePlayer.motionY = (packet.getMotionY() * verticalMult) / 8000.0;
                                 }
                             } else {
@@ -101,7 +90,7 @@ public class Velocity extends Module {
                         case "Hypixel":
                             event.setCancelled(true);
 
-                            if(offGroundTicks == 1 || !speedModule.isEnabled()) {
+                            if (offGroundTicks == 1 || !speedModule.isEnabled()) {
                                 mc.thePlayer.motionY = packet.getMotionY() / 8000.0;
                             } else {
                                 pendingVelocity = true;
@@ -118,7 +107,7 @@ public class Velocity extends Module {
                             pendingVelocity = true;
                             break;
                         case "Legit":
-                            if(mc.currentScreen == null) {
+                            if (mc.currentScreen == null) {
                                 mc.gameSettings.keyBindSprint.setPressed(true);
                                 mc.gameSettings.keyBindForward.setPressed(true);
                                 mc.gameSettings.keyBindJump.setPressed(true);
@@ -131,14 +120,12 @@ public class Velocity extends Module {
                 }
             }
         } else {
-            switch (mode.getValue()) {
-                case "Hypixel":
-                    if(pendingVelocity) {
-                        pendingVelocity = false;
-                        mc.thePlayer.motionY = motionY;
-                        YolBi.instance.getPacketBlinkHandler().stopBlinkingPing();
-                    }
-                    break;
+            if (mode.getValue().equals("Hypixel")) {
+                if (pendingVelocity) {
+                    pendingVelocity = false;
+                    mc.thePlayer.motionY = motionY;
+                    YolBi.instance.getPacketBlinkHandler().stopBlinkingPing();
+                }
             }
         }
     }
@@ -151,7 +138,7 @@ public class Velocity extends Module {
 
     @Listener
     public void onUpdate(UpdateEvent event) {
-        if(mc.thePlayer.onGround) {
+        if (mc.thePlayer.onGround) {
             offGroundTicks = 0;
         } else {
             offGroundTicks++;
@@ -161,8 +148,8 @@ public class Velocity extends Module {
             case "Hypixel":
                 --ticks;
 
-                if(pendingVelocity) {
-                    if(offGroundTicks == 1 || !YolBi.instance.getPacketBlinkHandler().isBlinkingPing() || ticks == 1) {
+                if (pendingVelocity) {
+                    if (offGroundTicks == 1 || !YolBi.instance.getPacketBlinkHandler().isBlinkingPing() || ticks == 1) {
                         pendingVelocity = false;
                         mc.thePlayer.motionY = motionY;
                         YolBi.instance.getPacketBlinkHandler().stopBlinkingPing();
@@ -174,7 +161,7 @@ public class Velocity extends Module {
             case "Packet loss":
                 YolBi.instance.getPacketBlinkHandler().startBlinkingPing();
 
-                if(pendingVelocity) {
+                if (pendingVelocity) {
                     YolBi.instance.getPacketBlinkHandler().clearPing();
                     pendingVelocity = false;
                 } else {
@@ -186,17 +173,15 @@ public class Velocity extends Module {
 
     @Listener
     public void onPostMotion(PostMotionEvent event) {
-        switch (mode.getValue()) {
-            case "Legit":
-                if(reducing) {
-                    if(mc.currentScreen == null) {
-                        KeyboardUtil.resetKeybindings(mc.gameSettings.keyBindSprint, mc.gameSettings.keyBindForward,
-                                mc.gameSettings.keyBindJump, mc.gameSettings.keyBindBack);
-                    }
-
-                    reducing = false;
+        if (mode.getValue().equals("Legit")) {
+            if (reducing) {
+                if (mc.currentScreen == null) {
+                    KeyboardUtil.resetKeybindings(mc.gameSettings.keyBindSprint, mc.gameSettings.keyBindForward,
+                            mc.gameSettings.keyBindJump, mc.gameSettings.keyBindBack);
                 }
-                break;
+
+                reducing = false;
+            }
         }
     }
 

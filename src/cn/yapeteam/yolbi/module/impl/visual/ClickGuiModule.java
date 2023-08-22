@@ -14,6 +14,7 @@ import cn.yapeteam.yolbi.ui.click.dropdown.DropdownClickGUI;
 
 import java.awt.*;
 
+@Deprecated
 public class ClickGuiModule extends Module {
 
     private DropdownClickGUI dropdownClickGUI;

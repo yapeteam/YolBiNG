@@ -15,7 +15,6 @@ import cn.yapeteam.yolbi.module.impl.world.Breaker;
 import cn.yapeteam.yolbi.module.impl.world.Scaffold;
 import cn.yapeteam.yolbi.util.misc.LogUtil;
 import cn.yapeteam.yolbi.util.misc.TimerUtil;
-import cn.yapeteam.yolbi.util.misc.language.EnglishLanguage;
 import cn.yapeteam.yolbi.util.network.PacketUtil;
 import cn.yapeteam.yolbi.util.player.FixedRotations;
 import cn.yapeteam.yolbi.util.player.MovementUtil;
@@ -44,7 +43,8 @@ public class Killaura extends Module {
     @Getter
     private EntityLivingBase target;
     private static Killaura killaura;
-    public static Killaura getInstance(){
+
+    public static Killaura getInstance() {
         return killaura;
     }
 
@@ -117,7 +117,7 @@ public class Killaura extends Module {
 
     private int attackCounter;
 
-    private Antibot antibotModule;
+    private AntiBot antibotModule;
     private Teams teamsModule;
     private Speed speedModule;
     private Scaffold scaffoldModule;
@@ -135,8 +135,10 @@ public class Killaura extends Module {
 
     public Killaura() {
         super("Killaura", ModuleCategory.COMBAT);
+        minAPS.setCallback((oldV, newV) -> newV > maxAPS.getValue() ? oldV : newV);
+        maxAPS.setCallback((oldV, newV) -> newV < minAPS.getValue() ? oldV : newV);
         this.addValues(mode, filter, rotations, randomAmount, startingRange, range, rotationRange, raycast, attackDelayMode, minAPS, maxAPS, attackDelay, failRate, hurtTime, autoblock, noHitOnFirstTick, blockTiming, blinkTicks, blockHurtTime, whileTargetNotLooking, slowdown, whileHitting, whileSpeedEnabled, keepSprint, moveFix, delayTransactions, whileInventoryOpened, whileScaffoldEnabled, whileUsingBreaker, players, animals, monsters, invisibles, attackDead);
-        killaura=this;
+        killaura = this;
     }
 
     @Override
@@ -155,8 +157,8 @@ public class Killaura extends Module {
 
     @Override
     public void onDisable() {
-        if(mc.thePlayer != null) {
-            if(hadTarget && rotations.is("Smooth")) {
+        if (mc.thePlayer != null) {
+            if (hadTarget && rotations.is("Smooth")) {
                 mc.thePlayer.rotationYaw = fixedRotations.getYaw();
             }
 
@@ -176,19 +178,19 @@ public class Killaura extends Module {
 
         attackNextTick = false;
 
-        if(delayTransactions.getValue()) {
+        if (delayTransactions.getValue()) {
             YolBi.instance.getPacketDelayHandler().stopAll();
         }
     }
 
     @Listener
     public void onRender(RenderEvent event) {
-        if(mc.thePlayer == null || mc.thePlayer.ticksExisted < 10) {
+        if (mc.thePlayer == null || mc.thePlayer.ticksExisted < 10) {
             this.setEnabled(false);
             return;
         }
 
-        if(target != null && attackDelayMode.is("APS")) {
+        if (target != null && attackDelayMode.is("APS")) {
             long delay1 = (long) (1000.0 / minAPS.getValue());
             long delay2 = (long) (1000.0 / maxAPS.getValue());
 
@@ -196,7 +198,7 @@ public class Killaura extends Module {
 
             long delay = (long) (delay2 + (delay1 - delay2) * random);
 
-            if(attackTimer.getTimeElapsed() >= delay) {
+            if (attackTimer.getTimeElapsed() >= delay) {
                 attackNextTick = true;
                 attackTimer.reset();
             }
@@ -205,7 +207,7 @@ public class Killaura extends Module {
 
     @Override
     public void onClientStarted() {
-        antibotModule = YolBi.instance.getModuleManager().getModule(Antibot.class);
+        antibotModule = YolBi.instance.getModuleManager().getModule(AntiBot.class);
         speedModule = YolBi.instance.getModuleManager().getModule(Speed.class);
         teamsModule = YolBi.instance.getModuleManager().getModule(Teams.class);
         scaffoldModule = YolBi.instance.getModuleManager().getModule(Scaffold.class);
@@ -217,7 +219,7 @@ public class Killaura extends Module {
 
     @Listener
     public void onTick(TickEvent event) {
-        if(mc.thePlayer.ticksExisted < 10) {
+        if (mc.thePlayer.ticksExisted < 10) {
             this.setEnabled(false);
             return;
         }
@@ -226,7 +228,7 @@ public class Killaura extends Module {
 
         switch (mode.getValue()) {
             case "Single":
-                if(target == null || !canAttack(target)) {
+                if (target == null || !canAttack(target)) {
                     target = findTarget(true);
                 }
                 break;
@@ -244,7 +246,7 @@ public class Killaura extends Module {
         boolean scaffoldEnabled = (scaffoldModule.isEnabled() || autoBridgeModule.isEnabled()) && !whileScaffoldEnabled.getValue();
         boolean usingBreaker = breakerModule.isEnabled() && breakerModule.isBreakingBed() && !whileUsingBreaker.getValue();
 
-        if(target == null || inventoryOpened || scaffoldEnabled || usingBreaker) {
+        if (target == null || inventoryOpened || scaffoldEnabled || usingBreaker) {
             stopTargeting();
             couldBlock = false;
             return;
@@ -252,27 +254,27 @@ public class Killaura extends Module {
 
         boolean attackTick = false;
 
-        if(getDistanceToEntity(target) <= (hadTarget ? range.getValue() : startingRange.getValue())) {
-            if(target.hurtTime <= hurtTime.getValue()) {
+        if (getDistanceToEntity(target) <= (hadTarget ? range.getValue() : startingRange.getValue())) {
+            if (target.hurtTime <= hurtTime.getValue()) {
                 switch (attackDelayMode.getValue()) {
                     case "APS":
-                        if(!hadTarget) {
+                        if (!hadTarget) {
                             attackTick = true;
                             attackTimer.reset();
-                        } else if(attackNextTick) {
+                        } else if (attackNextTick) {
                             attackTick = true;
                             attackNextTick = false;
                         }
                         break;
                     case "Delay in ticks":
-                        if(++attackCounter >= attackDelay.getValue()) {
+                        if (++attackCounter >= attackDelay.getValue()) {
                             attackTick = true;
                         }
                         break;
                 }
             }
 
-            if(delayTransactions.getValue()) {
+            if (delayTransactions.getValue()) {
                 YolBi.instance.getPacketDelayHandler().startDelayingPing(2000);
             }
 
@@ -284,24 +286,24 @@ public class Killaura extends Module {
         boolean shouldBlock = canBlock();
         couldBlock = shouldBlock;
 
-        if(shouldBlock) {
-            if(!autoblockAllowAttack()) {
+        if (shouldBlock) {
+            if (!autoblockAllowAttack()) {
                 attackTick = false;
             }
 
             beforeAttackAutoblock(attackTick);
         } else {
-            if(blocking) {
+            if (blocking) {
                 attackTick = false;
             }
 
             releaseBlocking();
         }
 
-        if(attackTick) {
+        if (attackTick) {
             boolean canAttack = true;
 
-            if(!raycast.is("Disabled")) {
+            if (!raycast.is("Disabled")) {
                 canAttack = raycast.is("Legit") ?
                         RotationsUtil.raycastEntity(target, fixedRotations.getYaw(), fixedRotations.getPitch(), fixedRotations.getLastYaw(), fixedRotations.getLastPitch(), range.getValue() + 0.3) :
                         RotationsUtil.raycastEntity(target, fixedRotations.getYaw(), fixedRotations.getPitch(), fixedRotations.getYaw(), fixedRotations.getPitch(), range.getValue() + 0.3);
@@ -309,14 +311,14 @@ public class Killaura extends Module {
 
             double aaa = failRate.getValue() / 100.0;
 
-            if(Math.random() > 1 - aaa) {
+            if (Math.random() > 1 - aaa) {
                 canAttack = false;
             }
 
             mc.thePlayer.swingItem();
 
-            if(canAttack) {
-                if(keepSprint.getValue()) {
+            if (canAttack) {
+                if (keepSprint.getValue()) {
                     mc.playerController.attackEntityNoSlowdown(mc.thePlayer, target);
                 } else {
                     mc.playerController.attackEntity(mc.thePlayer, target);
@@ -326,17 +328,17 @@ public class Killaura extends Module {
             attackCounter = 0;
         }
 
-        if(shouldBlock) {
+        if (shouldBlock) {
             afterAttackAutoblock(attackTick);
         }
 
         mc.gameSettings.keyBindAttack.setPressed(false);
 
-        if(!autoblock.is("None") && !autoblock.is("Blink")) {
+        if (!autoblock.is("None") && !autoblock.is("Blink")) {
             mc.gameSettings.keyBindUseItem.setPressed(false);
         }
 
-        if(!rotations.is("None") && isRotating() && moveFix.is("Silent")) {
+        if (!rotations.is("None") && isRotating() && moveFix.is("Silent")) {
             float diff = MathHelper.wrapAngleTo180_float(MathHelper.wrapAngleTo180_float(fixedRotations.getYaw()) - MathHelper.wrapAngleTo180_float(MovementUtil.getPlayerDirection())) + 22.5F;
 
             if (diff < 0) {
@@ -345,19 +347,17 @@ public class Killaura extends Module {
 
             int a = (int) (diff / 45.0);
 
-            float value = mc.thePlayer.moveForward != 0 ? Math.abs(mc.thePlayer.moveForward) : Math.abs(mc.thePlayer.moveStrafing);
-
-            float forward = value;
+            float forward = mc.thePlayer.moveForward != 0 ? Math.abs(mc.thePlayer.moveForward) : Math.abs(mc.thePlayer.moveStrafing);
             float strafe = 0;
 
             for (int i = 0; i < 8 - a; i++) {
-                float dirs[] = MovementUtil.incrementMoveDirection(forward, strafe);
+                float[] dirs = MovementUtil.incrementMoveDirection(forward, strafe);
 
                 forward = dirs[0];
                 strafe = dirs[1];
             }
 
-            if(forward < 0.8F) {
+            if (forward < 0.8F) {
                 mc.gameSettings.keyBindSprint.setPressed(false);
                 mc.thePlayer.setSprinting(false);
             }
@@ -366,45 +366,43 @@ public class Killaura extends Module {
 
     @Listener
     public void onSlowdown(SlowdownEvent event) {
-        if(canBlock()) {
-            switch (autoblock.getValue()) {
-                case "Blink":
-                    switch (slowdown.getValue()) {
-                        case "Onground":
-                            if(!mc.thePlayer.onGround) {
-                                event.setAllowedSprinting(true);
-                                event.setForward(1F);
-                                event.setStrafe(1F);
-                            }
-                            break;
-                        case "Offground":
-                            if(mc.thePlayer.onGround) {
-                                event.setAllowedSprinting(true);
-                                event.setForward(1F);
-                                event.setStrafe(1F);
-                            }
-                            break;
-                        case "Disabled":
+        if (canBlock()) {
+            if (autoblock.getValue().equals("Blink")) {
+                switch (slowdown.getValue()) {
+                    case "Onground":
+                        if (!mc.thePlayer.onGround) {
                             event.setAllowedSprinting(true);
                             event.setForward(1F);
                             event.setStrafe(1F);
-                            break;
-                    }
-                    break;
+                        }
+                        break;
+                    case "Offground":
+                        if (mc.thePlayer.onGround) {
+                            event.setAllowedSprinting(true);
+                            event.setForward(1F);
+                            event.setStrafe(1F);
+                        }
+                        break;
+                    case "Disabled":
+                        event.setAllowedSprinting(true);
+                        event.setForward(1F);
+                        event.setStrafe(1F);
+                        break;
+                }
             }
         }
     }
 
     @Listener
     public void onJump(JumpEvent event) {
-        if(target != null && !rotations.is("None") && !moveFix.is("Disabled")) {
+        if (target != null && !rotations.is("None") && !moveFix.is("Disabled")) {
             event.setYaw(fixedRotations.getYaw());
         }
     }
 
     @Listener
     public void onStrafe(StrafeEvent event) {
-        if(!rotations.is("None") && isRotating()) {
+        if (!rotations.is("None") && isRotating()) {
             switch (moveFix.getValue()) {
                 case "Normal":
                     event.setYaw(fixedRotations.getYaw());
@@ -420,13 +418,11 @@ public class Killaura extends Module {
 
                     int a = (int) (diff / 45.0);
 
-                    float value = event.getForward() != 0 ? Math.abs(event.getForward()) : Math.abs(event.getStrafe());
-
-                    float forward = value;
+                    float forward = event.getForward() != 0 ? Math.abs(event.getForward()) : Math.abs(event.getStrafe());
                     float strafe = 0;
 
                     for (int i = 0; i < 8 - a; i++) {
-                        float dirs[] = MovementUtil.incrementMoveDirection(forward, strafe);
+                        float[] dirs = MovementUtil.incrementMoveDirection(forward, strafe);
 
                         forward = dirs[0];
                         strafe = dirs[1];
@@ -446,16 +442,16 @@ public class Killaura extends Module {
     private boolean canBlock() {
         ItemStack stack = mc.thePlayer.getHeldItem();
 
-        if(autoblock.is("Blink")) {
-            if(antivoidModule.isBlinking()) {
+        if (autoblock.is("Blink")) {
+            if (antivoidModule.isBlinking()) {
                 return false;
             }
 
-            if(mc.thePlayer.hurtTime > blockHurtTime.getValue()) {
+            if (mc.thePlayer.hurtTime > blockHurtTime.getValue()) {
                 return false;
             }
 
-            if(target != null && !whileTargetNotLooking.getValue()) {
+            if (target != null && !whileTargetNotLooking.getValue()) {
                 float targetYaw = MathHelper.wrapAngleTo180_float(target.rotationYaw);
                 float diff = Math.abs(MathHelper.wrapAngleTo180_float(mc.thePlayer.rotationYaw) - targetYaw);
 
@@ -467,12 +463,12 @@ public class Killaura extends Module {
             }
         }
 
-        if(autoblock.is("Spoof") || autoblock.is("Spoof2")) {
-            if(mc.thePlayer.hurtTime > blockHurtTime.getValue()) {
+        if (autoblock.is("Spoof") || autoblock.is("Spoof2")) {
+            if (mc.thePlayer.hurtTime > blockHurtTime.getValue()) {
                 return false;
             }
 
-            if(autoblock.is("Spoof2") && target != null) {
+            if (autoblock.is("Spoof2") && target != null) {
                 return true;
             }
         }
@@ -480,12 +476,12 @@ public class Killaura extends Module {
         return target != null && stack != null && stack.getItem() instanceof ItemSword && (whileSpeedEnabled.getValue() || !YolBi.instance.getModuleManager().getModule(Speed.class).isEnabled());
     }
 
-    private void beforeAttackAutoblock(boolean attackTick) {
+    private void beforeAttackAutoblock(boolean ignoredAttackTick) {
         int slot = mc.thePlayer.inventory.currentItem;
 
         switch (autoblock.getValue()) {
             case "Vanilla":
-                if(!blocking) {
+                if (!blocking) {
                     PacketUtil.sendBlocking(true, false);
                     blocking = true;
                 }
@@ -493,7 +489,7 @@ public class Killaura extends Module {
                 autoblockTicks++;
                 break;
             case "NCP":
-                if(blocking) {
+                if (blocking) {
                     PacketUtil.releaseUseItem(true);
                     blocking = false;
                 }
@@ -502,30 +498,30 @@ public class Killaura extends Module {
                 PacketUtil.sendPacket(new C09PacketHeldItemChange(slot < 8 ? slot + 1 : 0));
                 PacketUtil.sendPacket(new C09PacketHeldItemChange(slot));
 
-                if(blockTiming.is("Pre")) {
+                if (blockTiming.is("Pre")) {
                     PacketUtil.sendBlocking(true, false);
                     blocking = true;
                 }
                 break;
             case "Spoof2":
-                if(autoblockTicks >= 2) {
+                if (autoblockTicks >= 2) {
                     mc.thePlayer.inventory.currentItem = lastSlot;
                     mc.playerController.syncCurrentPlayItem();
                     YolBi.instance.getSlotSpoofHandler().stopSpoofing();
 
-                    if(blinking) {
+                    if (blinking) {
                         YolBi.instance.getPacketBlinkHandler().releaseAll();
                     }
                     autoblockTicks = 0;
                 }
 
-                if(autoblockTicks == 0) {
-                    if(blockTiming.is("Pre")) {
+                if (autoblockTicks == 0) {
+                    if (blockTiming.is("Pre")) {
                         PacketUtil.sendBlocking(true, false);
                         blocking = true;
                     }
-                } else if(autoblockTicks == 1) {
-                    if(!velocityModule.isEnabled() || !velocityModule.mode.is("Hypixel") || !speedModule.isEnabled()) {
+                } else if (autoblockTicks == 1) {
+                    if (!velocityModule.isEnabled() || !velocityModule.mode.is("Hypixel") || !speedModule.isEnabled()) {
                         YolBi.instance.getPacketBlinkHandler().startBlinkingAll();
                         blinking = true;
                     }
@@ -550,7 +546,7 @@ public class Killaura extends Module {
                 blocking = true;
                 break;
             case "Not moving":
-                if(MovementUtil.isMoving() || (target.hurtTime < hurtTime.getValue() + 1 && !whileHitting.getValue())) {
+                if (MovementUtil.isMoving() || (target.hurtTime < hurtTime.getValue() + 1 && !whileHitting.getValue())) {
                     mc.gameSettings.keyBindUseItem.setPressed(false);
                     blocking = false;
                 }
@@ -558,31 +554,29 @@ public class Killaura extends Module {
         }
     }
 
-    private void afterAttackAutoblock(boolean attackTick) {
-        switch (autoblock.getValue()) {
-            case "AAC5":
-                PacketUtil.sendBlocking(true, false);
-                blocking = true;
-                break;
+    private void afterAttackAutoblock(boolean ignoredAttackTick) {
+        if (autoblock.getValue().equals("AAC5")) {
+            PacketUtil.sendBlocking(true, false);
+            blocking = true;
         }
     }
 
     private void postAutoblock() {
         switch (autoblock.getValue()) {
             case "NCP":
-                if(!blocking) {
+                if (!blocking) {
                     PacketUtil.sendBlocking(true, false);
                     blocking = true;
                 }
                 break;
             case "Spoof":
-                if(blockTiming.is("Post")) {
+                if (blockTiming.is("Post")) {
                     PacketUtil.sendBlocking(true, false);
                     blocking = true;
                 }
                 break;
             case "Spoof2":
-                if(blockTiming.is("Post")) {
+                if (blockTiming.is("Post")) {
                     PacketUtil.sendBlocking(true, false);
                     blocking = true;
                 }
@@ -590,17 +584,17 @@ public class Killaura extends Module {
                 autoblockTicks++;
                 break;
             case "Not moving":
-                if(!MovementUtil.isMoving() && (target.hurtTime >= hurtTime.getValue() + 1 || whileHitting.getValue())) {
+                if (!MovementUtil.isMoving() && (target.hurtTime >= hurtTime.getValue() + 1 || whileHitting.getValue())) {
                     mc.gameSettings.keyBindUseItem.setPressed(true);
                     blocking = true;
                 }
                 break;
             case "Blink":
-                if(target == null) {
+                if (target == null) {
                     LogUtil.addChatMessage("Autoblock test 2");
                 }
 
-                if(autoblockTicks == 0) {
+                if (autoblockTicks == 0) {
                     YolBi.instance.getPacketBlinkHandler().releaseAll();
                     YolBi.instance.getPacketBlinkHandler().startBlinkingAll();
                 }
@@ -614,7 +608,7 @@ public class Killaura extends Module {
     private boolean autoblockAllowAttack() {
         switch (autoblock.getValue()) {
             case "Vanilla":
-                return noHitOnFirstTick.getValue() ? autoblockTicks > 1 : true;
+                return !noHitOnFirstTick.getValue() || autoblockTicks > 1;
             case "Spoof2":
                 return autoblockTicks == 2;
             case "Blink":
@@ -627,18 +621,18 @@ public class Killaura extends Module {
     private void releaseBlocking() {
         ItemStack stack = mc.thePlayer.getHeldItem();
 
-        if(hadTarget && autoblock.is("Blink") && !blocking && target == null) {
+        if (hadTarget && autoblock.is("Blink") && !blocking && target == null) {
             LogUtil.addChatMessage("Autoblock test : " + YolBi.instance.getPacketBlinkHandler().isBlinking());
         }
 
         int slot = mc.thePlayer.inventory.currentItem;
 
-        if(blocking) {
+        if (blocking) {
             switch (autoblock.getValue()) {
                 case "Vanilla":
                 case "NCP":
                 case "AAC5":
-                    if(stack != null && stack.getItem() instanceof ItemSword) {
+                    if (stack != null && stack.getItem() instanceof ItemSword) {
                         PacketUtil.releaseUseItem(true);
                     }
                     break;
@@ -647,7 +641,7 @@ public class Killaura extends Module {
                     PacketUtil.sendPacket(new C09PacketHeldItemChange(slot));
                     break;
                 case "Spoof2":
-                    if(autoblockTicks == 1) {
+                    if (autoblockTicks == 1) {
                         mc.thePlayer.inventory.currentItem = lastSlot < 8 ? lastSlot + 1 : 0;
 
                         new Thread(() -> {
@@ -667,7 +661,7 @@ public class Killaura extends Module {
 
                     YolBi.instance.getSlotSpoofHandler().stopSpoofing();
 
-                    if(blinking) {
+                    if (blinking) {
                         YolBi.instance.getPacketBlinkHandler().stopAll();
                         blinking = false;
                     }
@@ -680,7 +674,7 @@ public class Killaura extends Module {
             blocking = false;
         }
 
-        if(autoblock.is("Blink") && (blinking || blocking)) {
+        if (autoblock.is("Blink") && (blinking || blocking)) {
             YolBi.instance.getPacketBlinkHandler().stopAll();
             blinking = false;
             blocking = false;
@@ -692,7 +686,7 @@ public class Killaura extends Module {
 
     @Listener
     public void onItemRender(ItemRenderEvent event) {
-        if(canRenderBlocking() && (blocking || !autoblock.is("Not moving")) && !autoblock.is("None")) {
+        if (canRenderBlocking() && (blocking || !autoblock.is("Not moving")) && !autoblock.is("None")) {
             event.setRenderBlocking(true);
         }
     }
@@ -701,10 +695,10 @@ public class Killaura extends Module {
         float yaw = fixedRotations.getYaw();
         float pitch = fixedRotations.getPitch();
 
-        if(target != null) {
-            float rots[] = RotationsUtil.getRotationsToEntity(target, false);
+        if (target != null) {
+            float[] rots = RotationsUtil.getRotationsToEntity(target, false);
 
-            if(speedModule.isEnabled() && speedModule.mode.is("Pathfind")) {
+            if (speedModule.isEnabled() && speedModule.mode.is("Pathfind")) {
                 rots = RotationsUtil.getRotationsToEntity(speedModule.getActualX(), speedModule.getActualY(), speedModule.getActualZ(), target, false);
             }
 
@@ -728,8 +722,8 @@ public class Killaura extends Module {
 
                     diff = Math.abs(currentYaw - yaw1);
 
-                    if(diff >= 8) {
-                        if(diff > 35) {
+                    if (diff >= 8) {
+                        if (diff > 35) {
                             rotSpeed += 4 - Math.random();
 
                             rotSpeed = Math.max(rotSpeed, (float) (31 - Math.random()));
@@ -739,21 +733,21 @@ public class Killaura extends Module {
                             rotSpeed = Math.max(rotSpeed, (float) (14 - Math.random()));
                         }
 
-                        if(diff <= 180) {
-                            if(currentYaw > yaw1) {
+                        if (diff <= 180) {
+                            if (currentYaw > yaw1) {
                                 yaw -= rotSpeed;
                             } else {
                                 yaw += rotSpeed;
                             }
                         } else {
-                            if(currentYaw > yaw1) {
+                            if (currentYaw > yaw1) {
                                 yaw += rotSpeed;
                             } else {
                                 yaw -= rotSpeed;
                             }
                         }
                     } else {
-                        if(currentYaw > yaw1) {
+                        if (currentYaw > yaw1) {
                             yaw -= diff * 0.8;
                         } else {
                             yaw += diff * 0.8;
@@ -768,14 +762,12 @@ public class Killaura extends Module {
                     break;
             }
         } else {
-            switch (rotations.getValue()) {
-                case "Smooth":
-                    rotSpeed = 15;
+            if (rotations.getValue().equals("Smooth")) {
+                rotSpeed = 15;
 
-                    if(!hadTarget) {
-                        done = true;
-                    }
-                    break;
+                if (!hadTarget) {
+                    done = true;
+                }
             }
         }
 
@@ -798,7 +790,7 @@ public class Killaura extends Module {
 
     @Listener
     public void onMotion(MotionEvent event) {
-        if(isRotating()) {
+        if (isRotating()) {
             event.setYaw(fixedRotations.getYaw());
             event.setPitch(fixedRotations.getPitch());
         }
@@ -806,7 +798,7 @@ public class Killaura extends Module {
 
     @Listener
     public void onPostMotion(PostMotionEvent event) {
-        if(couldBlock) {
+        if (couldBlock) {
             postAutoblock();
         }
     }
@@ -817,25 +809,25 @@ public class Killaura extends Module {
 
     public EntityLivingBase findTarget(boolean allowSame, double range) {
         ArrayList<EntityLivingBase> entities = new ArrayList<>();
-        for(Entity entity : mc.theWorld.loadedEntityList) {
-            if(entity instanceof EntityLivingBase && entity != mc.thePlayer) {
-                if(canAttack((EntityLivingBase) entity, range)) {
+        for (Entity entity : mc.theWorld.loadedEntityList) {
+            if (entity instanceof EntityLivingBase && entity != mc.thePlayer) {
+                if (canAttack((EntityLivingBase) entity, range)) {
                     entities.add((EntityLivingBase) entity);
                 }
             }
         }
 
-        if(entities != null && entities.size() > 0) {
+        if (entities.size() > 0) {
             switch (filter.getValue()) {
                 case "Range":
                     entities.sort(Comparator.comparingDouble(entity -> entity.getDistanceToEntity(mc.thePlayer)));
                     break;
                 case "Health":
-                    entities.sort(Comparator.comparingDouble(entity -> entity.getHealth()));
+                    entities.sort(Comparator.comparingDouble(EntityLivingBase::getHealth));
                     break;
             }
 
-            if(!allowSame && entities.size() > 1 && entities.get(0) == target) {
+            if (!allowSame && entities.size() > 1 && entities.get(0) == target) {
                 return entities.get(1);
             } else {
                 return entities.get(0);
@@ -850,47 +842,43 @@ public class Killaura extends Module {
     }
 
     public boolean canAttack(EntityLivingBase entity, double range) {
-        if(getDistanceToEntity(entity) > range) {
+        if (getDistanceToEntity(entity) > range) {
             return false;
         }
 
-        if((entity.isInvisible() || entity.isInvisibleToPlayer(mc.thePlayer)) && !invisibles.getValue()) {
+        if ((entity.isInvisible() || entity.isInvisibleToPlayer(mc.thePlayer)) && !invisibles.getValue()) {
             return false;
         }
 
-        if(entity instanceof EntityPlayer) {
-            if(!players.getValue() || !teamsModule.canAttack((EntityPlayer) entity)) {
+        if (entity instanceof EntityPlayer) {
+            if (!players.getValue() || !teamsModule.canAttack((EntityPlayer) entity)) {
                 return false;
             }
         }
 
-        if(entity instanceof EntityAnimal && !animals.getValue()) {
+        if (entity instanceof EntityAnimal && !animals.getValue()) {
             return false;
         }
 
-        if(entity instanceof EntityMob && !monsters.getValue()) {
+        if (entity instanceof EntityMob && !monsters.getValue()) {
             return false;
         }
 
-        if(!(entity instanceof EntityPlayer || entity instanceof EntityAnimal || entity instanceof EntityMob)) {
+        if (!(entity instanceof EntityPlayer || entity instanceof EntityAnimal || entity instanceof EntityMob)) {
             return false;
         }
 
-        if(entity.isDead && !attackDead.getValue()) {
+        if (entity.isDead && !attackDead.getValue()) {
             return false;
         }
 
-        if(!antibotModule.canAttack(entity, this)) {
-            return false;
-        }
-
-        return true;
+        return antibotModule.canAttack(entity, this);
     }
 
     public double getDistanceToEntity(EntityLivingBase entity) {
         Vec3 playerVec = new Vec3(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
 
-        if(speedModule.isEnabled() && speedModule.mode.is("Pathfind")) {
+        if (speedModule.isEnabled() && speedModule.mode.is("Pathfind")) {
             playerVec = new Vec3(speedModule.getActualX(), speedModule.getActualY() + mc.thePlayer.getEyeHeight(), speedModule.getActualZ());
         }
 

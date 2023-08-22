@@ -37,13 +37,13 @@ public class ChestStealer extends Module {
 
     @Listener
     public void onUpdate(UpdateEvent event) {
-        if(mc.thePlayer.openContainer != null && mc.thePlayer.openContainer instanceof ContainerChest && (!isGUI() || !guiDetect.getValue())) {
+        if (mc.thePlayer.openContainer != null && mc.thePlayer.openContainer instanceof ContainerChest && (!isGUI() || !guiDetect.getValue())) {
             ContainerChest container = (ContainerChest) mc.thePlayer.openContainer;
 
-            for(int i = 0; i < container.getLowerChestInventory().getSizeInventory(); i++) {
+            for (int i = 0; i < container.getLowerChestInventory().getSizeInventory(); i++) {
                 ItemStack stack = container.getLowerChestInventory().getStackInSlot(i);
-                if(stack != null && !isUseless(stack)) {
-                    if(++counter > delay.getValue()) {
+                if (stack != null && !isUseless(stack)) {
+                    if (++counter > delay.getValue()) {
                         mc.playerController.windowClick(container.windowId, i, 1, 1, mc.thePlayer);
                         counter = 0;
                         return;
@@ -51,17 +51,17 @@ public class ChestStealer extends Module {
                 }
             }
 
-            if(autoClose.getValue() && isChestEmpty(container)) {
+            if (autoClose.getValue() && isChestEmpty(container)) {
                 mc.thePlayer.closeScreen();
             }
         }
     }
 
     private boolean isChestEmpty(ContainerChest container) {
-        for(int i = 0; i < container.getLowerChestInventory().getSizeInventory(); i++) {
+        for (int i = 0; i < container.getLowerChestInventory().getSizeInventory(); i++) {
             ItemStack stack = container.getLowerChestInventory().getStackInSlot(i);
 
-            if(stack != null && !isUseless(stack)) {
+            if (stack != null && !isUseless(stack)) {
                 return false;
             }
         }
@@ -70,7 +70,7 @@ public class ChestStealer extends Module {
     }
 
     private boolean isUseless(ItemStack stack) {
-        if(!filter.getValue()) {
+        if (!filter.getValue()) {
             return false;
         }
 
@@ -78,14 +78,14 @@ public class ChestStealer extends Module {
     }
 
     private boolean isGUI() {
-        for(double x = mc.thePlayer.posX - 5; x <= mc.thePlayer.posX + 5; x++) {
-            for(double y = mc.thePlayer.posY - 5; y <= mc.thePlayer.posY + 5; y++) {
-                for(double z = mc.thePlayer.posZ - 5; z <= mc.thePlayer.posZ + 5; z++) {
+        for (double x = mc.thePlayer.posX - 5; x <= mc.thePlayer.posX + 5; x++) {
+            for (double y = mc.thePlayer.posY - 5; y <= mc.thePlayer.posY + 5; y++) {
+                for (double z = mc.thePlayer.posZ - 5; z <= mc.thePlayer.posZ + 5; z++) {
 
                     BlockPos pos = new BlockPos(x, y, z);
                     Block block = mc.theWorld.getBlockState(pos).getBlock();
 
-                    if(block instanceof BlockChest || block instanceof BlockEnderChest) {
+                    if (block instanceof BlockChest || block instanceof BlockEnderChest) {
                         return false;
                     }
                 }

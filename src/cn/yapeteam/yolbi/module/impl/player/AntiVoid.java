@@ -56,7 +56,7 @@ public class AntiVoid extends Module {
 
     @Override
     public void onDisable() {
-        if(blinking) {
+        if (blinking) {
             YolBi.instance.getPacketBlinkHandler().stopAll();
             LogUtil.addChatMessage("Stopped blinking");
             blinking = false;
@@ -73,20 +73,20 @@ public class AntiVoid extends Module {
 
     @Listener(Priority.HIGHER)
     public void onTick(TickEvent event) {
-        if(mc.thePlayer.ticksExisted < 10) {
+        if (mc.thePlayer.ticksExisted < 10) {
             collisionBlock = null;
             return;
         }
 
         switch (mode.getValue()) {
             case "Bounce":
-                if(shouldSetback() && mc.thePlayer.motionY < -0.1) {
+                if (shouldSetback() && mc.thePlayer.motionY < -0.1) {
                     mc.thePlayer.motionY = bounceMotion.getValue();
                 }
                 break;
             case "Collision flag":
-                if(shouldSetback()) {
-                    if(collisionBlock != null) {
+                if (shouldSetback()) {
+                    if (collisionBlock != null) {
                         mc.theWorld.setBlockToAir(collisionBlock);
                     }
 
@@ -94,29 +94,29 @@ public class AntiVoid extends Module {
 
                     mc.theWorld.setBlockState(collisionBlock, Blocks.barrier.getDefaultState());
                 } else {
-                    if(collisionBlock != null) {
+                    if (collisionBlock != null) {
                         mc.theWorld.setBlockToAir(collisionBlock);
                         collisionBlock = null;
                     }
                 }
                 break;
             case "Blink":
-                if(isSafe()) {
+                if (isSafe()) {
                     lastSafePos = new PlayerInfo(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.motionX, mc.thePlayer.motionY, mc.thePlayer.motionZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch, mc.thePlayer.onGround, mc.thePlayer.fallDistance, mc.thePlayer.inventory.currentItem);
 
                     receivedLagback = false;
 
-                    if(blinking) {
+                    if (blinking) {
                         YolBi.instance.getPacketBlinkHandler().stopAll();
                         //LogUtil.addChatMessage("Antivoid : Stopped blinking");
                         blinking = false;
                     }
-                } else if(!receivedLagback) {
-                    if(shouldSetback()) {
-                        if(blinking) {
+                } else if (!receivedLagback) {
+                    if (shouldSetback()) {
+                        if (blinking) {
                             mc.thePlayer.setPosition(lastSafePos.x, lastSafePos.y, lastSafePos.z);
 
-                            if(stopHorizontalMove.getValue()) {
+                            if (stopHorizontalMove.getValue()) {
                                 mc.thePlayer.motionX = 0;
                                 mc.thePlayer.motionZ = 0;
                             } else {
@@ -143,7 +143,7 @@ public class AntiVoid extends Module {
                             LogUtil.addChatMessage("Antivoid : Set back");
                         }
                     } else {
-                        if(!blinking) {
+                        if (!blinking) {
                             YolBi.instance.getPacketBlinkHandler().startBlinkingAll();
                             //LogUtil.addChatMessage("Antivoid : Started blinking");
                             blinking = true;
@@ -158,7 +158,7 @@ public class AntiVoid extends Module {
     public void onMotion(MotionEvent event) {
         switch (mode.getValue()) {
             case "Flag":
-                if(shouldSetback()) {
+                if (shouldSetback()) {
                     event.setY(event.getY() + 8 + Math.random());
                 }
                 break;
@@ -167,10 +167,10 @@ public class AntiVoid extends Module {
 
     @Listener
     public void onReceive(PacketReceiveEvent event) {
-        if(event.getPacket() instanceof S08PacketPlayerPosLook) {
+        if (event.getPacket() instanceof S08PacketPlayerPosLook) {
             S08PacketPlayerPosLook packet = event.getPacket();
 
-            if(mode.is("Blink") && blinking) {
+            if (mode.is("Blink") && blinking) {
                 mc.thePlayer.onGround = false;
 
                 mc.thePlayer.fallDistance = lastSafePos.fallDist;

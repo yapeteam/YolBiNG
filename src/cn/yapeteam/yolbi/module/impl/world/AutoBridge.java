@@ -67,7 +67,7 @@ public class AutoBridge extends Module {
         oldYaw = mc.thePlayer.rotationYaw;
         oldPitch = mc.thePlayer.rotationPitch;
 
-        if(freelook.getValue()) {
+        if (freelook.getValue()) {
             YolBi.instance.getCameraHandler().setFreelooking(true);
             freelooking = true;
         }
@@ -80,7 +80,7 @@ public class AutoBridge extends Module {
 
         counter = ticks = 0;
 
-        if(mode.is("Godbridge")) {
+        if (mode.is("Godbridge")) {
             float yaw = MathHelper.wrapAngleTo180_float(mc.thePlayer.rotationYaw);
 
             float roundedYaw = (float) (Math.round(yaw * 90) / 90.0);
@@ -91,13 +91,13 @@ public class AutoBridge extends Module {
             mc.thePlayer.rotationPitch = rotations.getPitch();
 
             blocksPlaced = 1;
-        } else if(mode.is("No sprint")) {
+        } else if (mode.is("No sprint")) {
             rotations.updateRotations(mc.thePlayer.rotationYaw - 180, 76F);
 
             mc.thePlayer.rotationYaw = rotations.getYaw();
             mc.thePlayer.rotationPitch = rotations.getPitch();
 
-            if(ninjaBridge.getValue()) {
+            if (ninjaBridge.getValue()) {
                 mc.gameSettings.keyBindForward.setPressed(false);
                 mc.gameSettings.keyBindBack.setPressed(true);
             } else {
@@ -117,7 +117,7 @@ public class AutoBridge extends Module {
 
         mc.gameSettings.keyBindUseItem.setPressed(false);
 
-        if(freelooking) {
+        if (freelooking) {
             mc.thePlayer.rotationYaw = YolBi.instance.getCameraHandler().getYaw();
             mc.thePlayer.rotationPitch = YolBi.instance.getCameraHandler().getPitch();
 
@@ -129,7 +129,7 @@ public class AutoBridge extends Module {
     }
 
     private void switchToOriginalSlot() {
-        if(!blockPicker.is("None")) {
+        if (!blockPicker.is("None")) {
             mc.thePlayer.inventory.currentItem = oldSlot;
         }
 
@@ -137,18 +137,18 @@ public class AutoBridge extends Module {
     }
 
     private void pickBlock() {
-        if(!blockPicker.is("None")) {
-            for(int i = 8; i >= 0; i--) {
+        if (!blockPicker.is("None")) {
+            for (int i = 8; i >= 0; i--) {
                 ItemStack stack = mc.thePlayer.inventory.getStackInSlot(i);
 
-                if(stack != null && stack.getItem() instanceof ItemBlock && !PlayerUtil.isBlockBlacklisted(stack.getItem()) && stack.stackSize > 0) {
+                if (stack != null && stack.getItem() instanceof ItemBlock && !PlayerUtil.isBlockBlacklisted(stack.getItem()) && stack.stackSize > 0) {
                     mc.thePlayer.inventory.currentItem = i;
                     break;
                 }
             }
         }
 
-        if(blockPicker.is("Spoof")) {
+        if (blockPicker.is("Spoof")) {
             YolBi.instance.getSlotSpoofHandler().startSpoofing(oldSlot);
         }
     }
@@ -157,7 +157,7 @@ public class AutoBridge extends Module {
     public void onTick(TickEvent event) {
         pickBlock();
 
-        if(mc.thePlayer.onGround || !keepY.getValue()) {
+        if (mc.thePlayer.onGround || !keepY.getValue()) {
             lastGroundY = mc.thePlayer.posY;
         }
 
@@ -198,7 +198,7 @@ public class AutoBridge extends Module {
                     invertKeyPresses();
                 }
 
-                if(eagle.getValue() && isOverAir && mc.thePlayer.onGround && (blocksPlaced == 0 || blocksPlaced % 3 != 0 || mc.thePlayer.isPotionActive(Potion.moveSpeed))) {
+                if (eagle.getValue() && isOverAir && mc.thePlayer.onGround && (blocksPlaced == 0 || blocksPlaced % 3 != 0 || mc.thePlayer.isPotionActive(Potion.moveSpeed))) {
                     mc.gameSettings.keyBindSneak.setPressed(true);
                 } else {
                     KeyboardUtil.resetKeybinding(mc.gameSettings.keyBindSneak);
@@ -211,7 +211,7 @@ public class AutoBridge extends Module {
     public void onUpdate(UpdateEvent event) {
         switch (mode.getValue()) {
             case "No sprint":
-                if(!ninjaBridge.getValue()) {
+                if (!ninjaBridge.getValue()) {
                     invertKeyPresses();
                 }
                 break;
@@ -228,15 +228,15 @@ public class AutoBridge extends Module {
 
                 boolean jumping = mc.thePlayer.onGround && mc.gameSettings.keyBindJump.isKeyDown();
 
-                if(WorldUtil.isAirOrLiquid(new BlockPos(mc.thePlayer.posX, lastGroundY - 1, mc.thePlayer.posZ)) && info != null && info.getFacing() != EnumFacing.DOWN && (info.getFacing() != EnumFacing.UP || !keepY.getValue()) && !jumping) {
+                if (WorldUtil.isAirOrLiquid(new BlockPos(mc.thePlayer.posX, lastGroundY - 1, mc.thePlayer.posZ)) && info != null && info.getFacing() != EnumFacing.DOWN && (info.getFacing() != EnumFacing.UP || !keepY.getValue()) && !jumping) {
                     float yaw = (freelooking ? YolBi.instance.getCameraHandler().getYaw() : oldYaw) - 180;
 
-                    for(float pitch = 40F; pitch <= 90F; pitch += 0.1F) {
+                    for (float pitch = 40F; pitch <= 90F; pitch += 0.1F) {
                         rotations.updateRotations(yaw, pitch);
 
                         MovingObjectPosition result = WorldUtil.raytrace(rotations.getYaw(), rotations.getPitch());
 
-                        if(result != null && result.getBlockPos().equals(info.getPos()) && result.sideHit == info.getFacing()) {
+                        if (result != null && result.getBlockPos().equals(info.getPos()) && result.sideHit == info.getFacing()) {
                             mc.thePlayer.rotationYaw = rotations.getYaw();
                             mc.thePlayer.rotationPitch = rotations.getPitch();
 
@@ -248,7 +248,7 @@ public class AutoBridge extends Module {
 
                     invertKeyPresses();
                 } else {
-                    if(mc.thePlayer.onGround || !alwaysRotateOffground.getValue()) {
+                    if (mc.thePlayer.onGround || !alwaysRotateOffground.getValue()) {
                         mc.thePlayer.rotationYaw = freelooking ? YolBi.instance.getCameraHandler().getYaw() : oldYaw;
                         mc.thePlayer.rotationPitch = oldPitch;
 
@@ -263,22 +263,22 @@ public class AutoBridge extends Module {
                 }
                 break;
             case "No sprint":
-                if(freelooking) {
+                if (freelooking) {
                     mc.thePlayer.rotationYaw = YolBi.instance.getCameraHandler().getYaw() - 180;
                 }
 
                 mc.gameSettings.keyBindUseItem.setPressed(false);
 
-                if(WorldUtil.isAirOrLiquid(new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1, mc.thePlayer.posZ)) && info != null && info.getFacing() != EnumFacing.DOWN) {
+                if (WorldUtil.isAirOrLiquid(new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1, mc.thePlayer.posZ)) && info != null && info.getFacing() != EnumFacing.DOWN) {
                     boolean found = false;
 
-                    for(float pitch = 0F; pitch <= 90F; pitch += (pitch < 60 ? 0.2F : 0.1F)) {
+                    for (float pitch = 0F; pitch <= 90F; pitch += (pitch < 60 ? 0.2F : 0.1F)) {
                         rotations.updateRotations(mc.thePlayer.rotationYaw, pitch);
 
                         MovingObjectPosition result = WorldUtil.raytrace(rotations.getYaw(), rotations.getPitch());
 
-                        if(result != null && result.getBlockPos().equals(info.getPos()) && result.sideHit == info.getFacing()) {
-                            if(result.sideHit == info.getFacing()) {
+                        if (result != null && result.getBlockPos().equals(info.getPos()) && result.sideHit == info.getFacing()) {
+                            if (result.sideHit == info.getFacing()) {
                                 mc.thePlayer.rotationYaw = rotations.getYaw();
                                 mc.thePlayer.rotationPitch = rotations.getPitch();
 
@@ -293,12 +293,12 @@ public class AutoBridge extends Module {
                         }
                     }
 
-                    if(!found) {
+                    if (!found) {
                         mc.gameSettings.keyBindSneak.setPressed(true);
                     }
                 }
 
-                if(ninjaBridge.getValue()) {
+                if (ninjaBridge.getValue()) {
                     mc.gameSettings.keyBindForward.setPressed(false);
                     mc.gameSettings.keyBindBack.setPressed(true);
 
@@ -307,10 +307,10 @@ public class AutoBridge extends Module {
                     boolean left = hasSpeed ? ticks % 2 == 0 : ticks % 5 == 0;
                     boolean right = hasSpeed ? ticks % 2 == 1 : ticks % 5 == 1;
 
-                    if(left) {
+                    if (left) {
                         mc.gameSettings.keyBindLeft.setPressed(true);
                         mc.gameSettings.keyBindRight.setPressed(false);
-                    } else if(right) {
+                    } else if (right) {
                         mc.gameSettings.keyBindRight.setPressed(true);
                         mc.gameSettings.keyBindLeft.setPressed(false);
                     } else {
@@ -338,13 +338,13 @@ public class AutoBridge extends Module {
 
     @Listener
     public void onSend(PacketSendEvent event) {
-        if(event.getPacket() instanceof C08PacketPlayerBlockPlacement) {
+        if (event.getPacket() instanceof C08PacketPlayerBlockPlacement) {
             C08PacketPlayerBlockPlacement packet = event.getPacket();
 
-            if(!packet.getPosition().equals(new BlockPos(-1, -1, -1))) {
+            if (!packet.getPosition().equals(new BlockPos(-1, -1, -1))) {
                 blocksPlaced++;
             } else {
-                if(mode.is("Godbridge") && mc.thePlayer.ticksExisted % 2 == 0) {
+                if (mode.is("Godbridge") && mc.thePlayer.ticksExisted % 2 == 0) {
                     event.setCancelled(true);
                 }
             }

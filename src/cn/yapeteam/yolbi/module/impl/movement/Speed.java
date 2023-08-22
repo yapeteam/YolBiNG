@@ -143,7 +143,7 @@ public class Speed extends Module {
                 mc.thePlayer.inventory.currentItem = oldSlot;
                 break;
             case "Watchdog":
-                if(watchdogMode.is("Strafe")) {
+                if (watchdogMode.is("Strafe")) {
                     mc.thePlayer.motionX *= 0.2;
                     mc.thePlayer.motionZ *= 0.2;
                 }
@@ -158,8 +158,8 @@ public class Speed extends Module {
                 break;
         }
 
-        if(!barriers.isEmpty()) {
-            for(BlockPos pos : barriers) {
+        if (!barriers.isEmpty()) {
+            for (BlockPos pos : barriers) {
                 mc.theWorld.setBlockToAir(pos);
             }
 
@@ -171,24 +171,24 @@ public class Speed extends Module {
     public void onStrafe(StrafeEvent event) {
         switch (mode.getValue()) {
             case "Watchdog":
-                if(watchdogMode.is("Test")) {
-                    if(!mc.thePlayer.isSprinting()) {
+                if (watchdogMode.is("Test")) {
+                    if (!mc.thePlayer.isSprinting()) {
                         event.setAttributeSpeed(event.getAttributeSpeed() * 1.3F);
                     }
 
-                    if(mc.thePlayer.onGround && !mc.gameSettings.keyBindJump.isKeyDown()) {
+                    if (mc.thePlayer.onGround && !mc.gameSettings.keyBindJump.isKeyDown()) {
                         mc.thePlayer.jump();
                     }
                 }
                 break;
             case "Strafe":
-                if(allDirSprint.getValue()) {
-                    if(!mc.thePlayer.isSprinting()) {
+                if (allDirSprint.getValue()) {
+                    if (!mc.thePlayer.isSprinting()) {
                         event.setAttributeSpeed(event.getAttributeSpeed() * 1.3F);
                     }
                 }
 
-                if(autoJump.getValue() && mc.thePlayer.onGround && !mc.gameSettings.keyBindJump.isKeyDown()) {
+                if (autoJump.getValue() && mc.thePlayer.onGround && !mc.gameSettings.keyBindJump.isKeyDown()) {
                     mc.thePlayer.jump();
                 }
                 break;
@@ -199,13 +199,13 @@ public class Speed extends Module {
     public void onJump(JumpEvent event) {
         switch (mode.getValue()) {
             case "Strafe":
-                if(allDirSprint.getValue()) {
+                if (allDirSprint.getValue()) {
                     event.setBoosting(MovementUtil.isMoving());
                     event.setYaw(MovementUtil.getPlayerDirection());
                 }
                 break;
             case "Watchdog":
-                if(watchdogMode.is("Test")) {
+                if (watchdogMode.is("Test")) {
                     event.setBoosting(MovementUtil.isMoving());
                     event.setYaw(MovementUtil.getPlayerDirection());
                 }
@@ -222,23 +222,23 @@ public class Speed extends Module {
     public void onUpdate(UpdateEvent event) {
         switch (mode.getValue()) {
             case "Vulcan":
-                for(int i = 8; i >= 0; i--) {
+                for (int i = 8; i >= 0; i--) {
                     ItemStack stack = mc.thePlayer.inventory.getStackInSlot(i);
 
-                    if(stack != null && stack.getItem() instanceof ItemBlock && !PlayerUtil.isBlockBlacklisted(stack.getItem())) {
+                    if (stack != null && stack.getItem() instanceof ItemBlock && !PlayerUtil.isBlockBlacklisted(stack.getItem())) {
                         mc.thePlayer.inventory.currentItem = i;
                         break;
                     }
                 }
 
-                if(mc.thePlayer.onGround) {
-                    if(MovementUtil.isMoving()) {
+                if (mc.thePlayer.onGround) {
+                    if (MovementUtil.isMoving()) {
                         mc.thePlayer.jump();
                         ticks = 0;
                     }
                 } else {
                     if (ticks == 4) {
-                        if(started) {
+                        if (started) {
                             mc.thePlayer.motionY = -1;
                         }
 
@@ -256,9 +256,9 @@ public class Speed extends Module {
                 }
                 break;
             case "MMC":
-                if(!started || fullScaffold.getValue()) break;
+                if (!started || fullScaffold.getValue()) break;
             case "Test":
-                if(mc.thePlayer.onGround) {
+                if (mc.thePlayer.onGround) {
                     mc.thePlayer.jump();
                     mc.thePlayer.motionY = 0;
                 }
@@ -267,10 +267,9 @@ public class Speed extends Module {
     }
 
 
-
     @Listener
     public void onMove(MoveEvent event) {
-        if(!takingVelocity && mc.thePlayer.onGround) {
+        if (!takingVelocity && mc.thePlayer.onGround) {
         }
 
         double velocityExtra = 0.28 + MovementUtil.getSpeedAmplifier() * 0.07;
@@ -282,7 +281,7 @@ public class Speed extends Module {
 
         switch (mode.getValue()) {
             case "Vanilla":
-                if(mc.thePlayer.onGround && MovementUtil.isMoving() && autoJump.getValue()) {
+                if (mc.thePlayer.onGround && MovementUtil.isMoving() && autoJump.getValue()) {
                     event.setY(mc.thePlayer.motionY = (double) mc.thePlayer.getJumpUpwardsMotion());
                 }
 
@@ -291,10 +290,10 @@ public class Speed extends Module {
             case "NCP":
                 switch (ncpMode.getValue()) {
                     case "Hop":
-                        if(mc.thePlayer.onGround) {
+                        if (mc.thePlayer.onGround) {
                             prevOnGround = true;
 
-                            if(MovementUtil.isMoving()) {
+                            if (MovementUtil.isMoving()) {
                                 event.setY(mc.thePlayer.motionY = (double) mc.thePlayer.getJumpUpwardsMotion());
 
                                 speed *= 0.91;
@@ -302,7 +301,7 @@ public class Speed extends Module {
 
                                 ticks = 0;
                             }
-                        } else if(prevOnGround) {
+                        } else if (prevOnGround) {
                             speed *= 0.58;
                             speed += 0.026;
 
@@ -314,29 +313,29 @@ public class Speed extends Module {
                             ticks++;
                         }
 
-                        if(speed > 0.2) {
+                        if (speed > 0.2) {
                             speed -= 1E-6;
                         }
                         break;
                     case "Updated Hop":
-                        if(mc.thePlayer.onGround) {
+                        if (mc.thePlayer.onGround) {
                             prevOnGround = true;
 
-                            if(MovementUtil.isMoving()) {
+                            if (MovementUtil.isMoving()) {
                                 MovementUtil.jump(event);
 
                                 speed *= 0.91;
 
-                                if(takingVelocity && damageBoost.getValue()) {
+                                if (takingVelocity && damageBoost.getValue()) {
                                     speed = velocityDist + velocityExtra;
                                 }
 
                                 speed += 0.2 + mc.thePlayer.getAIMoveSpeed();
                             }
-                        } else if(prevOnGround) {
+                        } else if (prevOnGround) {
                             speed *= 0.53;
 
-                            if(takingVelocity && damageBoost.getValue()) {
+                            if (takingVelocity && damageBoost.getValue()) {
                                 speed = velocityDist + velocityExtra;
                             }
 
@@ -346,7 +345,7 @@ public class Speed extends Module {
                         } else {
                             speed *= 0.91;
 
-                            if(takingVelocity && damageBoost.getValue()) {
+                            if (takingVelocity && damageBoost.getValue()) {
                                 speed = velocityDist + velocityExtra;
                             }
 
@@ -372,16 +371,16 @@ public class Speed extends Module {
             case "Watchdog":
                 switch (watchdogMode.getValue()) {
                     case "Strafe":
-                        if(mc.thePlayer.onGround) {
-                            if(MovementUtil.isMoving()) {
+                        if (mc.thePlayer.onGround) {
+                            if (MovementUtil.isMoving()) {
                                 prevOnGround = true;
 
                                 MovementUtil.jump(event);
 
                                 speed = 0.585 + MovementUtil.getSpeedAmplifier() * 0.065;
                             }
-                        } else if(prevOnGround) {
-                            if(ticks++ % 5 > 0 && fast.getValue()) {
+                        } else if (prevOnGround) {
+                            if (ticks++ % 5 > 0 && fast.getValue()) {
                                 speed *= 0.65F;
                             } else {
                                 speed *= 0.53F;
@@ -398,15 +397,15 @@ public class Speed extends Module {
                         MovementUtil.strafe(event, speed);
                         break;
                     case "Semi-Strafe":
-                        if(mc.thePlayer.onGround) {
+                        if (mc.thePlayer.onGround) {
                             prevOnGround = true;
 
-                            if(MovementUtil.isMoving()) {
+                            if (MovementUtil.isMoving()) {
                                 MovementUtil.jump(event);
 
                                 speed = 0.6 + MovementUtil.getSpeedAmplifier() * 0.075;
                             }
-                        } else if(prevOnGround) {
+                        } else if (prevOnGround) {
                             speed *= 0.54F;
                             prevOnGround = false;
                         } else {
@@ -417,10 +416,10 @@ public class Speed extends Module {
 
                         direction = MovementUtil.getPlayerDirection();
 
-                        if(!mc.thePlayer.onGround) {
+                        if (!mc.thePlayer.onGround) {
                             float dirChange = Math.abs(direction - lastDirection);
 
-                            if(dirChange > 180) {
+                            if (dirChange > 180) {
                                 dirChange = 360 - dirChange;
                             }
 
@@ -431,7 +430,7 @@ public class Speed extends Module {
                             speed = Math.max(speed, 0.09);
                         }
 
-                        if(mc.thePlayer.isCollidedHorizontally) {
+                        if (mc.thePlayer.isCollidedHorizontally) {
                             speed = 0.09;
                         }
 
@@ -440,22 +439,22 @@ public class Speed extends Module {
                         lastDirection = direction;
                         break;
                     case "Strafeless":
-                        if(MovementUtil.isMoving()) {
-                            if(mc.thePlayer.onGround) {
+                        if (MovementUtil.isMoving()) {
+                            if (mc.thePlayer.onGround) {
                                 prevOnGround = true;
 
                                 MovementUtil.jump(event);
 
-                                if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
+                                if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
                                     MovementUtil.strafeNoTargetStrafe(event, 0.59 - Math.random() * 0.001 + MovementUtil.getSpeedAmplifier() * 0.08);
                                 } else {
                                     MovementUtil.strafeNoTargetStrafe(event, 0.6 - Math.random() * 0.001);
                                 }
                             } else {
-                                if(prevOnGround) {
-                                    if(mc.thePlayer.isSprinting()) {
-                                        if(++counter > 1 && fast.getValue()) {
-                                            if(mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
+                                if (prevOnGround) {
+                                    if (mc.thePlayer.isSprinting()) {
+                                        if (++counter > 1 && fast.getValue()) {
+                                            if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
                                                 event.setX(event.getX() * speedPotMult.getValue());
                                                 event.setZ(event.getZ() * speedPotMult.getValue());
                                             } else {
@@ -472,10 +471,10 @@ public class Speed extends Module {
 
                         break;
                     case "Ground":
-                        if(mc.thePlayer.onGround) {
+                        if (mc.thePlayer.onGround) {
                             ticks = 0;
 
-                            if(!started) {
+                            if (!started) {
                                 MovementUtil.jump(event);
                                 MovementUtil.strafe(event, 0.55 + MovementUtil.getSpeedAmplifier() * 0.07);
                                 started = true;
@@ -488,12 +487,12 @@ public class Speed extends Module {
                         } else {
                             ticks++;
 
-                            if(speed > 0.28) {
+                            if (speed > 0.28) {
                                 speed *= 0.995;
                             }
                         }
 
-                        if(firstJumpDone && ticks <= 2) {
+                        if (firstJumpDone && ticks <= 2) {
                             MovementUtil.strafe(event, speed);
                         }
                         break;
@@ -502,24 +501,24 @@ public class Speed extends Module {
                 mc.timer.timerSpeed = customTimer.getValue().floatValue();
                 break;
             case "Blocksmc":
-                if(mc.thePlayer.onGround) {
+                if (mc.thePlayer.onGround) {
                     prevOnGround = true;
 
-                    if(MovementUtil.isMoving()) {
+                    if (MovementUtil.isMoving()) {
                         MovementUtil.jump(event);
 
                         speed = 0.57 + MovementUtil.getSpeedAmplifier() * 0.065;
 
-                        if(takingVelocity && damageBoost.getValue()) {
+                        if (takingVelocity && damageBoost.getValue()) {
                             speed = velocityDist + velocityExtra;
                         }
 
                         ticks = 1;
                     }
-                } else if(prevOnGround) {
+                } else if (prevOnGround) {
                     speed *= 0.53;
 
-                    if(takingVelocity && damageBoost.getValue()) {
+                    if (takingVelocity && damageBoost.getValue()) {
                         speed = velocityDist + velocityExtra;
                     }
 
@@ -529,37 +528,37 @@ public class Speed extends Module {
                 } else {
                     speed *= 0.91;
 
-                    if(takingVelocity && damageBoost.getValue()) {
+                    if (takingVelocity && damageBoost.getValue()) {
                         speed = velocityDist + velocityExtra;
                     }
 
                     speed += 0.026F;
                 }
 
-                if(takingVelocity) {
+                if (takingVelocity) {
                     ticks = -7;
                 }
 
-                if(++ticks == 0 && !mc.thePlayer.onGround) {
+                if (++ticks == 0 && !mc.thePlayer.onGround) {
                     speed = 0.28 + MovementUtil.getSpeedAmplifier() * 0.065;
                 }
 
                 MovementUtil.strafe(event, speed);
                 break;
             case "Strafe":
-                if(mc.thePlayer.hurtTime <= minHurtTime.getValue()) {
+                if (mc.thePlayer.hurtTime <= minHurtTime.getValue()) {
                     MovementUtil.strafe(event);
                 }
                 break;
             case "MMC":
-                if(started) {
+                if (started) {
                     BlockInfo blockOver = WorldUtil.getBlockInfo(mc.thePlayer.posX, mc.thePlayer.posY + 2, mc.thePlayer.posZ, 2);
                     BlockInfo blockUnder = WorldUtil.getBlockUnder(mc.thePlayer.posY, 2);
 
                     counter++;
 
-                    if(fullScaffold.getValue()) {
-                        if(counter % 14 >= 12) {
+                    if (fullScaffold.getValue()) {
+                        if (counter % 14 >= 12) {
                             MovementUtil.strafe(event, 0.04);
                         } else {
                             MovementUtil.strafe(event, 0.495);
@@ -567,22 +566,22 @@ public class Speed extends Module {
 
                         event.setY(mc.thePlayer.motionY = 0);
 
-                        if(counter % 2 == 0) {
-                            if(blockOver != null) {
-                                if(mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), blockOver.getPos(), blockOver.getFacing(), WorldUtil.getVec3(blockOver.getPos(), blockOver.getFacing(), false))) {
+                        if (counter % 2 == 0) {
+                            if (blockOver != null) {
+                                if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), blockOver.getPos(), blockOver.getFacing(), WorldUtil.getVec3(blockOver.getPos(), blockOver.getFacing(), false))) {
                                     PacketUtil.sendPacket(new C0APacketAnimation());
                                 }
                             }
                         } else {
-                            if(blockUnder != null) {
-                                if(mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), blockUnder.getPos(), blockUnder.getFacing(), WorldUtil.getVec3(blockUnder.getPos(), blockUnder.getFacing(), false))) {
+                            if (blockUnder != null) {
+                                if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), blockUnder.getPos(), blockUnder.getFacing(), WorldUtil.getVec3(blockUnder.getPos(), blockUnder.getFacing(), false))) {
                                     PacketUtil.sendPacket(new C0APacketAnimation());
                                 }
                             }
                         }
                     } else {
-                        if(blockOver != null) {
-                            if(mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), blockOver.getPos(), blockOver.getFacing(), WorldUtil.getVec3(blockOver.getPos(), blockOver.getFacing(), false))) {
+                        if (blockOver != null) {
+                            if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), blockOver.getPos(), blockOver.getFacing(), WorldUtil.getVec3(blockOver.getPos(), blockOver.getFacing(), false))) {
                                 PacketUtil.sendPacket(new C0APacketAnimation());
                             }
                         }
@@ -595,16 +594,16 @@ public class Speed extends Module {
 
                     EnumFacing facing = EnumFacing.UP;
 
-                    if(yaw > 135 || yaw < -135) {
+                    if (yaw > 135 || yaw < -135) {
                         z = 1;
                         facing = EnumFacing.NORTH;
-                    } else if(yaw > -135 && yaw < -45) {
+                    } else if (yaw > -135 && yaw < -45) {
                         x = -1;
                         facing = EnumFacing.EAST;
-                    } else if(yaw > -45 && yaw < 45) {
+                    } else if (yaw > -45 && yaw < 45) {
                         z = -1;
                         facing = EnumFacing.SOUTH;
-                    } else if(yaw > 45 && yaw < 135) {
+                    } else if (yaw > 45 && yaw < 135) {
                         x = 1;
                         facing = EnumFacing.WEST;
                     }
@@ -645,10 +644,10 @@ public class Speed extends Module {
             case "Fake strafe":
                 double distance = Math.hypot(mc.thePlayer.posX - actualX, mc.thePlayer.posZ - actualZ);
 
-                if(fakeFly.getValue()) {
-                    if(mc.gameSettings.keyBindJump.isKeyDown()) {
+                if (fakeFly.getValue()) {
+                    if (mc.gameSettings.keyBindJump.isKeyDown()) {
                         event.setY(0.35);
-                    } else if(mc.gameSettings.keyBindSneak.isKeyDown()) {
+                    } else if (mc.gameSettings.keyBindSneak.isKeyDown()) {
                         event.setY(-0.35);
                     } else {
                         event.setY(0);
@@ -656,26 +655,26 @@ public class Speed extends Module {
 
                     mc.thePlayer.motionY = 0;
                 } else {
-                    if(mc.thePlayer.onGround && MovementUtil.isMoving()) {
+                    if (mc.thePlayer.onGround && MovementUtil.isMoving()) {
                         MovementUtil.jump(event);
                     }
                 }
 
-                if(!started) {
+                if (!started) {
                     speed = 0.65;
                     started = true;
                 } else {
-                    if(clientSpeed.is("Normal")) {
+                    if (clientSpeed.is("Normal")) {
                         double baseSpeed = 0.33 + MovementUtil.getSpeedAmplifier() * 0.02;
 
-                        if(mc.thePlayer.onGround) {
+                        if (mc.thePlayer.onGround) {
                             speed = 0.33 + baseSpeed;
                         } else {
                             speed = Math.min(speed - baseSpeed * distance * 0.15, baseSpeed);
                         }
 
                         speed = Math.max(speed, 0.2);
-                    } else if(clientSpeed.is("Custom")) {
+                    } else if (clientSpeed.is("Custom")) {
                         //speed = Math.max(customClientSpeed.getValue() - distance * customClientSpeed.getValue() * 0.15, 0.3);
                         speed = customClientSpeed.getValue();
                     }
@@ -710,16 +709,16 @@ public class Speed extends Module {
 
                 float friction = getFriction(actualX, actualY, actualZ) * 0.91F;
 
-                if(actualGround) {
+                if (actualGround) {
                     motionY = (double) mc.thePlayer.getJumpUpwardsMotion();
 
-                    if(mc.thePlayer.isPotionActive(Potion.jump)) {
+                    if (mc.thePlayer.isPotionActive(Potion.jump)) {
                         motionY += (double) ((float) (mc.thePlayer.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F);
                     }
 
-                    if(!wasCollided) {
-                        motionX -= (double)(MathHelper.sin(dir) * 0.2F);
-                        motionZ += (double)(MathHelper.cos(dir) * 0.2F);
+                    if (!wasCollided) {
+                        motionX -= (double) (MathHelper.sin(dir) * 0.2F);
+                        motionZ += (double) (MathHelper.cos(dir) * 0.2F);
                     }
                 }
 
@@ -729,12 +728,9 @@ public class Speed extends Module {
 
                 mc.thePlayer.setSprinting(!wasCollided);
 
-                if (actualGround)
-                {
+                if (actualGround) {
                     attributeSpeed = mc.thePlayer.getAIMoveSpeed() * aa;
-                }
-                else
-                {
+                } else {
                     attributeSpeed = wasCollided ? 0.02F : 0.026F;
                 }
 
@@ -745,25 +741,23 @@ public class Speed extends Module {
 
                 float thing = strafe * strafe + forward * forward;
 
-                if (thing >= 1.0E-4F)
-                {
+                if (thing >= 1.0E-4F) {
                     thing = MathHelper.sqrt_float(thing);
 
-                    if (thing < 1.0F)
-                    {
+                    if (thing < 1.0F) {
                         thing = 1.0F;
                     }
 
                     thing = attributeSpeed / thing;
                     strafe = strafe * thing;
                     forward = forward * thing;
-                    float f1 = MathHelper.sin(direction * (float)Math.PI / 180.0F);
-                    float f2 = MathHelper.cos(direction * (float)Math.PI / 180.0F);
-                    motionX += (double)(strafe * f2 - forward * f1);
-                    motionZ += (double)(forward * f2 + strafe * f1);
+                    float f1 = MathHelper.sin(direction * (float) Math.PI / 180.0F);
+                    float f2 = MathHelper.cos(direction * (float) Math.PI / 180.0F);
+                    motionX += (double) (strafe * f2 - forward * f1);
+                    motionZ += (double) (forward * f2 + strafe * f1);
                 }
 
-                if(groundStrafe.getValue() && actualGround) {
+                if (groundStrafe.getValue() && actualGround) {
                     double speed = Math.hypot(motionX, motionZ);
 
                     motionX = -Math.sin(Math.toRadians(direction)) * speed;
@@ -805,7 +799,7 @@ public class Speed extends Module {
                 mc.thePlayer.motionY = clientMotionY;
                 mc.thePlayer.motionZ = clientMotionZ;
 
-                if(oldActualGround) {
+                if (oldActualGround) {
                     motionX *= friction * 0.91F;
                     motionZ *= friction * 0.91F;
                 } else {
@@ -816,19 +810,19 @@ public class Speed extends Module {
                 motionY -= 0.08;
                 this.motionY *= 0.9800000190734863D;
 
-                if(Math.abs(motionX) < 0.005) {
+                if (Math.abs(motionX) < 0.005) {
                     motionX = 0;
                 }
 
-                if(Math.abs(motionY) < 0.005) {
+                if (Math.abs(motionY) < 0.005) {
                     motionY = 0;
                 }
 
-                if(Math.abs(motionZ) < 0.005) {
+                if (Math.abs(motionZ) < 0.005) {
                     motionZ = 0;
                 }
 
-                if(sprint.getValue()) {
+                if (sprint.getValue()) {
                     event.setSprinting(!wasCollided);
                 } else {
                     event.setSprinting(false);
@@ -858,7 +852,7 @@ public class Speed extends Module {
 
                 float direction = RotationsUtil.getRotationsToPosition(lastActualX, lastActualY, lastActualZ, mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ)[0];
 
-                if(rotate.getValue()) {
+                if (rotate.getValue()) {
                     final float f = mc.gameSettings.mouseSensitivity * 0.6F + 0.2F;
                     final float gcd = f * f * f * 1.2F;
 
@@ -876,7 +870,7 @@ public class Speed extends Module {
             case "MMC":
                 event.setYaw(event.getYaw() - 180);
 
-                if(started) {
+                if (started) {
                     event.setPitch(counter % 2 == 0 || !fullScaffold.getValue() ? -82 : 82);
                 }
                 break;
@@ -890,7 +884,7 @@ public class Speed extends Module {
     public void onRender3D(Render3DEvent event) {
         switch (mode.getValue()) {
             case "Fake strafe":
-                if(renderRealPosBox.getValue() && mc.gameSettings.thirdPersonView > 0) {
+                if (renderRealPosBox.getValue() && mc.gameSettings.thirdPersonView > 0) {
                     RenderUtil.prepareBoxRender(3.25F, 1F, 1F, 1F, 0.8F);
 
                     RenderUtil.renderCustomPlayerBox(mc.getRenderManager(), event.getPartialTicks(), actualX, actualY, actualZ, lastActualX, lastActualY, lastActualZ);
@@ -903,10 +897,10 @@ public class Speed extends Module {
 
     @Listener
     public void onReceive(PacketReceiveEvent event) {
-        if(event.getPacket() instanceof S12PacketEntityVelocity) {
+        if (event.getPacket() instanceof S12PacketEntityVelocity) {
             S12PacketEntityVelocity packet = event.getPacket();
 
-            if(mc.thePlayer.getEntityId() == packet.getEntityID()) {
+            if (mc.thePlayer.getEntityId() == packet.getEntityID()) {
                 takingVelocity = true;
 
                 double velocityX = packet.getMotionX() / 8000.0D;
@@ -915,7 +909,7 @@ public class Speed extends Module {
 
                 velocityDist = Math.hypot(velocityX, velocityZ);
 
-                if(mode.is("Fake strafe")) {
+                if (mode.is("Fake strafe")) {
                     event.setCancelled(true);
 
                     switch (velocityMode.getValue()) {
@@ -930,8 +924,8 @@ public class Speed extends Module {
                     }
                 }
             }
-        } else if(event.getPacket() instanceof S08PacketPlayerPosLook) {
-            if(mode.is("Fake strafe")) {
+        } else if (event.getPacket() instanceof S08PacketPlayerPosLook) {
+            if (mode.is("Fake strafe")) {
                 this.setEnabled(false);
             }
         }
@@ -940,10 +934,10 @@ public class Speed extends Module {
     private float getFriction(double x, double y, double z) {
         Block block = mc.theWorld.getBlockState(new BlockPos(x, Math.floor(y) - 1, z)).getBlock();
 
-        if(block != null) {
-            if(block instanceof BlockIce || block instanceof BlockPackedIce) {
+        if (block != null) {
+            if (block instanceof BlockIce || block instanceof BlockPackedIce) {
                 return 0.98F;
-            } else if(block instanceof BlockSlime) {
+            } else if (block instanceof BlockSlime) {
                 return 0.8F;
             }
         }
@@ -953,7 +947,7 @@ public class Speed extends Module {
 
     @Override
     public String getSuffix() {
-        if(mode.is("Watchdog")) {
+        if (mode.is("Watchdog")) {
             return mode.getValue() + " (" + watchdogMode.getValue() + ")";
         }
 

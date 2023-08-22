@@ -6,7 +6,8 @@ import cn.yapeteam.yolbi.module.Module;
 
 public class Reach extends Module {
     private static Reach Ireach;
-    public static Reach getInstance(){
+
+    public static Reach getInstance() {
         return Ireach;
     }
 
@@ -16,7 +17,6 @@ public class Reach extends Module {
     public Reach() {
         super("Reach", ModuleCategory.COMBAT);
         this.addValues(startingReach, reach);
-        Ireach=this;
+        Ireach = this;
     }
-
 }

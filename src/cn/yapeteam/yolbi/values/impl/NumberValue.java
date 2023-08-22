@@ -39,7 +39,7 @@ public class NumberValue<T extends Number> extends Value<T> {
         this.desc = desc;
     }
 
-    public NumberValue(String name, String desc,Visibility visibility, T value, T min, T max, T inc) {
+    public NumberValue(String name, String desc, Visibility visibility, T value, T min, T max, T inc) {
         this(name, desc, value, min, max, inc);
         setVisibility(visibility);
     }
@@ -63,9 +63,7 @@ public class NumberValue<T extends Number> extends Value<T> {
 
     @Override
     public void setValue(Number value) {
-        if (getCallback() != null)
-            getCallback().run(this.value, (T) convertValue(type, value));
-        this.value = (T) convertValue(type, value);
+        this.value = (T) convertValue(type, getCallback() != null ? getCallback().run(this.value, (T) convertValue(type, value)) : value);
     }
 
     private Object convertValue(Class<? extends Number> type, Number value) {

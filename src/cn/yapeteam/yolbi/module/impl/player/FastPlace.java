@@ -14,7 +14,7 @@ import cn.yapeteam.yolbi.module.Module;
 
 public class FastPlace extends Module {
 
-    private final ModeValue delay = new ModeValue("Delay", "Every tick", "Every tick", "Every 2 ticks", "No CPS cap", "Every tick on render");
+    private final ModeValue<String> delay = new ModeValue<>("Delay", "Every tick", "Every tick", "Every 2 ticks", "No CPS cap", "Every tick on render");
 
     private C08PacketPlayerBlockPlacement placement;
 
@@ -33,16 +33,16 @@ public class FastPlace extends Module {
 
     @Listener
     public void onTick(TickEvent event) {
-        if(delay.is("Every tick")) {
+        if (delay.is("Every tick")) {
             mc.rightClickDelayTimer = 0;
-        } else if(delay.is("Every 2 ticks")) {
-            if(mc.thePlayer.ticksExisted % 2 == 0) {
+        } else if (delay.is("Every 2 ticks")) {
+            if (mc.thePlayer.ticksExisted % 2 == 0) {
                 mc.rightClickDelayTimer = 0;
             }
         }
 
-        if(delay.is("Every tick on render")) {
-            if(placement != null) {
+        if (delay.is("Every tick on render")) {
+            if (placement != null) {
                 PacketUtil.sendPacketFinal(placement);
                 placement = null;
             }
@@ -53,8 +53,8 @@ public class FastPlace extends Module {
 
     @Listener
     public void onRender(RenderEvent event) {
-        if(delay.is("No CPS cap") || (delay.is("Every tick on render") && !placedBlock)) {
-            if(mc.gameSettings.keyBindUseItem.isPressed() || Mouse.isButtonDown(1)) {
+        if (delay.is("No CPS cap") || (delay.is("Every tick on render") && !placedBlock)) {
+            if (mc.gameSettings.keyBindUseItem.isPressed() || Mouse.isButtonDown(1)) {
                 mc.rightClickDelayTimer = 0;
                 mc.rightClickMouse();
             }
@@ -63,16 +63,16 @@ public class FastPlace extends Module {
 
     @Listener
     public void onSend(PacketSendEvent event) {
-        if(event.getPacket() instanceof C08PacketPlayerBlockPlacement) {
+        if (event.getPacket() instanceof C08PacketPlayerBlockPlacement) {
             C08PacketPlayerBlockPlacement packet = event.getPacket();
 
-            if(delay.is("No CPS cap") || delay.is("Every tick on render")) {
-                if(packet.getPosition().equals(new BlockPos(-1, -1, -1))) {
+            if (delay.is("No CPS cap") || delay.is("Every tick on render")) {
+                if (packet.getPosition().equals(new BlockPos(-1, -1, -1))) {
                     event.setCancelled(true);
                 } else {
                     placedBlock = true;
 
-                    if(delay.is("Every tick on render")) {
+                    if (delay.is("Every tick on render")) {
                         event.setCancelled(true);
                         placement = packet;
                     }

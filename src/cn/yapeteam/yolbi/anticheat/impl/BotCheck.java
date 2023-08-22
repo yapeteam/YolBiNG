@@ -5,7 +5,7 @@ import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.anticheat.ACPlayer;
 import cn.yapeteam.yolbi.anticheat.AnticheatCheck;
 import cn.yapeteam.yolbi.anticheat.PlayerData;
-import cn.yapeteam.yolbi.module.impl.combat.Antibot;
+import cn.yapeteam.yolbi.module.impl.combat.AntiBot;
 import cn.yapeteam.yolbi.util.misc.LogUtil;
 
 public class BotCheck extends AnticheatCheck {
@@ -33,7 +33,7 @@ public class BotCheck extends AnticheatCheck {
             if(++buffer >= (entity.isInvisible() || entity.isInvisibleToPlayer(mc.thePlayer) ? 2 : 4) && !player.isBot()) {
                 player.setBot(true);
 
-                Antibot antibotModule = YolBi.instance.getModuleManager().getModule(Antibot.class);
+                AntiBot antibotModule = YolBi.instance.getModuleManager().getModule(AntiBot.class);
 
                 if(antibotModule.isEnabled() && antibotModule.advancedDetection.getValue() && antibotModule.debug.getValue()) {
                     LogUtil.addChatMessage("Detected bot : " + entity.getGameProfile().getName());

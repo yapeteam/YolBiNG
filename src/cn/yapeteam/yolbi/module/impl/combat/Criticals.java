@@ -24,7 +24,7 @@ public class Criticals extends Module {
     private final NumberValue<Integer> hurtTime = new NumberValue<>("Hurt time", () -> mode.is("Minijump"), 2, 1, 6, 1);
     private final NumberValue<Double> motionY = new NumberValue<>("Motion Y", () -> mode.is("Minijump"), 0.08, 0.005, 0.42, 0.005);
     private final BooleanValue normalGravity = new BooleanValue("Normal gravity", () -> mode.is("Minijump"), true);
-    private final NumberValue<Double> xzMotionMult = new NumberValue("XZ motion mult", () -> mode.is("Minijump"), 1, 0, 1, 0.02);
+    private final NumberValue<Double> xzMotionMult = new NumberValue<>("XZ motion mult", () -> mode.is("Minijump"), 1.0, 0.0, 1.0, 0.02);
 
     private Killaura killauraModule;
     private Speed speedModule;
@@ -59,7 +59,7 @@ public class Criticals extends Module {
                         }
                         break;
                     case "NCP":
-                        if (target != null && target instanceof EntityPlayer) {
+                        if (target instanceof EntityPlayer) {
                             EntityPlayer player = (EntityPlayer) target;
 
                             if (player.hurtTime <= 4 && mc.thePlayer.onGround && !YolBi.instance.getModuleManager().getModule(Speed.class).isEnabled()) {
@@ -79,20 +79,18 @@ public class Criticals extends Module {
             if (killauraModule.getTarget() instanceof EntityPlayer) {
                 EntityPlayer target = (EntityPlayer) killauraModule.getTarget();
 
-                switch (mode.getValue()) {
-                    case "Minijump":
-                        if (mc.thePlayer.onGround && !mc.gameSettings.keyBindJump.isKeyDown() && !speedModule.isEnabled()) {
-                            if (target.hurtTime == hurtTime.getValue()) {
-                                if (normalGravity.getValue()) {
-                                    event.setY(mc.thePlayer.motionY = motionY.getValue());
-                                } else {
-                                    event.setY(motionY.getValue());
-                                }
-
-                                MovementUtil.motionMult(event, xzMotionMult.getValue());
+                if (mode.getValue().equals("Minijump")) {
+                    if (mc.thePlayer.onGround && !mc.gameSettings.keyBindJump.isKeyDown() && !speedModule.isEnabled()) {
+                        if (target.hurtTime == hurtTime.getValue()) {
+                            if (normalGravity.getValue()) {
+                                event.setY(mc.thePlayer.motionY = motionY.getValue());
+                            } else {
+                                event.setY(motionY.getValue());
                             }
+
+                            MovementUtil.motionMult(event, xzMotionMult.getValue());
                         }
-                        break;
+                    }
                 }
             }
         }

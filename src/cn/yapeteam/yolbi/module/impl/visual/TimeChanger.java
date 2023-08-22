@@ -24,7 +24,7 @@ public class TimeChanger extends Module {
 
     @Listener
     public void onReceive(PacketReceiveEvent event) {
-        if(event.getPacket() instanceof S03PacketTimeUpdate) {
+        if (event.getPacket() instanceof S03PacketTimeUpdate) {
             event.setCancelled(true);
         }
     }

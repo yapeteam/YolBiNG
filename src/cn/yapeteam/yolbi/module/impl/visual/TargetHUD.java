@@ -66,15 +66,15 @@ public class TargetHUD extends HUDModule {
 
     @Override
     protected void renderModule(boolean inChat) {
-        if(inChat) {
+        if (inChat) {
             animation.getTimer().setTimeElapsed(animationDuration.getValue());
             renderTargetHUD(mc.thePlayer, true);
 
             target = null;
-        } else if(this.isEnabled()) {
+        } else if (this.isEnabled()) {
             boolean canRender = killauraModule.isEnabled() && killauraModule.getTarget() != null && killauraModule.getTarget() instanceof EntityPlayer;
 
-            if(killauraModule.isEnabled() && killauraModule.getTarget() != null && killauraModule.getTarget() instanceof EntityPlayer) {
+            if (killauraModule.isEnabled() && killauraModule.getTarget() != null && killauraModule.getTarget() instanceof EntityPlayer) {
                 target = (EntityPlayer) killauraModule.getTarget();
             }
 
@@ -93,19 +93,19 @@ public class TargetHUD extends HUDModule {
         animation.setAnimDuration(animationDuration.getValue());
         animation.setAnimType(animationType.getValue());
 
-        if(entity == null) return;
+        if (entity == null) return;
 
-        if(animation.isRendered() || !animation.isAnimDone()) {
+        if (animation.isRendered() || !animation.isAnimDone()) {
             float health = roundedHealth.getValue() ? Math.round(entity.getHealth() * 10) / 10.0F : entity.getHealth();
 
-            if(!hadTarget) {
+            if (!hadTarget) {
                 renderedHealth = health;
             }
 
             animation.render(() -> {
                 double healthMult = renderedHealth / entity.getMaxHealth();
 
-                if(health != renderedHealth) {
+                if (health != renderedHealth) {
                     renderedHealth += (health - renderedHealth) * Math.min(1, barTimer.getTimeElapsed() / (double) (healthBarDelay.getValue()));
                 } else {
                     barTimer.reset();
@@ -118,7 +118,7 @@ public class TargetHUD extends HUDModule {
                         Gui.drawRect(x, y, x + width, y + height, 0x85000000);
                         Gui.drawRect(x + 52, y + 35, x + 54 + 79 * healthMult, y + 45, theme.getColor(0));
 
-                        for(double i = x + 52; i < endAnimX; i++) {
+                        for (double i = x + 52; i < endAnimX; i++) {
                             Gui.drawRect(i, y + 35, i + 1, y + 45, theme.getColor((int) (200 + i * 5)));
                         }
                         break;
@@ -131,7 +131,7 @@ public class TargetHUD extends HUDModule {
                         DrawUtil.drawGradientSideRect(x - 3, y + 3, x, y + height - 2, 0, startColor);
                         DrawUtil.drawGradientSideRect(x + width - 3, y + 3, x + width, y + height - 2, startColor, 0);
 
-                        for(double i = x + 52; i < endAnimX; i++) {
+                        for (double i = x + 52; i < endAnimX; i++) {
                             Gui.drawRect(i, y + 35, i + 1, y + 45, theme.getColor((int) (200 + i * 5)));
                         }
                         break;

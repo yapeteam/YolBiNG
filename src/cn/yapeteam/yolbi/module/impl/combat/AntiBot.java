@@ -10,8 +10,7 @@ import cn.yapeteam.yolbi.anticheat.ACPlayer;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
 
-public class Antibot extends Module {
-
+public class AntiBot extends Module {
     private final NumberValue<Integer> ticksExisted = new NumberValue<>("Ticks existed", 30, 0, 100, 5);
     public final BooleanValue advancedDetection = new BooleanValue("Advanced detection", true);
 
@@ -19,8 +18,8 @@ public class Antibot extends Module {
 
     private Killaura killauraModule;
 
-    public Antibot() {
-        super("Antibot", ModuleCategory.COMBAT);
+    public AntiBot() {
+        super("AntiBot", ModuleCategory.COMBAT);
         this.addValues(ticksExisted, advancedDetection, debug);
     }
 
@@ -30,21 +29,21 @@ public class Antibot extends Module {
     }
 
     public boolean canAttack(EntityLivingBase entity, Module module) {
-        if(!this.isEnabled()) return true;
+        if (!this.isEnabled()) return true;
 
-        if(entity.ticksExisted < ticksExisted.getValue()) {
-            if(debug.getValue() && module == killauraModule) {
+        if (entity.ticksExisted < ticksExisted.getValue()) {
+            if (debug.getValue() && module == killauraModule) {
                 LogUtil.addChatMessage("Ticks existed antibot : prevented from hitting : " + entity.ticksExisted);
             }
 
             return false;
         }
 
-        if(entity instanceof EntityPlayer) {
+        if (entity instanceof EntityPlayer) {
             ACPlayer player = YolBi.instance.getAnticheat().getACPlayer((EntityPlayer) entity);
 
-            if(player != null && player.isBot()) {
-                if(debug.getValue() && module == killauraModule) {
+            if (player != null && player.isBot()) {
+                if (debug.getValue() && module == killauraModule) {
                     LogUtil.addChatMessage("Advanced antibot : prevented from hitting");
                 }
                 return false;
@@ -53,5 +52,4 @@ public class Antibot extends Module {
 
         return true;
     }
-
 }

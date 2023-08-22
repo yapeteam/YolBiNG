@@ -24,5 +24,4 @@ public class SelfDestruct extends Module {
 
         YolBi.instance.setDestructed(true);
     }
-
 }

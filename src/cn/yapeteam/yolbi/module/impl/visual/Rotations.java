@@ -15,7 +15,7 @@ public class Rotations extends Module {
 
     private boolean customRender;
 
-    private BooleanValue smooth = new BooleanValue("Smooth", true);
+    private final BooleanValue smooth = new BooleanValue("Smooth", true);
 
     public Rotations() {
         super("Rotations", ModuleCategory.VISUAL);
@@ -35,7 +35,7 @@ public class Rotations extends Module {
 
     @Listener(Priority.LOWER)
     public void onRotsRender(RotationsRenderEvent event) {
-        if(customRender) {
+        if (customRender) {
             float partialTicks = event.getPartialTicks();
 
             event.setYaw(smooth.getValue() ? interpolateRotation(lastYaw, yaw, partialTicks) : yaw);

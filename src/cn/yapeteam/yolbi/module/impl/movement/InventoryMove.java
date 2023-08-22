@@ -18,7 +18,7 @@ import cn.yapeteam.yolbi.module.Module;
 
 public class InventoryMove extends Module {
 
-    private final ModeValue noSprint = new ModeValue("No sprint", "Disabled", "Disabled", "Enabled", "Spoof");
+    private final ModeValue<String> noSprint = new ModeValue<>("No sprint", "Disabled", "Disabled", "Enabled", "Spoof");
     private final BooleanValue blink = new BooleanValue("Blink", false);
 
     private boolean hadInventoryOpened;
@@ -32,7 +32,7 @@ public class InventoryMove extends Module {
 
     @Override
     public void onDisable() {
-        if(blinking) {
+        if (blinking) {
             YolBi.instance.getPacketBlinkHandler().stopAll();
             blinking = false;
         }
@@ -40,25 +40,25 @@ public class InventoryMove extends Module {
 
     @Listener(Priority.LOW)
     public void onTick(TickEvent event) {
-        if(isInventoryOpened()) {
+        if (isInventoryOpened()) {
             allowMove();
 
-            if(noSprint.is("Enabled")) {
+            if (noSprint.is("Enabled")) {
                 mc.gameSettings.keyBindSprint.setPressed(false);
                 mc.thePlayer.setSprinting(false);
             }
 
-            if(blink.getValue()) {
+            if (blink.getValue()) {
                 YolBi.instance.getPacketBlinkHandler().startBlinkingAll();
                 blinking = true;
             }
         } else {
-            if(blinking) {
+            if (blinking) {
                 YolBi.instance.getPacketBlinkHandler().stopAll();
                 blinking = false;
             }
 
-            if(hadInventoryOpened) {
+            if (hadInventoryOpened) {
                 allowMove();
                 hadInventoryOpened = false;
             }
@@ -67,10 +67,10 @@ public class InventoryMove extends Module {
 
     @Listener(Priority.LOW)
     public void onUpdate(UpdateEvent event) {
-        if(isInventoryOpened()) {
+        if (isInventoryOpened()) {
             allowMove();
 
-            if(noSprint.is("Enabled")) {
+            if (noSprint.is("Enabled")) {
                 mc.gameSettings.keyBindSprint.setPressed(false);
                 mc.thePlayer.setSprinting(false);
             }
@@ -79,10 +79,10 @@ public class InventoryMove extends Module {
 
     @Listener(Priority.LOW)
     public void onEntityAction(EntityActionEvent event) {
-        if(isInventoryOpened()) {
+        if (isInventoryOpened()) {
             allowMove();
 
-            if(noSprint.is("Spoof")) {
+            if (noSprint.is("Spoof")) {
                 event.setSprinting(false);
             }
         }
@@ -94,13 +94,12 @@ public class InventoryMove extends Module {
 
     private void allowMove() {
         GameSettings settings = mc.gameSettings;
-        KeyBinding keys[] = {settings.keyBindForward, settings.keyBindBack, settings.keyBindLeft, settings.keyBindRight, settings.keyBindJump};
+        KeyBinding[] keys = {settings.keyBindForward, settings.keyBindBack, settings.keyBindLeft, settings.keyBindRight, settings.keyBindJump};
 
-        for(KeyBinding key : keys) {
+        for (KeyBinding key : keys) {
             key.setPressed(Keyboard.isKeyDown(key.getKeyCode()));
         }
 
         hadInventoryOpened = true;
     }
-
 }

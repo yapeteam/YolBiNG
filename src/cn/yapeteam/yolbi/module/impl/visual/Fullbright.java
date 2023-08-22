@@ -23,5 +23,4 @@ public class Fullbright extends Module {
     public void onUpdate(UpdateEvent event) {
         mc.gameSettings.gammaSetting = 100F;
     }
-
 }

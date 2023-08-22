@@ -45,5 +45,4 @@ public class IngameInfo extends Module {
             FontUtil.drawStringWithShadow(font.getValue(), "BPS : " + roundedBPS, x, y, -1);
         }
     }
-
 }

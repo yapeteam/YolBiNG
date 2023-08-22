@@ -26,21 +26,21 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 
+@SuppressWarnings("SwitchStatementWithTooFewBranches")
 public class Fly extends Module {
-    private final ModeValue<String>  mode = new ModeValue<>("Mode", "Vanilla", "Vanilla", "Collision", "NCP", "Blocksmc", "Velocity");
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Vanilla", "Vanilla", "Collision", "NCP", "Blocksmc", "Velocity");
 
-    private final ModeValue<String>  vanillaMode = new ModeValue<>("Vanilla Mode", () -> mode.is("Vanilla"), "Motion", "Motion", "Creative");
+    private final ModeValue<String> vanillaMode = new ModeValue<>("Vanilla Mode", () -> mode.is("Vanilla"), "Motion", "Motion", "Creative");
     private final NumberValue<Double> vanillaSpeed = new NumberValue<>("Vanilla speed", () -> mode.is("Vanilla") && vanillaMode.is("Motion"), 2.0, 0.2, 9.0, 0.2);
     private final NumberValue<Double> vanillaVerticalSpeed = new NumberValue<>("Vanilla vertical speed", () -> mode.is("Vanilla") && vanillaMode.is("Motion"), 2.0, 0.2, 9.0, 0.2);
 
-    private final ModeValue<String>  collisionMode = new ModeValue<>("Collision mode", () -> mode.is("Collision"), "Airwalk", "Airwalk", "Airjump");
+    private final ModeValue<String> collisionMode = new ModeValue<>("Collision mode", () -> mode.is("Collision"), "Airwalk", "Airwalk", "Airjump");
 
-    private final ModeValue<String>  ncpMode = new ModeValue<>("NCP Mode", () -> mode.is("NCP"), "Old", "Old");
+    private final ModeValue<String> ncpMode = new ModeValue<>("NCP Mode", () -> mode.is("NCP"), "Old", "Old");
     private final NumberValue<Double> ncpSpeed = new NumberValue<>("NCP speed", () -> mode.is("NCP") && ncpMode.is("Old"), 1.0, 0.3, 1.7, 0.05);
     private final BooleanValue damage = new BooleanValue("Damage", () -> mode.is("NCP") && ncpMode.is("Old"), false);
 
-    private final ModeValue<String>  velocityMode = new ModeValue<>("Velocity Mode", () -> mode.is("Velocity"), "Bow", "Bow", "Bow2", "Wait for hit");
-    private final BooleanValue legit = new BooleanValue("Legit", () -> mode.is("Bow") || mode.is("Bow2"), false);
+    private final ModeValue<String> velocityMode = new ModeValue<>("Velocity Mode", () -> mode.is("Velocity"), "Bow", "Bow", "Bow2", "Wait for hit");
 
     private final BooleanValue automated = new BooleanValue("Automated", () -> mode.is("Blocksmc"), false);
 
@@ -64,7 +64,7 @@ public class Fly extends Module {
 
     public Fly() {
         super("Fly", ModuleCategory.MOVEMENT);
-        this.addValues(mode, vanillaMode, vanillaSpeed, vanillaVerticalSpeed, ncpMode, ncpSpeed, damage, velocityMode, legit, automated);
+        this.addValues(mode, vanillaMode, vanillaSpeed, vanillaVerticalSpeed, ncpMode, ncpSpeed, damage, velocityMode, automated);
     }
 
     @Override
@@ -535,8 +535,6 @@ public class Fly extends Module {
                 velocityY = packet.getMotionY() / 8000.0;
                 velocityZ = packet.getMotionZ() / 8000.0;
 
-                double velocityDist = Math.hypot(velocityX, velocityZ);
-
                 if (mode.is("Velocity")) {
                     event.setCancelled(true);
                 }
@@ -544,7 +542,6 @@ public class Fly extends Module {
         } else if (event.getPacket() instanceof S08PacketPlayerPosLook) {
             if (mode.is("Velocity")) {
                 this.setEnabled(false);
-                return;
             }
         }
     }
@@ -566,5 +563,4 @@ public class Fly extends Module {
     public String getSuffix() {
         return mode.getValue();
     }
-
 }
