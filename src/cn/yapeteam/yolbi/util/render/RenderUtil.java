@@ -40,6 +40,7 @@ public class RenderUtil {
 
         GL11.glColor4d(red, green, blue, alpha);
     }
+
     public static void enableGL2D() {
         GL11.glDisable(2929);
         GL11.glEnable(3042);
@@ -237,7 +238,7 @@ public class RenderUtil {
             BufferedImage original = new BufferedImage((int) width, (int) height, BufferedImage.TYPE_INT_ARGB_PRE);
             Graphics g = original.getGraphics();
             g.setColor(color);
-            g.fillRect(blurRadius, blurRadius, (int) (width - blurRadius * 2), (int) (height - blurRadius * 2));
+            g.fillRoundRect(blurRadius, blurRadius, (int) (width - blurRadius * 2), (int) (height - blurRadius * 2), blurRadius, blurRadius);
             g.dispose();
             GaussianFilter op = new GaussianFilter(blurRadius);
             BufferedImage blurred = op.filter(original, null);
@@ -267,6 +268,7 @@ public class RenderUtil {
         glEnable(GL_CULL_FACE);
         glPopMatrix();
     }
+
     public static void drawFastRoundedRect(final float left, final float top, final float right, final float bottom, final float radius, final int color) {
         final float f2 = (color >> 24 & 0xFF) / 255.0f;
         final float f3 = (color >> 16 & 0xFF) / 255.0f;
