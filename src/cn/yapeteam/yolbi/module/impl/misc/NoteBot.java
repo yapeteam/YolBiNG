@@ -26,6 +26,8 @@ import javax.sound.midi.InvalidMidiDataException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class NoteBot extends Module {
     public NoteBot() {
@@ -38,7 +40,7 @@ public class NoteBot extends Module {
                 if (!dir.exists()) {
                     boolean ignored = dir.mkdirs();
                 }
-                list.setModes(dir.list());
+                list.setModes(Arrays.stream(Objects.requireNonNull(dir.list())).filter(s -> s.endsWith(".mid") || s.endsWith(".nbs")).toArray(String[]::new));
                 list.setValue(list.getModes()[0]);
             }
             return false;
