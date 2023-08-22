@@ -59,12 +59,12 @@ public class Killaura extends Module {
 
     private final ModeValue<String> raycast = new ModeValue<>("Raycast", "Disabled", "Disabled", "Normal", "Legit");
 
-    private final ModeValue<String> attackDelayMode = new ModeValue<>("Attack delay mode", "APS", "APS", "Delay in ticks");
+    private final ModeValue<String> attackDelayMode = new ModeValue<>("Attack delay mode", "APS", "APS", "In ticks");
 
     private final NumberValue<Integer> minAPS = new NumberValue<>("Min APS", () -> attackDelayMode.is("APS"), 10, 1, 20, 1);
     private final NumberValue<Integer> maxAPS = new NumberValue<>("Max APS", () -> attackDelayMode.is("APS"), 10, 1, 20, 1);
 
-    private final NumberValue<Integer> attackDelay = new NumberValue<>("Attack delay", () -> attackDelayMode.is("Delay in ticks"), 2, 1, 20, 1);
+    private final NumberValue<Integer> attackDelay = new NumberValue<>("Attack delay", () -> attackDelayMode.is("In ticks"), 2, 1, 20, 1);
 
     private final NumberValue<Integer> failRate = new NumberValue<>("Fail rate", 0, 0, 30, 1);
 
@@ -266,7 +266,7 @@ public class Killaura extends Module {
                             attackNextTick = false;
                         }
                         break;
-                    case "Delay in ticks":
+                    case "In ticks":
                         if (++attackCounter >= attackDelay.getValue()) {
                             attackTick = true;
                         }
