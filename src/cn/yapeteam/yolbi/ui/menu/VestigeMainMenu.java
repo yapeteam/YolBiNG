@@ -57,10 +57,6 @@ public class VestigeMainMenu extends GuiScreen {
 
         double y = sr.getScaledHeight() / 2 - totalHeight * 0.3;
 
-        double clientNameY = Math.max(y - 70, 40);
-
-        DrawUtil.drawImage(new ResourceLocation("yolbi/VestigeLogo.png"), sr.getScaledWidth() / 2 - 32, (int) clientNameY, 60, 16);
-
         int startX = sr.getScaledWidth() / 2 - buttonWidth / 2;
         int endX = sr.getScaledWidth() / 2 + buttonWidth / 2;
 
@@ -72,7 +68,7 @@ public class VestigeMainMenu extends GuiScreen {
             if(button.isHovered() || !button.isAnimationDone()) {
                 double scale = button.getMult();
 
-                Gui.drawRect(startX, y, startX + buttonWidth * scale, y + buttonHeight, ColorUtil.buttonHoveredColor);
+                Gui.drawRect(startX, y+buttonHeight-2, startX + buttonWidth * scale, y + buttonHeight, ColorUtil.buttonHoveredColor);
             }
 
             String buttonName = button.getName();

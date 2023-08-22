@@ -159,8 +159,8 @@ public class DrawUtil implements IMinecraft {
     }
 
     public static void renderMainMenuBackground(GuiScreen screen, ScaledResolution sr) {
-        int topColor = new Color(4, 2, 82).getRGB();
-        int bottomColor = new Color(2, 0, 36).getRGB();
+        int topColor = new Color(255, 161, 238).getRGB();
+        int bottomColor = new Color(134, 164, 255).getRGB();
 
         screen.drawGradientRect(0, 0, sr.getScaledWidth(), sr.getScaledHeight(), topColor, bottomColor);
     }

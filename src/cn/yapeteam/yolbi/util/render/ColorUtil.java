@@ -11,7 +11,7 @@ public class ColorUtil {
         return new Color(r, g, b, alpha).getRGB();
     }
 
-    public static final int buttonHoveredColor = new Color(18, 10, 168).getRGB();
+    public static final int buttonHoveredColor = new Color(255, 255, 255).getRGB();
 
     public static int getColor(Color color1, Color color2, long ms, int offset) {
         double scale = (((System.currentTimeMillis() + offset) % ms) / (double) ms) * 2;

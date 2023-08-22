@@ -20,7 +20,12 @@ public class FontManager {
             PingFang14,
             PingFang16,
             PingFang18,
-            PingFangBold18;
+            PingFang19,
+            PingFang20,
+            PingFang36,
+            PingFang72,
+
+    PingFangBold18;
 
 
     public FontManager() {
@@ -30,8 +35,13 @@ public class FontManager {
         comfortaa = new VestigeFontRenderer(getFontFromTTF("comfortaa", 19, Font.PLAIN), true, true);
         PingFang12 = new FontRenderer(getFontFromTTF("PingFang_Normal", 12, Font.PLAIN), 12, true);
         PingFang14 = new FontRenderer(getFontFromTTF("PingFang_Normal", 14, Font.PLAIN), 14, true);
-        PingFang16 = new FontRenderer(getFontFromTTF("PingFang_Normal", 16, Font.PLAIN), 14, true);
-        PingFang18 = new FontRenderer(getFontFromTTF("PingFang_Normal", 18, Font.PLAIN), 14, true);
+        PingFang16 = new FontRenderer(getFontFromTTF("PingFang_Normal", 16, Font.PLAIN), 16, true);
+        PingFang18 = new FontRenderer(getFontFromTTF("PingFang_Normal", 18, Font.PLAIN), 18, true);
+        PingFang19 = new FontRenderer(getFontFromTTF("PingFang_Normal", 19, Font.PLAIN), 19, true);
+        PingFang20 = new FontRenderer(getFontFromTTF("PingFang_Normal", 20, Font.PLAIN), 20, true);
+        PingFang36 = new FontRenderer(getFontFromTTF("PingFang_Normal", 36, Font.PLAIN), 36, true);
+        PingFang72 = new FontRenderer(getFontFromTTF("PingFang_Normal", 72, Font.PLAIN), 72, true);
+
         PingFangBold18 = new FontRenderer(getFontFromTTF("PingFang_Bold", 18, Font.PLAIN), 18, true);
         FLUXICON14 = new VestigeFontRenderer(getFontFromTTF("fluxicon", 14, Font.PLAIN), true, true);
     }

@@ -7,6 +7,7 @@ import cn.yapeteam.yolbi.handler.client.SlotSpoofHandler;
 import cn.yapeteam.yolbi.handler.packet.PacketBlinkHandler;
 import cn.yapeteam.yolbi.handler.packet.PacketDelayHandler;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.ui.menu.ConfigMenu;
 import cn.yapeteam.yolbi.ui.menu.VestigeMainMenu;
 import cn.yapeteam.yolbi.util.misc.language.ChineseLanguage;
 import cn.yapeteam.yolbi.util.render.FontUtil;
@@ -31,6 +32,7 @@ public class YolBi implements IMinecraft {
 
     public final String name = "YolBi";
     public final String version = "8.0";
+    public boolean haveGoinTheConfig=false;
 
     private EventManager eventManager;
     private ModuleManager moduleManager;
@@ -88,6 +90,8 @@ public class YolBi implements IMinecraft {
     }
 
     public GuiScreen getMainMenu() {
+        if (YolBi.instance.haveGoinTheConfig == false)
+            return new ConfigMenu();
         return destructed ? new GuiMainMenu() : new VestigeMainMenu();
     }
 
