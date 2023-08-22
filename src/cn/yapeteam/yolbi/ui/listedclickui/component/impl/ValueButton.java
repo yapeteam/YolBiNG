@@ -59,7 +59,7 @@ public class ValueButton extends AbstractComponent {
                         index++;
                     if (moduleButton.isExtended())
                         for (AbstractComponent childComponent : moduleButton.getChildComponents())
-                            if (childComponent instanceof ValueButton) {
+                            if (childComponent instanceof ValueButton && ((ValueButton) childComponent).getValue().getVisibility().get()) {
                                 all++;
                                 if (should)
                                     index++;

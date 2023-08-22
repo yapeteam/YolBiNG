@@ -97,8 +97,11 @@ public class ModuleButton extends AbstractComponent {
                     ModuleButton moduleButton = (ModuleButton) component;
                     if (getParent().getChildComponents().indexOf(this) > getParent().getChildComponents().indexOf(moduleButton)) {
                         index++;
-                        if (moduleButton.isExtended())
-                            index += moduleButton.getChildComponents().size();
+                        if (moduleButton.isExtended()) {
+                            for (AbstractComponent childComponent : moduleButton.getChildComponents())
+                                if (!(childComponent instanceof ValueButton && !((ValueButton) childComponent).getValue().getVisibility().get()))
+                                    index++;
+                        }
                     }
                     if (moduleButton.isExtended())
                         all += moduleButton.getChildComponents().size();
