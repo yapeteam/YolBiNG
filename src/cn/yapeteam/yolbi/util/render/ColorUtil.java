@@ -20,6 +20,13 @@ public class ColorUtil {
         return getGradient(color1, color2, finalScale).getRGB();
     }
 
+    public static int getColor(float hueoffset, float saturation, float brightness ) {
+        float speed = 4500f;
+        float hue = System.currentTimeMillis() % speed / speed;
+        return Color.HSBtoRGB(hue - hueoffset / 54, saturation, brightness);
+    }
+
+
     public static int getColor(Color color1, Color color2, Color color3, long ms, int offset) {
         double scale = (((System.currentTimeMillis() + offset) % ms) / (double) ms) * 3;
 

@@ -1930,6 +1930,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
         if (packetIn.func_149307_h() == 0 || packetIn.func_149307_h() == 2)
         {
+            if (scoreplayerteam == null) return;
             scoreplayerteam.setTeamName(packetIn.func_149306_d());
             scoreplayerteam.setNamePrefix(packetIn.func_149311_e());
             scoreplayerteam.setNameSuffix(packetIn.func_149309_f());

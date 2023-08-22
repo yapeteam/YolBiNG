@@ -1,5 +1,7 @@
 package net.minecraft.client.multiplayer;
 
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.player.AttackEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -492,6 +494,14 @@ public class PlayerControllerMP
      */
     public void attackEntity(EntityPlayer playerIn, Entity targetEntity)
     {
+        if(targetEntity != null) {
+            AttackEvent attackEvent = new AttackEvent(playerIn);
+            YolBi.instance.getEventManager().post(attackEvent);
+            if (attackEvent.isCancelled()) {
+                return;
+            }
+        }
+
         this.syncCurrentPlayItem();
         this.netClientHandler.addToSendQueue(new C02PacketUseEntity(targetEntity, C02PacketUseEntity.Action.ATTACK));
 

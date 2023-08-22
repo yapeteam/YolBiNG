@@ -1,17 +1,24 @@
 package cn.yapeteam.yolbi.util.render;
 
+import cn.yapeteam.yolbi.util.IMinecraft;
+import cn.yapeteam.yolbi.util.particles.Particle;
 import cn.yapeteam.yolbi.util.render.gaussianblur.GaussianFilter;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static net.minecraft.client.renderer.GlStateManager.disableBlend;
@@ -19,7 +26,7 @@ import static net.minecraft.client.renderer.GlStateManager.enableTexture2D;
 import static org.lwjgl.opengl.GL11.*;
 
 @SuppressWarnings({"DuplicatedCode", "unused"})
-public class RenderUtil {
+public class RenderUtil implements IMinecraft {
 
     public static void drawRect(double left, double top, double right, double bottom, int color) {
         Gui.drawRect(left, top, right, bottom, color);
@@ -431,5 +438,96 @@ public class RenderUtil {
         GL11.glEnd();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
+    }
+
+    public static void renderParticles(final List<Particle> particles) {
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+        int i = 0;
+        try {
+            for (final Particle particle : particles) {
+                i++;
+                final Vec3 v = particle.position;
+                boolean draw = true;
+
+                final double x = v.xCoord - (mc.getRenderManager()).renderPosX;
+                final double y = v.yCoord - (mc.getRenderManager()).renderPosY;
+                final double z = v.zCoord - (mc.getRenderManager()).renderPosZ;
+
+                final double distanceFromPlayer = mc.thePlayer.getDistance(v.xCoord, v.yCoord - 1, v.zCoord);
+                int quality = (int) (distanceFromPlayer * 4 + 10);
+
+                if (quality > 350)
+                    quality = 350;
+
+                if (!isInViewFrustrum(new EntityEgg(mc.theWorld, v.xCoord, v.yCoord, v.zCoord)))
+                    draw = false;
+
+                if (i % 10 != 0 && distanceFromPlayer > 25)
+                    draw = false;
+
+                if (i % 3 == 0 && distanceFromPlayer > 15)
+                    draw = false;
+
+                if (draw) {
+                    GL11.glPushMatrix();
+                    GL11.glTranslated(x, y, z);
+
+                    final float scale = 0.04F;
+                    GL11.glScalef(-scale, -scale, -scale);
+
+                    GL11.glRotated(-mc.getRenderManager().playerViewY, 0.0D, 1.0D, 0.0D);
+                    GL11.glRotated(mc.getRenderManager().playerViewX, mc.gameSettings.thirdPersonView == 2 ? -1.0D : 1.0D, 0.0D, 0.0D);
+                    final Color c = new Color(ColorUtil.getColor(-(1 + 5 * 1.7f), 0.7f, 1));
+                    drawFilledCircleNoGL(0, 0, 0.7, c.hashCode(), quality);
+
+                    if (distanceFromPlayer < 4)
+                        drawFilledCircleNoGL(0, 0, 1.4, new Color(c.getRed(), c.getGreen(), c.getBlue(), 50).hashCode(), quality);
+
+                    if (distanceFromPlayer < 20)
+                        drawFilledCircleNoGL(0, 0, 2.3, new Color(c.getRed(), c.getGreen(), c.getBlue(), 30).hashCode(), quality);
+
+                    GL11.glScalef(0.8F, 0.8F, 0.8F);
+                    GL11.glPopMatrix();
+                }
+            }
+        } catch (final ConcurrentModificationException ignored) {
+        }
+
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+
+        GL11.glColor3d(255, 255, 255);
+    }
+
+    public static void drawFilledCircleNoGL(final int x, final int y, final double r, final int c, final int quality) {
+        final float f = ((c >> 24) & 0xff) / 255F;
+        final float f1 = ((c >> 16) & 0xff) / 255F;
+        final float f2 = ((c >> 8) & 0xff) / 255F;
+        final float f3 = (c & 0xff) / 255F;
+
+        GL11.glColor4f(f1, f2, f3, f);
+        GL11.glBegin(GL11.GL_TRIANGLE_FAN);
+
+        for (int i = 0; i <= 360 / quality; i++) {
+            final double x2 = Math.sin(((i * quality * Math.PI) / 180)) * r;
+            final double y2 = Math.cos(((i * quality * Math.PI) / 180)) * r;
+            GL11.glVertex2d(x + x2, y + y2);
+        }
+
+        GL11.glEnd();
+    }
+    public static boolean isInViewFrustrum(Entity entity) {
+        return isInViewFrustrum(entity.getEntityBoundingBox()) || entity.ignoreFrustumCheck;
+    }
+    private static final Frustum frustrum = new Frustum();
+    private static boolean isInViewFrustrum(AxisAlignedBB bb) {
+        Entity current = mc.getRenderViewEntity();
+        frustrum.setPosition(current.posX, current.posY, current.posZ);
+        return frustrum.isBoundingBoxInFrustum(bb);
     }
 }

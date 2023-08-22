@@ -79,7 +79,7 @@ public class ModuleManager {
         modules.add(new Fullbright());
         modules.add(new NameProtect());
         modules.add(new Xray());
-
+        modules.add(new Particles());
         modules.add(new Disabler());
         modules.add(new StrafeConverter());
 
