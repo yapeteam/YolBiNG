@@ -230,7 +230,10 @@ public class RenderUtil implements IMinecraft {
         float _X = x - 0.25f;
         float _Y = y + 0.25f;
 
-        int identifier = (int) (width * height + width + color.hashCode() * blurRadius + blurRadius);
+        int identifier =
+                ((int) (width * 100) & 0xFF) << 2 |
+                ((int) (height * 100) & 0xFF) << 4 |
+                ((blurRadius * 100) & 0xFF) << 6;
 
         glEnable(GL11.GL_TEXTURE_2D);
         glDisable(GL_CULL_FACE);
@@ -244,7 +247,7 @@ public class RenderUtil implements IMinecraft {
             if (height <= 0) height = 1;
             BufferedImage original = new BufferedImage((int) width, (int) height, BufferedImage.TYPE_INT_ARGB_PRE);
             Graphics g = original.getGraphics();
-            g.setColor(color);
+            g.setColor(new Color(-1));
             g.fillRoundRect(blurRadius, blurRadius, (int) (width - blurRadius * 2), (int) (height - blurRadius * 2), blurRadius, blurRadius);
             g.dispose();
             GaussianFilter op = new GaussianFilter(blurRadius);
@@ -252,7 +255,7 @@ public class RenderUtil implements IMinecraft {
             shadowCache.put(identifier, TextureUtil.uploadTextureImageAllocate(TextureUtil.glGenTextures(), blurred, true, false));
         }
 
-        GL11.glColor4f(1f, 1f, 1f, 1f);
+        color(color.getRGB());
 
         GL11.glBegin(GL11.GL_QUADS);
         GL11.glTexCoord2f(0, 0); // top left
@@ -521,10 +524,13 @@ public class RenderUtil implements IMinecraft {
 
         GL11.glEnd();
     }
+
     public static boolean isInViewFrustrum(Entity entity) {
         return isInViewFrustrum(entity.getEntityBoundingBox()) || entity.ignoreFrustumCheck;
     }
+
     private static final Frustum frustrum = new Frustum();
+
     private static boolean isInViewFrustrum(AxisAlignedBB bb) {
         Entity current = mc.getRenderViewEntity();
         frustrum.setPosition(current.posX, current.posY, current.posZ);
