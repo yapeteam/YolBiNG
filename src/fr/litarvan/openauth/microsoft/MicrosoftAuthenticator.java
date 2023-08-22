@@ -70,6 +70,7 @@ public class MicrosoftAuthenticator {
     public static final String XSTS_AUTHORIZATION_ENDPOINT = "https://xsts.auth.xboxlive.com/xsts/authorize";
     public static final String MINECRAFT_AUTH_ENDPOINT = "https://api.minecraftservices.com/authentication/login_with_xbox";
 
+    @SuppressWarnings("HttpUrlsUsage")
     public static final String XBOX_LIVE_AUTH_RELAY = "http://auth.xboxlive.com";
     public static final String MINECRAFT_AUTH_RELAY = "rp://api.minecraftservices.com/";
 
