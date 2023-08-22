@@ -74,12 +74,12 @@ public class GuiIngame extends Gui
     /** The spectator GUI for this in-game GUI instance */
     private final GuiSpectator spectatorGui;
     private final GuiPlayerTabOverlay overlayPlayerList;
-    private int field_175195_w;
-    private String field_175201_x = "";
-    private String field_175200_y = "";
-    private int field_175199_z;
-    private int field_175192_A;
-    private int field_175193_B;
+    private int titlesTimer; // A timer for the current title and subtitle displayed
+    private String displayedTitle = "";
+    private String displayedSubTitle = "";
+    private int titleFadeIn; //The time that the title take to fade in
+    private int titleDisplayTime; // The time that the title is display
+    private int titleFadeOut; // The time that the title take to fade out
     private int playerHealth = 0;
     private int lastPlayerHealth = 0;
 
@@ -102,9 +102,9 @@ public class GuiIngame extends Gui
 
     public void func_175177_a()
     {
-        this.field_175199_z = 10;
-        this.field_175192_A = 70;
-        this.field_175193_B = 20;
+        this.titleFadeIn = 10;
+        this.titleDisplayTime = 70;
+        this.titleFadeOut = 20;
     }
 
     public void renderGameOverlay(float partialTicks)
@@ -208,7 +208,7 @@ public class GuiIngame extends Gui
 
         if (this.mc.gameSettings.heldItemTooltips && !this.mc.playerController.isSpectator())
         {
-            this.func_181551_a(scaledresolution);
+            this.renderSelectedItem(scaledresolution);
         }
         else if (this.mc.thePlayer.isSpectator())
         {
@@ -257,21 +257,21 @@ public class GuiIngame extends Gui
             this.mc.mcProfiler.endSection();
         }
 
-        if (this.field_175195_w > 0)
+        if (this.titlesTimer > 0)
         {
             this.mc.mcProfiler.startSection("titleAndSubtitle");
-            float f3 = (float)this.field_175195_w - partialTicks;
+            float f3 = (float)this.titlesTimer - partialTicks;
             int i2 = 255;
 
-            if (this.field_175195_w > this.field_175193_B + this.field_175192_A)
+            if (this.titlesTimer > this.titleFadeOut + this.titleDisplayTime)
             {
-                float f4 = (float)(this.field_175199_z + this.field_175192_A + this.field_175193_B) - f3;
-                i2 = (int)(f4 * 255.0F / (float)this.field_175199_z);
+                float f4 = (float)(this.titleFadeIn + this.titleDisplayTime + this.titleFadeOut) - f3;
+                i2 = (int)(f4 * 255.0F / (float)this.titleFadeIn);
             }
 
-            if (this.field_175195_w <= this.field_175193_B)
+            if (this.titlesTimer <= this.titleFadeOut)
             {
-                i2 = (int)(f3 * 255.0F / (float)this.field_175193_B);
+                i2 = (int)(f3 * 255.0F / (float)this.titleFadeOut);
             }
 
             i2 = MathHelper.clamp_int(i2, 0, 255);
@@ -282,16 +282,10 @@ public class GuiIngame extends Gui
                 GlStateManager.translate((float)(i / 2), (float)(j / 2), 0.0F);
                 GlStateManager.enableBlend();
                 GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-                GlStateManager.pushMatrix();
-                GlStateManager.scale(4.0F, 4.0F, 4.0F);
-                int j2 = i2 << 24 & -16777216;
-                this.getFontRenderer().drawString(this.field_175201_x, -this.getFontRenderer().getStringWidth(this.field_175201_x) / 2, -10.0F, 16777215 | j2, true);
-                GlStateManager.popMatrix();
-                GlStateManager.pushMatrix();
-                GlStateManager.scale(2.0F, 2.0F, 2.0F);
-                this.getFontRenderer().drawString(this.field_175200_y, -this.getFontRenderer().getStringWidth(this.field_175200_y) / 2, 5.0F, 16777215 | j2, true);
-                GlStateManager.popMatrix();
-                GlStateManager.disableBlend();
+
+                GlStateManager.translate(0,(i2-255)/3,0);
+                YolBi.instance.getFontManager().getPingFang72().drawStringWithShadow(this.displayedTitle, -YolBi.instance.getFontManager().getPingFang72().getStringWidth(this.displayedTitle) / 2 , -10.0F, new Color(225,255,255,i2).getRGB());
+                YolBi.instance.getFontManager().getPingFang36().drawStringWithShadow(this.displayedSubTitle,-YolBi.instance.getFontManager().getPingFang36().getStringWidth(this.displayedSubTitle) / 2, 8.0F, new Color(255,255,255,i2).getRGB());
                 GlStateManager.popMatrix();
             }
 
@@ -378,25 +372,25 @@ public class GuiIngame extends Gui
         }
     }
 
-    public void renderHorseJumpBar(ScaledResolution p_175186_1_, int p_175186_2_)
+    public void renderHorseJumpBar(ScaledResolution scaledResolution, int x)
     {
         this.mc.mcProfiler.startSection("jumpBar");
         this.mc.getTextureManager().bindTexture(Gui.icons);
         float f = this.mc.thePlayer.getHorseJumpPower();
         int i = 182;
         int j = (int)(f * (float)(i + 1));
-        int k = p_175186_1_.getScaledHeight() - 32 + 3;
-        this.drawTexturedModalRect(p_175186_2_, k, 0, 84, i, 5);
+        int k = scaledResolution.getScaledHeight() - 32 + 3;
+        this.drawTexturedModalRect(x, k, 0, 84, i, 5);
 
         if (j > 0)
         {
-            this.drawTexturedModalRect(p_175186_2_, k, 0, 89, j, 5);
+            this.drawTexturedModalRect(x, k, 0, 89, j, 5);
         }
 
         this.mc.mcProfiler.endSection();
     }
 
-    public void renderExpBar(ScaledResolution p_175176_1_, int p_175176_2_)
+    public void renderExpBar(ScaledResolution scaledRes, int p_175176_2_)
     {
         this.mc.mcProfiler.startSection("expBar");
         this.mc.getTextureManager().bindTexture(Gui.icons);
@@ -406,7 +400,7 @@ public class GuiIngame extends Gui
         {
             int j = 182;
             int k = (int)(this.mc.thePlayer.experience * (float)(j + 1));
-            int l = p_175176_1_.getScaledHeight() - 32 + 3;
+            int l = scaledRes.getScaledHeight() - 32 + 3;
             this.drawTexturedModalRect(p_175176_2_, l, 0, 64, j, 5);
 
             if (k > 0)
@@ -428,8 +422,8 @@ public class GuiIngame extends Gui
             }
 
             String s = "" + this.mc.thePlayer.experienceLevel;
-            int l1 = (int) ((p_175176_1_.getScaledWidth() - this.getFontRenderer().getStringWidth(s)) / 2);
-            int i1 = p_175176_1_.getScaledHeight() - 31 - 4;
+            int l1 = (int) ((scaledRes.getScaledWidth() - this.getFontRenderer().getStringWidth(s)) / 2);
+            int i1 = scaledRes.getScaledHeight() - 31 - 4;
             int j1 = 0;
             this.getFontRenderer().drawString(s, l1 + 1, i1, 0);
             this.getFontRenderer().drawString(s, l1 - 1, i1, 0);
@@ -440,7 +434,7 @@ public class GuiIngame extends Gui
         }
     }
 
-    public void func_181551_a(ScaledResolution p_181551_1_)
+    public void renderSelectedItem(ScaledResolution p_181551_1_)
     {
         this.mc.mcProfiler.startSection("selectedItemName");
 
@@ -1052,14 +1046,14 @@ public class GuiIngame extends Gui
             --this.recordPlayingUpFor;
         }
 
-        if (this.field_175195_w > 0)
+        if (this.titlesTimer > 0)
         {
-            --this.field_175195_w;
+            --this.titlesTimer;
 
-            if (this.field_175195_w <= 0)
+            if (this.titlesTimer <= 0)
             {
-                this.field_175201_x = "";
-                this.field_175200_y = "";
+                this.displayedTitle = "";
+                this.displayedSubTitle = "";
             }
         }
 
@@ -1101,43 +1095,43 @@ public class GuiIngame extends Gui
         this.recordIsPlaying = p_110326_2_;
     }
 
-    public void displayTitle(String p_175178_1_, String p_175178_2_, int p_175178_3_, int p_175178_4_, int p_175178_5_)
+    public void displayTitle(String title, String subTitle, int timeFadeIn, int displayTime, int timeFadeOut)
     {
-        if (p_175178_1_ == null && p_175178_2_ == null && p_175178_3_ < 0 && p_175178_4_ < 0 && p_175178_5_ < 0)
+        if (title == null && subTitle == null && timeFadeIn < 0 && displayTime < 0 && timeFadeOut < 0)
         {
-            this.field_175201_x = "";
-            this.field_175200_y = "";
-            this.field_175195_w = 0;
+            this.displayedTitle = "";
+            this.displayedSubTitle = "";
+            this.titlesTimer = 0;
         }
-        else if (p_175178_1_ != null)
+        else if (title != null)
         {
-            this.field_175201_x = p_175178_1_;
-            this.field_175195_w = this.field_175199_z + this.field_175192_A + this.field_175193_B;
+            this.displayedTitle = title;
+            this.titlesTimer = this.titleFadeIn + this.titleDisplayTime + this.titleFadeOut;
         }
-        else if (p_175178_2_ != null)
+        else if (subTitle != null)
         {
-            this.field_175200_y = p_175178_2_;
+            this.displayedSubTitle = subTitle;
         }
         else
         {
-            if (p_175178_3_ >= 0)
+            if (timeFadeIn >= 0)
             {
-                this.field_175199_z = p_175178_3_;
+                this.titleFadeIn = timeFadeIn;
             }
 
-            if (p_175178_4_ >= 0)
+            if (displayTime >= 0)
             {
-                this.field_175192_A = p_175178_4_;
+                this.titleDisplayTime = displayTime;
             }
 
-            if (p_175178_5_ >= 0)
+            if (timeFadeOut >= 0)
             {
-                this.field_175193_B = p_175178_5_;
+                this.titleFadeOut = timeFadeOut;
             }
 
-            if (this.field_175195_w > 0)
+            if (this.titlesTimer > 0)
             {
-                this.field_175195_w = this.field_175199_z + this.field_175192_A + this.field_175193_B;
+                this.titlesTimer = this.titleFadeIn + this.titleDisplayTime + this.titleFadeOut;
             }
         }
     }
