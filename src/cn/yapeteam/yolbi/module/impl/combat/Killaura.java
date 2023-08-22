@@ -435,7 +435,7 @@ public class Killaura extends Module {
         }
     }
 
-    private boolean canRenderBlocking() {
+    public boolean canRenderBlocking() {
         return canBlock() || autoblock.is("Fake");
     }
 
