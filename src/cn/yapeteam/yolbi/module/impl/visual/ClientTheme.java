@@ -1,43 +1,26 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
-import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
-import cn.yapeteam.yolbi.util.render.ColorUtil;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.Priority;
-import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.EventListenType;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.util.render.ColorUtil;
+import cn.yapeteam.yolbi.values.impl.ColorValue;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
 
 import java.awt.*;
 
 public class ClientTheme extends Module {
-
-    public final ModeValue<String> color = new ModeValue<>("Color", "Blue", "White", "Blue", "Custom static", "Custom fade", "Custom 3 colors", "Rainbow");
-
-    private final NumberValue<Integer> red = new NumberValue<>("Red", () -> color.getValue().startsWith("Custom"), 210, 0, 255, 5);
-    private final NumberValue<Integer> green = new NumberValue<>("Green", () -> color.getValue().startsWith("Custom"), 80, 0, 255, 5);
-    private final NumberValue<Integer> blue = new NumberValue<>("Blue", () -> color.getValue().startsWith("Custom"), 105, 0, 255, 5);
-
-    private final NumberValue<Integer> red2 = new NumberValue<>("Red 2", () -> color.is("Custom fade") || color.is("Custom 3 colors"), 135, 0, 255, 5);
-    private final NumberValue<Integer> green2 = new NumberValue<>("Green 2", () -> color.is("Custom fade") || color.is("Custom 3 colors"), 190, 0, 255, 5);
-    private final NumberValue<Integer> blue2 = new NumberValue<>("Blue 2", () -> color.is("Custom fade") || color.is("Custom 3 colors"), 255, 0, 255, 5);
-
-    private final NumberValue<Integer> red3 = new NumberValue<>("Red 3", () -> color.is("Custom 3 colors"), 0, 0, 255, 5);
-    private final NumberValue<Integer> green3 = new NumberValue<>("Green 3", () -> color.is("Custom 3 colors"), 255, 0, 255, 5);
-    private final NumberValue<Integer> blue3 = new NumberValue<>("Blue 3", () -> color.is("Custom 3 colors"), 255, 0, 255, 5);
-
+    public final ModeValue<String> color = new ModeValue<>("Color", "Blue", "White", "Blue", "Vape", "Custom static", "Custom fade", "Custom 3 colors", "Rainbow");
+    private final ColorValue color1 = new ColorValue("Color1", () -> color.getValue().startsWith("Custom"), new Color(210, 80, 105).getRGB());
+    private final ColorValue color2 = new ColorValue("Color2", () -> color.getValue().startsWith("Custom"), new Color(135, 190, 255).getRGB());
+    private final ColorValue color3 = new ColorValue("Color3", () -> color.getValue().startsWith("Custom"), new Color(0, 255, 255).getRGB());
     private final NumberValue<Double> saturation = new NumberValue<>("Saturation", () -> color.is("Rainbow"), 0.9, 0.05, 1.0, 0.05);
     private final NumberValue<Double> brightness = new NumberValue<>("Brightness", () -> color.is("Rainbow"), 0.9, 0.05, 1.0, 0.05);
 
-    private Color color1, color2, color3;
-
-    private boolean colorsSet;
-
     public ClientTheme() {
         super("Client theme", ModuleCategory.VISUAL);
-        this.addValues(color, red, green, blue, red2, green2, blue2, red3, green3, blue3, saturation, brightness);
+        this.addValues(color, color1, color2, color3, saturation, brightness);
 
         this.listenType = EventListenType.MANUAL;
         this.startListening();
@@ -48,40 +31,24 @@ public class ClientTheme extends Module {
         this.setEnabled(false);
     }
 
-    @Listener(Priority.HIGHER)
-    public void onRender(RenderEvent event) {
-        setColors();
-        colorsSet = true;
-    }
-
     public int getColor(int offset) {
-        if (!colorsSet) {
-            setColors();
-            colorsSet = true;
-        }
-
         switch (color.getValue()) {
             case "White":
                 return -1;
             case "Blue":
                 return ColorUtil.getColor(new Color(5, 138, 255), new Color(0, 35, 206), 2500, offset);
+            case "Vape":
+                return new Color(5, 134, 105).getRGB();
             case "Custom static":
-                return color1.getRGB();
+                return color1.getValue().getRGB();
             case "Custom fade":
-                return ColorUtil.getColor(color1, color2, 2500, offset);
+                return ColorUtil.getColor(color1.getValue(), color2.getValue(), 2500, offset);
             case "Custom 3 colors":
-                return ColorUtil.getColor(color1, color2, color3, 3000, offset);
+                return ColorUtil.getColor(color1.getValue(), color2.getValue(), color3.getValue(), 3000, offset);
             case "Rainbow":
                 return ColorUtil.getRainbow(4500, (int) (offset * 0.65), saturation.getValue().floatValue(), brightness.getValue().floatValue());
         }
 
         return -1;
     }
-
-    private void setColors() {
-        color1 = new Color(red.getValue(), green.getValue(), blue.getValue());
-        color2 = new Color(red2.getValue(), green2.getValue(), blue2.getValue());
-        color3 = new Color(red3.getValue(), green3.getValue(), blue3.getValue());
-    }
-
 }

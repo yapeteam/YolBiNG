@@ -3,11 +3,9 @@ package cn.yapeteam.yolbi.ui.listedclickui.component.impl;
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.module.Module;
-import cn.yapeteam.yolbi.ui.Theme;
 import cn.yapeteam.yolbi.ui.listedclickui.ImplScreen;
 import cn.yapeteam.yolbi.ui.listedclickui.component.AbstractComponent;
 import cn.yapeteam.yolbi.ui.listedclickui.component.Limitation;
-import cn.yapeteam.yolbi.util.render.ColorUtil;
 import cn.yapeteam.yolbi.util.render.RenderUtil;
 import cn.yapeteam.yolbi.values.Value;
 import lombok.Getter;
@@ -107,10 +105,10 @@ public class ModuleButton extends AbstractComponent {
                     all++;
                 }
             GlStateManager.color(1, 1, 1, 1);
-            RenderUtil.drawRect(getX(), getY(), getX() + getWidth(), getY() + getHeight(), module.isEnabled() ? (ImplScreen.rainbow ? ColorUtil.rainbow(10, (all - 1 - index) * 10, 1, 1, 1).getRGB() : Theme.MainTheme[2].getRGB()) : (isHovering(getX(), getY(), getWidth(), getHeight(), mouseX, mouseY) && (!((Panel) getParent()).getScreenIn().getCurrentPanel().isHovering(mouseX, mouseY) || ((Panel) getParent()).isCurrent()) ? Theme.MainTheme[0].getRGB() : Theme.MainTheme[1].getRGB()));
+            RenderUtil.drawRect(getX(), getY(), getX() + getWidth(), getY() + getHeight(), module.isEnabled() ? (ImplScreen.getClientTheme().getColor((all - 1 - index) * 100)) : (isHovering(getX(), getY(), getWidth(), getHeight(), mouseX, mouseY) && (!((Panel) getParent()).getScreenIn().getCurrentPanel().isHovering(mouseX, mouseY) || ((Panel) getParent()).isCurrent()) ? ImplScreen.MainTheme[0].getRGB() : ImplScreen.MainTheme[1].getRGB()));
             AbstractFontRenderer font = YolBi.instance.getFontManager().getPingFang14();
             AbstractFontRenderer icon = YolBi.instance.getFontManager().getFLUXICON14();
-            font.drawString(module.getName(), getX() + 5, getY() + (getHeight() - font.getStringHeight(module.getName())) / 2f + 1, ImplScreen.rainbow && module.isEnabled() ? Theme.MainTheme[4].getRGB() : -1);
+            font.drawString(module.getName(), getX() + 5, getY() + (getHeight() - font.getStringHeight(module.getName())) / 2f + 1, !ImplScreen.getClientTheme().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
             if (getChildComponents().size() > 1) {
                 GlStateManager.pushMatrix();
                 float x = getX() + getWidth() - icon.getStringWidth("g") - 3;
@@ -118,7 +116,7 @@ public class ModuleButton extends AbstractComponent {
                 GlStateManager.translate(tx, ty, 0.0f);
                 GlStateManager.rotate(90, 0.0f, 0.0f, 1.0f);
                 GlStateManager.translate(-tx, -ty, 0.0f);
-                icon.drawString("g", x, getY() + (getHeight() - icon.getHeight()) / 2f, ImplScreen.rainbow && module.isEnabled() ? Theme.MainTheme[4].getRGB() : -1);
+                icon.drawString("g", x, getY() + (getHeight() - icon.getHeight()) / 2f, !ImplScreen.getClientTheme().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
                 GlStateManager.popMatrix();
             }
         }

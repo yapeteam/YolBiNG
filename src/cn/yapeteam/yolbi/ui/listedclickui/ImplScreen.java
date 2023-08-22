@@ -1,9 +1,10 @@
 package cn.yapeteam.yolbi.ui.listedclickui;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.module.impl.visual.ClickUI;
-import cn.yapeteam.yolbi.ui.listedclickui.component.AbstractComponent;
 import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.impl.visual.ClickUI;
+import cn.yapeteam.yolbi.module.impl.visual.ClientTheme;
+import cn.yapeteam.yolbi.ui.listedclickui.component.AbstractComponent;
 import cn.yapeteam.yolbi.ui.listedclickui.component.impl.Panel;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
@@ -13,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
@@ -28,12 +30,13 @@ public class ImplScreen extends GuiScreen {
             moduleHeight = 17, moduleSpacing = 0.5f,
             valueSpacing = 0.5f,
             keyBindHeight = 10;
-
-    public static boolean rainbow = false;
+    public static Color[] MainTheme = new Color[]{new Color(26, 25, 26), new Color(31, 30, 31), new Color(5, 134, 105), new Color(38, 37, 38), new Color(45, 45, 45)};
 
     private boolean init = false;
     @Getter
     private Panel currentPanel = null;
+    @Getter
+    private static ClientTheme clientTheme;
 
     @Override
     public void initGui() {
@@ -54,6 +57,7 @@ public class ImplScreen extends GuiScreen {
             }
             panels.forEach(AbstractComponent::init);
             currentPanel = panels.get(panels.size() - 1);
+            clientTheme = YolBi.instance.getModuleManager().getModule(ClientTheme.class);
             init = true;
         }
         if (OpenGlHelper.shadersSupported && mc.thePlayer != null && YolBi.instance.getModuleManager().getModule(ClickUI.class).getBlur().getValue()) {
@@ -74,7 +78,7 @@ public class ImplScreen extends GuiScreen {
             p.setWheel(wheel);
             p.update();
         });
-        rainbow = YolBi.instance.getModuleManager().getModule(ClickUI.class).getRainbow().getValue();
+        MainTheme[2] = new Color(YolBi.instance.getModuleManager().getModule(ClientTheme.class).getColor(0));
         super.updateScreen();
     }
 
@@ -126,6 +130,7 @@ public class ImplScreen extends GuiScreen {
     public boolean doesGuiPauseGame() {
         return YolBi.instance.getModuleManager().getModule(ClickUI.class).getPauseGame().getValue();
     }
+
     public boolean isHovering(float x, float y, float width, float height, float mouseX, float mouseY) {
         return mouseX >= x && mouseY >= y && mouseX <= x + width && mouseY <= y + height;
     }

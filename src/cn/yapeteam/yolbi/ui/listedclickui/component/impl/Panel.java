@@ -4,7 +4,6 @@ import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.ui.Theme;
 import cn.yapeteam.yolbi.ui.listedclickui.ImplScreen;
 import cn.yapeteam.yolbi.ui.listedclickui.component.AbstractComponent;
 import cn.yapeteam.yolbi.ui.listedclickui.component.Limitation;
@@ -89,7 +88,7 @@ public class Panel extends AbstractComponent {
             setY(mouseY - dragY);
         }
         RenderUtil.drawBloomShadow(getX(), getY(), getWidth(), getHeight(), 5, new Color(0));
-        RenderUtil.drawFastRoundedRect(getX(), getY(), getX() + getWidth(), getY() + getHeight() + 1, 3, Theme.MainTheme[1].getRGB());
+        RenderUtil.drawFastRoundedRect(getX(), getY(), getX() + getWidth(), getY() + getHeight() + 1, 3, ImplScreen.MainTheme[1].getRGB());
         AbstractFontRenderer font = YolBi.instance.getFontManager().getPingFangBold18();
         font.drawString(
                 category.name(),

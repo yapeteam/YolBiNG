@@ -1,12 +1,13 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
-import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
 
 public class Animations extends Module {
     private static Animations animations;
-    public static Animations getInstance(){
+
+    public static Animations getInstance() {
         return animations;
     }
 
@@ -15,7 +16,7 @@ public class Animations extends Module {
     public Animations() {
         super("Animations", ModuleCategory.VISUAL);
         this.addValues(swingSlowdown);
-        animations=this;
+        animations = this;
     }
 
 }

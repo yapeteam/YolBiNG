@@ -1,13 +1,15 @@
 package cn.yapeteam.yolbi.filesystem;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.values.impl.BooleanValue;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
-import net.minecraft.client.Minecraft;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.values.Value;
+import cn.yapeteam.yolbi.values.impl.BooleanValue;
+import cn.yapeteam.yolbi.values.impl.ColorValue;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
+import net.minecraft.client.Minecraft;
 
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -51,14 +53,17 @@ public class FileSystem {
                 if (!m.getValues().isEmpty()) {
                     for (Value<?> value : m.getValues()) {
                         if (value instanceof BooleanValue) {
-                            BooleanValue boolSetting = (BooleanValue) value;
-                            toWrite.add("Setting:" + m.getName() + ":" + boolSetting.getName() + ":" + boolSetting.getValue());
+                            BooleanValue booleanValue = (BooleanValue) value;
+                            toWrite.add("Setting:" + m.getName() + ":" + booleanValue.getName() + ":" + booleanValue.getValue());
                         } else if (value instanceof ModeValue) {
-                            ModeValue<?> modeSetting = (ModeValue<?>) value;
-                            toWrite.add("Setting:" + m.getName() + ":" + modeSetting.getName() + ":" + modeSetting.getValue());
+                            ModeValue<?> modeValue = (ModeValue<?>) value;
+                            toWrite.add("Setting:" + m.getName() + ":" + modeValue.getName() + ":" + modeValue.getValue());
                         } else if (value instanceof NumberValue) {
                             NumberValue<?> numberValue = (NumberValue<?>) value;
                             toWrite.add("Setting:" + m.getName() + ":" + numberValue.getName() + ":" + numberValue.getValue());
+                        } else if (value instanceof ColorValue) {
+                            ColorValue colorValue = (ColorValue) value;
+                            toWrite.add("Setting:" + m.getName() + ":" + colorValue.getName() + ":" + colorValue.getValue().getRGB());
                         }
                     }
                 }
@@ -110,18 +115,21 @@ public class FileSystem {
                                     }
                                     break;
                                 case "Setting":
-                                    Value<?> setting = m.getSettingByName(infos[2]);
+                                    Value<?> value = m.getSettingByName(infos[2]);
 
-                                    if (setting != null) {
-                                        if (setting instanceof BooleanValue) {
-                                            BooleanValue boolSetting = (BooleanValue) setting;
-                                            boolSetting.setValue(Boolean.parseBoolean(infos[3]));
-                                        } else if (setting instanceof ModeValue) {
-                                            ModeValue<?> modeSetting = (ModeValue<?>) setting;
-                                            modeSetting.setValue(infos[3]);
-                                        } else if (setting instanceof NumberValue) {
-                                            NumberValue<?> doubleSetting = (NumberValue<?>) setting;
-                                            doubleSetting.setValue(Double.parseDouble(infos[3]));
+                                    if (value != null) {
+                                        if (value instanceof BooleanValue) {
+                                            BooleanValue booleanValue = (BooleanValue) value;
+                                            booleanValue.setValue(Boolean.parseBoolean(infos[3]));
+                                        } else if (value instanceof ModeValue) {
+                                            ModeValue<?> modeValue = (ModeValue<?>) value;
+                                            modeValue.setValue(infos[3]);
+                                        } else if (value instanceof NumberValue) {
+                                            NumberValue<?> numberValue = (NumberValue<?>) value;
+                                            numberValue.setValue(Double.parseDouble(infos[3]));
+                                        } else if (value instanceof ColorValue) {
+                                            ColorValue colorValue = (ColorValue) value;
+                                            colorValue.setValue(new Color(Integer.parseInt(infos[3])));
                                         }
                                         break;
                                     }
@@ -209,5 +217,4 @@ public class FileSystem {
     public void loadDefaultConfig() {
         loadConfig("default", true);
     }
-
 }

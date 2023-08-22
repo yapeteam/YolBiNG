@@ -2,11 +2,9 @@ package cn.yapeteam.yolbi.ui.listedclickui.component.impl;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
-import cn.yapeteam.yolbi.ui.Theme;
 import cn.yapeteam.yolbi.ui.listedclickui.ImplScreen;
 import cn.yapeteam.yolbi.ui.listedclickui.component.AbstractComponent;
 import cn.yapeteam.yolbi.ui.listedclickui.component.Limitation;
-import cn.yapeteam.yolbi.util.render.ColorUtil;
 import cn.yapeteam.yolbi.util.render.RenderUtil;
 import cn.yapeteam.yolbi.values.Value;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
@@ -16,7 +14,6 @@ import cn.yapeteam.yolbi.values.impl.NumberValue;
 import lombok.Getter;
 import net.minecraft.client.renderer.GlStateManager;
 
-import java.awt.*;
 import java.util.Arrays;
 
 /**
@@ -49,7 +46,7 @@ public class ValueButton extends AbstractComponent {
                 getY() > limitation.getY() + limitation.getHeight()
         )) {
             GlStateManager.color(1, 1, 1, 1);
-            RenderUtil.drawRect(getX(), getY(), getX() + getWidth(), getY() + getHeight(), Theme.MainTheme[1].darker().getRGB());
+            RenderUtil.drawRect(getX(), getY(), getX() + getWidth(), getY() + getHeight(), ImplScreen.MainTheme[1].darker().getRGB());
             AbstractFontRenderer font = YolBi.instance.getFontManager().getPingFang12();
             AbstractFontRenderer icon = YolBi.instance.getFontManager().getFLUXICON14();
             int index = 0, all = 0;
@@ -71,24 +68,23 @@ public class ValueButton extends AbstractComponent {
                             }
                 }
             }
-            Color rainbow = ColorUtil.rainbow(10, (all - 1 - index) * 10, 1, 1, 1);
             if (value instanceof BooleanValue) {
                 BooleanValue booleanValue = (BooleanValue) value;
                 font.drawString(value.getName(), getX() + 5, getY() + (getHeight() - font.getHeight()) / 2f, -1);
                 int w = 8, h = 8;
-                RenderUtil.drawRect2(getX() + getWidth() - 5 - w, getY() + (getHeight() - h) / 2f, w, h, Theme.MainTheme[1].getRGB());
+                RenderUtil.drawRect2(getX() + getWidth() - 5 - w, getY() + (getHeight() - h) / 2f, w, h, ImplScreen.MainTheme[1].getRGB());
                 if (booleanValue.getValue())
-                    icon.drawString("v", getX() + getWidth() - 5 - w + 0.5f, getY() + (getHeight() - icon.getHeight()) / 2f + 1, ImplScreen.rainbow ? rainbow.getRGB() : Theme.MainTheme[2].getRGB());
+                    icon.drawString("v", getX() + getWidth() - 5 - w + 0.5f, getY() + (getHeight() - icon.getHeight()) / 2f + 1, ImplScreen.getClientTheme().getColor((all - 1 - index) * 100));
             } else if (value instanceof NumberValue<?>) {
                 NumberValue<?> numberValue = (NumberValue<?>) value;
                 font.drawString(numberValue.getName(), getX() + 5, getY() + 3, -1);
                 font.drawString(String.format("%.2f", numberValue.getValue().floatValue()), getX() + getWidth() - font.getStringWidth(String.format("%.2f", numberValue.getValue().floatValue())) - 5, getY() + 3, -1);
                 float w = (getWidth() - 10) * ((numberValue.getValue().floatValue() - numberValue.getMin().floatValue()) / (numberValue.getMax().floatValue() - numberValue.getMin().floatValue()));
                 sliderAnimeWidth += (w - sliderAnimeWidth) / 10f;
-                RenderUtil.drawRect2(getX() + 5, getY() + getHeight() - 5 - 1, getWidth() - 10, 1, Theme.MainTheme[3].getRGB());
-                RenderUtil.drawRect2(getX() + 5, getY() + getHeight() - 5 - 1, sliderAnimeWidth, 1, ImplScreen.rainbow ? rainbow.getRGB() : Theme.MainTheme[2].getRGB());
-                RenderUtil.drawRect2(getX() + 5 + sliderAnimeWidth - 4, getY() + getHeight() - 5 - 1, 8, 1, Theme.MainTheme[1].darker().getRGB());
-                RenderUtil.circle(getX() + 5 + sliderAnimeWidth, getY() + getHeight() - 5 - 1 + 0.5f, 2.5f, ImplScreen.rainbow ? rainbow.getRGB() : Theme.MainTheme[2].getRGB());
+                RenderUtil.drawRect2(getX() + 5, getY() + getHeight() - 5 - 1, getWidth() - 10, 1, ImplScreen.MainTheme[3].getRGB());
+                RenderUtil.drawRect2(getX() + 5, getY() + getHeight() - 5 - 1, sliderAnimeWidth, 1, ImplScreen.getClientTheme().getColor((all - 1 - index) * 100));
+                RenderUtil.drawRect2(getX() + 5 + sliderAnimeWidth - 4, getY() + getHeight() - 5 - 1, 8, 1, ImplScreen.MainTheme[1].darker().getRGB());
+                RenderUtil.circle(getX() + 5 + sliderAnimeWidth, getY() + getHeight() - 5 - 1 + 0.5f, 2.5f, ImplScreen.getClientTheme().getColor((all - 1 - index) * 100));
 
                 if (isDragging()) {
                     if (mouseX >= getX() + 5 && mouseX <= getX() + 5 + getWidth() - 10) {
@@ -101,14 +97,14 @@ public class ValueButton extends AbstractComponent {
                 }
             } else if (value instanceof ModeValue<?>) {
                 ModeValue<?> modeValue = (ModeValue<?>) value;
-                RenderUtil.drawFastRoundedRect(getX() + 2, getY() + 2, getX() + getWidth() - 2, getY() + getHeight() - 2, 2, Theme.MainTheme[1].getRGB());
+                RenderUtil.drawFastRoundedRect(getX() + 2, getY() + 2, getX() + getWidth() - 2, getY() + getHeight() - 2, 2, ImplScreen.MainTheme[1].getRGB());
                 String text = modeValue.getName() + " | " + modeValue.getValue();
                 font.drawString(text, getX() + (getWidth() - font.getStringWidth(text)) / 2f, getY() + (getHeight() - font.getHeight()) / 2f - 3, -1);
-                font.drawString("|", getX() + (getWidth() - font.getStringWidth("|")) / 2f, getY() + getHeight() / 2f - 0.5f, ImplScreen.rainbow ? rainbow.getRGB() : Theme.MainTheme[2].getRGB());
-                icon.drawString("h i", getX() + (getWidth() - icon.getStringWidth("h i")) / 2f, getY() + getHeight() / 2f + 3, ImplScreen.rainbow ? rainbow.getRGB() : Theme.MainTheme[2].getRGB());
+                font.drawString("|", getX() + (getWidth() - font.getStringWidth("|")) / 2f, getY() + getHeight() / 2f - 0.5f, ImplScreen.getClientTheme().getColor((all - 1 - index) * 100));
+                icon.drawString("h i", getX() + (getWidth() - icon.getStringWidth("h i")) / 2f, getY() + getHeight() / 2f + 3, ImplScreen.getClientTheme().getColor((all - 1 - index) * 100));
             } else if (value instanceof ColorValue) {
                 ColorValue colorValue = (ColorValue) value;
-                font.drawString(colorValue.getName() + ":", getX() + (getWidth() - font.getStringWidth(colorValue.getName() + ":") - 2 - 5) / 2f, getY() + 2 - 3, ImplScreen.rainbow ? rainbow.getRGB() : Theme.MainTheme[2].getRGB());
+                font.drawString(colorValue.getName() + ":", getX() + (getWidth() - font.getStringWidth(colorValue.getName() + ":") - 2 - 5) / 2f, getY() + 2 - 3, ImplScreen.getClientTheme().getColor((all - 1 - index) * 100));
                 RenderUtil.drawFastRoundedRect2(getX() + (getWidth() - font.getStringWidth(colorValue.getName() + ":") - 2 - 5) / 2f + font.getStringWidth(colorValue.getName() + ":") + 2, getY() + 2, 5, 5, 1, colorValue.getColor());
                 colorValue.draw(getX() + (getWidth() - 54) / 2f, getY() + 9, 40, 40, mouseX, mouseY);
             }

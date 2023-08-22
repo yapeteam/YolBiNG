@@ -1,16 +1,16 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
 import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.render.Render3DEvent;
+import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.impl.combat.Antibot;
+import cn.yapeteam.yolbi.util.render.RenderUtil;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.util.render.RenderUtil;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.module.Module;
-import cn.yapeteam.yolbi.module.impl.combat.Antibot;
 
 import java.awt.*;
 
@@ -54,5 +54,4 @@ public class ESP extends Module {
 
         RenderUtil.stopBoxRender();
     }
-
 }
