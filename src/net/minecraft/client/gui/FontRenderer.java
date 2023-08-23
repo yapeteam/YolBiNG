@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 
-@SuppressWarnings({"UnnecessaryUnicodeEscape", "UnusedReturnValue", "SameParameterValue", "DuplicatedCode"})
+@SuppressWarnings({"UnnecessaryUnicodeEscape", "UnusedReturnValue", "SameParameterValue", "DuplicatedCode", "unused"})
 public class FontRenderer implements IResourceManagerReloadListener, IBFFontRenderer, AbstractFontRenderer {
     private final int[] charWidth = new int[256];
     public float FONT_HEIGHT = 9;
