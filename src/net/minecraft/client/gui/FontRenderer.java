@@ -4,6 +4,7 @@ import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.font.HeightUtil;
 import cn.yapeteam.yolbi.font.unicode.IBFFontRenderer;
 import cn.yapeteam.yolbi.font.unicode.StringCache;
+import cn.yapeteam.yolbi.util.render.ColorUtil;
 import com.ibm.icu.text.ArabicShaping;
 import com.ibm.icu.text.ArabicShapingException;
 import com.ibm.icu.text.Bidi;
@@ -270,6 +271,31 @@ public class FontRenderer implements IResourceManagerReloadListener, IBFFontRend
         return i;
     }
 
+    public float drawStringWithColors(String text, float x, float y, int[] colors, boolean dropShadow) {
+        this.enableAlpha();
+
+        if (this.blend) {
+            GlStateManager.getBlendState(this.oldBlendState);
+            GlStateManager.enableBlend();
+            GlStateManager.blendFunc(770, 771);
+        }
+
+        int i;
+
+        if (dropShadow) {
+            i = this.renderStringWithColors(text, x + 0.7F, y + 0.7F, colors, true);
+            i = Math.max(i, this.renderStringWithColors(text, x, y, colors, false));
+        } else {
+            i = this.renderStringWithColors(text, x, y, colors, false);
+        }
+
+        if (this.blend) {
+            GlStateManager.setBlendState(this.oldBlendState);
+        }
+
+        return i;
+    }
+
     public float drawStringWithGradient(String text, float x, float y, int color1, int color2, boolean dropShadow) {
         this.enableAlpha();
 
@@ -397,11 +423,7 @@ public class FontRenderer implements IResourceManagerReloadListener, IBFFontRend
                 text = this.bidiReorder(text);
             }
 
-            if (dropShadow) {
-                color1 = (color1 & 0xFCFCFC) >> 2 | color1 & 0xFF000000;
-            }
-
-            return (int) (x + this.getStringCache().renderStringWithGradient(text, x, y, color1, color2, dropShadow));
+            return (int) (x + this.getStringCache().renderStringWithColors(text, x, y, ColorUtil.generateGradientColors(color1, color2, text.length()), dropShadow));
         }
     }
 

@@ -1,6 +1,5 @@
 package cn.yapeteam.yolbi.font.unicode;
 
-import cn.yapeteam.yolbi.util.render.ColorUtil;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -763,10 +762,6 @@ public class StringCache {
 
         /* Return total horizontal advance (slightly wider than the bounding box, but close enough for centering strings) */
         return entry.advance / 2;
-    }
-
-    public int renderStringWithGradient(String text, float x, float y, int color1, int color2, boolean dropShadow) {
-        return renderStringWithColors(text, x, y, ColorUtil.generateGradientColors(color1, color2, text.length()), dropShadow);
     }
 
     /**
