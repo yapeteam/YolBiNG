@@ -419,7 +419,7 @@ public class RenderItem implements IResourceManagerReloadListener
             ItemCameraTransforms itemcameratransforms = model.getItemCameraTransforms();
             itemcameratransforms.func_181689_a(cameraTransformType);
 
-            if (this.func_183005_a(itemcameratransforms.func_181688_b(cameraTransformType)))
+            if (this.func_183005_a(itemcameratransforms.getTransform(cameraTransformType)))
             {
                 GlStateManager.cullFace(1028);
             }

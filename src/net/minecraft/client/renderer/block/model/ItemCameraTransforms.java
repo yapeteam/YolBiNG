@@ -54,7 +54,7 @@ public class ItemCameraTransforms
 
     public void func_181689_a(ItemCameraTransforms.TransformType p_181689_1_)
     {
-        ItemTransformVec3f itemtransformvec3f = this.func_181688_b(p_181689_1_);
+        ItemTransformVec3f itemtransformvec3f = this.getTransform(p_181689_1_);
 
         if (itemtransformvec3f != ItemTransformVec3f.DEFAULT)
         {
@@ -66,7 +66,7 @@ public class ItemCameraTransforms
         }
     }
 
-    public ItemTransformVec3f func_181688_b(ItemCameraTransforms.TransformType p_181688_1_)
+    public ItemTransformVec3f getTransform(ItemCameraTransforms.TransformType p_181688_1_)
     {
         switch (p_181688_1_)
         {
@@ -95,7 +95,7 @@ public class ItemCameraTransforms
 
     public boolean func_181687_c(ItemCameraTransforms.TransformType p_181687_1_)
     {
-        return !this.func_181688_b(p_181687_1_).equals(ItemTransformVec3f.DEFAULT);
+        return !this.getTransform(p_181687_1_).equals(ItemTransformVec3f.DEFAULT);
     }
 
     static class Deserializer implements JsonDeserializer<ItemCameraTransforms>

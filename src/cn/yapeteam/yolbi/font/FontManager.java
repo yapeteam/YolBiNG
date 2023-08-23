@@ -22,6 +22,7 @@ public class FontManager {
             PingFang18,
             PingFang19,
             PingFang20,
+            PingFang25,
             PingFang36,
             PingFang72,
             PingFangBold18,
@@ -40,6 +41,8 @@ public class FontManager {
         PingFang18 = new FontRenderer(getFontFromTTF("PingFang_Normal", 18, Font.PLAIN), 18, true);
         PingFang19 = new FontRenderer(getFontFromTTF("PingFang_Normal", 19, Font.PLAIN), 19, true);
         PingFang20 = new FontRenderer(getFontFromTTF("PingFang_Normal", 20, Font.PLAIN), 20, true);
+        PingFang25 = new FontRenderer(getFontFromTTF("PingFang_Normal", 25, Font.PLAIN), 25, true);
+
         PingFang36 = new FontRenderer(getFontFromTTF("PingFang_Normal", 36, Font.PLAIN), 36, true);
         PingFang72 = new FontRenderer(getFontFromTTF("PingFang_Normal", 72, Font.PLAIN), 72, true);
         PingFangBold18 = new FontRenderer(getFontFromTTF("PingFang_Bold", 18, Font.PLAIN), 18, true);

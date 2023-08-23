@@ -539,4 +539,67 @@ public class RenderUtil implements IMinecraft {
         frustrum.setPosition(current.posX, current.posY, current.posZ);
         return frustrum.isBoundingBoxInFrustum(bb);
     }
+
+    public static void start2D() {
+        glEnable(3042);
+        glDisable(3553);
+        glBlendFunc(770, 771);
+        glEnable(2848);
+    }
+
+    public static void stop2D() {
+        glEnable(3553);
+        glDisable(3042);
+        glDisable(2848);
+        enableTexture2D();
+        disableBlend();
+        glColor4f(1, 1, 1, 1);
+    }
+
+    public static void setColor(Color color) {
+        float alpha = (color.getRGB() >> 24 & 0xFF) / 255.0F;
+        float red = (color.getRGB() >> 16 & 0xFF) / 255.0F;
+        float green = (color.getRGB() >> 8 & 0xFF) / 255.0F;
+        float blue = (color.getRGB() & 0xFF) / 255.0F;
+        GL11.glColor4f(red, green, blue, alpha);
+    }
+
+    public static void drawCornerBox(double x, double y, double x2, double y2, double lw, Color color) {
+        double width = Math.abs(x2 - x);
+        double height = Math.abs(y2 - y);
+        double halfWidth = width / 4;
+        double halfHeight = height / 4;
+        start2D();
+        GL11.glPushMatrix();
+        GL11.glLineWidth((float) lw);
+        setColor(color);
+
+        GL11.glBegin(GL_LINE_STRIP);
+        GL11.glVertex2d(x + halfWidth, y);
+        GL11.glVertex2d(x, y);
+        GL11.glVertex2d(x, y + halfHeight);
+        GL11.glEnd();
+
+
+        GL11.glBegin(GL_LINE_STRIP);
+        GL11.glVertex2d(x, y + height - halfHeight);
+        GL11.glVertex2d(x, y + height);
+        GL11.glVertex2d(x + halfWidth, y + height);
+        GL11.glEnd();
+
+        GL11.glBegin(GL_LINE_STRIP);
+        GL11.glVertex2d(x + width - halfWidth, y + height);
+        GL11.glVertex2d(x + width, y + height);
+        GL11.glVertex2d(x + width, y + height - halfHeight);
+        GL11.glEnd();
+
+        GL11.glBegin(GL_LINE_STRIP);
+        GL11.glVertex2d(x + width, y + halfHeight);
+        GL11.glVertex2d(x + width, y);
+        GL11.glVertex2d(x + width - halfWidth, y);
+        GL11.glEnd();
+
+        GL11.glPopMatrix();
+        stop2D();
+    }
 }

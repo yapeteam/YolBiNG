@@ -334,7 +334,7 @@ public class GuiIngame extends Gui
             this.overlayPlayerList.updatePlayerList(false);
         }
 
-        YolBi.instance.getEventManager().post(new RenderEvent(partialTicks));
+        YolBi.instance.getEventManager().post(new RenderEvent(partialTicks,scaledresolution));
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableLighting();

@@ -65,6 +65,7 @@ public class ModuleManager {
         modules.add(new Watermark());
         modules.add(new ModuleList());
         modules.add(new IngameInfo());
+        modules.add(new ItemESP());
         modules.add(new ClientTheme());
         //modules.add(new ClickGuiModule());
         modules.add(new ClickUI());
