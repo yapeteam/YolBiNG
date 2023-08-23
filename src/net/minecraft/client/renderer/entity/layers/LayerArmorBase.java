@@ -20,14 +20,14 @@ import net.optifine.shaders.ShadersRender;
 public abstract class LayerArmorBase<T extends ModelBase> implements LayerRenderer<EntityLivingBase>
 {
     protected static final ResourceLocation ENCHANTED_ITEM_GLINT_RES = new ResourceLocation("textures/misc/enchanted_item_glint.png");
-    protected T field_177189_c;
-    protected T field_177186_d;
+    protected T modelLeggings;
+    protected T modelArmor;
     private final RendererLivingEntity<?> renderer;
     private float alpha = 1.0F;
     private float colorR = 1.0F;
     private float colorG = 1.0F;
     private float colorB = 1.0F;
-    private boolean field_177193_i;
+    private boolean skipRenderGlint;
     private static final Map<String, ResourceLocation> ARMOR_TEXTURE_RES_MAP = Maps.<String, ResourceLocation>newHashMap();
 
     public LayerArmorBase(RendererLivingEntity<?> rendererIn)
@@ -65,7 +65,7 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
                 t = this.getArmorModelHook(entitylivingbaseIn, itemstack, armorSlot, t);
             }
 
-            this.func_177179_a(t, armorSlot);
+            this.setModelPartVisible(t, armorSlot);
             boolean flag = this.isSlotForLeggings(armorSlot);
 
             if (!Config.isCustomItems() || !CustomItems.bindCustomArmorTexture(itemstack, flag ? 2 : 1, (String)null))
@@ -100,7 +100,7 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
                 GlStateManager.color(this.colorR, this.colorG, this.colorB, this.alpha);
                 t.render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_);
 
-                if (!this.field_177193_i && itemstack.hasEffect() && (!Config.isCustomItems() || !CustomItems.renderCustomArmorEffect(entitylivingbaseIn, itemstack, t, p_177182_2_, p_177182_3_, p_177182_4_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_)))
+                if (!this.skipRenderGlint && itemstack.hasEffect() && (!Config.isCustomItems() || !CustomItems.renderCustomArmorEffect(entitylivingbaseIn, itemstack, t, p_177182_2_, p_177182_3_, p_177182_4_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_)))
                 {
                     this.func_177183_a(entitylivingbaseIn, t, p_177182_2_, p_177182_3_, p_177182_4_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_);
                 }
@@ -131,7 +131,7 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
                     t.render(entitylivingbaseIn, p_177182_2_, p_177182_3_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_);
             }
 
-            if (!this.field_177193_i && itemstack.isItemEnchanted() && (!Config.isCustomItems() || !CustomItems.renderCustomArmorEffect(entitylivingbaseIn, itemstack, t, p_177182_2_, p_177182_3_, p_177182_4_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_)))
+            if (!this.skipRenderGlint && itemstack.isItemEnchanted() && (!Config.isCustomItems() || !CustomItems.renderCustomArmorEffect(entitylivingbaseIn, itemstack, t, p_177182_2_, p_177182_3_, p_177182_4_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_)))
             {
                 this.func_177183_a(entitylivingbaseIn, t, p_177182_2_, p_177182_3_, p_177182_4_, p_177182_5_, p_177182_6_, p_177182_7_, p_177182_8_);
             }
@@ -145,7 +145,7 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
 
     public T func_177175_a(int p_177175_1_)
     {
-        return (T)(this.isSlotForLeggings(p_177175_1_) ? this.field_177189_c : this.field_177186_d);
+        return (T)(this.isSlotForLeggings(p_177175_1_) ? this.modelLeggings : this.modelArmor);
     }
 
     private boolean isSlotForLeggings(int armorSlot)
@@ -223,7 +223,7 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
 
     protected abstract void initArmor();
 
-    protected abstract void func_177179_a(T p_177179_1_, int p_177179_2_);
+    protected abstract void setModelPartVisible(T p_177179_1_, int p_177179_2_);
 
     protected T getArmorModelHook(EntityLivingBase p_getArmorModelHook_1_, ItemStack p_getArmorModelHook_2_, int p_getArmorModelHook_3_, T p_getArmorModelHook_4_)
     {

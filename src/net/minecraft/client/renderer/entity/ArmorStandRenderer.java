@@ -23,8 +23,8 @@ public class ArmorStandRenderer extends RendererLivingEntity<EntityArmorStand>
         {
             protected void initArmor()
             {
-                this.field_177189_c = new ModelArmorStandArmor(0.5F);
-                this.field_177186_d = new ModelArmorStandArmor(1.0F);
+                this.modelLeggings = new ModelArmorStandArmor(0.5F);
+                this.modelArmor = new ModelArmorStandArmor(1.0F);
             }
         };
         this.addLayer(layerbipedarmor);
