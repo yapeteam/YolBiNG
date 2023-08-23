@@ -69,6 +69,7 @@ public class ModuleManager {
         //modules.add(new ClickGuiModule());
         modules.add(new ClickUI());
         modules.add(new ESP());
+        modules.add(new ItemPhysic());
         modules.add(new Chams());
         modules.add(new Animations());
         modules.add(new Rotations());
