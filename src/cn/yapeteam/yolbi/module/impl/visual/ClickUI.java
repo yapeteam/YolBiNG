@@ -19,7 +19,7 @@ public class ClickUI extends Module {
     public ClickUI() {
         super("ClickUI", ModuleCategory.VISUAL);
         setKey(Keyboard.KEY_RSHIFT);
-        blur.setCallback((oldV, newV) -> !mc.gameSettings.ofFastRender);
+        blur.setCallback((oldV, newV) -> !mc.gameSettings.ofFastRender && newV);
         addValues(pauseGame, blur, rainbow, blurRadius);
     }
 
