@@ -220,6 +220,12 @@ public class RenderUtil implements IMinecraft {
     private static final Map<Integer, Integer> shadowCache = new HashMap<>();
 
     public static void drawBloomShadow(float x, float y, float width, float height, int blurRadius, Color color) {
+        drawBloomShadow(x,y,width,height,blurRadius,0,color);
+    }
+
+
+
+        public static void drawBloomShadow(float x, float y, float width, float height, int blurRadius,int roundRadius, Color color) {
         glPushMatrix();
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0.01f);
         width = width + blurRadius * 2;
@@ -245,7 +251,7 @@ public class RenderUtil implements IMinecraft {
             BufferedImage original = new BufferedImage((int) width, (int) height, BufferedImage.TYPE_INT_ARGB_PRE);
             Graphics g = original.getGraphics();
             g.setColor(new Color(-1));
-            g.fillRoundRect(blurRadius, blurRadius, (int) (width - blurRadius * 2), (int) (height - blurRadius * 2), blurRadius, blurRadius);
+            g.fillRoundRect(blurRadius, blurRadius, (int) (width - blurRadius * 2), (int) (height - blurRadius * 2), roundRadius, roundRadius);
             g.dispose();
             GaussianFilter op = new GaussianFilter(blurRadius);
             BufferedImage blurred = op.filter(original, null);
