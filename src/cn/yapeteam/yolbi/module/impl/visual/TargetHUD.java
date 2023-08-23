@@ -1,12 +1,12 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
 import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.util.animation.AnimationType;
 import cn.yapeteam.yolbi.util.render.RenderUtil;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import cn.yapeteam.yolbi.util.animation.Animation;
-import cn.yapeteam.yolbi.util.animation.AnimationType;
 import cn.yapeteam.yolbi.util.animation.AnimationUtil;
 import cn.yapeteam.yolbi.util.misc.TimerUtil;
 import cn.yapeteam.yolbi.util.render.DrawUtil;

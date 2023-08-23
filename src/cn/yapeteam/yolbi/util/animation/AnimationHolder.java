@@ -1,4 +1,4 @@
-package cn.yapeteam.yolbi.util.auth.animation;
+package cn.yapeteam.yolbi.util.animation;
 
 public class AnimationHolder<T> extends Animation {
 
