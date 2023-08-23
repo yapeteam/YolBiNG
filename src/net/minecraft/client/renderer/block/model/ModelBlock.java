@@ -176,7 +176,7 @@ public class ModelBlock
 
     private ItemTransformVec3f func_181681_a(ItemCameraTransforms.TransformType p_181681_1_)
     {
-        return this.parent != null && !this.cameraTransforms.func_181687_c(p_181681_1_) ? this.parent.func_181681_a(p_181681_1_) : this.cameraTransforms.func_181688_b(p_181681_1_);
+        return this.parent != null && !this.cameraTransforms.func_181687_c(p_181681_1_) ? this.parent.func_181681_a(p_181681_1_) : this.cameraTransforms.getTransform(p_181681_1_);
     }
 
     public static void checkModelHierarchy(Map<ResourceLocation, ModelBlock> p_178312_0_)

@@ -29,6 +29,7 @@ import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C01PacketChatMessage;
@@ -958,4 +959,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
             this.sendPlayerAbilities();
         }
     }
+
+    public Slot getSlotFromPlayerContainer(int slot) {
+        return this.inventoryContainer.getSlot(slot);
+    }
+
 }
