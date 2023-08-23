@@ -14,7 +14,6 @@ import cn.yapeteam.yolbi.handler.packet.PacketDelayHandler;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleManager;
 import cn.yapeteam.yolbi.ui.menu.ConfigMenu;
-import cn.yapeteam.yolbi.ui.menu.VestigeMainMenu;
 import cn.yapeteam.yolbi.util.IMinecraft;
 import cn.yapeteam.yolbi.util.render.FontUtil;
 import lombok.Getter;
@@ -91,6 +90,6 @@ public class YolBi implements IMinecraft {
     public GuiScreen getMainMenu() {
         if (!YolBi.instance.haveGoinTheConfig)
             return new ConfigMenu();
-        return destructed ? new GuiMainMenu() : new VestigeMainMenu();
+        return destructed ? new GuiMainMenu() : new cn.yapeteam.yolbi.ui.mainmenu.ImplScreen();
     }
 }

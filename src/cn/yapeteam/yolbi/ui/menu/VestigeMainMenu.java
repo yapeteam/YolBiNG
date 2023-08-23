@@ -1,15 +1,14 @@
 package cn.yapeteam.yolbi.ui.menu;
 
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.font.cfont.VestigeFontRenderer;
+import cn.yapeteam.yolbi.ui.menu.components.Button;
 import cn.yapeteam.yolbi.util.misc.AudioUtil;
 import cn.yapeteam.yolbi.util.render.ColorUtil;
 import cn.yapeteam.yolbi.util.render.DrawUtil;
 import net.minecraft.client.gui.*;
-import net.minecraft.util.ResourceLocation;
-import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.font.cfont.VestigeFontRenderer;
-import cn.yapeteam.yolbi.ui.menu.components.Button;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
 
 public class VestigeMainMenu extends GuiScreen {
@@ -55,7 +54,7 @@ public class VestigeMainMenu extends GuiScreen {
 
         int totalHeight = buttonHeight * buttons.length;
 
-        double y = sr.getScaledHeight() / 2 - totalHeight * 0.3;
+        double y = sr.getScaledHeight() / 2f - totalHeight * 0.3;
 
         int startX = sr.getScaledWidth() / 2 - buttonWidth / 2;
         int endX = sr.getScaledWidth() / 2 + buttonWidth / 2;
@@ -73,7 +72,7 @@ public class VestigeMainMenu extends GuiScreen {
 
             String buttonName = button.getName();
 
-            bigFont.drawStringWithShadow(buttonName, sr.getScaledWidth() / 2 - bigFont.getStringWidth(buttonName) / 2, y + 5, textColor);
+            bigFont.drawStringWithShadow(buttonName, sr.getScaledWidth() / 2f - bigFont.getStringWidth(buttonName) / 2, y + 5, textColor);
 
             y += buttonHeight;
         }
@@ -99,7 +98,7 @@ public class VestigeMainMenu extends GuiScreen {
 
             ScaledResolution sr = new ScaledResolution(mc);
 
-            double y = sr.getScaledHeight() / 2 - totalHeight * 0.3;
+            double y = sr.getScaledHeight() / 2f - totalHeight * 0.3;
 
             int startX = sr.getScaledWidth() / 2 - buttonWidth / 2;
             int endX = sr.getScaledWidth() / 2 + buttonWidth / 2;

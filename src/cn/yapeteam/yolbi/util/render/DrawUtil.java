@@ -1,5 +1,6 @@
 package cn.yapeteam.yolbi.util.render;
 
+import cn.yapeteam.yolbi.util.IMinecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
@@ -9,7 +10,6 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import cn.yapeteam.yolbi.util.IMinecraft;
 
 import java.awt.*;
 
@@ -168,5 +168,4 @@ public class DrawUtil implements IMinecraft {
     public enum DiagonalType {
         LEFT_TOP, RIGHT_TOP, LEFT_BOTTOM, RIGHT_BOTTOM
     }
-
 }
