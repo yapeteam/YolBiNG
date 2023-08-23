@@ -1,5 +1,10 @@
 package cn.yapeteam.yolbi;
 
+import cn.yapeteam.yolbi.anticheat.Anticheat;
+import cn.yapeteam.yolbi.command.CommandManager;
+import cn.yapeteam.yolbi.event.EventManager;
+import cn.yapeteam.yolbi.filesystem.FileSystem;
+import cn.yapeteam.yolbi.font.FontManager;
 import cn.yapeteam.yolbi.handler.client.BalanceHandler;
 import cn.yapeteam.yolbi.handler.client.CameraHandler;
 import cn.yapeteam.yolbi.handler.client.KeybindHandler;
@@ -7,21 +12,15 @@ import cn.yapeteam.yolbi.handler.client.SlotSpoofHandler;
 import cn.yapeteam.yolbi.handler.packet.PacketBlinkHandler;
 import cn.yapeteam.yolbi.handler.packet.PacketDelayHandler;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleManager;
 import cn.yapeteam.yolbi.ui.menu.ConfigMenu;
 import cn.yapeteam.yolbi.ui.menu.VestigeMainMenu;
-import cn.yapeteam.yolbi.util.misc.language.ChineseLanguage;
+import cn.yapeteam.yolbi.util.IMinecraft;
 import cn.yapeteam.yolbi.util.render.FontUtil;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
-import cn.yapeteam.yolbi.anticheat.Anticheat;
-import cn.yapeteam.yolbi.command.CommandManager;
-import cn.yapeteam.yolbi.event.EventManager;
-import cn.yapeteam.yolbi.filesystem.FileSystem;
-import cn.yapeteam.yolbi.module.ModuleManager;
-import cn.yapeteam.yolbi.font.FontManager;
-import cn.yapeteam.yolbi.util.IMinecraft;
 
 import java.io.IOException;
 
@@ -90,9 +89,8 @@ public class YolBi implements IMinecraft {
     }
 
     public GuiScreen getMainMenu() {
-        if (YolBi.instance.haveGoinTheConfig == false)
+        if (!YolBi.instance.haveGoinTheConfig)
             return new ConfigMenu();
         return destructed ? new GuiMainMenu() : new VestigeMainMenu();
     }
-
 }
