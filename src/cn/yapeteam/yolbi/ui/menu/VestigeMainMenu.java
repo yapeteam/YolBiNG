@@ -11,21 +11,16 @@ import net.minecraft.client.gui.*;
 import java.awt.*;
 import java.io.IOException;
 
+@Deprecated
 public class VestigeMainMenu extends GuiScreen {
 
-    private final Button[] buttons = {
-            new Button("Singleplayer"),
-            new Button("Multiplayer"),
-            new Button("Alt login"),
-            new Button("Settings"),
-            new Button("Quit")
-    };
+    private final Button[] buttons = {new Button("Singleplayer"), new Button("Multiplayer"), new Button("Alt login"), new Button("Settings"), new Button("Quit")};
 
     private final int textColor = new Color(220, 220, 220).getRGB();
 
     @Override
     public void initGui() {
-        for(Button button : buttons) {
+        for (Button button : buttons) {
             button.updateState(false);
             button.setAnimationDone(true);
         }
@@ -39,6 +34,7 @@ public class VestigeMainMenu extends GuiScreen {
             e.printStackTrace();
         }
     }
+
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
@@ -59,15 +55,15 @@ public class VestigeMainMenu extends GuiScreen {
         int startX = sr.getScaledWidth() / 2 - buttonWidth / 2;
         int endX = sr.getScaledWidth() / 2 + buttonWidth / 2;
 
-        for(Button button : buttons) {
+        for (Button button : buttons) {
             Gui.drawRect(startX, y, endX, y + buttonHeight, 0x50000000);
 
             button.updateState(mouseX > startX && mouseX < endX && mouseY > y && mouseY < y + buttonHeight);
 
-            if(button.isHovered() || !button.isAnimationDone()) {
+            if (button.isHovered() || !button.isAnimationDone()) {
                 double scale = button.getMult();
 
-                Gui.drawRect(startX, y+buttonHeight-2, startX + buttonWidth * scale, y + buttonHeight, ColorUtil.buttonHoveredColor);
+                Gui.drawRect(startX, y + buttonHeight - 2, startX + buttonWidth * scale, y + buttonHeight, ColorUtil.buttonHoveredColor);
             }
 
             String buttonName = button.getName();
@@ -90,7 +86,7 @@ public class VestigeMainMenu extends GuiScreen {
             e.printStackTrace();
         }
 
-        if(mouseButton == 0) {
+        if (mouseButton == 0) {
             int buttonWidth = 80;
             int buttonHeight = 20;
 
@@ -103,8 +99,8 @@ public class VestigeMainMenu extends GuiScreen {
             int startX = sr.getScaledWidth() / 2 - buttonWidth / 2;
             int endX = sr.getScaledWidth() / 2 + buttonWidth / 2;
 
-            for(Button button : buttons) {
-                if(mouseX > startX && mouseX < endX && mouseY > y && mouseY < y + buttonHeight) {
+            for (Button button : buttons) {
+                if (mouseX > startX && mouseX < endX && mouseY > y && mouseY < y + buttonHeight) {
                     switch (button.getName()) {
                         case "Singleplayer":
                             mc.displayGuiScreen(new GuiSelectWorld(this));
