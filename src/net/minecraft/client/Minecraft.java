@@ -6,7 +6,6 @@ import cn.yapeteam.yolbi.event.impl.game.TickEvent;
 import cn.yapeteam.yolbi.module.impl.combat.DelayRemover;
 import cn.yapeteam.yolbi.module.impl.combat.Killaura;
 import cn.yapeteam.yolbi.module.impl.combat.TickBase;
-import cn.yapeteam.yolbi.ui.menu.VestigeMainMenu;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
@@ -836,7 +835,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
             guiScreenIn = new GuiGameOver();
         }
 
-        if (guiScreenIn instanceof GuiMainMenu || guiScreenIn instanceof VestigeMainMenu) {
+        if (guiScreenIn instanceof GuiMainMenu || guiScreenIn instanceof cn.yapeteam.yolbi.ui.mainmenu.ImplScreen) {
             this.gameSettings.showDebugInfo = false;
             this.ingameGUI.getChatGUI().clearChatMessages();
         }
