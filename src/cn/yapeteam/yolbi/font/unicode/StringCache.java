@@ -1,9 +1,11 @@
 package cn.yapeteam.yolbi.font.unicode;
 
+import cn.yapeteam.yolbi.util.render.ColorUtil;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -15,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.WeakHashMap;
 
+@SuppressWarnings({"UnnecessaryUnicodeEscape", "JavadocDeclaration", "DuplicatedCode", "unused", "SameParameterValue"})
 public class StringCache {
     /**
      * Vertical adjustment (in pixels * 2) to string position because Minecraft uses top of string instead of baseline
@@ -57,7 +60,7 @@ public class StringCache {
      * all pre-rendered glyph images needed to display this string. The weakRefCache holds strong references to the Key
      * objects used in this map.
      */
-    private final WeakHashMap<Key, Entry> stringCache = new WeakHashMap();
+    private final WeakHashMap<Key, Entry> stringCache = new WeakHashMap<>();
 
     /**
      * Every String passed to the public renderString() function is added to this WeakHashMap. As long as As long as Minecraft
@@ -65,7 +68,7 @@ public class StringCache {
      * weakRefCache map will continue to hold a strong reference to the Key object that said strings all map to (multiple strings
      * in weakRefCache can map to a single Key if those strings only differ by their ASCII digits).
      */
-    private final WeakHashMap<String, Key> weakRefCache = new WeakHashMap();
+    private final WeakHashMap<String, Key> weakRefCache = new WeakHashMap<>();
 
     /**
      * Temporary Key object re-used for lookups with stringCache.get(). Using a temporary object like this avoids the overhead
@@ -101,12 +104,14 @@ public class StringCache {
      */
     private final Thread mainThread;
 
+
     /**
      * Wraps a String and acts as the key into stringCache. The hashCode() and equals() methods consider all ASCII digits
      * to be equal when hashing and comparing Key objects together. Therefore, Strings which only differ in their digits will
      * be all hashed together into the same entry. The renderString() method will then substitute the correct digit glyph on
      * the fly. This special digit handling gives a significant speedup on the F3 debug screen.
      */
+
     static private class Key {
         /**
          * A copy of the String which this Key is indexing. A copy is used to avoid creating a strong reference to the original
@@ -217,12 +222,12 @@ public class StringCache {
         /**
          * Array of fully layed out glyphs for the string. Sorted by logical order of characters (i.e. glyph.stringIndex)
          */
-        public Glyph glyphs[];
+        public Glyph[] glyphs;
 
         /**
          * Array of color code locations from the original string
          */
-        public ColorCode colors[];
+        public ColorCode[] colors;
 
         /**
          * True if the string uses strikethrough or underlines anywhere and needs an extra pass in renderString()
@@ -276,8 +281,8 @@ public class StringCache {
          * @return either -1, 0, or 1 if this < other, this == other, or this > other
          */
         @Override
-        public int compareTo(Integer i) {
-            return (stringIndex == i.intValue()) ? 0 : (stringIndex < i.intValue()) ? -1 : 1;
+        public int compareTo(@NotNull Integer i) {
+            return Integer.compare(stringIndex, i);
         }
     }
 
@@ -331,7 +336,7 @@ public class StringCache {
      * @param colors 32 element array of RGBA colors corresponding to the 16 text color codes followed by 16 darker version of the
      *               color codes for use as drop shadows
      */
-    public StringCache(int colors[]) {
+    public StringCache(int[] colors) {
         /* StringCache is created by the main game thread; remember it for later thread safety checks */
         mainThread = Thread.currentThread();
 
@@ -583,6 +588,191 @@ public class StringCache {
         return entry.advance / 2;
     }
 
+    public int renderStringWithColors(String str, float startX, float startY, int[] colors, boolean shadowFlag) {
+        /* Check for invalid arguments */
+        if (str == null || str.isEmpty()) {
+            return 0;
+        }
+
+        // Fix for what RenderLivingBase#setBrightness does
+        GL11.glTexEnvi(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
+
+        /* Make sure the entire string is cached before rendering and return its glyph representation */
+        Entry entry = cacheString(str);
+
+        /* Adjust the baseline of the string because the startY coordinate in Minecraft is for the top of the string */
+        startY += BASELINE_OFFSET;
+
+        /*
+         * This color change will have no effect on the actual text (since colors are included in the Tessellator vertex
+         * array), however GuiEditSign of all things depends on having the current color set to white when it renders its
+         * "Edit sign message:" text. Otherwise, the sign which is rendered underneath would look too dark.
+         */
+        GlStateManager.color(1, 1, 1, 1);
+
+        /*
+         * Enable GL_BLEND in case the font is drawn anti-aliased because Minecraft itself only enables blending for chat text
+         * (so it can fade out), but not GUI text or signs. Minecraft uses multiple blend functions so it has to be specified here
+         * as well for consistent blending. To reduce the overhead of OpenGL state changes and making native LWJGL calls, this
+         * function doesn't try to save/restore the blending state. Hopefully everything else that depends on blending in Minecraft
+         * will set its own state as needed.
+         */
+
+        if (antiAliasEnabled) {
+            GlStateManager.enableBlend();
+            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        }
+
+        /* Using the Tessellator to queue up data in a vertex array and then draw all at once should be faster than immediate mode */
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+        //GlStateManager.disableTexture2D();
+        worldRenderer.begin(7, DefaultVertexFormats.POSITION);
+        GlStateManager.color(1, 1, 1, 1);
+
+        /* The currently active font syle is needed to select the proper ASCII digit style for fast replacement */
+        int fontStyle = Font.PLAIN;
+
+        for (int glyphIndex = 0, colorIndex = 0; glyphIndex < entry.glyphs.length; glyphIndex++) {
+            /*
+             * If the original string had a color code at this glyph's position, then change the current GL color that gets added
+             * to the vertex array. Note that only the RGB component of the color is replaced by a color code; the alpha component
+             * of the original color passed into this function will remain. The while loop handles multiple consecutive color codes,
+             * in which case only the last such color code takes effect.
+             */
+            while (colorIndex < entry.colors.length && entry.glyphs[glyphIndex].stringIndex >= entry.colors[colorIndex].stringIndex) {
+                applyColorCode(entry.colors[colorIndex].colorCode, colors[glyphIndex], shadowFlag);
+                fontStyle = entry.colors[colorIndex].fontStyle;
+                colorIndex++;
+            }
+
+            /* Select the current glyph's texture information and horizontal layout position within this string */
+            Glyph glyph = entry.glyphs[glyphIndex];
+            GlyphCache.Entry texture = glyph.texture;
+            int glyphX = glyph.x;
+
+            /*
+             * Replace ASCII digits in the string with their respective glyphs; strings differing by digits are only cached once.
+             * If the new replacement glyph has a different width than the original placeholder glyph (e.g. the '1' glyph is often
+             * narrower than other digits), re-center the new glyph over the placeholder's position to minimize the visual impact
+             * of the width mismatch.
+             */
+            char c = str.charAt(glyph.stringIndex);
+            if (c >= '0' && c <= '9') {
+                int oldWidth = texture.width;
+                texture = digitGlyphs[fontStyle][c - '0'].texture;
+                int newWidth = texture.width;
+                glyphX += (oldWidth - newWidth) >> 1;
+            }
+
+            /*
+             * Make sure the OpenGL texture storing this glyph's image is bound (if not already bound). All pending glyphs in the
+             * Tessellator's vertex array must be drawn before switching textures, otherwise they would erroneously use the new
+             * texture as well.
+             */
+            GlStateManager.enableTexture2D();
+            tessellator.draw();
+            worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+            //worldRenderer.color(color >> 16 & 0xff, color >> 8 & 0xff, color & 0xff, color >> 24 & 0xff);
+
+            GlStateManager.bindTexture(texture.textureName);
+
+
+            /* The divide by 2.0F is needed to align with the scaled GUI coordinate system; startX/startY are already scaled */
+            float x1 = startX + (glyphX) / 2.0F;
+            float x2 = startX + (glyphX + texture.width) / 2.0F;
+            float y1 = startY + (glyph.y) / 2.0F;
+            float y2 = startY + (glyph.y + texture.height) / 2.0F;
+
+            int a = colors[glyphIndex] >> 24 & 0xff;
+            int r = colors[glyphIndex] >> 16 & 0xff;
+            int g = colors[glyphIndex] >> 8 & 0xff;
+            int b = colors[glyphIndex] & 0xff;
+
+            worldRenderer.pos(x1, y1, 0).tex(texture.u1, texture.v1).color(r, g, b, a).endVertex();
+            worldRenderer.pos(x1, y2, 0).tex(texture.u1, texture.v2).color(r, g, b, a).endVertex();
+            worldRenderer.pos(x2, y2, 0).tex(texture.u2, texture.v2).color(r, g, b, a).endVertex();
+            worldRenderer.pos(x2, y1, 0).tex(texture.u2, texture.v1).color(r, g, b, a).endVertex();
+        }
+
+        /* Draw any remaining glyphs in the Tessellator's vertex array (there should be at least one glyph pending) */
+        tessellator.draw();
+
+
+        /* Draw strikethrough and underlines if the string uses them anywhere */
+        if (entry.specialRender) {
+            int renderStyle = 0;
+
+            /* Use initial color passed to renderString(); disable texturing to draw solid color lines */
+            GlStateManager.disableTexture2D();
+            worldRenderer.begin(7, DefaultVertexFormats.POSITION);
+            GlStateManager.color(1, 1, 1, 1);
+
+            for (int glyphIndex = 0, colorIndex = 0; glyphIndex < entry.glyphs.length; glyphIndex++) {
+                /*
+                 * If the original string had a color code at this glyph's position, then change the current GL color that gets added
+                 * to the vertex array. The while loop handles multiple consecutive color codes, in which case only the last such
+                 * color code takes effect.
+                 */
+                while (colorIndex < entry.colors.length && entry.glyphs[glyphIndex].stringIndex >= entry.colors[colorIndex].stringIndex) {
+                    applyColorCode(entry.colors[colorIndex].colorCode, colors[glyphIndex], shadowFlag);
+                    renderStyle = entry.colors[colorIndex].renderStyle;
+                    colorIndex++;
+                }
+
+                /* Select the current glyph within this string for its layout position */
+                Glyph glyph = entry.glyphs[glyphIndex];
+
+                /* The strike/underlines are drawn beyond the glyph's width to include the extra space between glyphs */
+                int glyphSpace = glyph.advance - glyph.texture.width;
+
+                /* Draw underline under glyph if the style is enabled */
+                if ((renderStyle & ColorCode.UNDERLINE) != 0) {
+                    /* The divide by 2.0F is needed to align with the scaled GUI coordinate system; startX/startY are already scaled */
+                    float x1 = startX + (glyph.x - glyphSpace) / 2.0F;
+                    float x2 = startX + (glyph.x + glyph.advance) / 2.0F;
+                    float y1 = startY + (UNDERLINE_OFFSET) / 2.0F;
+                    float y2 = startY + (UNDERLINE_OFFSET + UNDERLINE_THICKNESS) / 2.0F;
+
+                    worldRenderer.pos(x1, y1, 0).endVertex();
+                    worldRenderer.pos(x1, y2, 0).endVertex();
+                    worldRenderer.pos(x2, y2, 0).endVertex();
+                    worldRenderer.pos(x2, y1, 0).endVertex();
+                }
+
+                /* Draw strikethrough in the middle of glyph if the style is enabled */
+                if ((renderStyle & ColorCode.STRIKETHROUGH) != 0) {
+                    /* The divide by 2.0F is needed to align with the scaled GUI coordinate system; startX/startY are already scaled */
+                    float x1 = startX + (glyph.x - glyphSpace) / 2.0F;
+                    float x2 = startX + (glyph.x + glyph.advance) / 2.0F;
+                    float y1 = startY + (STRIKETHROUGH_OFFSET) / 2.0F;
+                    float y2 = startY + (STRIKETHROUGH_OFFSET + STRIKETHROUGH_THICKNESS) / 2.0F;
+
+                    worldRenderer.pos(x1, y1, 0).endVertex();
+                    worldRenderer.pos(x1, y2, 0).endVertex();
+                    worldRenderer.pos(x2, y2, 0).endVertex();
+                    worldRenderer.pos(x2, y1, 0).endVertex();
+                }
+            }
+
+            /* Finish drawing the last strikethrough/underline segments */
+            tessellator.draw();
+            GlStateManager.enableTexture2D();
+        }
+
+
+        /* Return total horizontal advance (slightly wider than the bounding box, but close enough for centering strings) */
+        return entry.advance / 2;
+    }
+
+    public int renderStringWithGradient(String text, float x, float y, int color1, int color2, boolean dropShadow) {
+        int[] colors = new int[text.length()];
+        for (int i = 0; i < colors.length; i++) {
+            colors[i] = ColorUtil.getColor(new Color(color1), new Color(color2), 3000, i * 100);
+        }
+        return renderStringWithColors(text, x, y, colors, dropShadow);
+    }
+
     /**
      * Return the width of a string in pixels. Used for centering strings inside GUI buttons.
      *
@@ -622,7 +812,7 @@ public class StringCache {
         width += width;
 
         /* The glyph array for a string is sorted by the string's logical character position */
-        Glyph glyphs[] = cacheString(str).glyphs;
+        Glyph[] glyphs = cacheString(str).glyphs;
 
         /* Index of the last whitespace found in the string; used if breakAtSpaces is true */
         int wsIndex = -1;
@@ -737,15 +927,15 @@ public class StringCache {
         /* If string is not cached (or not on main thread) then layout the string */
         if (entry == null) {
             /* layoutGlyphVector() requires a char[] so create it here and pass it around to avoid duplication later on */
-            char text[] = str.toCharArray();
+            char[] text = str.toCharArray();
 
             /* Strip all color codes from the string */
             entry = new Entry();
             int length = stripColorCodes(entry, str, text);
 
             /* Layout the entire string, splitting it up by color codes and the Unicode bidirectional algorithm */
-            List<Glyph> glyphList = new ArrayList();
-            entry.advance = (int) layoutBidiString(glyphList, text, 0, length, entry.colors);
+            List<Glyph> glyphList = new ArrayList<>();
+            entry.advance = layoutBidiString(glyphList, text, 0, length, entry.colors);
 
             /* Convert the accumulated Glyph list to an array for efficient storage */
             entry.glyphs = new Glyph[glyphList.size()];
@@ -784,8 +974,8 @@ public class StringCache {
                 key = new Key();
 
                 /* Make a copy of the original String to avoid creating a strong reference to it */
-                key.str = new String(str);
-                entry.keyRef = new WeakReference(key);
+                key.str = str;
+                entry.keyRef = new WeakReference<>(key);
                 stringCache.put(key, entry);
             }
         }
@@ -819,8 +1009,8 @@ public class StringCache {
      * @param text       on input it should be an identical copy of str; on output it will be string with all color codes removed
      * @return the length of the new stripped string in text[]; actual text.length will not change because the array is not reallocated
      */
-    private int stripColorCodes(Entry cacheEntry, String str, char text[]) {
-        List<ColorCode> colorList = new ArrayList();
+    private int stripColorCodes(Entry cacheEntry, String str, char[] text) {
+        List<ColorCode> colorList = new ArrayList<>();
         int start = 0, shift = 0, next;
 
         byte fontStyle = Font.PLAIN;
@@ -875,7 +1065,7 @@ public class StringCache {
 
                 /* Otherwise, must be a color code or some other unsupported code */
                 default:
-                    if (code >= 0 && code <= 15) {
+                    if (code >= 0) {
                         colorCode = (byte) code;
                         fontStyle = Font.PLAIN; // This may be a bug in Minecraft's original FontRenderer
                         renderStyle = 0; // This may be a bug in Minecraft's original FontRenderer
@@ -915,7 +1105,7 @@ public class StringCache {
      * @param limit     the (offset + length) at which to stop performing the layout
      * @return the total advance (horizontal distance) of this string
      */
-    private int layoutBidiString(List<Glyph> glyphList, char text[], int start, int limit, ColorCode colors[]) {
+    private int layoutBidiString(List<Glyph> glyphList, char[] text, int start, int limit, ColorCode[] colors) {
         int advance = 0;
 
         /* Avoid performing full bidirectional analysis if text has no "strong" right-to-left characters */
@@ -931,13 +1121,13 @@ public class StringCache {
             /* Otherwise text has a mixture of LTR and RLT, and it requires full bidirectional analysis */
             else {
                 int runCount = bidi.getRunCount();
-                byte levels[] = new byte[runCount];
-                Integer ranges[] = new Integer[runCount];
+                byte[] levels = new byte[runCount];
+                Integer[] ranges = new Integer[runCount];
 
                 /* Reorder contiguous runs of text into their display order from left to right */
                 for (int index = 0; index < runCount; index++) {
                     levels[index] = (byte) bidi.getRunLevel(index);
-                    ranges[index] = new Integer(index);
+                    ranges[index] = index;
                 }
                 Bidi.reorderVisually(levels, 0, ranges, 0, runCount);
 
@@ -965,7 +1155,7 @@ public class StringCache {
         }
     }
 
-    private int layoutStyle(List<Glyph> glyphList, char text[], int start, int limit, int layoutFlags, int advance, ColorCode colors[]) {
+    private int layoutStyle(List<Glyph> glyphList, char[] text, int start, int limit, int layoutFlags, int advance, ColorCode[] colors) {
         int currentFontStyle = Font.PLAIN;
 
         /* Find ColorCode object with stripIndex <= start; that will have the font style in effect at the beginning of this text run */
@@ -1029,7 +1219,7 @@ public class StringCache {
      * @todo Correctly handling RTL font selection requires scanning the sctring from RTL as well.
      * @todo Use bitmap fonts as a fallback if no OpenType font could be found
      */
-    private int layoutString(List<Glyph> glyphList, char text[], int start, int limit, int layoutFlags, int advance, int style) {
+    private int layoutString(List<Glyph> glyphList, char[] text, int start, int limit, int layoutFlags, int advance, int style) {
         /*
          * Convert all digits in the string to a '0' before layout to ensure that any glyphs replaced on the fly will all have
          * the same positions. Under Windows, Java's "SansSerif" logical font uses the "Arial" font for digits, in which the "1"
@@ -1085,7 +1275,7 @@ public class StringCache {
      * @return the advance (horizontal distance) of this string plus the advance passed in as an argument
      * @todo need to ajust position of all glyphs if digits are present, by assuming every digit should be 0 in length
      */
-    private int layoutFont(List<Glyph> glyphList, char text[], int start, int limit, int layoutFlags, int advance, Font font) {
+    private int layoutFont(List<Glyph> glyphList, char[] text, int start, int limit, int layoutFlags, int advance, Font font) {
         /*
          * Ensure that all glyphs used by the string are pre-rendered and cached in the texture. Only safe to do so from the
          * main thread because cacheGlyphs() can crash LWJGL if it makes OpenGL calls from any other thread. In this case,

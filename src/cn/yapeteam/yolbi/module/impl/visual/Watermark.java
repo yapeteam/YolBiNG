@@ -53,6 +53,7 @@ public class Watermark extends HUDModule {
                 renderSimple();
                 break;
         }
+        mc.fontRendererObj.drawStringWithGradient("0123456789abc", 100, 100, 0, -1, false);
     }
 
     private void renderNew() {

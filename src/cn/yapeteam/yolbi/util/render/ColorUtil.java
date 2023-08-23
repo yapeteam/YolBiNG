@@ -64,4 +64,25 @@ public class ColorUtil {
 
         return Color.HSBtoRGB(scale, saturation, brightness);
     }
+
+    public static int getOppositeColor(int color) {
+        int R = bitChangeColor(color, 0);
+        int G = bitChangeColor(color, 8);
+        int B = bitChangeColor(color, 16);
+        int A = bitChangeColor(color, 24);
+        R = 255 - R;
+        G = 255 - G;
+        B = 255 - B;
+        return R + (G << 8) + (B << 16) + (A << 24);
+    }
+
+    public static Color getOppositeColor(Color color) {
+        return new Color(getOppositeColor(color.getRGB()));
+    }
+
+
+    private static int bitChangeColor(int color, int bitChange) {
+        return (color >> bitChange) & 255;
+    }
+
 }
