@@ -13,6 +13,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 
+@SuppressWarnings("DuplicatedCode")
 public class FileSystem {
     private final File vestigeDir;
     private final File vestigeConfigDir;
@@ -20,16 +21,16 @@ public class FileSystem {
     public FileSystem() {
         File mcDir = Minecraft.getMinecraft().mcDataDir;
 
-        vestigeDir = new File(mcDir, "Vestige v3");
+        vestigeDir = new File(mcDir, "YolBiNextGen");
 
         if (!vestigeDir.exists()) {
-            vestigeDir.mkdir();
+            boolean ignored = vestigeDir.mkdir();
         }
 
         vestigeConfigDir = new File(vestigeDir, "configs");
 
         if (!vestigeConfigDir.exists()) {
-            vestigeConfigDir.mkdir();
+            boolean ignored = vestigeConfigDir.mkdir();
         }
     }
 
@@ -40,7 +41,7 @@ public class FileSystem {
             File configFile = new File(vestigeConfigDir, configName + ".txt");
 
             if (!configFile.exists()) {
-                configFile.createNewFile();
+                boolean ignored = configFile.createNewFile();
             }
 
             PrintWriter writer = new PrintWriter(configFile);
@@ -97,7 +98,7 @@ public class FileSystem {
                 reader.close();
 
                 for (String s : lines) {
-                    String infos[] = s.split(":");
+                    String[] infos = s.split(":");
 
                     if (infos.length >= 3) {
                         String type = infos[0];
@@ -152,7 +153,7 @@ public class FileSystem {
             File keybindsFile = new File(vestigeDir, "keybinds.txt");
 
             if (!keybindsFile.exists()) {
-                keybindsFile.createNewFile();
+                boolean ignored = keybindsFile.createNewFile();
             }
 
             PrintWriter writer = new PrintWriter(keybindsFile);
@@ -191,7 +192,7 @@ public class FileSystem {
                 reader.close();
 
                 for (String s : lines) {
-                    String infos[] = s.split(":");
+                    String[] infos = s.split(":");
 
                     if (infos.length == 2) {
                         String moduleName = infos[0];
