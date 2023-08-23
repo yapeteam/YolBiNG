@@ -766,11 +766,7 @@ public class StringCache {
     }
 
     public int renderStringWithGradient(String text, float x, float y, int color1, int color2, boolean dropShadow) {
-        int[] colors = new int[text.length()];
-        for (int i = 0; i < colors.length; i++) {
-            colors[i] = ColorUtil.getColor(new Color(color1), new Color(color2), 3000, i * 100);
-        }
-        return renderStringWithColors(text, x, y, colors, dropShadow);
+        return renderStringWithColors(text, x, y, ColorUtil.generateGradientColors(color1, color2, text.length()), dropShadow);
     }
 
     /**

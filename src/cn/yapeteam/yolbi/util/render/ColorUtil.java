@@ -20,7 +20,7 @@ public class ColorUtil {
         return getGradient(color1, color2, finalScale).getRGB();
     }
 
-    public static int getColor(float hueoffset, float saturation, float brightness ) {
+    public static int getColor(float hueoffset, float saturation, float brightness) {
         float speed = 4500f;
         float hue = System.currentTimeMillis() % speed / speed;
         return Color.HSBtoRGB(hue - hueoffset / 54, saturation, brightness);
@@ -63,6 +63,89 @@ public class ColorUtil {
         float scale = ((System.currentTimeMillis() + offset) % ms) / (float) ms;
 
         return Color.HSBtoRGB(scale, saturation, brightness);
+    }
+
+    /**
+     * @param startColor Color
+     * @param endColor   Color
+     * @param size       int
+     * @return Color[]
+     * @author 来自GPT的神秘力量
+     */
+    public static Color[] generateGradientColors(Color startColor, Color endColor, int size) {
+        Color[] gradientColors = new Color[size];
+
+        // 提取起始颜色和结束颜色的RGB值
+        int startRed = startColor.getRed();
+        int startGreen = startColor.getGreen();
+        int startBlue = startColor.getBlue();
+        int endRed = endColor.getRed();
+        int endGreen = endColor.getGreen();
+        int endBlue = endColor.getBlue();
+
+        // 计算颜色差值
+        int redDiff = endRed - startRed;
+        int greenDiff = endGreen - startGreen;
+        int blueDiff = endBlue - startBlue;
+
+        // 计算每一步的颜色增量
+        double redStep = (double) redDiff / (size - 1);
+        double greenStep = (double) greenDiff / (size - 1);
+        double blueStep = (double) blueDiff / (size - 1);
+
+        // 生成渐变色数组
+        for (int i = 0; i < size; i++) {
+            int red = (int) (startRed + redStep * i);
+            int green = (int) (startGreen + greenStep * i);
+            int blue = (int) (startBlue + blueStep * i);
+
+            gradientColors[i] = new Color(red, green, blue);
+        }
+
+        return gradientColors;
+    }
+
+    /**
+     * @param startColor int
+     * @param endColor   int
+     * @param size       int
+     * @return int[]
+     * @author 来自GPT的神秘力量
+     */
+    public static int[] generateGradientColors(int startColor, int endColor, int size) {
+        int[] gradientColors = new int[size];
+
+        Color startColorC = new Color(startColor);
+        Color endColorC = new Color(endColor);
+
+        // 提取起始颜色和结束颜色的RGB值
+        int startRed = startColorC.getRed();
+        int startGreen = startColorC.getGreen();
+        int startBlue = startColorC.getBlue();
+        int endRed = endColorC.getRed();
+        int endGreen = endColorC.getGreen();
+        int endBlue = endColorC.getBlue();
+
+        // 计算颜色差值
+        int redDiff = endRed - startRed;
+        int greenDiff = endGreen - startGreen;
+        int blueDiff = endBlue - startBlue;
+
+        // 计算每一步的颜色增量
+        double redStep = (double) redDiff / (size - 1);
+        double greenStep = (double) greenDiff / (size - 1);
+        double blueStep = (double) blueDiff / (size - 1);
+
+        // 生成渐变色数组
+        for (int i = 0; i < size; i++) {
+            int red = (int) (startRed + redStep * i);
+            int green = (int) (startGreen + greenStep * i);
+            int blue = (int) (startBlue + blueStep * i);
+
+            gradientColors[i] = new Color(red, green, blue).getRGB();
+        }
+
+        return gradientColors;
     }
 
     public static int getOppositeColor(int color) {
