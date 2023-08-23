@@ -1,4 +1,4 @@
-package cn.yapeteam.yolbi.util.animation;
+package cn.yapeteam.yolbi.util.auth.animation;
 
 import cn.yapeteam.yolbi.values.Visibility;
 import cn.yapeteam.yolbi.values.impl.ModeValue;

@@ -1,4 +1,4 @@
-package cn.yapeteam.yolbi.util.animation;
+package cn.yapeteam.yolbi.util.auth.animation;
 
 import lombok.Getter;
 import lombok.Setter;

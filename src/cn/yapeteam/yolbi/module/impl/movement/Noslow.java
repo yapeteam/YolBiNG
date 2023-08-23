@@ -4,6 +4,7 @@ import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
 import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
+import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
 import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
 import cn.yapeteam.yolbi.event.impl.player.SlowdownEvent;
 import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
@@ -12,6 +13,7 @@ import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.impl.combat.Killaura;
 import cn.yapeteam.yolbi.util.misc.TimerUtil;
+import cn.yapeteam.yolbi.util.player.MovementUtil;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
@@ -26,14 +28,15 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.network.play.client.*;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import org.lwjgl.input.Mouse;
 
 import java.util.LinkedList;
 
 public class Noslow extends Module {
 
-    private final ModeValue<String> swordMethod = new ModeValue<>("Sword method", "Vanilla", "Vanilla", "NCP", "AAC4", "AAC5", "Spoof", "Spoof2", "Blink","GrimAC", "None");
-    private final ModeValue<String> consumableMethod = new ModeValue<>("Comsumable method", "Vanilla", "Vanilla", "Hypixel", "AAC4", "AAC5","GrimAC", "None");
+    private final ModeValue<String> swordMethod = new ModeValue<>("Sword method", "Vanilla", "Vanilla", "NCP", "AAC4", "AAC5", "Spoof", "Spoof2", "Blink","GrimAC","GrimACSwitch","Intave", "None");
+    private final ModeValue<String> consumableMethod = new ModeValue<>("Comsumable method", "Vanilla", "Vanilla", "Hypixel", "AAC4", "AAC5","GrimAC","GrimACSwitch","Intave", "None");
 
     private final NumberValue<Double> forward = new NumberValue<>("Forward", 1.0, 0.2, 1.0, 0.05);
     private final NumberValue<Double> strafe = new NumberValue<>("Strafe", 1.0, 0.2, 1.0, 0.05);
@@ -55,6 +58,10 @@ public class Noslow extends Module {
 
     private boolean wasEating;
     private boolean lastBlockingStat = false;
+    private long delay = 100L; // for intave mode
+    private boolean funnyBoolean = false; // for intave mode
+
+
 
     public Noslow() {
         super("Noslow", ModuleCategory.MOVEMENT);
@@ -250,7 +257,6 @@ public class Noslow extends Module {
     @Listener
     public void onPostMotion(PostMotionEvent event) {
         boolean usingItem = mc.thePlayer.isUsingItem();
-
         if (usingItem) {
             if (isBlocking()) {
                 switch (swordMethod.getValue()) {
@@ -264,9 +270,30 @@ public class Noslow extends Module {
                             PacketUtil.sendBlocking(true, false);
                         }
                         break;
+                    case "Intave":
+                        if (MovementUtil.isMoving() && msTimer.delay(delay)){
+                            PacketUtil.sendPacketNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+                            delay = funnyBoolean? 100L: 200L;
+                            funnyBoolean = !funnyBoolean;
+                            msTimer.reset();
+                        }
+                        break;
                 }
+            }else {
+                switch (consumableMethod.getValue()){
+                    case "Intave":
+                        if (MovementUtil.isMoving() && msTimer.delay(delay)){
+                            PacketUtil.sendPacketNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+                            delay = funnyBoolean? 100L: 200L;
+                            funnyBoolean = !funnyBoolean;
+                            msTimer.reset();
+                        }
+                        break;
+                }
+
             }
         }
+
 
         lastUsingItem = usingItem;
 
@@ -321,6 +348,41 @@ public class Noslow extends Module {
             event.setRenderBlocking(true);
         }
     }
+
+    @Listener
+    public void onMotion(MotionEvent event){
+        if (isUsingItem() && MovementUtil.isMoving()){
+            if (isBlocking()){
+                switch (swordMethod.getValue()){
+                    case "GrimACSwitch":
+                        int cItem = mc.thePlayer.inventory.currentItem;
+                        PacketUtil.sendPacketNoEvent(new C09PacketHeldItemChange((cItem+1) % 9 ) );
+                        PacketUtil.sendPacketNoEvent(new C09PacketHeldItemChange(cItem));
+                        break;
+                    case "Intave":
+                        if (msTimer.delay(delay)) {
+                            PacketUtil.sendPacketNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+                        }
+                        break;
+                }
+            }else {
+                switch (consumableMethod.getValue()){
+                    case "GrimACSwitch":
+                        int cItem = mc.thePlayer.inventory.currentItem;
+                        PacketUtil.sendPacketNoEvent(new C09PacketHeldItemChange((cItem+1) % 9 ) );
+                        PacketUtil.sendPacketNoEvent(new C09PacketHeldItemChange(cItem));
+                        break;
+                    case "Intave":
+                        if (msTimer.delay(delay)) {
+                            PacketUtil.sendPacketNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+                        }
+                        break;
+                }
+
+            }
+        }
+    }
+
 
     public boolean isBlocking() {
         return mc.thePlayer.isUsingItem() && isHoldingSword();

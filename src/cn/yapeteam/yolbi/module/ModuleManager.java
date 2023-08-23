@@ -57,7 +57,7 @@ public class ModuleManager {
         modules.add(new FastPlace());
         modules.add(new AutoTool());
         modules.add(new Autoplace());
-
+        modules.add(new AutoGapple());
         modules.add(new Scaffold());
         modules.add(new AutoBridge());
         modules.add(new Breaker());
