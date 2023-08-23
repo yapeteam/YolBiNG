@@ -69,11 +69,13 @@ public class ModuleManager {
         //modules.add(new ClickGuiModule());
         modules.add(new ClickUI());
         modules.add(new ESP());
+        modules.add(new ItemPhysic());
         modules.add(new Chams());
         modules.add(new Animations());
         modules.add(new Rotations());
         modules.add(new TargetHUD());
         modules.add(new Keystrokes());
+        modules.add(new Mobends());
         modules.add(new Freelook());
         modules.add(new Ambience());
         modules.add(new Fullbright());

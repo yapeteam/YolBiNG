@@ -5,8 +5,11 @@ import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
 import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
 import cn.yapeteam.yolbi.event.impl.player.*;
+import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.util.misc.TimerUtil;
+import cn.yapeteam.yolbi.util.render.RenderUtil;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
@@ -20,11 +23,13 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0APacketAnimation;
+import net.minecraft.network.play.client.C0CPacketInput;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Timer;
 
 @SuppressWarnings("SwitchStatementWithTooFewBranches")
 public class Fly extends Module {
@@ -39,6 +44,8 @@ public class Fly extends Module {
     private final ModeValue<String> ncpMode = new ModeValue<>("NCP Mode", () -> mode.is("NCP"), "Old", "Old");
     private final NumberValue<Double> ncpSpeed = new NumberValue<>("NCP speed", () -> mode.is("NCP") && ncpMode.is("Old"), 1.0, 0.3, 1.7, 0.05);
     private final BooleanValue damage = new BooleanValue("Damage", () -> mode.is("NCP") && ncpMode.is("Old"), false);
+    private final BooleanValue DJC = new BooleanValue("DJCAutoDisable", () -> mode.is("NCP") && ncpMode.is("Old"), false);
+    private final NumberValue<Float> Timer = new NumberValue<>("NCP Timer", () -> mode.is("NCP") && ncpMode.is("Old"), 1.0f, 0.1f, 5.0f, 0.05f);
 
     private final ModeValue<String> velocityMode = new ModeValue<>("Velocity Mode", () -> mode.is("Velocity"), "Bow", "Bow", "Bow2", "Wait for hit");
 
@@ -61,10 +68,11 @@ public class Fly extends Module {
     private float lastYaw;
 
     private BlockPos lastBarrier;
+    private TimerUtil DJCTimer = new TimerUtil();
 
     public Fly() {
         super("Fly", ModuleCategory.MOVEMENT);
-        this.addValues(mode, vanillaMode, vanillaSpeed, vanillaVerticalSpeed, ncpMode, ncpSpeed, damage, velocityMode, automated);
+        this.addValues(mode, vanillaMode, vanillaSpeed, vanillaVerticalSpeed, ncpMode, ncpSpeed, damage, DJC,Timer,velocityMode, automated);
     }
 
     @Override
@@ -83,7 +91,7 @@ public class Fly extends Module {
         lastYaw = mc.thePlayer.rotationYaw;
 
         lastBarrier = null;
-
+        DJCTimer.reset();
         switch (mode.getValue()) {
             case "NCP":
                 if (ncpMode.is("Old")) {
@@ -109,7 +117,7 @@ public class Fly extends Module {
     @Override
     public void onDisable() {
         mc.thePlayer.capabilities.isFlying = false;
-
+        mc.timer.timerSpeed = 1;
         YolBi.instance.getPacketBlinkHandler().stopAll();
 
         switch (mode.getValue()) {
@@ -263,6 +271,11 @@ public class Fly extends Module {
                             MovementUtil.strafe(event, speed);
 
                             speed -= speed / 159;
+                            mc.timer.timerSpeed = Timer.getValue();
+                            if (DJC.getValue() && DJCTimer.delay((long) (2500L/Timer.getValue()))){
+                                DJCTimer.reset();
+                                this.setEnabled(false);
+                            }
                         }
                         break;
                 }
@@ -558,6 +571,18 @@ public class Fly extends Module {
                 break;
         }
     }
+//    @Listener
+//    public void onRender(RenderEvent event){
+//        if (mode.is("NCP")) {
+//            if (ncpMode.is("Old")) {
+//                if (DJC.getValue()){
+//                    //System.out.println(DJCTimer.getTimeElapsed());
+//                    YolBi.instance.getFontManager().getPingFang18().drawCenteredString(String.valueOf(DJCTimer.getTimeElapsed()),
+//                            100, 100, -1);
+//                }
+//            }
+//        }
+//    }
 
     @Override
     public String getSuffix() {
