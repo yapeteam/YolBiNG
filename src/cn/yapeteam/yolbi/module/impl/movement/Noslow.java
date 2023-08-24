@@ -271,23 +271,39 @@ public class Noslow extends Module {
                         }
                         break;
                     case "Intave":
-                        if (MovementUtil.isMoving() && msTimer.delay(delay)){
-                            PacketUtil.sendPacketNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
-                            delay = funnyBoolean? 100L: 200L;
-                            funnyBoolean = !funnyBoolean;
+
+                        if ( msTimer.delay(delay)){
+                            delay = 200L;
+                            if (funnyBoolean) {
+                                delay = 100L;
+                                funnyBoolean = false;
+                            } else
+                                funnyBoolean = true;
                             msTimer.reset();
                         }
+
+
+//                        }
                         break;
                 }
             }else {
                 switch (consumableMethod.getValue()){
                     case "Intave":
-                        if (MovementUtil.isMoving() && msTimer.delay(delay)){
-                            PacketUtil.sendPacketNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
-                            delay = funnyBoolean? 100L: 200L;
-                            funnyBoolean = !funnyBoolean;
+
+                        if ( msTimer.delay(delay)){
+                            mc.playerController.syncCurrentPlayItem();
+                            PacketUtil.sendPacketNoEvent(new C07PacketPlayerDigging(                                            C07PacketPlayerDigging.Action.RELEASE_USE_ITEM,
+                                    BlockPos.ORIGIN,
+                                    EnumFacing.DOWN));
+                            delay = 200L;
+                            if (funnyBoolean) {
+                                delay = 100L;
+                                funnyBoolean = false;
+                            } else
+                                funnyBoolean = true;
                             msTimer.reset();
                         }
+
                         break;
                 }
 
@@ -360,8 +376,11 @@ public class Noslow extends Module {
                         PacketUtil.sendPacketNoEvent(new C09PacketHeldItemChange(cItem));
                         break;
                     case "Intave":
-                        if (msTimer.delay(delay)) {
-                            PacketUtil.sendPacketNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+                        if ( msTimer.delay(delay)){
+                            //mc.playerController.syncCurrentPlayItem();
+                            PacketUtil.sendPacketNoEvent(new C07PacketPlayerDigging(                                            C07PacketPlayerDigging.Action.RELEASE_USE_ITEM,
+                                    BlockPos.ORIGIN,
+                                    EnumFacing.DOWN));
                         }
                         break;
                 }
@@ -373,8 +392,11 @@ public class Noslow extends Module {
                         PacketUtil.sendPacketNoEvent(new C09PacketHeldItemChange(cItem));
                         break;
                     case "Intave":
-                        if (msTimer.delay(delay)) {
-                            PacketUtil.sendPacketNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+                        if ( msTimer.delay(delay)){
+                            mc.playerController.syncCurrentPlayItem();
+                            PacketUtil.sendPacketNoEvent(new C07PacketPlayerDigging(                                            C07PacketPlayerDigging.Action.RELEASE_USE_ITEM,
+                                    BlockPos.ORIGIN,
+                                    EnumFacing.DOWN));
                         }
                         break;
                 }

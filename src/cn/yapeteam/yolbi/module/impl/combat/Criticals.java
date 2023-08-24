@@ -19,7 +19,7 @@ import cn.yapeteam.yolbi.module.Module;
 
 public class Criticals extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>("Mode", "Packet", "Packet", "Minijump", "NCP");
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Packet", "Packet", "Minijump", "NCP","Edit");
 
     private final NumberValue<Integer> hurtTime = new NumberValue<>("Hurt time", () -> mode.is("Minijump"), 2, 1, 6, 1);
     private final NumberValue<Double> motionY = new NumberValue<>("Motion Y", () -> mode.is("Minijump"), 0.08, 0.005, 0.42, 0.005);
@@ -95,5 +95,8 @@ public class Criticals extends Module {
             }
         }
     }
+
+//    @Listener
+//    public void
 
 }

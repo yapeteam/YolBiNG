@@ -16,8 +16,8 @@ import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
 
 public class Velocity extends Module {
-    public final ModeValue<String> mode = new ModeValue<>("Mode", "Packet", "Packet", "Hypixel", "Packet loss", "Legit");
-    private final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", () -> mode.is("Packet"), 0, 0, 100, 2);
+    public final ModeValue<String> mode = new ModeValue<>("Mode", "Packet", "Packet", "Hypixel", "Packet loss", "Legit","Intave");
+    private final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", () -> (mode.is("Packet")|| mode.is("Intave")), 0, 0, 100, 2);
     private final NumberValue<Integer> vertical = new NumberValue<>("Vertical", () -> mode.is("Packet"), 0, 0, 100, 2);
     private boolean reducing;
     private boolean pendingVelocity;
@@ -116,6 +116,19 @@ public class Velocity extends Module {
                                 reducing = true;
                             }
                             break;
+                        case "Intave": {
+                            if (mc.currentScreen == null) {
+                                packet.setMotionX((int) (packet.getMotionX() * horizontal.getValue() / 100.0));
+                                packet.setMotionZ((int) (packet.getMotionZ() * horizontal.getValue() / 100.0));
+                                if (mc.thePlayer.hurtTime ==9){
+                                    mc.gameSettings.keyBindSprint.setPressed(true);
+                                    mc.gameSettings.keyBindForward.setPressed(true);
+                                    mc.gameSettings.keyBindJump.setPressed(true);
+                                    mc.gameSettings.keyBindBack.setPressed(false);
+                                }
+                            }
+                            break;
+                        }
                     }
                 }
             }
