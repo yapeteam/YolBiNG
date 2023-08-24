@@ -40,8 +40,12 @@ public class ImplScreen extends GuiScreen {
         font.drawString(text, (sr.getScaledWidth() - font.getStringWidth(text)) / 2f, (sr.getScaledHeight() / 2f - font.getHeight()) / 2f, new Color(5, 134, 105));
         String time = new SimpleDateFormat("HH:mm").format(new Date());
         AbstractFontRenderer font2 = YolBi.instance.getFontManager().getPingFang18();
-        font2.drawString(time, (sr.getScaledWidth() - font2.getStringWidth(text)) / 2f, (sr.getScaledHeight() / 2f - font.getHeight()) / 2f + 30, new Color(158, 158, 158));
         components.forEach(c -> c.drawComponent(mouseX, mouseY, partialTicks));
+        font2.drawString(time, (sr.getScaledWidth() - font2.getStringWidth(text)) / 2f, (sr.getScaledHeight() / 2f - font.getHeight()) / 2f + 32, new Color(255, 255, 255));
+
+        font2.drawString("Made by yuxiangll,Timer_err",5,sr.getScaledHeight()-10,-1);
+        font2.drawString("(Charity) Version 2.0",5,sr.getScaledHeight()-20,-1);
+
     }
 
     @Override
