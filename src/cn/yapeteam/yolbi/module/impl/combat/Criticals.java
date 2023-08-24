@@ -1,8 +1,10 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
 import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
 import cn.yapeteam.yolbi.event.impl.player.MoveEvent;
 import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
+import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
 import cn.yapeteam.yolbi.module.impl.movement.Speed;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
@@ -28,6 +30,9 @@ public class Criticals extends Module {
 
     private Killaura killauraModule;
     private Speed speedModule;
+
+    private boolean stage;
+    private int groundTicks;
 
     public Criticals() {
         super("Criticals", ModuleCategory.COMBAT);
@@ -96,7 +101,27 @@ public class Criticals extends Module {
         }
     }
 
-//    @Listener
-//    public void
+    @Listener
+    public void onMotion(MotionEvent event){
+        if (mode.is("Edit")){
+            if (killauraModule.isEnabled() && killauraModule.getTarget() != null) {
+                if (killauraModule.getTarget() instanceof EntityPlayer) {
+                    if (event.isOnGround()){
+                        groundTicks++;
+                        if(groundTicks > 2) {
+                            stage = !stage;
+                            event.setY(event.getY() + (stage ? 0.015 : 0.01) - Math.random() * 0.0001);
+                            event.setOnGround(false);
+                        }
+                    }else {
+                        groundTicks = 0;
+                    }
+                }
+            }
+        }
+
+    }
+
+
 
 }
