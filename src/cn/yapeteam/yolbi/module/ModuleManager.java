@@ -1,18 +1,12 @@
 package cn.yapeteam.yolbi.module;
 
 import cn.yapeteam.yolbi.module.impl.combat.*;
-import cn.yapeteam.yolbi.module.impl.exploit.Disabler;
-import cn.yapeteam.yolbi.module.impl.exploit.StrafeConverter;
-import cn.yapeteam.yolbi.module.impl.misc.AnticheatModule;
-import cn.yapeteam.yolbi.module.impl.misc.Autoplay;
-import cn.yapeteam.yolbi.module.impl.misc.NoteBot;
-import cn.yapeteam.yolbi.module.impl.misc.SelfDestruct;
+import cn.yapeteam.yolbi.module.impl.exploit.*;
+import cn.yapeteam.yolbi.module.impl.misc.*;
 import cn.yapeteam.yolbi.module.impl.movement.*;
 import cn.yapeteam.yolbi.module.impl.player.*;
 import cn.yapeteam.yolbi.module.impl.visual.*;
-import cn.yapeteam.yolbi.module.impl.world.AutoBridge;
-import cn.yapeteam.yolbi.module.impl.world.Breaker;
-import cn.yapeteam.yolbi.module.impl.world.Scaffold;
+import cn.yapeteam.yolbi.module.impl.world.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +46,7 @@ public class ModuleManager {
         modules.add(new ChestStealer());
         modules.add(new InventoryManager());
         modules.add(new NoFall());
+        modules.add(new KeepInv());
         modules.add(new AntiVoid());
         modules.add(new Timer());
         modules.add(new FastPlace());
@@ -85,7 +80,6 @@ public class ModuleManager {
         modules.add(new Particles());
         modules.add(new Disabler());
         modules.add(new StrafeConverter());
-
         modules.add(new AnticheatModule());
         modules.add(new Autoplay());
         modules.add(new SelfDestruct());
