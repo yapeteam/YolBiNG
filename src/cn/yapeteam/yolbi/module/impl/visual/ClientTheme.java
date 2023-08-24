@@ -11,7 +11,7 @@ import cn.yapeteam.yolbi.values.impl.NumberValue;
 import java.awt.*;
 
 public class ClientTheme extends Module {
-    public final ModeValue<String> color = new ModeValue<>("Color", "Blue", "White", "Blue", "Vape", "Custom static", "Custom fade", "Custom 3 colors", "Rainbow");
+    public final ModeValue<String> color = new ModeValue<>("Color", "Custom fade", "White", "Blue", "Vape", "Custom static", "Custom fade", "Custom 3 colors", "Rainbow");
     private final ColorValue color1 = new ColorValue("Color1", () -> color.getValue().startsWith("Custom"), new Color(210, 80, 105).getRGB());
     private final ColorValue color2 = new ColorValue("Color2", () -> color.getValue().startsWith("Custom"), new Color(135, 190, 255).getRGB());
     private final ColorValue color3 = new ColorValue("Color3", () -> color.getValue().startsWith("Custom"), new Color(0, 255, 255).getRGB());
