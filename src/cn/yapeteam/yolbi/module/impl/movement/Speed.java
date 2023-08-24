@@ -21,6 +21,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockIce;
 import net.minecraft.block.BlockPackedIce;
 import net.minecraft.block.BlockSlime;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
 
 public class Speed extends Module {
 
-    public final ModeValue<String> mode = new ModeValue<>("Mode", "Vanilla", "Vanilla", "NCP", "Watchdog", "Blocksmc", "MMC", "Strafe", "Fake strafe");
+    public final ModeValue<String> mode = new ModeValue<>("Mode", "Vanilla", "Vanilla", "NCP", "Watchdog", "Blocksmc", "MMC", "Strafe", "Fake strafe","KKC");
 
     private final NumberValue<Double> vanillaSpeed = new NumberValue<>("Vanilla speed", () -> mode.is("Vanilla"), 1.0, 0.2, 9.0, 0.1);
     private final BooleanValue autoJump = new BooleanValue("Autojump", () -> mode.is("Vanilla") || mode.is("Strafe"), true);
@@ -684,6 +685,9 @@ public class Speed extends Module {
 
                 lastDirection = direction;
                 break;
+            case "KKC":{
+                MovementUtil.strafe(event);
+            }
         }
     }
 
@@ -872,6 +876,18 @@ public class Speed extends Module {
 
                 if (started) {
                     event.setPitch(counter % 2 == 0 || !fullScaffold.getValue() ? -82 : 82);
+                }
+                break;
+            case "KKC":
+                mc.thePlayer.motionY -= 0.00348;
+                mc.thePlayer.jumpMovementFactor = 0.026f;
+                mc.gameSettings.keyBindJump.setPressed(GameSettings.isKeyDown(mc.gameSettings.keyBindJump));
+                if (MovementUtil.isMoving() && mc.thePlayer.onGround) {
+                    mc.gameSettings.keyBindJump.setPressed(false);
+                    mc.thePlayer.jump();
+                    MovementUtil.strafe();
+                } else if (MovementUtil.getSpeedAmplifier() < 0.215) {
+                    MovementUtil.strafe(0.215f);
                 }
                 break;
         }

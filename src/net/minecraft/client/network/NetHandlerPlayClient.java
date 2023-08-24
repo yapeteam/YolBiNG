@@ -23,7 +23,7 @@ import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiDisconnected;
 import net.minecraft.client.gui.GuiDownloadTerrain;
 import net.minecraft.client.gui.GuiMerchant;
-import net.minecraft.client.gui.GuiMultiplayer;
+import cn.yapeteam.yolbi.ui.guiMultiplayer.GuiMultiplayer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.gui.GuiScreenDemo;

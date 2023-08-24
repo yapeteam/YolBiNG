@@ -2,6 +2,7 @@ package cn.yapeteam.yolbi.ui.menu;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.font.cfont.VestigeFontRenderer;
+import cn.yapeteam.yolbi.ui.guiMultiplayer.GuiMultiplayer;
 import cn.yapeteam.yolbi.ui.menu.components.Button;
 import cn.yapeteam.yolbi.util.misc.AudioUtil;
 import cn.yapeteam.yolbi.util.render.ColorUtil;
