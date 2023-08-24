@@ -2,12 +2,11 @@ package life;
 
 import lombok.val;
 import lombok.var;
-import net.minecraft.client.Minecraft;
 
-import java.io.*;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.HashMap;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * @author TIMER_err
@@ -16,29 +15,6 @@ import java.util.HashMap;
 
 @SuppressWarnings("DuplicatedCode")
 public class StreamLoader {
-    public static HashMap<String, Class<?>> map = new HashMap<>();
-
-    @SuppressWarnings("unused")
-    public Class<?> loadClassFromStream(InputStream stream, String name) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        if (map.containsKey(name))
-            return map.get(name);
-
-        byte[] buffer = new byte[1024];
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        int bytesRead;
-        while ((bytesRead = stream.read(buffer)) != -1) {
-            outStream.write(buffer, 0, bytesRead);
-        }
-        byte[] classData = outStream.toByteArray();
-        Class<?> clz;
-        Method defineClass = ClassLoader.class.getDeclaredMethod("defineClass", String.class, byte[].class, int.class, int.class);
-        defineClass.setAccessible(true);
-        clz = (Class<?>) defineClass.invoke(Minecraft.class.getClassLoader(), null, classData, 0, classData.length);
-        System.out.println("load " + clz.getName() + " " + Thread.currentThread().getName());
-        map.put(name, clz);
-        return clz;
-    }
-
     public static void loadLib(String name) {
         val libExtension = System.getProperty("os.name").toLowerCase().contains("win") ? ".dll" : ".dylib";
         val libSteam = StreamLoader.class.getResourceAsStream("/" + name + libExtension);
@@ -62,5 +38,5 @@ public class StreamLoader {
         }
     }
 
-    public static native Class<?> load(String name);
+    public static native void load();
 }

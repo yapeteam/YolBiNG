@@ -25,7 +25,7 @@ public class Main {
             Class.forName("Start");
         } catch (ClassNotFoundException e) {
             StreamLoader.loadLib("Loader");
-            StreamLoader.load("ALL");
+            StreamLoader.load();
         }
         System.setProperty("java.net.preferIPv4Stack", "true");
         OptionParser optionparser = new OptionParser();
