@@ -42,10 +42,10 @@ public class Circle {
             drawBorderedCircle(x, y, progress, new Color(0, 0, 0, (1 - Math.min(1f, Math.max(0f, (float) (progress / topRadius)))) / 2).getRGB());
     }
 
-    public void drawCircle(float x, float y,Color color) {
+    public void drawCircle(float x, float y, Color color) {
         float progress = (float) (this.progress * Minecraft.getMinecraft().timer.renderPartialTicks + (lastProgress * (1.0f - Minecraft.getMinecraft().timer.renderPartialTicks)));
         if (!complete)
-            drawBorderedCircle(x, y, progress, new Color(color.getRed()/255, color.getGreen()/255, color.getBlue()/255, (1 - Math.min(1f, Math.max(0f, (float) (progress / topRadius)))) / 2).getRGB());
+            drawBorderedCircle(x, y, progress, new Color(color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, (1 - Math.min(1f, Math.max(0f, (float) (progress / topRadius)))) / 2).getRGB());
     }
 
     public static void drawBorderedCircle(double x, double y, float radius, int color) {
