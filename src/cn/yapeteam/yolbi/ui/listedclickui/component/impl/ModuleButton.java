@@ -56,7 +56,7 @@ public class ModuleButton extends AbstractComponent {
     }
 
     private float lastExpand;
-    private float parentHeight = 0;
+    private float parentExtendedHeight = 0;
 
     @Override
     public void update() {
@@ -76,8 +76,10 @@ public class ModuleButton extends AbstractComponent {
             if (!(component instanceof ValueButton && !((ValueButton) component).getValue().getVisibility().get()))
                 extend += component.getHeight() + ImplScreen.valueSpacing;
         if (lastExpand != extend) {
-            if (extended)
+            if (extended) {
                 getParent().setHeight(getParent().getHeight() + (extend - lastExpand));//更新展开长度
+                parentExtendedHeight += extend - lastExpand;
+            }
             lastExpand = extend;
         }
         super.update();
@@ -139,9 +141,12 @@ public class ModuleButton extends AbstractComponent {
                             extend += component.getHeight() + ImplScreen.valueSpacing;
                     extended = !extended;
                     if (extended) {
-                        parentHeight = getParent().getHeight();
+                        parentExtendedHeight += Math.min(extend, 100);
                         getParent().setHeight(getParent().getHeight() + Math.min(extend, 100));
-                    } else getParent().setHeight(parentHeight);
+                    } else {
+                        getParent().setHeight(getParent().getHeight() - parentExtendedHeight);
+                        parentExtendedHeight = 0;
+                    }
                 }
             }
         if (extended)
