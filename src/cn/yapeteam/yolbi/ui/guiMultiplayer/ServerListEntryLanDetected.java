@@ -1,6 +1,8 @@
-package net.minecraft.client.gui;
+package cn.yapeteam.yolbi.ui.guiMultiplayer;
 
+import cn.yapeteam.yolbi.ui.guiMultiplayer.GuiMultiplayer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.network.LanServerDetector;
 import net.minecraft.client.resources.I18n;
 

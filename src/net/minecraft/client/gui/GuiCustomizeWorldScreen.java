@@ -987,7 +987,7 @@ public class GuiCustomizeWorldScreen extends GuiScreen implements GuiSlider.Form
             GlStateManager.disableFog();
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-            this.mc.getTextureManager().bindTexture(optionsBackground);
+            this.mc.getTextureManager().bindTexture(optionsBackground); // 加载背景
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             float f2 = 32.0F;
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);

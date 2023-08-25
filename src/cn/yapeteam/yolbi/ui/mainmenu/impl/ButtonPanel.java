@@ -1,6 +1,7 @@
 package cn.yapeteam.yolbi.ui.mainmenu.impl;
 
 import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.ui.guiMultiplayer.GuiMultiplayer;
 import cn.yapeteam.yolbi.ui.mainmenu.AbstractComponent;
 import cn.yapeteam.yolbi.ui.mainmenu.ImplScreen;
 import cn.yapeteam.yolbi.ui.menu.AltLoginScreen;

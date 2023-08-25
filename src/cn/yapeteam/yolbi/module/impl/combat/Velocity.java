@@ -14,12 +14,14 @@ import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
+import net.minecraft.network.play.server.S19PacketEntityStatus;
 
 public class Velocity extends Module {
-    public final ModeValue<String> mode = new ModeValue<>("Mode", "Packet", "Packet", "Hypixel", "Packet loss", "Legit","Intave");
+    public final ModeValue<String> mode = new ModeValue<>("Mode", "Packet", "Packet", "Hypixel", "Packet loss", "Legit","Intave","Martix");
     private final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", () -> (mode.is("Packet")|| mode.is("Intave")), 0, 0, 100, 2);
     private final NumberValue<Integer> vertical = new NumberValue<>("Vertical", () -> mode.is("Packet"), 0, 0, 100, 2);
     private boolean reducing;
+    private boolean flag;
     private boolean pendingVelocity;
     private double motionY;
     private int ticks;
@@ -128,6 +130,16 @@ public class Velocity extends Module {
                                 }
                             }
                             break;
+                        } case "Martix":{
+                            if (packet.getEntityID() == mc.thePlayer.getEntityId()) {
+                                if (!flag) {
+                                    event.setCancelled(true);
+                                } else {
+                                    flag = false;
+                                    packet.setMotionX((((int) ((double) packet.getMotionX() * -0.1))));
+                                    packet.setMotionZ((((int) ((double) packet.getMotionZ() * -0.1))));
+                                }
+                            }
                         }
                     }
                 }
@@ -181,6 +193,16 @@ public class Velocity extends Module {
                     YolBi.instance.getPacketBlinkHandler().releasePing();
                 }
                 break;
+            case "Martix":{
+                if (mc.thePlayer.hurtTime > 0 && !mc.thePlayer.onGround) {
+                    double var3 = mc.thePlayer.rotationYaw * 0.017453292F;
+                    double var5 = Math.sqrt(mc.thePlayer.motionX * mc.thePlayer.motionX + mc.thePlayer.motionZ * mc.thePlayer.motionZ);
+                    mc.thePlayer.motionX = -Math.sin(var3) * var5;
+                    mc.thePlayer.motionZ = Math.cos(var3) * var5;
+                    mc.thePlayer.setSprinting(mc.thePlayer.ticksExisted % 2 != 0);
+                }
+                break;
+            }
         }
     }
 

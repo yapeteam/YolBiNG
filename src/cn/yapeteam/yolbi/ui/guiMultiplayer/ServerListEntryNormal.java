@@ -1,4 +1,4 @@
-package net.minecraft.client.gui;
+package cn.yapeteam.yolbi.ui.guiMultiplayer;
 
 import com.google.common.base.Charsets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -7,6 +7,9 @@ import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.base64.Base64;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiListExtended;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -203,7 +206,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
                 }
             }
 
-            if (this.field_148303_c.func_175392_a(this, slotIndex))
+            if (this.field_148303_c.canMoveUp(this, slotIndex))
             {
                 if (k1 < 16 && l1 < 16)
                 {
@@ -215,7 +218,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
                 }
             }
 
-            if (this.field_148303_c.func_175394_b(this, slotIndex))
+            if (this.field_148303_c.canMoveDown(this, slotIndex))
             {
                 if (k1 < 16 && l1 > 16)
                 {
@@ -302,15 +305,15 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
                 return true;
             }
 
-            if (p_148278_5_ < 16 && p_148278_6_ < 16 && this.field_148303_c.func_175392_a(this, slotIndex))
+            if (p_148278_5_ < 16 && p_148278_6_ < 16 && this.field_148303_c.canMoveUp(this, slotIndex))
             {
-                this.field_148303_c.func_175391_a(this, slotIndex, GuiScreen.isShiftKeyDown());
+                this.field_148303_c.moveServerUp(this, slotIndex, GuiScreen.isShiftKeyDown());
                 return true;
             }
 
-            if (p_148278_5_ < 16 && p_148278_6_ > 16 && this.field_148303_c.func_175394_b(this, slotIndex))
+            if (p_148278_5_ < 16 && p_148278_6_ > 16 && this.field_148303_c.canMoveDown(this, slotIndex))
             {
-                this.field_148303_c.func_175393_b(this, slotIndex, GuiScreen.isShiftKeyDown());
+                this.field_148303_c.moveServerDown(this, slotIndex, GuiScreen.isShiftKeyDown());
                 return true;
             }
         }

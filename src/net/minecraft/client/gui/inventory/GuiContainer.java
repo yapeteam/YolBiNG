@@ -1,7 +1,13 @@
 package net.minecraft.client.gui.inventory;
 
+import cn.yapeteam.yolbi.ui.mainmenu.utils.Circle;
+import cn.yapeteam.yolbi.util.render.RenderUtil;
+import cn.yapeteam.yolbi.util.render.Stencil;
 import com.google.common.collect.Sets;
+
+import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -115,16 +121,14 @@ public abstract class GuiContainer extends GuiScreen
         this.theSlot = null;
         int k = 240;
         int l = 240;
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)k / 1.0F, (float)l / 1.0F);
+       OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)k / 1.0F, (float)l / 1.0F);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         for (int i1 = 0; i1 < this.inventorySlots.inventorySlots.size(); ++i1)
         {
             Slot slot = (Slot)this.inventorySlots.inventorySlots.get(i1);
             this.drawSlot(slot);
-
-            if (this.isMouseOverSlot(slot, mouseX, mouseY) && slot.canBeHovered())
-            {
+            if (this.isMouseOverSlot(slot, mouseX, mouseY) && slot.canBeHovered()) {
                 this.theSlot = slot;
                 GlStateManager.disableLighting();
                 GlStateManager.disableDepth();

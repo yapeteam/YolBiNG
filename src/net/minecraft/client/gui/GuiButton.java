@@ -1,10 +1,15 @@
 package net.minecraft.client.gui;
 
+import cn.yapeteam.yolbi.ui.mainmenu.utils.Circle;
+import cn.yapeteam.yolbi.util.render.RenderUtil;
+import cn.yapeteam.yolbi.util.render.Stencil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+
+import java.awt.*;
 
 public class GuiButton extends Gui
 {
@@ -32,6 +37,10 @@ public class GuiButton extends Gui
     /** Hides the button completely if false. */
     public boolean visible;
     protected boolean hovered;
+
+    private Boolean lastHovered = false;
+
+    private Circle circle = null;
 
     public GuiButton(int buttonId, int x, int y, String buttonText)
     {
@@ -79,16 +88,50 @@ public class GuiButton extends Gui
     {
         if (this.visible)
         {
+
+
+
             FontRenderer fontrenderer = mc.fontRendererObj;
             mc.getTextureManager().bindTexture(buttonTextures);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
             int i = this.getHoverState(this.hovered);
+
+            if (hovered && !lastHovered) {
+                lastHovered = true;
+                circle = new Circle(this.width, 40, () -> lastHovered);
+            } else if (!hovered)
+                lastHovered = false;
+
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             GlStateManager.blendFunc(770, 771);
-            this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + i * 20, this.width / 2, this.height);
-            this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
+            if (this.enabled) {
+                RenderUtil.drawFastRoundedRect(this.xPosition, this.yPosition, this.xPosition + this.width, this.yPosition + this.height, 3,
+                        new Color(165, 165, 165, 123).getRGB());
+            }else {
+                RenderUtil.drawFastRoundedRect(this.xPosition, this.yPosition, this.xPosition + this.width, this.yPosition + this.height, 3,
+                        new Color(0, 0, 0, 123).getRGB());
+            }
+
+
+            Stencil.write(false);
+            RenderUtil.drawFastRoundedRect(this.xPosition,this.yPosition,this.xPosition+this.width,this.yPosition+this.height ,3,
+                    new Color(255,255,255,123).getRGB());
+            Stencil.erase(true);
+            if (circle != null) {
+                circle.runCircle();
+                if (this.enabled) {
+                    circle.drawCircle(this.xPosition + this.width / 2f, this.yPosition + this.height / 2f,new Color(255, 255, 255));
+                }else {
+                    circle.drawCircle(this.xPosition + this.width / 2f, this.yPosition + this.height / 2f,new Color(255, 108, 108));
+                }
+                if (circle.isComplete()) circle = null;
+            }
+            Stencil.dispose();
+
+            //this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + i * 20, this.width / 2, this.height);
+            //this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
             this.mouseDragged(mc, mouseX, mouseY);
             int j = 14737632;
 

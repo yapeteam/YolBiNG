@@ -1,8 +1,10 @@
-package net.minecraft.client.gui;
+package cn.yapeteam.yolbi.ui.guiMultiplayer;
 
 import com.google.common.collect.Lists;
 import java.util.List;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiListExtended;
+import net.minecraft.client.gui.ServerListEntryLanScan;
 import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.network.LanServerDetector;
 
@@ -63,26 +65,26 @@ public class ServerSelectionList extends GuiListExtended
         return slotIndex == this.selectedSlotIndex;
     }
 
-    public int func_148193_k()
+    public int getSelected()
     {
         return this.selectedSlotIndex;
     }
 
-    public void func_148195_a(ServerList p_148195_1_)
+    public void updateOnlineServers(ServerList serverList)
     {
         this.field_148198_l.clear();
 
-        for (int i = 0; i < p_148195_1_.countServers(); ++i)
+        for (int i = 0; i < serverList.countServers(); ++i)
         {
-            this.field_148198_l.add(new ServerListEntryNormal(this.owner, p_148195_1_.getServerData(i)));
+            this.field_148198_l.add(new ServerListEntryNormal(this.owner, serverList.getServerData(i)));
         }
     }
 
-    public void func_148194_a(List<LanServerDetector.LanServer> p_148194_1_)
+    public void updateNetworkServers(List<LanServerDetector.LanServer> lanServers)
     {
         this.field_148199_m.clear();
 
-        for (LanServerDetector.LanServer lanserverdetector$lanserver : p_148194_1_)
+        for (LanServerDetector.LanServer lanserverdetector$lanserver : lanServers)
         {
             this.field_148199_m.add(new ServerListEntryLanDetected(this.owner, lanserverdetector$lanserver));
         }
