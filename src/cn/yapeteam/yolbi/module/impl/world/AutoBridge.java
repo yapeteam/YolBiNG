@@ -2,9 +2,11 @@ package cn.yapeteam.yolbi.module.impl.world;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
+import cn.yapeteam.yolbi.event.impl.player.MoveEvent;
 import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.event.impl.game.TickEvent;
 import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
+import cn.yapeteam.yolbi.util.player.MovementUtil;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
 import cn.yapeteam.yolbi.util.player.FixedRotations;
@@ -26,7 +28,7 @@ import cn.yapeteam.yolbi.module.Module;
 
 public class AutoBridge extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>("Mode", "Sprint", "Sprint", "No sprint", "Godbridge");
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Sprint", "Sprint", "No sprint", "Godbridge","Telly");
 
     private final BooleanValue keepY = new BooleanValue("Keep Y", () -> mode.is("Sprint"), true);
 
@@ -54,6 +56,7 @@ public class AutoBridge extends Module {
     private int ticks, counter;
 
     private int oldSlot;
+    private int offgtoundTick;
 
     public AutoBridge() {
         super("AutoBridge", ModuleCategory.WORLD);
@@ -63,7 +66,7 @@ public class AutoBridge extends Module {
     @Override
     public void onEnable() {
         rotations = new FixedRotations(mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch);
-
+        offgtoundTick = 0;
         oldYaw = mc.thePlayer.rotationYaw;
         oldPitch = mc.thePlayer.rotationPitch;
 
@@ -204,6 +207,13 @@ public class AutoBridge extends Module {
                     KeyboardUtil.resetKeybinding(mc.gameSettings.keyBindSneak);
                 }
                 break;
+            case "Telly":
+                if (mc.thePlayer.onGround){
+                    offgtoundTick = 0;
+                }else {
+                    offgtoundTick++;
+                }
+                break;
         }
     }
 
@@ -214,6 +224,29 @@ public class AutoBridge extends Module {
                 if (!ninjaBridge.getValue()) {
                     invertKeyPresses();
                 }
+                break;
+            case "Telly":
+                mc.thePlayer.setSprinting(false);
+
+                if (mc.thePlayer.onGround&&MovementUtil.isMoving()) {
+                    mc.thePlayer.jump();
+                }
+                if (offgtoundTick >= 3){
+                    if (MovementUtil.isMoving()) mc.gameSettings.keyBindBack.setPressed(false);
+                    mc.thePlayer.rotationYaw = rotations.getYaw();
+                    mc.thePlayer.rotationPitch = rotations.getPitch();
+
+                    mc.gameSettings.keyBindUseItem.setPressed(true);
+                    mc.rightClickDelayTimer = 0;
+
+                }else {
+                    if (MovementUtil.isMoving()) mc.gameSettings.keyBindBack.setPressed(true);
+
+                    mc.gameSettings.keyBindUseItem.setPressed(false);
+                    mc.rightClickDelayTimer = 4;
+                }
+
+
                 break;
         }
     }
@@ -335,6 +368,7 @@ public class AutoBridge extends Module {
         mc.gameSettings.keyBindLeft.setPressed(right);
         mc.gameSettings.keyBindRight.setPressed(left);
     }
+
 
     @Listener
     public void onSend(PacketSendEvent event) {

@@ -237,11 +237,7 @@ public abstract class GuiSlot
             GlStateManager.disableFog();
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-            //this.drawContainerBackground(tessellator,mouseXIn,mouseYIn);
-            ScaledResolution res = new ScaledResolution(mc);
-            GlStateManager.translate(mouseX / 30.0F, mouseY / 15.0F, 0.0F);
-            DrawUtil.drawImage2(GuiScreen.backgroundTexture,-30,-30,res.getScaledWidth() + 60, res.getScaledHeight() + 60);
-            GlStateManager.translate(-mouseX / 30.0F, -mouseY / 15.0F, 0.0F);
+
 
             int k = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
             int l = this.top + 4 - (int)this.amountScrolled;
@@ -252,26 +248,16 @@ public abstract class GuiSlot
             }
 
             this.drawSelectionBox(k, l, mouseXIn, mouseYIn);
+
             GlStateManager.disableDepth();
             int i1 = 4;
-            RenderUtil.drawFastRoundedRect(0,this.bottom,this.width,this.height,10,new Color(58, 58, 58).getRGB());
+            RenderUtil.drawBloomShadow(this.width/2-150,this.bottom,300,this.height,50,10,
+                    new Color(0, 0, 0, 158));
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
             GlStateManager.disableAlpha();
             GlStateManager.shadeModel(7425);
             GlStateManager.disableTexture2D();
-//            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-//            worldrenderer.pos((double) this.left, (double) (this.top + i1), 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 0).endVertex();
-//            worldrenderer.pos((double) this.right, (double) (this.top + i1), 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 0).endVertex();
-//            worldrenderer.pos((double) this.right, (double) this.top, 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 255).endVertex();
-//            worldrenderer.pos((double) this.left, (double) this.top, 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 255).endVertex();
-//            tessellator.draw();
-//            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-//            worldrenderer.pos((double) this.left, (double) this.bottom, 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 255).endVertex();
-//            worldrenderer.pos((double) this.right, (double) this.bottom, 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
-//            worldrenderer.pos((double) this.right, (double) (this.bottom - i1), 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 0).endVertex();
-//            worldrenderer.pos((double) this.left, (double) (this.bottom - i1), 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 0).endVertex();
-//            tessellator.draw();
             int j1 = this.func_148135_f();
 
             if (j1 > 0) {
@@ -525,18 +511,4 @@ public abstract class GuiSlot
         return this.slotHeight;
     }
 
-    protected void drawContainerBackground(Tessellator p_drawContainerBackground_1_,int mouseXIn, int mouseYIn) {
-        float xPlus = (((float) mouseXIn) - this.width / 2f) / 30f;
-        float yPlus = (((float) mouseYIn) - this.height / 2f) / 30f;
-        WorldRenderer worldrenderer = p_drawContainerBackground_1_.getWorldRenderer();
-        this.mc.getTextureManager().bindTexture(Gui.optionsBackground); //绘制单个的背景
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(-xPlus / 2f, -yPlus / 2f, 0);
-        GlStateManager.scale(width * 0.0041, height * 0.0041, 0);
-        DrawUtil.drawImage(GuiScreen.backgroundTexture,-10,-10,this.width,this.height);
-        GlStateManager.popMatrix();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-        p_drawContainerBackground_1_.draw();
-    }
 }

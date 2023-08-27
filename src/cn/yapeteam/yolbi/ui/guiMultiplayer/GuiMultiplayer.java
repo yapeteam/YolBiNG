@@ -13,10 +13,20 @@ import net.minecraft.client.multiplayer.ServerList;
 import net.minecraft.client.network.LanServerDetector;
 import net.minecraft.client.network.OldServerPinger;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
+import net.optifine.CustomPanorama;
+import net.optifine.CustomPanoramaProperties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.Project;
 
 public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback
 {
@@ -42,6 +52,17 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback
     private LanServerDetector.LanServerList lanServerList;
     private LanServerDetector.ThreadLanServerFind lanServerDetector;
     private boolean initialized;
+    private int panoramaTimer;
+    private static final ResourceLocation[] titlePanoramaPaths = new ResourceLocation[]{
+            new ResourceLocation("yolbi/BackGround/classic/panorama_0.png"),
+            new ResourceLocation("yolbi/BackGround/classic/panorama_1.png"),
+            new ResourceLocation("yolbi/BackGround/classic/panorama_2.png"),
+            new ResourceLocation("yolbi/BackGround/classic/panorama_3.png"),
+            new ResourceLocation("yolbi/BackGround/classic/panorama_4.png"),
+            new ResourceLocation("yolbi/BackGround/classic/panorama_5.png")};
+    private ResourceLocation backgroundTexture;
+    private DynamicTexture viewportTexture;
+
 
     public GuiMultiplayer(GuiScreen parentScreen)
     {
@@ -54,6 +75,9 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback
      */
     public void initGui()
     {
+        this.viewportTexture = new DynamicTexture(256, 256);
+        this.backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background", this.viewportTexture);
+
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
 
@@ -111,6 +135,8 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback
      */
     public void updateScreen()
     {
+        ++this.panoramaTimer;
+
         super.updateScreen();
 
         if (this.lanServerList.getWasUpdated())
@@ -121,6 +147,178 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback
         }
 
         this.oldServerPinger.pingPendingNetworks();
+    }
+
+
+
+    /**
+     * Draws the main menu panorama
+     */
+    private void drawPanorama(int p_73970_1_, int p_73970_2_, float p_73970_3_) {
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        GlStateManager.matrixMode(5889);
+        GlStateManager.pushMatrix();
+        GlStateManager.loadIdentity();
+        Project.gluPerspective(120.0F, 1.0F, 0.05F, 10.0F);
+        GlStateManager.matrixMode(5888);
+        GlStateManager.pushMatrix();
+        GlStateManager.loadIdentity();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.rotate(180.0F, 1.0F, 0.0F, 0.0F);
+        GlStateManager.rotate(90.0F, 0.0F, 0.0F, 1.0F);
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.disableCull();
+        GlStateManager.depthMask(false);
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        int i = 8;
+        int j = 64;
+        CustomPanoramaProperties custompanoramaproperties = CustomPanorama.getCustomPanoramaProperties();
+
+        if (custompanoramaproperties != null) {
+            j = custompanoramaproperties.getBlur1();
+        }
+
+        for (int k = 0; k < j; ++k) {
+            GlStateManager.pushMatrix();
+            float f = ((float) (k % i) / (float) i - 0.5F) / 64.0F;
+            float f1 = ((float) (k / i) / (float) i - 0.5F) / 64.0F;
+            float f2 = 0.0F;
+            GlStateManager.translate(f, f1, f2);
+            GlStateManager.rotate(MathHelper.sin(((float) this.panoramaTimer + p_73970_3_) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(-((float) this.panoramaTimer + p_73970_3_) * 0.1F, 0.0F, 1.0F, 0.0F);
+
+            for (int l = 0; l < 6; ++l) {
+                GlStateManager.pushMatrix();
+
+                if (l == 1) {
+                    GlStateManager.rotate(90.0F, 0.0F, 1.0F, 0.0F);
+                }
+
+                if (l == 2) {
+                    GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+                }
+
+                if (l == 3) {
+                    GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
+                }
+
+                if (l == 4) {
+                    GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
+                }
+
+                if (l == 5) {
+                    GlStateManager.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
+                }
+
+                ResourceLocation[] aresourcelocation = titlePanoramaPaths;
+
+                if (custompanoramaproperties != null) {
+                    aresourcelocation = custompanoramaproperties.getPanoramaLocations();
+                }
+
+                this.mc.getTextureManager().bindTexture(aresourcelocation[l]);
+                worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+                int i1 = 255 / (k + 1);
+                float f3 = 0.0F;
+                worldrenderer.pos(-1.0D, -1.0D, 1.0D).tex(0.0D, 0.0D).color(255, 255, 255, i1).endVertex();
+                worldrenderer.pos(1.0D, -1.0D, 1.0D).tex(1.0D, 0.0D).color(255, 255, 255, i1).endVertex();
+                worldrenderer.pos(1.0D, 1.0D, 1.0D).tex(1.0D, 1.0D).color(255, 255, 255, i1).endVertex();
+                worldrenderer.pos(-1.0D, 1.0D, 1.0D).tex(0.0D, 1.0D).color(255, 255, 255, i1).endVertex();
+                tessellator.draw();
+                GlStateManager.popMatrix();
+            }
+
+            GlStateManager.popMatrix();
+            GlStateManager.colorMask(true, true, true, false);
+        }
+
+        worldrenderer.setTranslation(0.0D, 0.0D, 0.0D);
+        GlStateManager.colorMask(true, true, true, true);
+        GlStateManager.matrixMode(5889);
+        GlStateManager.popMatrix();
+        GlStateManager.matrixMode(5888);
+        GlStateManager.popMatrix();
+        GlStateManager.depthMask(true);
+        GlStateManager.enableCull();
+        GlStateManager.enableDepth();
+    }
+
+    /**
+     * Rotate and blurs the skybox view in the main menu
+     */
+    private void rotateAndBlurSkybox(float p_73968_1_) {
+        this.mc.getTextureManager().bindTexture(this.backgroundTexture);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+        GL11.glCopyTexSubImage2D(GL11.GL_TEXTURE_2D, 0, 0, 0, 0, 0, 256, 256);
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.colorMask(true, true, true, false);
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+        GlStateManager.disableAlpha();
+        int i = 3;
+        int j = 3;
+        CustomPanoramaProperties custompanoramaproperties = CustomPanorama.getCustomPanoramaProperties();
+
+        if (custompanoramaproperties != null) {
+            j = custompanoramaproperties.getBlur2();
+        }
+
+        for (int k = 0; k < j; ++k) {
+            float f = 1.0F / (float) (k + 1);
+            int l = this.width;
+            int i1 = this.height;
+            float f1 = (float) (k - i / 2) / 256.0F;
+            worldrenderer.pos(l, i1, this.zLevel).tex(0.0F + f1, 1.0D).color(1.0F, 1.0F, 1.0F, f).endVertex();
+            worldrenderer.pos(l, 0.0D, this.zLevel).tex(1.0F + f1, 1.0D).color(1.0F, 1.0F, 1.0F, f).endVertex();
+            worldrenderer.pos(0.0D, 0.0D, this.zLevel).tex(1.0F + f1, 0.0D).color(1.0F, 1.0F, 1.0F, f).endVertex();
+            worldrenderer.pos(0.0D, i1, this.zLevel).tex(0.0F + f1, 0.0D).color(1.0F, 1.0F, 1.0F, f).endVertex();
+        }
+
+        tessellator.draw();
+        GlStateManager.enableAlpha();
+        GlStateManager.colorMask(true, true, true, true);
+    }
+
+    /**
+     * Renders the skybox in the main menu
+     */
+    public void renderSkybox(int p_73971_1_, int p_73971_2_, float p_73971_3_) {
+        this.mc.getFramebuffer().unbindFramebuffer();
+        GlStateManager.viewport(0, 0, 256, 256);
+        this.drawPanorama(p_73971_1_, p_73971_2_, p_73971_3_);
+        this.rotateAndBlurSkybox(p_73971_3_);
+        int i = 3;
+        CustomPanoramaProperties custompanoramaproperties = CustomPanorama.getCustomPanoramaProperties();
+
+        if (custompanoramaproperties != null) {
+            i = custompanoramaproperties.getBlur3();
+        }
+
+        for (int j = 0; j < i; ++j) {
+            this.rotateAndBlurSkybox(p_73971_3_);
+            this.rotateAndBlurSkybox(p_73971_3_);
+        }
+
+        this.mc.getFramebuffer().bindFramebuffer(true);
+        GlStateManager.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
+        float f2 = this.width > this.height ? 120.0F / (float) this.width : 120.0F / (float) this.height;
+        float f = (float) this.height * f2 / 256.0F;
+        float f1 = (float) this.width * f2 / 256.0F;
+        int k = this.width;
+        int l = this.height;
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+        worldrenderer.pos(0.0D, l, this.zLevel).tex(0.5F - f, 0.5F + f1).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+        worldrenderer.pos(k, l, this.zLevel).tex(0.5F - f, 0.5F - f1).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+        worldrenderer.pos(k, 0.0D, this.zLevel).tex(0.5F + f, 0.5F - f1).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+        worldrenderer.pos(0.0D, 0.0D, this.zLevel).tex(0.5F + f, 0.5F + f1).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+        tessellator.draw();
     }
 
     /**
@@ -281,8 +479,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback
         {
             if (i >= 0)
             {
-                if (keyCode == 200)
-                {
+                if (keyCode == 200) {
                     if (isShiftKeyDown())
                     {
                         if (i > 0 && guilistextended$iguilistentry instanceof ServerListEntryNormal)
@@ -372,9 +569,12 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback
      */
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
+        GlStateManager.disableAlpha();
+        this.renderSkybox(mouseX, mouseY, partialTicks);
+        GlStateManager.enableAlpha();
+
         this.hoveringText = null;
         //this.drawDefaultBackground();
-        this.drawBack(mouseX,mouseY);
         this.serverListSelector.drawScreen(mouseX, mouseY, partialTicks);
         this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.title", new Object[0]), this.width / 2, 20, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
@@ -384,12 +584,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback
             this.drawHoveringText(Lists.newArrayList(Splitter.on("\n").split(this.hoveringText)), mouseX, mouseY);
         }
     }
-    private void drawBack(int mouseX, int mouseY){
-        ScaledResolution res = new ScaledResolution(mc);
-        GlStateManager.translate(mouseX / 30.0F, mouseY / 15.0F, 0.0F);
-        DrawUtil.drawImage2(GuiScreen.backgroundTexture,-30,-30,res.getScaledWidth() + 60, res.getScaledHeight() + 60);
-        GlStateManager.translate(-mouseX / 30.0F, -mouseY / 15.0F, 0.0F);
-    }
+
 
     public void connectToSelected()
     {

@@ -1,5 +1,6 @@
 package cn.yapeteam.yolbi.ui.guiMultiplayer;
 
+import cn.yapeteam.yolbi.util.render.RenderUtil;
 import com.google.common.base.Charsets;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.netty.buffer.ByteBuf;
@@ -20,6 +21,7 @@ import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -179,7 +181,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
 
         if (i1 >= listWidth - 15 && i1 <= listWidth - 5 && j1 >= 0 && j1 <= 8)
         {
-            this.field_148303_c.setHoveringText(s1);
+            this.field_148303_c.setHoveringText(s1); // pinging info
         }
         else if (i1 >= listWidth - j - 15 - 2 && i1 <= listWidth - 15 - 2 && j1 >= 0 && j1 <= 8)
         {
@@ -189,11 +191,11 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
         if (this.mc.gameSettings.touchscreen || isSelected)
         {
             this.mc.getTextureManager().bindTexture(SERVER_SELECTION_BUTTONS);
+            //RenderUtil.drawBloomShadow(x,y,32,32,50,new Color(0,0,0,100));
             Gui.drawRect(x, y, x + 32, y + 32, -1601138544);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             int k1 = mouseX - x;
             int l1 = mouseY - y;
-
             if (this.func_178013_b())
             {
                 if (k1 < 32 && k1 > 16)

@@ -6,6 +6,8 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.handshake.INetHandlerHandshakeServer;
 
+
+//注记 顾名思义 握手 即向服务器发送request包，根据其原理可以做成假人压测
 public class C00Handshake implements Packet<INetHandlerHandshakeServer>
 {
     private int protocolVersion;
