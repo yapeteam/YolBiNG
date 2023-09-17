@@ -1,14 +1,15 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
+import cn.yapeteam.yolbi.packetfix.FixEngine;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.util.BlockPos;
 
-public class C08PacketPlayerBlockPlacement implements Packet<INetHandlerPlayServer>
-{
+import java.io.IOException;
+
+public class C08PacketPlayerBlockPlacement implements Packet<INetHandlerPlayServer> {
     private static final BlockPos field_179726_a = new BlockPos(-1, -1, -1);
     private BlockPos position;
     private int placedBlockDirection;
@@ -39,27 +40,25 @@ public class C08PacketPlayerBlockPlacement implements Packet<INetHandlerPlayServ
     /**
      * Reads the raw packet data from the data stream.
      */
-    public void readPacketData(PacketBuffer buf) throws IOException
-    {
+    public void readPacketData(PacketBuffer buf) throws IOException {
         this.position = buf.readBlockPos();
         this.placedBlockDirection = buf.readUnsignedByte();
         this.stack = buf.readItemStackFromBuffer();
-        this.facingX = (float)buf.readUnsignedByte() / 16.0F;
-        this.facingY = (float)buf.readUnsignedByte() / 16.0F;
-        this.facingZ = (float)buf.readUnsignedByte() / 16.0F;
+        this.facingX = (float) buf.readUnsignedByte() / FixEngine.fixRightClick();
+        this.facingY = (float) buf.readUnsignedByte() / FixEngine.fixRightClick();
+        this.facingZ = (float) buf.readUnsignedByte() / FixEngine.fixRightClick();
     }
 
     /**
      * Writes the raw packet data to the data stream.
      */
-    public void writePacketData(PacketBuffer buf) throws IOException
-    {
+    public void writePacketData(PacketBuffer buf) throws IOException {
         buf.writeBlockPos(this.position);
         buf.writeByte(this.placedBlockDirection);
         buf.writeItemStackToBuffer(this.stack);
-        buf.writeByte((int)(this.facingX * 16.0F));
-        buf.writeByte((int)(this.facingY * 16.0F));
-        buf.writeByte((int)(this.facingZ * 16.0F));
+        buf.writeByte((int) (this.facingX * FixEngine.fixRightClick()));
+        buf.writeByte((int) (this.facingY * FixEngine.fixRightClick()));
+        buf.writeByte((int) (this.facingZ * FixEngine.fixRightClick()));
     }
 
     /**

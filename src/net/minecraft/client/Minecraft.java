@@ -17,6 +17,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
+import de.florianmichael.viamcp.fixes.AttackOrder;
 import lombok.Setter;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -1295,7 +1296,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
     public void clickMouse() {
         if (this.leftClickCounter <= 0) {
-            this.thePlayer.swingItem();
+            //this.thePlayer.swingItem();
+            AttackOrder.sendConditionalSwing(this.objectMouseOver);//viaMcp
 
             if (this.objectMouseOver == null) {
                 logger.error("Null returned as 'hitResult', this shouldn't happen!");
@@ -1306,7 +1308,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
             } else {
                 switch (this.objectMouseOver.typeOfHit) {
                     case ENTITY:
-                        this.playerController.attackEntity(this.thePlayer, this.objectMouseOver.entityHit);
+                        //this.playerController.attackEntity(this.thePlayer, this.objectMouseOver.entityHit);
+                        AttackOrder.sendFixedAttack(this.thePlayer, this.objectMouseOver.entityHit);//viaMcp
                         break;
 
                     case BLOCK:
@@ -1329,8 +1332,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
     @SuppressWarnings("incomplete-switch")
 
-    /**
-     * Called when user clicked he's mouse right button (place)
+    /*
+      Called when user clicked he's mouse right button (place)
      */
     public void rightClickMouse() {
         if (!this.playerController.func_181040_m()) {

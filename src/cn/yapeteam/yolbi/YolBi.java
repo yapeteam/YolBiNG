@@ -16,6 +16,7 @@ import cn.yapeteam.yolbi.module.ModuleManager;
 import cn.yapeteam.yolbi.ui.menu.ConfigMenu;
 import cn.yapeteam.yolbi.util.IMinecraft;
 import cn.yapeteam.yolbi.util.render.FontUtil;
+import de.florianmichael.viamcp.ViaMCP;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -78,6 +79,15 @@ public class YolBi implements IMinecraft {
         moduleManager.modules.forEach(Module::onClientStarted);
 
         FontUtil.initFonts();
+
+        try {
+            ViaMCP.create();
+
+            // In case you want a version slider like in the Minecraft options, you can use this code here, please choose one of those:
+            ViaMCP.INSTANCE.initAsyncSlider(); // For top left aligned slider
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void shutdown() {

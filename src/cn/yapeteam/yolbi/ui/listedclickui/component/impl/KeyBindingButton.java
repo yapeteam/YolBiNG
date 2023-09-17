@@ -47,7 +47,7 @@ public class KeyBindingButton extends AbstractComponent {
             }
         }
         String text = keyBinding ? "Listening..." : EnumChatFormatting.WHITE + "Bind: " + EnumChatFormatting.RESET + Keyboard.getKeyName(module.getKey());
-        font.drawString(text, getX() + (getWidth() - font.getStringWidth(text)) / 2f, getY() + (getHeight() - font.getHeight()) / 2f, ImplScreen.getClientTheme().getColor((all - 1 - index) * 100));
+        font.drawString(text, getX() + (getWidth() - font.getStringWidth(text)) / 2f, getY() + (getHeight() - font.getHeight()) / 2f, ImplScreen.getComponentColor((all - 1 - index) * 100));
     }
 
     @Override

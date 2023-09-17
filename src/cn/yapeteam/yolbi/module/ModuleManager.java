@@ -1,12 +1,16 @@
 package cn.yapeteam.yolbi.module;
 
 import cn.yapeteam.yolbi.module.impl.combat.*;
-import cn.yapeteam.yolbi.module.impl.exploit.*;
+import cn.yapeteam.yolbi.module.impl.exploit.Disabler;
+import cn.yapeteam.yolbi.module.impl.exploit.KeepInv;
+import cn.yapeteam.yolbi.module.impl.exploit.StrafeConverter;
 import cn.yapeteam.yolbi.module.impl.misc.*;
 import cn.yapeteam.yolbi.module.impl.movement.*;
 import cn.yapeteam.yolbi.module.impl.player.*;
 import cn.yapeteam.yolbi.module.impl.visual.*;
-import cn.yapeteam.yolbi.module.impl.world.*;
+import cn.yapeteam.yolbi.module.impl.world.AutoBridge;
+import cn.yapeteam.yolbi.module.impl.world.Breaker;
+import cn.yapeteam.yolbi.module.impl.world.Scaffold;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +25,7 @@ public class ModuleManager {
     public ModuleManager() {
         modules.add(new Killaura());
         modules.add(new Velocity());
+        modules.add(new GrimVelocity());
         modules.add(new TargetStrafe());
         modules.add(new Teams());
         modules.add(new Backtrack());
@@ -37,6 +42,7 @@ public class ModuleManager {
         modules.add(new Fly());
         modules.add(new Speed());
         modules.add(new Longjump());
+        modules.add(new NoJumpDelay());
         modules.add(new InventoryMove());
         modules.add(new Noslow());
         modules.add(new Blink());
@@ -62,7 +68,6 @@ public class ModuleManager {
         modules.add(new IngameInfo());
         modules.add(new ItemESP());
         modules.add(new ClientTheme());
-        //modules.add(new ClickGuiModule());
         modules.add(new ClickUI());
         modules.add(new ESP());
         modules.add(new ItemPhysic());
@@ -78,12 +83,15 @@ public class ModuleManager {
         modules.add(new NameProtect());
         modules.add(new Xray());
         modules.add(new Particles());
+
         modules.add(new Disabler());
         modules.add(new StrafeConverter());
         modules.add(new AnticheatModule());
         modules.add(new Autoplay());
         modules.add(new SelfDestruct());
         modules.add(new NoteBot());
+        modules.add(new PacketFix());
+
 
         hudModules = modules.stream().filter(HUDModule.class::isInstance).map(HUDModule.class::cast).collect(Collectors.toList());
     }

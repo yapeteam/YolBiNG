@@ -6,6 +6,7 @@ import cn.yapeteam.yolbi.module.impl.visual.ClickUI;
 import cn.yapeteam.yolbi.module.impl.visual.ClientTheme;
 import cn.yapeteam.yolbi.ui.listedclickui.component.AbstractComponent;
 import cn.yapeteam.yolbi.ui.listedclickui.component.impl.Panel;
+import cn.yapeteam.yolbi.util.render.ColorUtil;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -36,7 +37,8 @@ public class ImplScreen extends GuiScreen {
     @Getter
     private Panel currentPanel = null;
     @Getter
-    private static ClientTheme clientTheme;
+    private static ClientTheme clientThemeModuleInstance;
+    private static ClickUI guiModuleInstance;
 
     @Override
     public void initGui() {
@@ -57,15 +59,16 @@ public class ImplScreen extends GuiScreen {
             }
             panels.forEach(AbstractComponent::init);
             currentPanel = panels.get(panels.size() - 1);
-            clientTheme = YolBi.instance.getModuleManager().getModule(ClientTheme.class);
+            clientThemeModuleInstance = YolBi.instance.getModuleManager().getModule(ClientTheme.class);
+            guiModuleInstance = YolBi.instance.getModuleManager().getModule(ClickUI.class);
             init = true;
         }
-        if (OpenGlHelper.shadersSupported && mc.thePlayer != null && YolBi.instance.getModuleManager().getModule(ClickUI.class).getBlur().getValue()) {
+        if (OpenGlHelper.shadersSupported && mc.thePlayer != null && guiModuleInstance.getBlur().getValue()) {
             if (mc.entityRenderer.theShaderGroup != null) {
                 mc.entityRenderer.theShaderGroup.deleteShaderGroup();
             }
             mc.entityRenderer.loadShader(new ResourceLocation("shaders/post/blur.json"));
-            int radius = YolBi.instance.getModuleManager().getModule(ClickUI.class).getBlurRadius().getValue();
+            int radius = guiModuleInstance.getBlurRadius().getValue();
             mc.entityRenderer.getShaderGroup().getShaders().get(0).getShaderManager().getShaderUniform("Radius").set(radius);
             mc.entityRenderer.getShaderGroup().getShaders().get(1).getShaderManager().getShaderUniform("Radius").set(radius);
         }
@@ -126,9 +129,13 @@ public class ImplScreen extends GuiScreen {
         }
     }
 
+    public static int getComponentColor(int index) {
+        return guiModuleInstance.getRainbow().getValue() ? ColorUtil.rainbow(10, index / 10, 1, 1, 1).getRGB() : clientThemeModuleInstance.getColor(index);
+    }
+
     @Override
     public boolean doesGuiPauseGame() {
-        return YolBi.instance.getModuleManager().getModule(ClickUI.class).getPauseGame().getValue();
+        return guiModuleInstance.getPauseGame().getValue();
     }
 
     public boolean isHovering(float x, float y, float width, float height, float mouseX, float mouseY) {

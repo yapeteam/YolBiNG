@@ -1,19 +1,19 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
 import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.util.misc.TimerUtil;
 import cn.yapeteam.yolbi.util.player.FixedRotations;
 import cn.yapeteam.yolbi.util.player.RotationsUtil;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Mouse;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.module.Module;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -109,7 +109,7 @@ public class AimAssist extends Module {
             }
         }
 
-        if(entities != null && entities.size() > 0) {
+        if (entities.size() > 0) {
             switch (filter.getValue()) {
                 case "Range":
                     entities.sort(Comparator.comparingDouble(entity -> entity.getDistanceToEntity(mc.thePlayer)));

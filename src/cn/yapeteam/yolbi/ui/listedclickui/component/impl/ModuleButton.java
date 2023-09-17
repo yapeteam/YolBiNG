@@ -110,10 +110,10 @@ public class ModuleButton extends AbstractComponent {
                     all++;
                 }
             GlStateManager.color(1, 1, 1, 1);
-            RenderUtil.drawRect(getX(), getY(), getX() + getWidth(), getY() + getHeight(), module.isEnabled() ? (ImplScreen.getClientTheme().getColor((all - 1 - index) * 100)) : (isHovering(getX(), getY(), getWidth(), getHeight(), mouseX, mouseY) && (!((Panel) getParent()).getScreenIn().getCurrentPanel().isHovering(mouseX, mouseY) || ((Panel) getParent()).isCurrent()) ? ImplScreen.MainTheme[0].getRGB() : ImplScreen.MainTheme[1].getRGB()));
+            RenderUtil.drawRect(getX(), getY(), getX() + getWidth(), getY() + getHeight(), module.isEnabled() ? (ImplScreen.getComponentColor((all - 1 - index) * 100)) : (isHovering(getX(), getY(), getWidth(), getHeight(), mouseX, mouseY) && (!((Panel) getParent()).getScreenIn().getCurrentPanel().isHovering(mouseX, mouseY) || ((Panel) getParent()).isCurrent()) ? ImplScreen.MainTheme[0].getRGB() : ImplScreen.MainTheme[1].getRGB()));
             AbstractFontRenderer font = YolBi.instance.getFontManager().getPingFang14();
             AbstractFontRenderer icon = YolBi.instance.getFontManager().getFLUXICON14();
-            font.drawString(module.getName(), getX() + 5, getY() + (getHeight() - font.getStringHeight(module.getName())) / 2f + 1, !ImplScreen.getClientTheme().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
+            font.drawString(module.getName(), getX() + 5, getY() + (getHeight() - font.getStringHeight(module.getName())) / 2f + 1, !ImplScreen.getClientThemeModuleInstance().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
             if (getChildComponents().size() > 1) {
                 GlStateManager.pushMatrix();
                 float x = getX() + getWidth() - icon.getStringWidth("g") - 3;
@@ -121,7 +121,7 @@ public class ModuleButton extends AbstractComponent {
                 GlStateManager.translate(tx, ty, 0.0f);
                 GlStateManager.rotate(90, 0.0f, 0.0f, 1.0f);
                 GlStateManager.translate(-tx, -ty, 0.0f);
-                icon.drawString("g", x, getY() + (getHeight() - icon.getHeight()) / 2f, !ImplScreen.getClientTheme().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
+                icon.drawString("g", x, getY() + (getHeight() - icon.getHeight()) / 2f, !ImplScreen.getClientThemeModuleInstance().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
                 GlStateManager.popMatrix();
             }
         }
