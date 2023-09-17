@@ -5,6 +5,7 @@ import cn.yapeteam.yolbi.ui.guiMultiplayer.GuiMultiplayer;
 import cn.yapeteam.yolbi.ui.mainmenu.AbstractComponent;
 import cn.yapeteam.yolbi.ui.mainmenu.ImplScreen;
 import cn.yapeteam.yolbi.ui.menu.AltLoginScreen;
+import cn.yapeteam.yolbi.ui.menu.InfoGui;
 import cn.yapeteam.yolbi.util.render.RenderUtil;
 import cn.yapeteam.yolbi.util.render.Stencil;
 import lombok.Getter;
@@ -38,7 +39,7 @@ public class ButtonPanel extends AbstractComponent {
         addButton("i", "Multiplayer", () -> Minecraft.getMinecraft().displayGuiScreen(new GuiMultiplayer(parentScreen)));
         addButton("j", "Alts", () -> Minecraft.getMinecraft().displayGuiScreen(new AltLoginScreen()));
         addButton("k", "Options", () -> Minecraft.getMinecraft().displayGuiScreen(new GuiOptions(parentScreen, Minecraft.getMinecraft().gameSettings)));
-        addButton("?", "Info", () -> {
+        addButton("?", "Info", () -> { Minecraft.getMinecraft().displayGuiScreen(new InfoGui());
         });
         addButton("l", "Exit", () -> Minecraft.getMinecraft().shutdown());
         super.init();

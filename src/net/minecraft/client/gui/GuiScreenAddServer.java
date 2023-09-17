@@ -1,9 +1,14 @@
 package net.minecraft.client.gui;
 
+import cn.yapeteam.yolbi.ui.guiMultiplayer.GuiMultiplayer;
+import cn.yapeteam.yolbi.util.render.RenderUtil;
 import com.google.common.base.Predicate;
+
+import java.awt.*;
 import java.io.IOException;
 import java.net.IDN;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Keyboard;
 
@@ -153,7 +158,14 @@ public class GuiScreenAddServer extends GuiScreen
      */
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        this.drawDefaultBackground();
+        //this.drawDefaultBackground();
+        //RenderUtil.drawBloomShadow(0,0,);
+
+        GlStateManager.disableAlpha();
+        ((GuiMultiplayer)parentScreen).renderSkybox(mouseX,mouseY,partialTicks);
+        GlStateManager.enableAlpha();
+
+
         this.drawCenteredString(this.fontRendererObj, I18n.format("addServer.title", new Object[0]), this.width / 2, 17, 16777215);
         this.drawString(this.fontRendererObj, I18n.format("addServer.enterName", new Object[0]), this.width / 2 - 100, 53, 10526880);
         this.drawString(this.fontRendererObj, I18n.format("addServer.enterIp", new Object[0]), this.width / 2 - 100, 94, 10526880);

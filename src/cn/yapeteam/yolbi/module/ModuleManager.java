@@ -86,6 +86,7 @@ public class ModuleManager {
 
         modules.add(new Disabler());
         modules.add(new StrafeConverter());
+        modules.add(new BowBomb());
         modules.add(new AnticheatModule());
         modules.add(new Autoplay());
         modules.add(new SelfDestruct());

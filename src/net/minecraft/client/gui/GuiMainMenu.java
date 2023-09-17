@@ -155,8 +155,6 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
      */
     public void updateScreen() {
         ++this.panoramaTimer;
-
-
     }
 
     /**
