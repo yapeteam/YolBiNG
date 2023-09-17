@@ -1,6 +1,7 @@
 package cn.yapeteam.yolbi.module;
 
 import cn.yapeteam.yolbi.module.impl.combat.*;
+import cn.yapeteam.yolbi.module.impl.exploit.BowBomb;
 import cn.yapeteam.yolbi.module.impl.exploit.Disabler;
 import cn.yapeteam.yolbi.module.impl.exploit.KeepInv;
 import cn.yapeteam.yolbi.module.impl.exploit.StrafeConverter;
