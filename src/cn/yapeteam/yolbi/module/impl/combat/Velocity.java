@@ -1,24 +1,25 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
 import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
 import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
 import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
-import cn.yapeteam.yolbi.module.impl.movement.Blink;
-import cn.yapeteam.yolbi.module.impl.movement.Longjump;
-import cn.yapeteam.yolbi.module.impl.movement.Speed;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
-import cn.yapeteam.yolbi.util.player.KeyboardUtil;
-import net.minecraft.network.play.server.S12PacketEntityVelocity;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
-import net.minecraft.network.play.server.S19PacketEntityStatus;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
+import cn.yapeteam.yolbi.module.impl.movement.Blink;
+import cn.yapeteam.yolbi.module.impl.movement.LongJump;
+import cn.yapeteam.yolbi.module.impl.movement.Speed;
+import cn.yapeteam.yolbi.util.player.KeyboardUtil;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
+import net.minecraft.network.play.server.S12PacketEntityVelocity;
 
+@ModuleInfo(name = "Velocity", category = ModuleCategory.COMBAT)
 public class Velocity extends Module {
-    public final ModeValue<String> mode = new ModeValue<>("Mode", "Packet", "Packet", "Hypixel", "Packet loss", "Legit","Intave","Martix");
-    private final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", () -> (mode.is("Packet")|| mode.is("Intave")), 0, 0, 100, 2);
+    public final ModeValue<String> mode = new ModeValue<>("Mode", "Packet", "Packet", "Hypixel", "Packet loss", "Legit", "Intave", "Martix");
+    private final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", () -> (mode.is("Packet") || mode.is("Intave")), 0, 0, 100, 2);
     private final NumberValue<Integer> vertical = new NumberValue<>("Vertical", () -> mode.is("Packet"), 0, 0, 100, 2);
     private boolean reducing;
     private boolean flag;
@@ -28,11 +29,10 @@ public class Velocity extends Module {
     private int offGroundTicks;
     private Blink blinkModule;
     private Backtrack backtrackModule;
-    private Longjump longjumpModule;
+    private LongJump longjumpModule;
     private Speed speedModule;
 
     public Velocity() {
-        super("Velocity", ModuleCategory.COMBAT);
         this.addValues(mode, horizontal, vertical);
     }
 
@@ -60,7 +60,7 @@ public class Velocity extends Module {
     public void onClientStarted() {
         blinkModule = YolBi.instance.getModuleManager().getModule(Blink.class);
         backtrackModule = YolBi.instance.getModuleManager().getModule(Backtrack.class);
-        longjumpModule = YolBi.instance.getModuleManager().getModule(Longjump.class);
+        longjumpModule = YolBi.instance.getModuleManager().getModule(LongJump.class);
         speedModule = YolBi.instance.getModuleManager().getModule(Speed.class);
     }
 
@@ -122,7 +122,7 @@ public class Velocity extends Module {
                             if (mc.currentScreen == null) {
                                 packet.setMotionX((int) (packet.getMotionX() * horizontal.getValue() / 100.0));
                                 packet.setMotionZ((int) (packet.getMotionZ() * horizontal.getValue() / 100.0));
-                                if (mc.thePlayer.hurtTime ==9){
+                                if (mc.thePlayer.hurtTime == 9) {
                                     mc.gameSettings.keyBindSprint.setPressed(true);
                                     mc.gameSettings.keyBindForward.setPressed(true);
                                     mc.gameSettings.keyBindJump.setPressed(true);
@@ -130,7 +130,8 @@ public class Velocity extends Module {
                                 }
                             }
                             break;
-                        } case "Martix":{
+                        }
+                        case "Martix": {
                             if (packet.getEntityID() == mc.thePlayer.getEntityId()) {
                                 if (!flag) {
                                     event.setCancelled(true);
@@ -193,7 +194,7 @@ public class Velocity extends Module {
                     YolBi.instance.getPacketBlinkHandler().releasePing();
                 }
                 break;
-            case "Martix":{
+            case "Martix": {
                 if (mc.thePlayer.hurtTime > 0 && !mc.thePlayer.onGround) {
                     double var3 = mc.thePlayer.rotationYaw * 0.017453292F;
                     double var5 = Math.sqrt(mc.thePlayer.motionX * mc.thePlayer.motionX + mc.thePlayer.motionZ * mc.thePlayer.motionZ);

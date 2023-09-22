@@ -2,8 +2,6 @@ package cn.yapeteam.yolbi.module;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.util.IMinecraft;
-import cn.yapeteam.yolbi.util.misc.LanguageUtil;
-import cn.yapeteam.yolbi.util.misc.language.ChineseLanguage;
 import cn.yapeteam.yolbi.values.Value;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import lombok.Getter;
@@ -14,9 +12,14 @@ import java.util.Arrays;
 
 @Getter
 public abstract class Module implements IMinecraft {
-    private final String name;
-    private final ModuleCategory category;
+    @Getter
+    @Setter
+    private String name;
+    @Getter
+    @Setter
+    private ModuleCategory category;
 
+    @Getter
     @Setter
     private int key;
 
@@ -26,12 +29,6 @@ public abstract class Module implements IMinecraft {
     protected EventListenType listenType;
 
     private final ArrayList<Value<?>> values = new ArrayList<>();
-
-    public Module(String name, ModuleCategory category) {
-        this.name = name;
-        this.category = category;
-        this.listenType = EventListenType.AUTOMATIC;
-    }
 
     protected void onEnable() {
 
@@ -123,11 +120,11 @@ public abstract class Module implements IMinecraft {
         }
     }
 
-    public void addValues(Value<?>... settings) {
-        this.values.addAll(Arrays.asList(settings));
+    public void addValues(Value<?>... values) {
+        this.values.addAll(Arrays.asList(values));
     }
 
-    public Value<?> getSettingByName(String name) {
+    public Value<?> getValueByName(String name) {
         return values.stream().filter(v -> v.getName().equals(name)).findFirst().orElse(null);
     }
 
@@ -148,5 +145,4 @@ public abstract class Module implements IMinecraft {
 
         return name + formatting + " " + tag;
     }
-
 }

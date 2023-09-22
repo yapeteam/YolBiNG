@@ -1,12 +1,13 @@
 package cn.yapeteam.yolbi.module.impl.world;
 
 import cn.yapeteam.yolbi.event.Listener;
+import cn.yapeteam.yolbi.event.impl.game.TickEvent;
 import cn.yapeteam.yolbi.event.impl.player.JumpEvent;
 import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
 import cn.yapeteam.yolbi.event.impl.player.StrafeEvent;
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.util.player.FixedRotations;
 import cn.yapeteam.yolbi.util.player.RotationsUtil;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
@@ -21,6 +22,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import org.lwjgl.input.Mouse;
 
+@ModuleInfo(name = "Breaker", category = ModuleCategory.WORLD)
 public class Breaker extends Module {
 
     private BlockPos bedPos;
@@ -35,7 +37,6 @@ public class Breaker extends Module {
     private final BooleanValue hypixel = new BooleanValue("Hypixel", false);
 
     public Breaker() {
-        super("Breaker", ModuleCategory.WORLD);
         this.addValues(range, rotate, moveFix, hypixel);
     }
 

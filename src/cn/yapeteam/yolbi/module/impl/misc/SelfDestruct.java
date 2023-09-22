@@ -1,15 +1,12 @@
 package cn.yapeteam.yolbi.module.impl.misc;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 
+@ModuleInfo(name = "Self Destruct", category = ModuleCategory.MISC)
 public class SelfDestruct extends Module {
-
-    public SelfDestruct() {
-        super("Self Destruct", ModuleCategory.MISC);
-    }
-
     @Override
     public void onEnable() {
         YolBi.instance.getModuleManager().modules.forEach(m -> m.setEnabled(false));

@@ -1,25 +1,27 @@
 package cn.yapeteam.yolbi.module.impl.player;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
-import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
+import cn.yapeteam.yolbi.event.Listener;
+import cn.yapeteam.yolbi.event.Priority;
 import cn.yapeteam.yolbi.event.impl.game.TickEvent;
+import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
+import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
+import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.module.impl.movement.Fly;
-import cn.yapeteam.yolbi.module.impl.movement.Longjump;
-import cn.yapeteam.yolbi.values.impl.BooleanValue;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.module.impl.movement.LongJump;
 import cn.yapeteam.yolbi.util.misc.LogUtil;
 import cn.yapeteam.yolbi.util.world.WorldUtil;
+import cn.yapeteam.yolbi.values.impl.BooleanValue;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
 import lombok.Getter;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.util.BlockPos;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.Priority;
-import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.module.Module;
 
+@ModuleInfo(name = "AntiVoid", category = ModuleCategory.PLAYER)
 public class AntiVoid extends Module {
 
     private final ModeValue<String> mode = new ModeValue<>("Mode", "Flag", "Flag", "Collision flag", "Blink", "Bounce");
@@ -38,12 +40,11 @@ public class AntiVoid extends Module {
     private boolean blinking;
 
     private Fly flyModule;
-    private Longjump longjumpModule;
+    private LongJump longjumpModule;
 
     private boolean receivedLagback;
 
     public AntiVoid() {
-        super("AntiVoid", ModuleCategory.PLAYER);
         this.addValues(mode, stopHorizontalMove, bounceMotion, minFallDist);
     }
 
@@ -68,7 +69,7 @@ public class AntiVoid extends Module {
     @Override
     public void onClientStarted() {
         flyModule = YolBi.instance.getModuleManager().getModule(Fly.class);
-        longjumpModule = YolBi.instance.getModuleManager().getModule(Longjump.class);
+        longjumpModule = YolBi.instance.getModuleManager().getModule(LongJump.class);
     }
 
     @Listener(Priority.HIGHER)

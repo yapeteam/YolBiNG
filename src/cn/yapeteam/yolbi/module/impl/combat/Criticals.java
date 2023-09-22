@@ -1,48 +1,48 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
 import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.Listener;
+import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
 import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
 import cn.yapeteam.yolbi.event.impl.player.MoveEvent;
-import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
-import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
+import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.module.impl.movement.Speed;
-import cn.yapeteam.yolbi.values.impl.BooleanValue;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
 import cn.yapeteam.yolbi.util.network.PacketUtil;
 import cn.yapeteam.yolbi.util.player.MovementUtil;
+import cn.yapeteam.yolbi.values.impl.BooleanValue;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C03PacketPlayer;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.module.Module;
 
+@ModuleInfo(name = "Criticals", category = ModuleCategory.COMBAT)
 public class Criticals extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>("Mode", "Packet", "Packet", "Minijump", "NCP","Edit");
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Packet", "Packet", "Minijump", "NCP", "Edit");
 
     private final NumberValue<Integer> hurtTime = new NumberValue<>("Hurt time", () -> mode.is("Minijump"), 2, 1, 6, 1);
     private final NumberValue<Double> motionY = new NumberValue<>("Motion Y", () -> mode.is("Minijump"), 0.08, 0.005, 0.42, 0.005);
     private final BooleanValue normalGravity = new BooleanValue("Normal gravity", () -> mode.is("Minijump"), true);
     private final NumberValue<Double> xzMotionMult = new NumberValue<>("XZ motion mult", () -> mode.is("Minijump"), 1.0, 0.0, 1.0, 0.02);
 
-    private Killaura killauraModule;
+    private KillAura killauraModule;
     private Speed speedModule;
 
     private boolean stage;
     private int groundTicks;
 
     public Criticals() {
-        super("Criticals", ModuleCategory.COMBAT);
         this.addValues(mode, hurtTime, normalGravity, xzMotionMult);
     }
 
     @Override
     public void onClientStarted() {
         speedModule = YolBi.instance.getModuleManager().getModule(Speed.class);
-        killauraModule = YolBi.instance.getModuleManager().getModule(Killaura.class);
+        killauraModule = YolBi.instance.getModuleManager().getModule(KillAura.class);
     }
 
     @Listener
@@ -102,18 +102,18 @@ public class Criticals extends Module {
     }
 
     @Listener
-    public void onMotion(MotionEvent event){
-        if (mode.is("Edit")){
+    public void onMotion(MotionEvent event) {
+        if (mode.is("Edit")) {
             if (killauraModule.isEnabled() && killauraModule.getTarget() != null) {
                 if (killauraModule.getTarget() instanceof EntityPlayer) {
-                    if (event.isOnGround()){
+                    if (event.isOnGround()) {
                         groundTicks++;
-                        if(groundTicks > 2) {
+                        if (groundTicks > 2) {
                             stage = !stage;
                             event.setY(event.getY() + (stage ? 0.015 : 0.01) - Math.random() * 0.0001);
                             event.setOnGround(false);
                         }
-                    }else {
+                    } else {
                         groundTicks = 0;
                     }
                 }
@@ -121,7 +121,6 @@ public class Criticals extends Module {
         }
 
     }
-
 
 
 }

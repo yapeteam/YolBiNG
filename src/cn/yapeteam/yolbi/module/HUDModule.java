@@ -22,9 +22,7 @@ public abstract class HUDModule extends Module {
     @Getter
     protected AlignType alignType;
 
-    public HUDModule(String name, ModuleCategory category, double defaultX, double defaultY, int width, int height, AlignType alignType) {
-        super(name, category);
-
+    public HUDModule(double defaultX, double defaultY, int width, int height, AlignType alignType) {
         posX = new NumberValue<>("Pos X", () -> false, defaultX, 0.0, 1000.0, 0.5);
         posY = new NumberValue<>("Pos Y", () -> false, defaultY, 0.0, 1000.0, 0.5);
 

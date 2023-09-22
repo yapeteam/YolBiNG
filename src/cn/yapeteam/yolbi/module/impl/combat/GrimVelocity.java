@@ -5,6 +5,7 @@ import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
 import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import lombok.val;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
@@ -15,11 +16,8 @@ import net.minecraft.util.EnumFacing;
 /**
  * Source: HYTC07全反开源.kt
  */
+@ModuleInfo(name = "GrimVelocity", category = ModuleCategory.COMBAT)
 public class GrimVelocity extends Module {
-    public GrimVelocity() {
-        super("GrimVelocity", ModuleCategory.COMBAT);
-    }
-
     private int S08 = 0;
     private boolean isVel = false;
 

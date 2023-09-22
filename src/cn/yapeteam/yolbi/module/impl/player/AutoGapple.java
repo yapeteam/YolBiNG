@@ -5,6 +5,7 @@ import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
 import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.util.misc.TimerUtil;
 import cn.yapeteam.yolbi.util.network.PacketUtil;
 import cn.yapeteam.yolbi.util.player.InventoryUtil;
@@ -28,33 +29,34 @@ import java.util.Random;
  * don't mind
  * @date 2023/8/23 10:38
  */
+@ModuleInfo(name = "AutoGapple", category = ModuleCategory.PLAYER)
 public class AutoGapple extends Module {
-    private final ModeValue<String> modeValue = new ModeValue<>("Mode","Auto","Auto","LegitAuto","Legit","Head");
-    private final NumberValue<Float> percent = new NumberValue<>("HealthPercent",75.0f,1.0f,100f,1f);
-    private final NumberValue<Integer> min = new NumberValue<>("MinDelay",75,1,5000,1);
-    private final NumberValue<Integer> max = new NumberValue<>("MaxDelay",125,1,5000,1);
-    private final NumberValue<Float> regenSec = new NumberValue<>("MinRegenSec",4.6f,0.0f,10f,0.1f);
-    private final BooleanValue groundCheck = new BooleanValue("OnlyOnGround",false);
-    private final BooleanValue waitRegen = new BooleanValue("WaitRegen",false);
-    private final BooleanValue invCheck = new BooleanValue("InvCheck",false);
-    private final BooleanValue absorpCheck = new BooleanValue("NoAbsorption",false);
+    private final ModeValue<String> modeValue = new ModeValue<>("Mode", "Auto", "Auto", "LegitAuto", "Legit", "Head");
+    private final NumberValue<Float> percent = new NumberValue<>("HealthPercent", 75.0f, 1.0f, 100f, 1f);
+    private final NumberValue<Integer> min = new NumberValue<>("MinDelay", 75, 1, 5000, 1);
+    private final NumberValue<Integer> max = new NumberValue<>("MaxDelay", 125, 1, 5000, 1);
+    private final NumberValue<Float> regenSec = new NumberValue<>("MinRegenSec", 4.6f, 0.0f, 10f, 0.1f);
+    private final BooleanValue groundCheck = new BooleanValue("OnlyOnGround", false);
+    private final BooleanValue waitRegen = new BooleanValue("WaitRegen", false);
+    private final BooleanValue invCheck = new BooleanValue("InvCheck", false);
+    private final BooleanValue absorpCheck = new BooleanValue("NoAbsorption", false);
 
-    private TimerUtil timer = new TimerUtil();
+    private final TimerUtil timer = new TimerUtil();
     private int eating = -1;
     private long delay = 0;
     private boolean isDisable = false;
     private boolean tryHeal = false;
     private int prevSlot = -1;
     private boolean switchBack = false;
+
     public AutoGapple() {
-        super("AutoGapple",ModuleCategory.PLAYER);
         min.setCallback((oldV, newV) -> newV > max.getValue() ? oldV : newV);
         max.setCallback((oldV, newV) -> newV < min.getValue() ? oldV : newV);
-        this.addValues(modeValue,percent,min,max,regenSec,groundCheck,waitRegen,invCheck,absorpCheck);
+        this.addValues(modeValue, percent, min, max, regenSec, groundCheck, waitRegen, invCheck, absorpCheck);
     }
 
     @Override
-    protected void onEnable(){
+    protected void onEnable() {
         eating = -1;
         prevSlot = -1;
         switchBack = false;
@@ -65,25 +67,25 @@ public class AutoGapple extends Module {
     }
 
     @Listener
-    protected void onPacket(PacketReceiveEvent event){
+    protected void onPacket(PacketReceiveEvent event) {
         final Packet packet = event.getPacket();
-        if (eating != -1 && packet instanceof C03PacketPlayer){
+        if (eating != -1 && packet instanceof C03PacketPlayer) {
             eating++;
-        }else if (packet instanceof C03PacketPlayer || packet instanceof C09PacketHeldItemChange){
-            eating =-1;
+        } else if (packet instanceof C03PacketPlayer || packet instanceof C09PacketHeldItemChange) {
+            eating = -1;
         }
     }
 
     @Listener
-    protected void onUpdate(UpdateEvent event){
+    protected void onUpdate(UpdateEvent event) {
         if (tryHeal) {
             int gappleInHotbar;
             try {
                 gappleInHotbar = InventoryUtil.findItem(36, 45, Items.golden_apple);
-            }catch (IndexOutOfBoundsException exception){
+            } catch (IndexOutOfBoundsException exception) {
                 gappleInHotbar = -1;
             }
-            if (gappleInHotbar == -1){
+            if (gappleInHotbar == -1) {
                 tryHeal = false;
                 return;
             }
@@ -91,7 +93,7 @@ public class AutoGapple extends Module {
                 case "auto": {
                     PacketUtil.sendPacketNoEvent(new C09PacketHeldItemChange(gappleInHotbar - 36));
                     PacketUtil.sendPacketNoEvent(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
-                    for (int i=1;i<=35;i++){
+                    for (int i = 1; i <= 35; i++) {
                         //发送C03达到快速吃苹果的目的
                         PacketUtil.sendPacketNoEvent(new C03PacketPlayer(mc.thePlayer.onGround));
                     }
@@ -102,7 +104,8 @@ public class AutoGapple extends Module {
                     timer.reset();
                     delay = MathHelper.getRandomIntegerInRange(new Random(), min.getValue(), max.getValue());
                     break;
-                } case "legitauto": {
+                }
+                case "legitauto": {
                     if (eating == -1) {
                         PacketUtil.sendPacketNoEvent(new C09PacketHeldItemChange(gappleInHotbar - 36));
                         PacketUtil.sendPacketNoEvent(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
@@ -114,7 +117,8 @@ public class AutoGapple extends Module {
                         delay = MathHelper.getRandomIntegerInRange(new Random(), min.getValue(), max.getValue());
                     }
                     break;
-                } case "legit": {
+                }
+                case "legit": {
                     if (eating == -1) {
                         if (prevSlot == -1)
                             prevSlot = mc.thePlayer.inventory.currentItem;
@@ -128,7 +132,8 @@ public class AutoGapple extends Module {
                         delay = MathHelper.getRandomIntegerInRange(new Random(), min.getValue(), max.getValue());
                     }
                     break;
-                } case "head": {
+                }
+                case "head": {
                     int headInHotbar = InventoryUtil.findItem(36, 45, Items.skull);
                     if (headInHotbar != -1) {
                         PacketUtil.sendPacketNoEvent(new C09PacketHeldItemChange(headInHotbar - 36));
@@ -137,7 +142,7 @@ public class AutoGapple extends Module {
                         timer.reset();
                         tryHeal = false;
                         delay = MathHelper.getRandomIntegerInRange(new Random(), min.getValue(), max.getValue());
-                    }else {
+                    } else {
                         tryHeal = false;
                     }
                     break;
@@ -173,7 +178,6 @@ public class AutoGapple extends Module {
             tryHeal = true;
         }
     }
-
 
 
 }

@@ -1,18 +1,8 @@
 package cn.yapeteam.yolbi.module;
 
-import cn.yapeteam.yolbi.module.impl.combat.*;
-import cn.yapeteam.yolbi.module.impl.exploit.BowBomb;
-import cn.yapeteam.yolbi.module.impl.exploit.Disabler;
-import cn.yapeteam.yolbi.module.impl.exploit.KeepInv;
-import cn.yapeteam.yolbi.module.impl.exploit.StrafeConverter;
-import cn.yapeteam.yolbi.module.impl.misc.*;
-import cn.yapeteam.yolbi.module.impl.movement.*;
-import cn.yapeteam.yolbi.module.impl.player.*;
-import cn.yapeteam.yolbi.module.impl.visual.*;
-import cn.yapeteam.yolbi.module.impl.world.AutoBridge;
-import cn.yapeteam.yolbi.module.impl.world.Breaker;
-import cn.yapeteam.yolbi.module.impl.world.Scaffold;
+import org.reflections.Reflections;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,77 +14,23 @@ public class ModuleManager {
     public List<HUDModule> hudModules;
 
     public ModuleManager() {
-        modules.add(new Killaura());
-        modules.add(new Velocity());
-        modules.add(new GrimVelocity());
-        modules.add(new TargetStrafe());
-        modules.add(new Teams());
-        modules.add(new Backtrack());
-        modules.add(new TickBase());
-        modules.add(new Reach());
-        modules.add(new Autoclicker());
-        modules.add(new AimAssist());
-        modules.add(new DelayRemover());
-        modules.add(new WTap());
-        modules.add(new Criticals());
-        modules.add(new AntiBot());
-
-        modules.add(new Sprint());
-        modules.add(new Fly());
-        modules.add(new Speed());
-        modules.add(new Longjump());
-        modules.add(new NoJumpDelay());
-        modules.add(new InventoryMove());
-        modules.add(new Noslow());
-        modules.add(new Blink());
-        modules.add(new Safewalk());
-        modules.add(new Step());
-
-        modules.add(new ChestStealer());
-        modules.add(new InventoryManager());
-        modules.add(new NoFall());
-        modules.add(new KeepInv());
-        modules.add(new AntiVoid());
-        modules.add(new Timer());
-        modules.add(new FastPlace());
-        modules.add(new AutoTool());
-        modules.add(new Autoplace());
-        modules.add(new AutoGapple());
-        modules.add(new Scaffold());
-        modules.add(new AutoBridge());
-        modules.add(new Breaker());
-
-        modules.add(new Watermark());
-        modules.add(new ModuleList());
-        modules.add(new IngameInfo());
-        modules.add(new ItemESP());
-        modules.add(new ClientTheme());
-        modules.add(new ClickUI());
-        modules.add(new ESP());
-        modules.add(new ItemPhysic());
-        modules.add(new Chams());
-        modules.add(new Animations());
-        modules.add(new Rotations());
-        modules.add(new TargetHUD());
-        modules.add(new Keystrokes());
-        modules.add(new Mobends());
-        modules.add(new Freelook());
-        modules.add(new Ambience());
-        modules.add(new Fullbright());
-        modules.add(new NameProtect());
-        modules.add(new Xray());
-        modules.add(new Particles());
-
-        modules.add(new Disabler());
-        modules.add(new StrafeConverter());
-        modules.add(new BowBomb());
-        modules.add(new AnticheatModule());
-        modules.add(new Autoplay());
-        modules.add(new SelfDestruct());
-        modules.add(new NoteBot());
-        modules.add(new PacketFix());
-
-
+        Reflections reflections = new Reflections(getClass().getPackage().getName());
+        for (Class<? extends Module> aClass : reflections.getSubTypesOf(Module.class)) {
+            if (aClass.getAnnotation(Deprecated.class) == null && aClass.getAnnotation(ModuleInfo.class) != null) {
+                try {
+                    Module module = aClass.getConstructor().newInstance();
+                    ModuleInfo info = aClass.getAnnotation(ModuleInfo.class);
+                    module.setName(info.name());
+                    module.setCategory(info.category());
+                    module.setKey(info.key());
+                    modules.add(module);
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                         NoSuchMethodException e) {
+                    System.err.println("Failed to load Module: " + aClass.getSimpleName());
+                }
+            }
+        }
+        modules.sort((m1, m2) -> -Integer.compare(m2.getName().charAt(0), m1.getName().charAt(0)));
         hudModules = modules.stream().filter(HUDModule.class::isInstance).map(HUDModule.class::cast).collect(Collectors.toList());
     }
 

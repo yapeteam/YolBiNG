@@ -1,17 +1,19 @@
 package cn.yapeteam.yolbi.module.impl.player;
 
 import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.Listener;
+import cn.yapeteam.yolbi.event.Priority;
 import cn.yapeteam.yolbi.event.impl.game.TickEvent;
+import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import org.lwjgl.input.Mouse;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.Priority;
-import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.module.Module;
 
+@ModuleInfo(name = "AutoTool", category = ModuleCategory.PLAYER)
 public class AutoTool extends Module {
 
     private int oldSlot;
@@ -21,7 +23,6 @@ public class AutoTool extends Module {
     private final BooleanValue spoof = new BooleanValue("Item spoof", false);
 
     public AutoTool() {
-        super("AutoTool", ModuleCategory.PLAYER);
         this.addValues(spoof);
     }
 

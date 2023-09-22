@@ -2,6 +2,7 @@ package cn.yapeteam.yolbi.module.impl.visual;
 
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 
 /**
  * @author yuxiangll
@@ -9,13 +10,15 @@ import cn.yapeteam.yolbi.module.ModuleCategory;
  * don't mind
  * @date 2023/8/23 17:19
  */
+@ModuleInfo(name = "ItemPhysic", category = ModuleCategory.VISUAL)
 public class ItemPhysic extends Module {
     private static ItemPhysic itemPhysic;
-    public static ItemPhysic getInstance(){
+
+    public static ItemPhysic getInstance() {
         return itemPhysic;
     }
+
     public ItemPhysic() {
-        super("ItemPhysic",ModuleCategory.VISUAL);
         itemPhysic = this;
     }
 

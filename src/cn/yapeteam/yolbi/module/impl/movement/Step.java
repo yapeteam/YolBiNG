@@ -1,17 +1,19 @@
 package cn.yapeteam.yolbi.module.impl.movement;
 
+import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
 import cn.yapeteam.yolbi.event.impl.player.PostStepEvent;
 import cn.yapeteam.yolbi.event.impl.player.PreStepEvent;
 import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
-import cn.yapeteam.yolbi.util.network.PacketUtil;
-import net.minecraft.network.play.client.C03PacketPlayer;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
+import cn.yapeteam.yolbi.util.network.PacketUtil;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
+import net.minecraft.network.play.client.C03PacketPlayer;
 
+@ModuleInfo(name = "Step", category = ModuleCategory.MOVEMENT)
 public class Step extends Module {
 
     private final ModeValue<String> mode = new ModeValue<>("Mode", "Vanilla", "Vanilla", "NCP");
@@ -24,7 +26,6 @@ public class Step extends Module {
     private boolean timerTick;
 
     public Step() {
-        super("Step", ModuleCategory.MOVEMENT);
         this.addValues(mode, height, timer);
     }
 

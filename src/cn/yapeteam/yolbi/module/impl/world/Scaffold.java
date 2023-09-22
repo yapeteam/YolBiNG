@@ -3,22 +3,24 @@ package cn.yapeteam.yolbi.module.impl.world;
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.player.*;
-import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
-import cn.yapeteam.yolbi.module.impl.combat.Killaura;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
+import cn.yapeteam.yolbi.module.impl.combat.KillAura;
 import cn.yapeteam.yolbi.module.impl.movement.Speed;
-import cn.yapeteam.yolbi.values.impl.BooleanValue;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
 import cn.yapeteam.yolbi.util.network.PacketUtil;
 import cn.yapeteam.yolbi.util.player.*;
 import cn.yapeteam.yolbi.util.world.BlockInfo;
 import cn.yapeteam.yolbi.util.world.WorldUtil;
+import cn.yapeteam.yolbi.values.impl.BooleanValue;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.util.*;
 
+@ModuleInfo(name = "Scaffold", category = ModuleCategory.WORLD)
 public class Scaffold extends Module {
 
     private final ModeValue<String> rotationsTiming = new ModeValue<>("Rotations timing", "Always", "Always", "Over air", "Never");
@@ -84,7 +86,6 @@ public class Scaffold extends Module {
     private boolean hadBlockInfo;
 
     public Scaffold() {
-        super("Scaffold", ModuleCategory.WORLD);
         this.addValues(rotationsTiming, rotationsMode, rotChangeOverAir, randomised, yawOffset, pitchValue, noSprintTiming, noSprintMode, raytrace, negativeExpand, offGroundNegativeExpand, delayBetweenPlacements, sneakOverAir, moveFix, strafe, offGroundStrafe, strafeSpeed, overAirSpeed, offGroundSpeed, strafeSpeedPotExtra, randomisedSpeed, jump, range, tower, blockPicker, noSwing);
     }
 
@@ -225,7 +226,7 @@ public class Scaffold extends Module {
         }
 
         if (!placed && mc.thePlayer.ticksExisted % 2 == 0) {
-            Killaura killaura = YolBi.instance.getModuleManager().getModule(Killaura.class);
+            KillAura killaura = YolBi.instance.getModuleManager().getModule(KillAura.class);
 
             if (!killaura.isEnabled() || killaura.getTarget() == null) {
                 PacketUtil.sendBlocking(true, false);

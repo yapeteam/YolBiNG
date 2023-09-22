@@ -116,7 +116,7 @@ public class FileSystem {
                                     }
                                     break;
                                 case "Setting":
-                                    Value<?> value = m.getSettingByName(infos[2]);
+                                    Value<?> value = m.getValueByName(infos[2]);
 
                                     if (value != null) {
                                         if (value instanceof BooleanValue) {

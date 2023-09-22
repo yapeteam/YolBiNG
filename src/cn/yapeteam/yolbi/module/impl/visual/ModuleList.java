@@ -22,13 +22,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 @SuppressWarnings("DuplicatedCode")
+@ModuleInfo(name = "Module List", category = ModuleCategory.VISUAL)
 public class ModuleList extends HUDModule {
 
     private boolean initialised;
 
     private final ArrayList<AnimationHolder<Module>> modules = new ArrayList<>();
 
-    private final ModeValue<String> mode = new ModeValue<>("Mode", "Simple", "Simple", "New", "Outline","Bloom" ,"Custom");
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Simple", "Simple", "New", "Outline", "Bloom", "Custom");
 
     private final ModeValue<String> font = FontUtil.getFontSetting(() -> mode.is("Custom"));
 
@@ -54,7 +55,7 @@ public class ModuleList extends HUDModule {
     private ClientTheme theme;
 
     public ModuleList() {
-        super("Module List", ModuleCategory.VISUAL, 5, 5, 100, 200, AlignType.RIGHT);
+        super(5, 5, 100, 200, AlignType.RIGHT);
         this.addValues(mode, font, animType, animDuration, verticalSpacing, box, extraWidth, boxAlpha, leftOutline, rightOutline, topOutline, bottomOutline, alignMode);
         this.listenType = EventListenType.MANUAL;
         this.startListening();
@@ -187,9 +188,9 @@ public class ModuleList extends HUDModule {
                     //RenderUtil.drawBloomShadow();
                     //Gui.drawRect(startX, startY, startX + 2, endY, getColor((int) (startY * -17)));
                     Color alColor = new Color(getColor((int) (startY * -17)));
-                    RenderUtil.drawBloomShadow(startX + 2, startY, endX-startX-2, endY-startY,20,
-                            new Color(alColor.getRed(),alColor.getGreen(),alColor.getBlue(),200)
-                            );
+                    RenderUtil.drawBloomShadow(startX + 2, startY, endX - startX - 2, endY - startY, 20,
+                            new Color(alColor.getRed(), alColor.getGreen(), alColor.getBlue(), 200)
+                    );
                     //Gui.drawRect(startX + 2, startY, endX, endY, 0x70000000);
                     drawStringWithShadow(name, startX + 3.5F, startY + 1.5F, getColor((int) (startY * -17)));
                 }, startX, startY, endX, startY + offsetY * mult);

@@ -7,18 +7,20 @@ import cn.yapeteam.yolbi.event.impl.player.EntityActionEvent;
 import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
 import cn.yapeteam.yolbi.event.impl.player.MoveEvent;
 import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
-import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
-import cn.yapeteam.yolbi.values.impl.BooleanValue;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.util.player.MovementUtil;
+import cn.yapeteam.yolbi.values.impl.BooleanValue;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Keyboard;
 
-public class Longjump extends Module {
+@ModuleInfo(name = "LongJump", category = ModuleCategory.MOVEMENT)
+public class LongJump extends Module {
 
     public final ModeValue<String> mode = new ModeValue<>("Mode", "Vanilla", "Vanilla", "Hycraft", "Self damage");
 
@@ -38,8 +40,7 @@ public class Longjump extends Module {
 
     private double velocityX, velocityY, velocityZ;
 
-    public Longjump() {
-        super("Longjump", ModuleCategory.MOVEMENT);
+    public LongJump() {
         this.addValues(mode, motionY, speed, stopMovement, waitingTicks, horizontalMove, horizontalBoostAmount, afterVelocityYBoost);
     }
 

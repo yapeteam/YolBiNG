@@ -1,31 +1,32 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.player.EntityActionEvent;
+import cn.yapeteam.yolbi.event.Listener;
+import cn.yapeteam.yolbi.event.Priority;
 import cn.yapeteam.yolbi.event.impl.game.TickEvent;
+import cn.yapeteam.yolbi.event.impl.player.EntityActionEvent;
+import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MovingObjectPosition;
 import org.lwjgl.input.Keyboard;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.Priority;
-import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.module.Module;
 
+@ModuleInfo(name = "WTap", category = ModuleCategory.COMBAT)
 public class WTap extends Module {
 
     private boolean taped, stoppedLastTick;
 
     private final ModeValue<String> mode = new ModeValue<>("Mode", "Legit", "Legit", "Spoof");
 
-    private Killaura killauraModule;
+    private KillAura killauraModule;
 
     private EntityLivingBase lastCursorTarget;
 
     private int cursorTargetTicks;
 
     public WTap() {
-        super("WTap", ModuleCategory.COMBAT);
         this.addValues(mode);
     }
 
@@ -37,7 +38,7 @@ public class WTap extends Module {
 
     @Override
     public void onClientStarted() {
-        killauraModule = YolBi.instance.getModuleManager().getModule(Killaura.class);
+        killauraModule = YolBi.instance.getModuleManager().getModule(KillAura.class);
     }
 
     @Listener(Priority.LOW)
@@ -90,7 +91,7 @@ public class WTap extends Module {
 
     public EntityLivingBase getCurrentTarget() {
         if (killauraModule == null) {
-            killauraModule = YolBi.instance.getModuleManager().getModule(Killaura.class);
+            killauraModule = YolBi.instance.getModuleManager().getModule(KillAura.class);
         }
 
         if (killauraModule.isEnabled() && killauraModule.getTarget() != null) {

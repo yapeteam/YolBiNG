@@ -4,6 +4,7 @@ import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.module.AlignType;
 import cn.yapeteam.yolbi.module.HUDModule;
 import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.util.animation.AnimationHolder;
 import cn.yapeteam.yolbi.util.animation.AnimationType;
 import cn.yapeteam.yolbi.util.render.FontUtil;
@@ -14,8 +15,8 @@ import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
 
+@ModuleInfo(name = "Keystrokes", category = ModuleCategory.VISUAL)
 public class Keystrokes extends HUDModule {
-
     private final ModeValue<String> font = FontUtil.getFontSetting();
 
     private final ArrayList<AnimationHolder<KeyBinding>> keys = new ArrayList<>();
@@ -25,7 +26,7 @@ public class Keystrokes extends HUDModule {
     private ClientTheme theme;
 
     public Keystrokes() {
-        super("Keystrokes", ModuleCategory.VISUAL, 15, 35, 70, 70, AlignType.LEFT);
+        super(15, 35, 70, 70, AlignType.LEFT);
         this.addValues(font);
     }
 

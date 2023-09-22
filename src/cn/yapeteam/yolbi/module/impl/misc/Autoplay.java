@@ -1,15 +1,17 @@
 package cn.yapeteam.yolbi.module.impl.misc;
 
-import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
-import cn.yapeteam.yolbi.util.misc.TimerUtil;
-import net.minecraft.network.play.server.S02PacketChat;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.event.impl.game.TickEvent;
+import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
+import cn.yapeteam.yolbi.util.misc.TimerUtil;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
+import net.minecraft.network.play.server.S02PacketChat;
 
+@ModuleInfo(name = "Autoplay", category = ModuleCategory.MISC)
 public class Autoplay extends Module {
 
     private final ModeValue<String> mode = new ModeValue<>("Mode", "Solo insane", "Solo normal", "Solo insane");
@@ -24,7 +26,6 @@ public class Autoplay extends Module {
     private boolean waiting;
 
     public Autoplay() {
-        super("Autoplay", ModuleCategory.MISC);
         this.addValues(mode, delay);
     }
 
@@ -36,7 +37,7 @@ public class Autoplay extends Module {
 
     @Listener
     public void onTick(TickEvent event) {
-        if(waiting && timer.getTimeElapsed() >= delay.getValue()) {
+        if (waiting && timer.getTimeElapsed() >= delay.getValue()) {
             String command = "";
 
             switch (mode.getValue()) {
@@ -57,12 +58,12 @@ public class Autoplay extends Module {
 
     @Listener
     public void onReceive(PacketReceiveEvent event) {
-        if(event.getPacket() instanceof S02PacketChat) {
+        if (event.getPacket() instanceof S02PacketChat) {
             S02PacketChat packet = event.getPacket();
 
             String message = packet.getChatComponent().getUnformattedText();
 
-            if((message.contains(winMessage) && message.length() < winMessage.length() + 3) || (message.contains(loseMessage) && message.length() < loseMessage.length() + 3)) {
+            if ((message.contains(winMessage) && message.length() < winMessage.length() + 3) || (message.contains(loseMessage) && message.length() < loseMessage.length() + 3)) {
                 waiting = true;
                 timer.reset();
             }

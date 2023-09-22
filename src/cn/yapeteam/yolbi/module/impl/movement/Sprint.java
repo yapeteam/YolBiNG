@@ -1,22 +1,23 @@
 package cn.yapeteam.yolbi.module.impl.movement;
 
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
-import cn.yapeteam.yolbi.event.impl.player.StrafeEvent;
-import cn.yapeteam.yolbi.util.network.ServerUtil;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.Priority;
-import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.event.impl.game.TickEvent;
+import cn.yapeteam.yolbi.event.impl.player.StrafeEvent;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
+import cn.yapeteam.yolbi.util.network.ServerUtil;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
 
 import java.util.Objects;
 
+@ModuleInfo(name = "Sprint", category = ModuleCategory.MOVEMENT)
 public class Sprint extends Module {
     public final ModeValue<String> mode = new ModeValue<>("Mode", "Simple", "Simpe", "Legit");
 
 
     public Sprint() {
-        super("Sprint", ModuleCategory.MOVEMENT);
         this.setEnabledSilently(true);
         this.addValues(mode);
     }

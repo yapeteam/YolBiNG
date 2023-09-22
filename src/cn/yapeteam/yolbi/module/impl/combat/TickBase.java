@@ -1,13 +1,15 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
 import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
 import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
 
+@ModuleInfo(name = "TickBase", category = ModuleCategory.COMBAT)
 public class TickBase extends Module {
     private static TickBase tickbase;
 
@@ -15,7 +17,7 @@ public class TickBase extends Module {
         return tickbase;
     }
 
-    private Killaura killauraModule;
+    private KillAura killauraModule;
 
     private int counter = -1;
     public boolean freezing;
@@ -23,7 +25,6 @@ public class TickBase extends Module {
     private final NumberValue<Integer> ticks = new NumberValue<>("Ticks", 3, 1, 10, 1);
 
     public TickBase() {
-        super("TickBase", ModuleCategory.COMBAT);
         this.addValues(ticks);
         tickbase = this;
     }
@@ -41,7 +42,7 @@ public class TickBase extends Module {
 
     @Override
     public void onClientStarted() {
-        killauraModule = YolBi.instance.getModuleManager().getModule(Killaura.class);
+        killauraModule = YolBi.instance.getModuleManager().getModule(KillAura.class);
     }
 
     public int getExtraTicks() {

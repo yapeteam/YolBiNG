@@ -1,18 +1,19 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
-import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.util.misc.TimerUtil;
-import org.lwjgl.input.Mouse;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.event.impl.game.TickEvent;
+import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
+import cn.yapeteam.yolbi.util.misc.TimerUtil;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
+import org.lwjgl.input.Mouse;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Autoclicker extends Module {
-
+@ModuleInfo(name = "AutoClicker", category = ModuleCategory.COMBAT)
+public class AutoClicker extends Module {
     private boolean wasHoldingMouse;
     private boolean clickingTick;
 
@@ -21,8 +22,7 @@ public class Autoclicker extends Module {
     private final NumberValue<Integer> minCPS = new NumberValue<>("Min CPS", 8, 1, 20, 1);
     private final NumberValue<Integer> maxCPS = new NumberValue<>("Max CPS", 15, 1, 20, 1);
 
-    public Autoclicker() {
-        super("Autoclicker", ModuleCategory.COMBAT);
+    public AutoClicker() {
         minCPS.setCallback((oldV, newV) -> newV > maxCPS.getValue() ? oldV : newV);
         maxCPS.setCallback((oldV, newV) -> newV < minCPS.getValue() ? oldV : newV);
         this.addValues(minCPS, maxCPS);

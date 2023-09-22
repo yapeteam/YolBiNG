@@ -1,8 +1,12 @@
 package cn.yapeteam.yolbi.module.impl.player;
 
+import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
+import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.util.player.ArmorType;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -11,12 +15,9 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.*;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.module.Module;
 
+@ModuleInfo(name = "InventoryManager", category = ModuleCategory.PLAYER)
 public class InventoryManager extends Module {
-
     private final NumberValue<Integer> delaySetting = new NumberValue<>("Delay", 1, 0, 10, 1);
 
     private ItemStack helmet, chestplate, leggings, boots;
@@ -41,7 +42,6 @@ public class InventoryManager extends Module {
     private final boolean priorise_golden_tool = false;
 
     public InventoryManager() {
-        super("Inventory Manager", ModuleCategory.PLAYER);
         this.addValues(delaySetting, weapon_slot, axe_slot, pickaxe_slot, shovel_slot, block_stack_slot, golden_apples_slot);
     }
 

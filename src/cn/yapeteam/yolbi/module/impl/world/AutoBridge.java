@@ -1,19 +1,22 @@
 package cn.yapeteam.yolbi.module.impl.world;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
-import cn.yapeteam.yolbi.event.impl.player.MoveEvent;
-import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
+import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.game.TickEvent;
+import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
 import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
-import cn.yapeteam.yolbi.util.player.MovementUtil;
-import cn.yapeteam.yolbi.values.impl.BooleanValue;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
+import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.util.player.FixedRotations;
 import cn.yapeteam.yolbi.util.player.KeyboardUtil;
+import cn.yapeteam.yolbi.util.player.MovementUtil;
 import cn.yapeteam.yolbi.util.player.PlayerUtil;
 import cn.yapeteam.yolbi.util.world.BlockInfo;
 import cn.yapeteam.yolbi.util.world.WorldUtil;
+import cn.yapeteam.yolbi.values.impl.BooleanValue;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
@@ -22,13 +25,11 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.module.Module;
 
+@ModuleInfo(name = "AutoBridge", category = ModuleCategory.WORLD)
 public class AutoBridge extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>("Mode", "Sprint", "Sprint", "No sprint", "Godbridge","Telly");
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Sprint", "Sprint", "No sprint", "Godbridge", "Telly");
 
     private final BooleanValue keepY = new BooleanValue("Keep Y", () -> mode.is("Sprint"), true);
 
@@ -59,7 +60,6 @@ public class AutoBridge extends Module {
     private int offgtoundTick;
 
     public AutoBridge() {
-        super("AutoBridge", ModuleCategory.WORLD);
         this.addValues(mode, keepY, alwaysRotateOffground, ninjaBridge, eagle, freelook, blockPicker);
     }
 
@@ -208,9 +208,9 @@ public class AutoBridge extends Module {
                 }
                 break;
             case "Telly":
-                if (mc.thePlayer.onGround){
+                if (mc.thePlayer.onGround) {
                     offgtoundTick = 0;
-                }else {
+                } else {
                     offgtoundTick++;
                 }
                 break;
@@ -228,10 +228,10 @@ public class AutoBridge extends Module {
             case "Telly":
                 mc.thePlayer.setSprinting(false);
 
-                if (mc.thePlayer.onGround&&MovementUtil.isMoving()) {
+                if (mc.thePlayer.onGround && MovementUtil.isMoving()) {
                     mc.thePlayer.jump();
                 }
-                if (offgtoundTick >= 3){
+                if (offgtoundTick >= 3) {
                     if (MovementUtil.isMoving()) mc.gameSettings.keyBindBack.setPressed(false);
                     mc.thePlayer.rotationYaw = rotations.getYaw();
                     mc.thePlayer.rotationPitch = rotations.getPitch();
@@ -239,7 +239,7 @@ public class AutoBridge extends Module {
                     mc.gameSettings.keyBindUseItem.setPressed(true);
                     mc.rightClickDelayTimer = 0;
 
-                }else {
+                } else {
                     if (MovementUtil.isMoving()) mc.gameSettings.keyBindBack.setPressed(true);
 
                     mc.gameSettings.keyBindUseItem.setPressed(false);

@@ -1,15 +1,12 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
-import net.minecraft.entity.player.EntityPlayer;
-import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
+import net.minecraft.entity.player.EntityPlayer;
 
+@ModuleInfo(name = "Teams", category = ModuleCategory.COMBAT)
 public class Teams extends Module {
-
-    public Teams() {
-        super("Teams", ModuleCategory.COMBAT);
-    }
-
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean canAttack(EntityPlayer entity) {
         if (!this.isEnabled()) return true;
@@ -22,5 +19,4 @@ public class Teams extends Module {
             return false;
         }
     }
-
 }

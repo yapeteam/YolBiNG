@@ -5,33 +5,31 @@ import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
 import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
 import cn.yapeteam.yolbi.event.impl.player.*;
-import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
-import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.util.misc.TimerUtil;
-import cn.yapeteam.yolbi.util.render.RenderUtil;
-import cn.yapeteam.yolbi.values.impl.BooleanValue;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
 import cn.yapeteam.yolbi.util.network.PacketUtil;
 import cn.yapeteam.yolbi.util.player.MovementUtil;
 import cn.yapeteam.yolbi.util.player.PlayerUtil;
 import cn.yapeteam.yolbi.util.world.WorldUtil;
+import cn.yapeteam.yolbi.values.impl.BooleanValue;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
 import net.minecraft.block.BlockAir;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0APacketAnimation;
-import net.minecraft.network.play.client.C0CPacketInput;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Timer;
 
 @SuppressWarnings("SwitchStatementWithTooFewBranches")
+@ModuleInfo(name = "Fly", category = ModuleCategory.MOVEMENT)
 public class Fly extends Module {
     private final ModeValue<String> mode = new ModeValue<>("Mode", "Vanilla", "Vanilla", "Collision", "NCP", "Blocksmc", "Velocity");
 
@@ -68,16 +66,14 @@ public class Fly extends Module {
     private float lastYaw;
 
     private BlockPos lastBarrier;
-    private TimerUtil DJCTimer = new TimerUtil();
+    private final TimerUtil DJCTimer = new TimerUtil();
 
     public Fly() {
-        super("Fly", ModuleCategory.MOVEMENT);
-        this.addValues(mode, vanillaMode, vanillaSpeed, vanillaVerticalSpeed, ncpMode, ncpSpeed, damage, DJC,Timer,velocityMode, automated);
+        this.addValues(mode, vanillaMode, vanillaSpeed, vanillaVerticalSpeed, ncpMode, ncpSpeed, damage, DJC, Timer, velocityMode, automated);
     }
 
     @Override
     public void onEnable() {
-
         counter = ticks = 0;
 
         started = false;
@@ -272,7 +268,7 @@ public class Fly extends Module {
 
                             speed -= speed / 159;
                             mc.timer.timerSpeed = Timer.getValue();
-                            if (DJC.getValue() && DJCTimer.delay((long) (2500L/Timer.getValue()))){
+                            if (DJC.getValue() && DJCTimer.delay((long) (2500L / Timer.getValue()))) {
                                 DJCTimer.reset();
                                 this.setEnabled(false);
                             }

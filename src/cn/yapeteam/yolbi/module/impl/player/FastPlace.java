@@ -1,19 +1,20 @@
 package cn.yapeteam.yolbi.module.impl.player;
 
+import cn.yapeteam.yolbi.event.Listener;
+import cn.yapeteam.yolbi.event.impl.game.TickEvent;
 import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
 import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.util.network.PacketUtil;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.BlockPos;
 import org.lwjgl.input.Mouse;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.module.Module;
 
+@ModuleInfo(name = "FastPlace", category = ModuleCategory.PLAYER)
 public class FastPlace extends Module {
-
     private final ModeValue<String> delay = new ModeValue<>("Delay", "Every tick", "Every tick", "Every 2 ticks", "No CPS cap", "Every tick on render");
 
     private C08PacketPlayerBlockPlacement placement;
@@ -21,7 +22,6 @@ public class FastPlace extends Module {
     private boolean placedBlock;
 
     public FastPlace() {
-        super("Fastplace", ModuleCategory.PLAYER);
         this.addValues(delay);
     }
 

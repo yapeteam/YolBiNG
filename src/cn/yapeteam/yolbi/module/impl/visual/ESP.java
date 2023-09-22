@@ -5,6 +5,7 @@ import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.render.Render3DEvent;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.module.impl.combat.AntiBot;
 import cn.yapeteam.yolbi.util.render.RenderUtil;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
@@ -14,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import java.awt.*;
 
+@ModuleInfo(name = "ESP", category = ModuleCategory.VISUAL)
 public class ESP extends Module {
 
     private final NumberValue<Double> lineWidth = new NumberValue<>("Line width", 3.25, 0.5, 4.0, 0.25);
@@ -25,7 +27,6 @@ public class ESP extends Module {
     private AntiBot antibotModule;
 
     public ESP() {
-        super("ESP", ModuleCategory.VISUAL);
         this.addValues(lineWidth, alpha, renderInvisibles);
     }
 

@@ -4,11 +4,9 @@ import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
 import cn.yapeteam.yolbi.event.impl.player.*;
 import cn.yapeteam.yolbi.event.impl.render.Render3DEvent;
-import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.Module;
-import cn.yapeteam.yolbi.values.impl.BooleanValue;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.util.network.PacketUtil;
 import cn.yapeteam.yolbi.util.player.MovementUtil;
 import cn.yapeteam.yolbi.util.player.PlayerUtil;
@@ -16,6 +14,9 @@ import cn.yapeteam.yolbi.util.player.RotationsUtil;
 import cn.yapeteam.yolbi.util.render.RenderUtil;
 import cn.yapeteam.yolbi.util.world.BlockInfo;
 import cn.yapeteam.yolbi.util.world.WorldUtil;
+import cn.yapeteam.yolbi.values.impl.BooleanValue;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
 import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockIce;
@@ -35,9 +36,10 @@ import net.minecraft.util.MathHelper;
 
 import java.util.ArrayList;
 
+@ModuleInfo(name = "Speed", category = ModuleCategory.MOVEMENT)
 public class Speed extends Module {
 
-    public final ModeValue<String> mode = new ModeValue<>("Mode", "Vanilla", "Vanilla", "NCP", "Watchdog", "Blocksmc", "MMC", "Strafe", "Fake strafe","KKC");
+    public final ModeValue<String> mode = new ModeValue<>("Mode", "Vanilla", "Vanilla", "NCP", "Watchdog", "Blocksmc", "MMC", "Strafe", "Fake strafe", "KKC");
 
     private final NumberValue<Double> vanillaSpeed = new NumberValue<>("Vanilla speed", () -> mode.is("Vanilla"), 1.0, 0.2, 9.0, 0.1);
     private final BooleanValue autoJump = new BooleanValue("Autojump", () -> mode.is("Vanilla") || mode.is("Strafe"), true);
@@ -101,7 +103,6 @@ public class Speed extends Module {
     private final ArrayList<BlockPos> barriers = new ArrayList<>();
 
     public Speed() {
-        super("Speed", ModuleCategory.MOVEMENT);
         this.addValues(mode, vanillaSpeed, autoJump, ncpMode, damageBoost, watchdogMode, fast, mult, speedPotMult, attributeSpeedOffground, fullScaffold, allDirSprint, minHurtTime, sprint, rotate, groundStrafe, velocityMode, clientSpeed, customClientSpeed, fakeFly, renderRealPosBox, timerMode, customTimer);
     }
 
@@ -685,7 +686,7 @@ public class Speed extends Module {
 
                 lastDirection = direction;
                 break;
-            case "KKC":{
+            case "KKC": {
                 MovementUtil.strafe(event);
             }
         }

@@ -1,9 +1,11 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
-import net.minecraft.block.Block;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
+import net.minecraft.block.Block;
 
+@ModuleInfo(name = "Xray", category = ModuleCategory.VISUAL)
 public class Xray extends Module {
     private static Xray xray;
 
@@ -16,7 +18,6 @@ public class Xray extends Module {
     private final int[] blockIds = {14, 15, 56, 129};
 
     public Xray() {
-        super("Xray", ModuleCategory.VISUAL);
         xray = this;
     }
 

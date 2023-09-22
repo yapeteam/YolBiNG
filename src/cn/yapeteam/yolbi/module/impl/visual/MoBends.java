@@ -5,6 +5,7 @@ import cn.yapeteam.yolbi.event.impl.game.TickEvent;
 import cn.yapeteam.yolbi.event.impl.render.Render3DEvent;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.module.impl.visual.mobends.AnimatedEntity;
 import cn.yapeteam.yolbi.module.impl.visual.mobends.client.renderer.entity.RenderBendsPlayer;
 import cn.yapeteam.yolbi.module.impl.visual.mobends.client.renderer.entity.RenderBendsSpider;
@@ -29,9 +30,11 @@ import org.lwjgl.util.vector.Vector3f;
  * don't mind
  * @date 2023/8/23 17:10
  */
-public class Mobends extends Module {
-    private static Mobends mobends;
-    public static Mobends getInstance(){
+@ModuleInfo(name = "MoBends", category = ModuleCategory.VISUAL)
+public class MoBends extends Module {
+    private static MoBends mobends;
+
+    public static MoBends getInstance() {
         return mobends;
     }
 
@@ -39,10 +42,10 @@ public class Mobends extends Module {
     private final BooleanValue spiderAnimation = new BooleanValue("Spider Animation", true);
     public final BooleanValue swordTrail = new BooleanValue("Sword Trail", true);
     public final BooleanValue spinAttack = new BooleanValue("Spin attack", true);
-    public final BooleanValue usecolor = new BooleanValue("Use color",true);
-    public Mobends() {
-        super("Mobends",ModuleCategory.VISUAL);
-        this.addValues(zombieAnimation, spiderAnimation, swordTrail, spinAttack,usecolor);
+    public final BooleanValue usecolor = new BooleanValue("Use color", true);
+
+    public MoBends() {
+        this.addValues(zombieAnimation, spiderAnimation, swordTrail, spinAttack, usecolor);
         AnimatedEntity.register();
         mobends = this;
     }
@@ -50,11 +53,11 @@ public class Mobends extends Module {
     public float partialTicks = 0.0f;
     public float ticks = 0.0f;
     public float ticksPerFrame = 0.0f;
-    public float count=0;
+    public float count = 0;
     public ResourceLocation texture_NULL = new ResourceLocation("mobends/textures/white.png");
 
     @Listener
-    protected void onRender3D(Render3DEvent event){
+    protected void onRender3D(Render3DEvent event) {
         if (mc.theWorld == null) {
             return;
         }
@@ -84,12 +87,12 @@ public class Mobends extends Module {
     }
 
     @Listener
-    protected void onTick(TickEvent event){
+    protected void onTick(TickEvent event) {
         if (mc.theWorld == null) {
             return;
         }
         count = (float) (count + 0.1);
-        if (count >=18) count=1;
+        if (count >= 18) count = 1;
 
         for (int i = 0; i < Data_Player.dataList.size(); i++) {
             Data_Player data = Data_Player.dataList.get(i);

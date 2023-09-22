@@ -5,6 +5,7 @@ import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.module.AlignType;
 import cn.yapeteam.yolbi.module.HUDModule;
 import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.util.network.ServerUtil;
 import cn.yapeteam.yolbi.util.render.DrawUtil;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
@@ -12,6 +13,7 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
+@ModuleInfo(name = "Watermark", category = ModuleCategory.VISUAL)
 public class Watermark extends HUDModule {
 
     private AbstractFontRenderer productSans;
@@ -23,7 +25,7 @@ public class Watermark extends HUDModule {
     private final ModeValue<String> mode = new ModeValue<>("Mode", "Simple", "Simple", "New", "Outline");
 
     public Watermark() {
-        super("Watermark", ModuleCategory.VISUAL, 4, 4, 100, 100, AlignType.LEFT);
+        super(4, 4, 100, 100, AlignType.LEFT);
         this.addValues(mode);
         this.setEnabledSilently(true);
     }

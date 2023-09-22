@@ -1,22 +1,23 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
-import cn.yapeteam.yolbi.values.impl.BooleanValue;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
-import cn.yapeteam.yolbi.util.render.ColorUtil;
-import org.lwjgl.input.Keyboard;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.ui.click.dropdown.DropdownClickGUI;
+import cn.yapeteam.yolbi.util.render.ColorUtil;
+import cn.yapeteam.yolbi.values.impl.BooleanValue;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
+import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
 
 @Deprecated
+@ModuleInfo(name = "ClickGUI", category = ModuleCategory.VISUAL)
 public class ClickGuiModule extends Module {
-
     private DropdownClickGUI dropdownClickGUI;
 
     private final ModeValue<String> color = new ModeValue<>("Color", "Client theme", "Client theme", "Custom static", "Custom fade", "Custom 3 colors", "Rainbow");
@@ -44,7 +45,6 @@ public class ClickGuiModule extends Module {
     private ClientTheme theme;
 
     public ClickGuiModule() {
-        super("ClickGUI", ModuleCategory.VISUAL);
         this.setKey(Keyboard.KEY_RSHIFT);
         this.addValues(color, red, green, blue, red2, green2, blue2, red3, green3, blue3, saturation, brightness, boxOnHover, boxOnSettings);
     }

@@ -1,7 +1,11 @@
 package cn.yapeteam.yolbi.module.impl.player;
 
 import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
+import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import net.minecraft.block.Block;
@@ -10,10 +14,8 @@ import net.minecraft.block.BlockEnderChest;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.module.Module;
 
+@ModuleInfo(name = "ChestStealer", category = ModuleCategory.PLAYER)
 public class ChestStealer extends Module {
 
     private final NumberValue<Integer> delay = new NumberValue<>("Delay", 1, 0, 10, 1);
@@ -26,7 +28,6 @@ public class ChestStealer extends Module {
     private InventoryManager invManager;
 
     public ChestStealer() {
-        super("Chest Stealer", ModuleCategory.PLAYER);
         this.addValues(delay, filter, autoClose, guiDetect);
     }
 

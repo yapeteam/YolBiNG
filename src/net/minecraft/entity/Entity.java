@@ -4,7 +4,7 @@ import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.impl.player.PostStepEvent;
 import cn.yapeteam.yolbi.event.impl.player.PreStepEvent;
 import cn.yapeteam.yolbi.module.impl.misc.PacketFix;
-import cn.yapeteam.yolbi.module.impl.movement.Safewalk;
+import cn.yapeteam.yolbi.module.impl.movement.SafeWalk;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -590,7 +590,7 @@ public abstract class Entity implements ICommandSender {
             boolean flag = this.onGround && this.isSneaking() && this instanceof EntityPlayer;
 
             if (this == Minecraft.getMinecraft().thePlayer) {
-                Safewalk safewalkModule = Safewalk.getInstance();
+                SafeWalk safewalkModule = SafeWalk.getInstance();
 
                 if (safewalkModule.isEnabled()) {
                     if (safewalkModule.offGround.getValue()) {

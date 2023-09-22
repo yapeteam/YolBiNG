@@ -5,6 +5,7 @@ import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.util.render.RenderUtil;
 import cn.yapeteam.yolbi.util.render.ScaleUtil;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
@@ -37,7 +38,6 @@ import static net.minecraft.enchantment.Enchantment.*;
 import static net.minecraft.enchantment.EnchantmentHelper.getEnchantmentLevel;
 import static net.minecraft.init.Items.skull;
 import static net.minecraft.util.EnumChatFormatting.*;
-import static net.minecraft.util.EnumChatFormatting.GOLD;
 
 /**
  * @author yuxiangll
@@ -45,16 +45,18 @@ import static net.minecraft.util.EnumChatFormatting.GOLD;
  * don't mind
  * @date 2023/8/23 17:32
  */
+@ModuleInfo(name = "ItemESP", category = ModuleCategory.VISUAL)
 public class ItemESP extends Module {
     private static ItemESP itemESP;
-    public static ItemESP getInstance(){
+
+    public static ItemESP getInstance() {
         return itemESP;
     }
-    private final BooleanValue names = new BooleanValue("Names",true);
-    private final BooleanValue box = new BooleanValue("Box",true);
 
-    private final BooleanValue neededOnly = new BooleanValue("Needed Only",true);
+    private final BooleanValue names = new BooleanValue("Names", true);
+    private final BooleanValue box = new BooleanValue("Box", true);
 
+    private final BooleanValue neededOnly = new BooleanValue("Needed Only", true);
 
 
     private final IntBuffer viewport = GLAllocation.createDirectIntBuffer(16);
@@ -64,13 +66,12 @@ public class ItemESP extends Module {
 
 
     public ItemESP() {
-        super("ItemESP",ModuleCategory.VISUAL);
-        this.addValues(names,box,neededOnly);
-        itemESP=this;
+        this.addValues(names, box, neededOnly);
+        itemESP = this;
     }
 
     @Listener
-    protected void onRender(RenderEvent event){
+    protected void onRender(RenderEvent event) {
         for (Entity o : this.mc.theWorld.getLoadedEntityList()) {
             if (o instanceof EntityItem) {
                 IBakedModel ibakedmodel = mc.getRenderItem().getItemModelMesher().getItemModel(((EntityItem) o).getEntityItem());
@@ -119,7 +120,7 @@ public class ItemESP extends Module {
                             endPosY = position.w;
 
                     // region BOX
-                    if (box.getValue()){
+                    if (box.getValue()) {
                         RenderUtil.drawCornerBox(posX, posY, endPosX, endPosY, isItemSpecial((EntityItem) o) ? 4 : 3, BLACK);
                         RenderUtil.drawCornerBox(posX, posY, endPosX, endPosY, isItemSpecial((EntityItem) o) ? 2 : 1, getItemColor((EntityItem) o));
                     }
@@ -152,7 +153,7 @@ public class ItemESP extends Module {
 
                         YolBi.instance.getFontManager().getPingFang25().drawStringWithShadow(((EntityItem) o).getEntityItem().getDisplayName(),
                                 (float) (scaledPositions[0] + _width / 2 -
-                                        YolBi.instance.getFontManager().getPingFang25().getStringWidth(((EntityItem) o).getEntityItem().getDisplayName()) / 2),
+                                         YolBi.instance.getFontManager().getPingFang25().getStringWidth(((EntityItem) o).getEntityItem().getDisplayName()) / 2),
                                 (float) positionsEnd[1] * 2 + v,
                                 getItemColor((EntityItem) o).brighter().getRGB());
                         GL11.glPopMatrix();
@@ -165,16 +166,15 @@ public class ItemESP extends Module {
     }
 
 
-
     private boolean isItemSpecial(EntityItem o) {
         boolean special = o.getEntityItem().getItem() instanceof ItemArmor ||
-                o.getEntityItem().getItem() == skull //
-                        && !o.getEntityItem().getDisplayName().equalsIgnoreCase("Zombie Head") //
-                        && !o.getEntityItem().getDisplayName().equalsIgnoreCase("Creeper Head") //
-                        && !o.getEntityItem().getDisplayName().equalsIgnoreCase("Skeleton Skull") //
-                        && !o.getEntityItem().getDisplayName().equalsIgnoreCase("Wither Skeleton Skull") //
-                        && !o.getEntityItem().getDisplayName().equalsIgnoreCase(GREEN + "Frog's Hat")
-                || o.getEntityItem().getItem() instanceof ItemAppleGold;
+                          o.getEntityItem().getItem() == skull //
+                          && !o.getEntityItem().getDisplayName().equalsIgnoreCase("Zombie Head") //
+                          && !o.getEntityItem().getDisplayName().equalsIgnoreCase("Creeper Head") //
+                          && !o.getEntityItem().getDisplayName().equalsIgnoreCase("Skeleton Skull") //
+                          && !o.getEntityItem().getDisplayName().equalsIgnoreCase("Wither Skeleton Skull") //
+                          && !o.getEntityItem().getDisplayName().equalsIgnoreCase(GREEN + "Frog's Hat")
+                          || o.getEntityItem().getItem() instanceof ItemAppleGold;
 
 
         if (o.getEntityItem().getItem() instanceof ItemArmor) {
@@ -333,10 +333,10 @@ public class ItemESP extends Module {
 
         String displayName = o.getEntityItem().getDisplayName();
         if (displayName.equalsIgnoreCase(GOLD + "Excalibur") || displayName.equalsIgnoreCase("aDragon Sword")
-                || displayName.equalsIgnoreCase(GREEN + "Cornucopia")
-                || displayName.equalsIgnoreCase(RED + "Bloodlust") || displayName.equalsIgnoreCase(RED + "Artemis' Bow")
-                || displayName.equalsIgnoreCase(GREEN + "Miner's Blessing") || displayName.equalsIgnoreCase(GOLD + "Axe of Perun")
-                || displayName.equalsIgnoreCase(GOLD + "Cornucopia")) {
+            || displayName.equalsIgnoreCase(GREEN + "Cornucopia")
+            || displayName.equalsIgnoreCase(RED + "Bloodlust") || displayName.equalsIgnoreCase(RED + "Artemis' Bow")
+            || displayName.equalsIgnoreCase(GREEN + "Miner's Blessing") || displayName.equalsIgnoreCase(GOLD + "Axe of Perun")
+            || displayName.equalsIgnoreCase(GOLD + "Cornucopia")) {
             // HUD hud = getModule(HUD.class);
             return new Color(79, 42, 223);
         }
@@ -379,8 +379,6 @@ public class ItemESP extends Module {
 
         return null;
     }
-
-
 
 
 }

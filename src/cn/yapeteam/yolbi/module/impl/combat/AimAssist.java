@@ -5,6 +5,7 @@ import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.util.misc.TimerUtil;
 import cn.yapeteam.yolbi.util.player.FixedRotations;
 import cn.yapeteam.yolbi.util.player.RotationsUtil;
@@ -18,8 +19,8 @@ import org.lwjgl.input.Mouse;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+@ModuleInfo(name = "AimAssist", category = ModuleCategory.COMBAT)
 public class AimAssist extends Module {
-
     private AntiBot antibotModule;
     private Teams teamsModule;
 
@@ -35,7 +36,6 @@ public class AimAssist extends Module {
     private FixedRotations rotations;
 
     public AimAssist() {
-        super("AimAssist", ModuleCategory.COMBAT);
         this.addValues(filter, range, speed);
     }
 
@@ -54,7 +54,7 @@ public class AimAssist extends Module {
     public void onRender(RenderEvent event) {
         target = findTarget();
 
-        if(target != null && Mouse.isButtonDown(0) && mc.currentScreen == null) {
+        if (target != null && Mouse.isButtonDown(0) && mc.currentScreen == null) {
             float rots[] = RotationsUtil.getRotationsToEntity(target, false);
 
             float yaw = rots[0];
@@ -99,11 +99,11 @@ public class AimAssist extends Module {
 
     public EntityPlayer findTarget() {
         ArrayList<EntityPlayer> entities = new ArrayList<>();
-        for(Entity entity : mc.theWorld.loadedEntityList) {
-            if(entity instanceof EntityPlayer && entity != mc.thePlayer) {
+        for (Entity entity : mc.theWorld.loadedEntityList) {
+            if (entity instanceof EntityPlayer && entity != mc.thePlayer) {
                 EntityPlayer player = (EntityPlayer) entity;
 
-                if(canAttackEntity(player)) {
+                if (canAttackEntity(player)) {
                     entities.add(player);
                 }
             }
@@ -129,7 +129,7 @@ public class AimAssist extends Module {
         if (!player.isDead) {
             if (mc.thePlayer.getDistanceToEntity(player) < range.getValue()) {
                 if ((!player.isInvisible() && !player.isInvisibleToPlayer(mc.thePlayer))) {
-                    if(!teamsModule.canAttack(player)) {
+                    if (!teamsModule.canAttack(player)) {
                         return false;
                     }
 

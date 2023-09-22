@@ -5,6 +5,7 @@ import cn.yapeteam.yolbi.event.impl.block.NoteEvent;
 import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.module.impl.misc.notebot.MidiReader;
 import cn.yapeteam.yolbi.module.impl.misc.notebot.Music;
 import cn.yapeteam.yolbi.module.impl.misc.notebot.MusicNote;
@@ -29,9 +30,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
+@ModuleInfo(name = "NoteBot", category = ModuleCategory.MISC)
+
 public class NoteBot extends Module {
     public NoteBot() {
-        super("NoteBot", ModuleCategory.MISC);
         ModeValue<String> list = new ModeValue<>("Music", null);
         BooleanValue refresh = new BooleanValue("Refresh PlayList", false);
         refresh.setCallback((oldV, newV) -> {

@@ -4,7 +4,7 @@ import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.impl.game.KeyPressEvent;
 import cn.yapeteam.yolbi.event.impl.game.TickEvent;
 import cn.yapeteam.yolbi.module.impl.combat.DelayRemover;
-import cn.yapeteam.yolbi.module.impl.combat.Killaura;
+import cn.yapeteam.yolbi.module.impl.combat.KillAura;
 import cn.yapeteam.yolbi.module.impl.combat.TickBase;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -1357,7 +1357,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
                     case BLOCK:
                         BlockPos blockpos = this.objectMouseOver.getBlockPos();
 
-                        Killaura killauraModule = Killaura.getInstance();
+                        KillAura killauraModule = KillAura.getInstance();
 
                         if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air && !(killauraModule.isEnabled() && killauraModule.getTarget() != null)) {
                             int i = itemstack != null ? itemstack.stackSize : 0;

@@ -8,6 +8,7 @@ import cn.yapeteam.yolbi.event.impl.render.ItemRenderEvent;
 import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.module.impl.movement.Speed;
 import cn.yapeteam.yolbi.module.impl.player.AntiVoid;
 import cn.yapeteam.yolbi.module.impl.world.AutoBridge;
@@ -38,13 +39,13 @@ import net.minecraft.util.Vec3;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class Killaura extends Module {
-
+@ModuleInfo(name = "KillAura", category = ModuleCategory.COMBAT)
+public class KillAura extends Module {
     @Getter
     private EntityLivingBase target;
-    private static Killaura killaura;
+    private static KillAura killaura;
 
-    public static Killaura getInstance() {
+    public static KillAura getInstance() {
         return killaura;
     }
 
@@ -133,8 +134,7 @@ public class Killaura extends Module {
 
     private final TimerUtil attackTimer = new TimerUtil();
 
-    public Killaura() {
-        super("Killaura", ModuleCategory.COMBAT);
+    public KillAura() {
         minAPS.setCallback((oldV, newV) -> newV > maxAPS.getValue() ? oldV : newV);
         maxAPS.setCallback((oldV, newV) -> newV < minAPS.getValue() ? oldV : newV);
         this.addValues(mode, filter, rotations, randomAmount, startingRange, range, rotationRange, raycast, attackDelayMode, minAPS, maxAPS, attackDelay, failRate, hurtTime, autoblock, noHitOnFirstTick, blockTiming, blinkTicks, blockHurtTime, whileTargetNotLooking, slowdown, whileHitting, whileSpeedEnabled, keepSprint, moveFix, delayTransactions, whileInventoryOpened, whileScaffoldEnabled, whileUsingBreaker, players, animals, monsters, invisibles, attackDead);

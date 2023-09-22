@@ -1,20 +1,20 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
-import org.lwjgl.input.Keyboard;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.event.impl.game.TickEvent;
 import cn.yapeteam.yolbi.module.EventListenType;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
+import org.lwjgl.input.Keyboard;
 
-public class Freelook extends Module {
+@ModuleInfo(name = "FreeLook", category = ModuleCategory.VISUAL)
+public class FreeLook extends Module {
 
     private boolean wasFreelooking;
 
-    public Freelook() {
-        super("Freelook", ModuleCategory.VISUAL);
-
+    public FreeLook() {
         this.listenType = EventListenType.MANUAL;
         this.startListening();
     }

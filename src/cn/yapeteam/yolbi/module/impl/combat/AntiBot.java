@@ -1,31 +1,32 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
 import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.anticheat.ACPlayer;
+import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
+import cn.yapeteam.yolbi.util.misc.LogUtil;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.util.misc.LogUtil;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import cn.yapeteam.yolbi.anticheat.ACPlayer;
-import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.module.Module;
 
+@ModuleInfo(name = "AntiBot", category = ModuleCategory.COMBAT)
 public class AntiBot extends Module {
     private final NumberValue<Integer> ticksExisted = new NumberValue<>("Ticks existed", 30, 0, 100, 5);
     public final BooleanValue advancedDetection = new BooleanValue("Advanced detection", true);
 
     public final BooleanValue debug = new BooleanValue("Debug", false);
 
-    private Killaura killauraModule;
+    private KillAura killauraModule;
 
     public AntiBot() {
-        super("AntiBot", ModuleCategory.COMBAT);
         this.addValues(ticksExisted, advancedDetection, debug);
     }
 
     @Override
     public void onClientStarted() {
-        killauraModule = YolBi.instance.getModuleManager().getModule(Killaura.class);
+        killauraModule = YolBi.instance.getModuleManager().getModule(KillAura.class);
     }
 
     public boolean canAttack(EntityLivingBase entity, Module module) {

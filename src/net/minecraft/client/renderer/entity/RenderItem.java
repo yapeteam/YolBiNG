@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
-import cn.yapeteam.yolbi.module.impl.combat.Killaura;
+import cn.yapeteam.yolbi.module.impl.combat.KillAura;
 import net.minecraft.block.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -432,9 +432,9 @@ public class RenderItem implements IResourceManagerReloadListener
             if (heldStack != null) {
                 EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
                 if (lastEntityToRenderFor == player) {      //TODO killaura Blocking  || KillAura.blocking
-                    if (heldStack.getItem() instanceof ItemSword && (p.getItemInUseCount() > 0 || player.isBlocking())  ) {
+                    if (heldStack.getItem() instanceof ItemSword && (p.getItemInUseCount() > 0 || player.isBlocking())) {
                         doThirdPersonBlockTransformations();
-                    } else if (heldStack.getItem() instanceof ItemSword && ( Killaura.getInstance().isEnabled()&&Killaura.getInstance().canRenderBlocking())){
+                    } else if (heldStack.getItem() instanceof ItemSword && (KillAura.getInstance().isEnabled() && KillAura.getInstance().canRenderBlocking())) {
                         doThirdPersonBlockTransformations();
                     }
                 } else if (p.getItemInUseCount() > 0 && heldStack.getItemUseAction() == EnumAction.BLOCK) {

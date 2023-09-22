@@ -1,13 +1,15 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
-import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
-import cn.yapeteam.yolbi.event.impl.render.RotationsRenderEvent;
-import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.Priority;
-import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
+import cn.yapeteam.yolbi.event.impl.render.RotationsRenderEvent;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
+import cn.yapeteam.yolbi.values.impl.BooleanValue;
 
+@ModuleInfo(name = "Rotations", category = ModuleCategory.VISUAL)
 public class Rotations extends Module {
 
     private float yaw, pitch;
@@ -18,7 +20,6 @@ public class Rotations extends Module {
     private final BooleanValue smooth = new BooleanValue("Smooth", true);
 
     public Rotations() {
-        super("Rotations", ModuleCategory.VISUAL);
         this.addValues(smooth);
     }
 

@@ -1,18 +1,19 @@
 package cn.yapeteam.yolbi.module.impl.player;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
-import cn.yapeteam.yolbi.values.impl.BooleanValue;
-import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.values.impl.ModeValue;
-import cn.yapeteam.yolbi.util.network.PacketUtil;
-import net.minecraft.network.play.client.C03PacketPlayer;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
 import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
+import cn.yapeteam.yolbi.util.network.PacketUtil;
+import cn.yapeteam.yolbi.values.impl.BooleanValue;
+import cn.yapeteam.yolbi.values.impl.ModeValue;
+import cn.yapeteam.yolbi.values.impl.NumberValue;
+import net.minecraft.network.play.client.C03PacketPlayer;
 
+@ModuleInfo(name = "NoFall", category = ModuleCategory.PLAYER)
 public class NoFall extends Module {
-
     private final ModeValue<String> mode = new ModeValue<>("Mode", "Spoof", "Packet", "Spoof", "Blink");
 
     private final NumberValue<Integer> blinkTicks = new NumberValue<>("Blink ticks", () -> mode.is("Blink"), 6, 2, 14, 1);
@@ -26,7 +27,6 @@ public class NoFall extends Module {
     private boolean blinking;
 
     public NoFall() {
-        super("NoFall", ModuleCategory.PLAYER);
         this.addValues(mode, blinkTicks, suspendAll);
     }
 

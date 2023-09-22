@@ -6,6 +6,7 @@ import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
 import cn.yapeteam.yolbi.event.impl.render.Render3DEvent;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.util.misc.TimerUtil;
 import cn.yapeteam.yolbi.util.particles.EvictingList;
 import cn.yapeteam.yolbi.util.particles.Particle;
@@ -24,20 +25,21 @@ import java.util.List;
  * @date 2023/8/22 16:51
  */
 // skid from FDPClient
+@ModuleInfo(name = "Particles", category = ModuleCategory.VISUAL)
 public class Particles extends Module {
-    private final NumberValue<Integer> amount = new NumberValue<>("Amount",10,1,50,1);
-    private final BooleanValue physics = new BooleanValue("Physics",true);
+    private final NumberValue<Integer> amount = new NumberValue<>("Amount", 10, 1, 50, 1);
+    private final BooleanValue physics = new BooleanValue("Physics", true);
 
     private final List<Particle> particles = new EvictingList<>(100);
     private final TimerUtil timer = new TimerUtil();
     private EntityLivingBase target;
 
     public Particles() {
-        super("Particles",ModuleCategory.VISUAL);
-        this.addValues(amount,physics);
+        this.addValues(amount, physics);
     }
+
     @Listener
-    public void onAttack(final AttackEvent event){
+    public void onAttack(final AttackEvent event) {
         if (event.getTargetEntity() instanceof EntityLivingBase) {
             target = (EntityLivingBase) event.getTargetEntity();
 
@@ -75,8 +77,6 @@ public class Particles extends Module {
 
         RenderUtil.renderParticles(particles);
     }
-
-
 
 
 }

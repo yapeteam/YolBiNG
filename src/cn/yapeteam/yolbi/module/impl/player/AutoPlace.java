@@ -1,23 +1,24 @@
 package cn.yapeteam.yolbi.module.impl.player;
 
+import cn.yapeteam.yolbi.event.Listener;
+import cn.yapeteam.yolbi.event.Priority;
 import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
-import cn.yapeteam.yolbi.values.impl.BooleanValue;
+import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.util.world.WorldUtil;
+import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import org.lwjgl.input.Mouse;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.Priority;
-import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.module.Module;
 
-public class Autoplace extends Module {
+@ModuleInfo(name = "AutoPlace", category = ModuleCategory.PLAYER)
+public class AutoPlace extends Module {
 
     private final BooleanValue placeUnderWhileOffground = new BooleanValue("Place under while offground", false);
 
-    public Autoplace() {
-        super("Autoplace", ModuleCategory.PLAYER);
+    public AutoPlace() {
         this.addValues(placeUnderWhileOffground);
     }
 

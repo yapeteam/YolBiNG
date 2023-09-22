@@ -5,11 +5,13 @@ import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.util.render.FontUtil;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
 import net.minecraft.client.gui.ScaledResolution;
 
+@ModuleInfo(name = "IngameInfo", category = ModuleCategory.VISUAL)
 public class IngameInfo extends Module {
 
     private final ModeValue<String> font = FontUtil.getFontSetting();
@@ -17,7 +19,6 @@ public class IngameInfo extends Module {
     private final BooleanValue balance = new BooleanValue("Balance", true);
 
     public IngameInfo() {
-        super("Ingame Info", ModuleCategory.VISUAL);
         this.addValues(font, bps, balance);
     }
 

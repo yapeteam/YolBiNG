@@ -1,12 +1,16 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
 import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
 import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
 import cn.yapeteam.yolbi.handler.packet.DelayedPacket;
+import cn.yapeteam.yolbi.module.Module;
+import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.module.ModuleInfo;
+import cn.yapeteam.yolbi.util.player.PendingVelocity;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
-import cn.yapeteam.yolbi.util.player.PendingVelocity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,13 +19,11 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
 import net.minecraft.network.play.server.*;
 import net.minecraft.util.MovingObjectPosition;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.module.ModuleCategory;
-import cn.yapeteam.yolbi.module.Module;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @SuppressWarnings("DuplicatedCode")
+@ModuleInfo(name = "Backtrack", category = ModuleCategory.COMBAT)
 public class Backtrack extends Module {
 
     private final NumberValue<Integer> delay = new NumberValue<>("Delay", 500, 100, 2000, 50);
@@ -32,7 +34,7 @@ public class Backtrack extends Module {
 
     private final CopyOnWriteArrayList<DelayedPacket> delayedPackets = new CopyOnWriteArrayList<>();
 
-    private Killaura killauraModule;
+    private KillAura killauraModule;
 
     private EntityLivingBase lastTarget;
 
@@ -43,13 +45,12 @@ public class Backtrack extends Module {
     private PendingVelocity lastVelocity;
 
     public Backtrack() {
-        super("Backtrack", ModuleCategory.COMBAT);
         this.addValues(delay, minRange, delayPing, delayVelocity);
     }
 
     @Override
     public void onClientStarted() {
-        killauraModule = YolBi.instance.getModuleManager().getModule(Killaura.class);
+        killauraModule = YolBi.instance.getModuleManager().getModule(KillAura.class);
     }
 
     @Listener
@@ -142,7 +143,7 @@ public class Backtrack extends Module {
 
     public EntityLivingBase getCurrentTarget() {
         if (killauraModule == null) {
-            killauraModule = YolBi.instance.getModuleManager().getModule(Killaura.class);
+            killauraModule = YolBi.instance.getModuleManager().getModule(KillAura.class);
         }
 
         if (killauraModule.isEnabled() && killauraModule.getTarget() != null) {
