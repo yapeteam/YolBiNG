@@ -10,7 +10,7 @@ import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import net.minecraft.entity.EntityLivingBase;
 
-@ModuleInfo(name = "TargetStrafe", category = ModuleCategory.COMBAT)
+@ModuleInfo(name = "Target Strafe", category = ModuleCategory.COMBAT)
 public class TargetStrafe extends Module {
     private final NumberValue<Double> maxRange = new NumberValue<>("Max range", 3.0, 1.0, 6.0, 0.1);
     public final BooleanValue whilePressingSpace = new BooleanValue("While pressing space", false);

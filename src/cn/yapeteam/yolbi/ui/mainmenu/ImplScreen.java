@@ -43,9 +43,8 @@ public class ImplScreen extends GuiScreen {
         components.forEach(c -> c.drawComponent(mouseX, mouseY, partialTicks));
         font2.drawString(time, (sr.getScaledWidth() - font2.getStringWidth(text)) / 2f, (sr.getScaledHeight() / 2f - font.getHeight()) / 2f + 32, new Color(255, 255, 255));
 
-        font2.drawString("Made by yuxiangll,Timer_err",5,sr.getScaledHeight()-10,-1);
-        font2.drawString("(Charity) Version 2.0",5,sr.getScaledHeight()-20,-1);
-
+        font2.drawString("Powered by yuxiangll & TIMER_err", 5, sr.getScaledHeight() - 10, -1);
+        font2.drawString("(Charity) Version 2.0", 5, sr.getScaledHeight() - 20, -1);
     }
 
     @Override

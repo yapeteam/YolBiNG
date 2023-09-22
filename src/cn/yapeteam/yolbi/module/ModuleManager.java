@@ -43,7 +43,7 @@ public class ModuleManager {
     }
 
     public <T extends Module> T getModuleByNameNoSpace(String name) {
-        return (T) modules.stream().filter(m -> m.getName().replace(" ", "").equalsIgnoreCase(name)).findFirst().orElse(null);
+        return (T) modules.stream().filter(m -> m.getName().replace(" ", "_").equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
     public List<Module> getModulesByCategory(ModuleCategory category) {
