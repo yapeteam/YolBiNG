@@ -44,7 +44,7 @@ public class ImplScreen extends GuiScreen {
         font2.drawString(time, (sr.getScaledWidth() - font2.getStringWidth(text)) / 2f, (sr.getScaledHeight() / 2f - font.getHeight()) / 2f + 32, new Color(255, 255, 255));
 
         font2.drawString("Powered by yuxiangll & TIMER_err", 5, sr.getScaledHeight() - 10, -1);
-        font2.drawString("(Charity) Version 2.0", 5, sr.getScaledHeight() - 20, -1);
+        font2.drawString("(Charity) Version " + YolBi.instance.version, 5, sr.getScaledHeight() - 20, -1);
     }
 
     @Override

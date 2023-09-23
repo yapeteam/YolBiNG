@@ -30,8 +30,8 @@ public class YolBi implements IMinecraft {
     public static final YolBi instance = new YolBi();
 
     public final String name = "YolBi";
-    public final String version = "8.0";
-    public boolean haveGoinTheConfig=false;
+    public final String version = "2.0";
+    public boolean haveGoinTheConfig = false;
 
     private EventManager eventManager;
     private ModuleManager moduleManager;

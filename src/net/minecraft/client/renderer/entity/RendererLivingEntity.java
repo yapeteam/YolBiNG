@@ -3,7 +3,7 @@ package net.minecraft.client.renderer.entity;
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.impl.render.RotationsRenderEvent;
 import cn.yapeteam.yolbi.module.impl.visual.Chams;
-import cn.yapeteam.yolbi.module.impl.visual.MoBends;
+import cn.yapeteam.yolbi.module.impl.visual.Mobends;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -114,7 +114,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
      */
     public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        if (MoBends.getInstance().onRenderLivingEvent(this, entity, x, y, z, entityYaw, partialTicks)) {
+        if (Mobends.getInstance().onRenderLivingEvent(this, entity, x, y, z, entityYaw, partialTicks)) {
             return;
         }
 
