@@ -14,19 +14,19 @@ import java.util.Arrays;
 public abstract class Module implements IMinecraft {
     @Getter
     @Setter
-    private String name;
+    private String name = null;
     @Getter
     @Setter
-    private ModuleCategory category;
+    private ModuleCategory category = null;
 
     @Getter
     @Setter
-    private int key;
+    private int key = 0;
 
-    private boolean enabled;
+    private boolean enabled = false;
 
-    private boolean listening;
-    protected EventListenType listenType;
+    private boolean listening = false;
+    protected EventListenType listenType = null;
 
     private final ArrayList<Value<?>> values = new ArrayList<>();
 

@@ -10,7 +10,6 @@ import java.util.Comparator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class EventManager {
-
     private final ArrayList<Object> listeningObjects = new ArrayList<>();
     private final CopyOnWriteArrayList<ListeningMethod> listeningMethods = new CopyOnWriteArrayList<>();
 

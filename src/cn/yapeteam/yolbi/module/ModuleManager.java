@@ -20,9 +20,14 @@ public class ModuleManager {
                 try {
                     Module module = aClass.getConstructor().newInstance();
                     ModuleInfo info = aClass.getAnnotation(ModuleInfo.class);
-                    module.setName(info.name());
-                    module.setCategory(info.category());
-                    module.setKey(info.key());
+                    if (module.getName() == null)
+                        module.setName(info.name());
+                    if (module.getCategory() == null)
+                        module.setCategory(info.category());
+                    if (module.getKey() == 0)
+                        module.setKey(info.key());
+                    if (module.listenType == null)
+                        module.listenType = EventListenType.AUTOMATIC;
                     modules.add(module);
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                          NoSuchMethodException e) {
