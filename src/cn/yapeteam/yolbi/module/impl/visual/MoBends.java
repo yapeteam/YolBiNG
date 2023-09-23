@@ -30,11 +30,11 @@ import org.lwjgl.util.vector.Vector3f;
  * don't mind
  * @date 2023/8/23 17:10
  */
-@ModuleInfo(name = "Mobends", category = ModuleCategory.VISUAL)
-public class Mobends extends Module {
-    private static Mobends mobends;
+@ModuleInfo(name = "MoBends", category = ModuleCategory.VISUAL)
+public class MoBends extends Module {
+    private static MoBends mobends;
 
-    public static Mobends getInstance() {
+    public static MoBends getInstance() {
         return mobends;
     }
 
@@ -44,7 +44,7 @@ public class Mobends extends Module {
     public final BooleanValue spinAttack = new BooleanValue("Spin attack", true);
     public final BooleanValue usecolor = new BooleanValue("Use color", true);
 
-    public Mobends() {
+    public MoBends() {
         this.addValues(zombieAnimation, spiderAnimation, swordTrail, spinAttack, usecolor);
         AnimatedEntity.register();
         mobends = this;
