@@ -411,10 +411,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
      * Starts the game: initializes the canvas, the title, the settings, etcetera.
      */
     private void startGame() throws LWJGLException, IOException {
-        if (this.displayWidth < 1100)
-            this.displayWidth = 1100;
-        if (this.displayHeight < 630)
-            this.displayHeight = 630;
+        if (this.displayWidth < 1100) this.displayWidth = 1100;
+        if (this.displayHeight < 630) this.displayHeight = 630;
 
         this.gameSettings = new GameSettings(this, this.mcDataDir);
         this.defaultResourcePacks.add(this.mcDefaultResourcePack);
@@ -1334,8 +1332,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
     /*
       Called when user clicked he's mouse right button (place)
-     */
-    public void rightClickMouse() {
+     */ public void rightClickMouse() {
         if (!this.playerController.func_181040_m()) {
             this.rightClickDelayTimer = 4;
             boolean flag = true;
@@ -1520,6 +1517,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
             if (this.currentScreen != null) {
                 try {
+                    this.currentScreen.panoramaTimer++;
                     this.currentScreen.updateScreen();
                 } catch (Throwable throwable) {
                     CrashReport crashreport1 = CrashReport.makeCrashReport(throwable, "Ticking screen");
