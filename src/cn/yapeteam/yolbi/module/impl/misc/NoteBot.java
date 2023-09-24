@@ -31,7 +31,6 @@ import java.util.Arrays;
 import java.util.Objects;
 
 @ModuleInfo(name = "NoteBot", category = ModuleCategory.MISC)
-
 public class NoteBot extends Module {
     public NoteBot() {
         ModeValue<String> list = new ModeValue<>("Music", null);

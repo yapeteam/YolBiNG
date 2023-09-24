@@ -42,16 +42,11 @@ public class Particles extends Module {
     public void onAttack(final AttackEvent event) {
         if (event.getTargetEntity() instanceof EntityLivingBase) {
             target = (EntityLivingBase) event.getTargetEntity();
-
         }
     }
 
     @Listener
     public void onMotion(final MotionEvent event) {
-//        if (target != null) {
-//            System.out.println(target.hurtTime);
-//            System.out.println(mc.thePlayer.getDistance(target.posX, target.posY, target.posZ) < 10);
-//        }
         if (target != null && target.hurtTime >= 9 && mc.thePlayer.getDistance(target.posX, target.posY, target.posZ) < 10) {
             for (int i = 0; i <= amount.getValue(); i++)
                 particles.add(new Particle(new Vec3(target.posX + (Math.random() - 0.5) * 0.5, target.posY + Math.random() * 1 + 0.5, target.posZ + (Math.random() - 0.5) * 0.5)));
@@ -77,6 +72,4 @@ public class Particles extends Module {
 
         RenderUtil.renderParticles(particles);
     }
-
-
 }
