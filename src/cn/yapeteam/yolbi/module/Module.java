@@ -1,7 +1,7 @@
 package cn.yapeteam.yolbi.module;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.module.impl.visual.Notification;
+import cn.yapeteam.yolbi.ui.noti.Notification;
 import cn.yapeteam.yolbi.util.IMinecraft;
 import cn.yapeteam.yolbi.values.Value;
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -53,7 +53,7 @@ public abstract class Module implements IMinecraft {
                 }
                 onDisable();
             }
-            YolBi.instance.getModuleManager().getModule(Notification.class).add(new cn.yapeteam.yolbi.ui.noti.Notification("Module toggled: " + name + (enabled ? " enabled" : " disabled")));
+            YolBi.instance.getNotificationManager().add(new Notification("Module toggled: " + name + (enabled ? " enabled" : " disabled")));
         }
     }
 

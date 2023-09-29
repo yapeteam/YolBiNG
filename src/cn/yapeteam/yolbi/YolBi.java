@@ -14,6 +14,7 @@ import cn.yapeteam.yolbi.handler.packet.PacketDelayHandler;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleManager;
 import cn.yapeteam.yolbi.ui.menu.ConfigMenu;
+import cn.yapeteam.yolbi.ui.noti.NotificationManager;
 import cn.yapeteam.yolbi.util.IMinecraft;
 import cn.yapeteam.yolbi.util.render.FontUtil;
 import de.florianmichael.viamcp.ViaMCP;
@@ -30,12 +31,13 @@ public class YolBi implements IMinecraft {
     public static final YolBi instance = new YolBi();
 
     public final String name = "YolBi";
-    public final String version = "2.0";
+    public final String version = "2.1";
     public boolean haveGoinTheConfig = false;
 
     private EventManager eventManager;
     private ModuleManager moduleManager;
     private CommandManager commandManager;
+    private NotificationManager notificationManager;
 
     private PacketDelayHandler packetDelayHandler;
     private PacketBlinkHandler packetBlinkHandler;
@@ -57,6 +59,7 @@ public class YolBi implements IMinecraft {
         eventManager = new EventManager();
         moduleManager = new ModuleManager();
         commandManager = new CommandManager();
+        notificationManager = new NotificationManager();
 
         packetDelayHandler = new PacketDelayHandler();
         packetBlinkHandler = new PacketBlinkHandler();
@@ -91,7 +94,7 @@ public class YolBi implements IMinecraft {
     }
 
     public void shutdown() {
-        if(!destructed) {
+        if (!destructed) {
             instance.fileSystem.saveDefaultConfig();
             instance.fileSystem.saveKeybinds();
         }

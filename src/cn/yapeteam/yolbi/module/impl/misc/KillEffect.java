@@ -7,7 +7,7 @@ import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
-import cn.yapeteam.yolbi.module.impl.visual.Notification;
+import cn.yapeteam.yolbi.ui.noti.Notification;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -101,7 +101,7 @@ public class KillEffect extends Module {
                     play();
                     wait = false;
                 }).start();
-                YolBi.instance.getModuleManager().getModule(Notification.class).add(new cn.yapeteam.yolbi.ui.noti.Notification("Killed 1 Player"));
+                YolBi.instance.getNotificationManager().add(new Notification("Killed 1 Player"));
             }
         }
     }

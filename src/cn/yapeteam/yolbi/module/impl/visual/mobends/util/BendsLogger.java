@@ -5,7 +5,7 @@ public enum BendsLogger {
 	
 	public static void log(String argText, BendsLogger argType){
     	if(argType != BendsLogger.DEBUG){
-    		System.out.println("(MO'BENDS - " + argType.name() +" ) " + argText);
+    		System.out.println("(MO'BENDS) [" + argType.name() + "] " + argText);
     	}
     }
 }

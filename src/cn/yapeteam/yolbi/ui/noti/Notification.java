@@ -15,6 +15,9 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
+/**
+ * @author TIMER_err
+ */
 @SuppressWarnings({"DuplicatedCode", "SameParameterValue"})
 public class Notification implements IMinecraft {
     @Getter
