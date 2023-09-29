@@ -12,16 +12,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 @Getter
+@Setter
 public abstract class Module implements IMinecraft {
-    @Getter
-    @Setter
-    private String name = null;
-    @Getter
-    @Setter
-    private ModuleCategory category = null;
 
-    @Getter
-    @Setter
+    private String name = null;
+    private ModuleCategory category = null;
     private int key = 0;
 
     private boolean enabled = false;
