@@ -1,5 +1,7 @@
 package cn.yapeteam.yolbi.ui.mainmenu.utils;
 
+import cn.yapeteam.yolbi.util.render.animation.Animation;
+import cn.yapeteam.yolbi.util.render.animation.Easing;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.Minecraft;
@@ -25,12 +27,15 @@ public class Circle {
         this.flag = flag;
     }
 
+    private final Animation animation = new Animation(Easing.EASE_OUT_SINE, 500);
+
     public void runCircle() {
         if (complete) return;
         lastProgress = progress;
         if (getFlag().get() && progress > topRadius * 0.67)
             return;
-        progress += (topRadius - progress) / (speed) + 0.01;
+        animation.run(topRadius);
+        progress = animation.getValue();
         if (progress >= topRadius) {
             complete = true;
         }

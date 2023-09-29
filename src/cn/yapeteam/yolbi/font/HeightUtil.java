@@ -68,11 +68,40 @@ public class HeightUtil {
     }
 
     public static float getHeight(String str, float fullHeight) {
-        if (allMiddle(str)) return (fullHeight / 3 * 2);
+        int n0 = 0, n1 = 0, n2 = 0;
+        for (char c : str.toCharArray())
+            switch (getMostSuitable(c)) {
+                case 0:
+                    n0++;
+                    break;
+                case 1:
+                    n1++;
+                    break;
+                case 2:
+                    n2++;
+                    break;
+            }
+        int max = Math.max(Math.max(n0, n1), n2);
+        if (n0 == max)
+            return fullHeight;
+        if (n1 == max)
+            return fullHeight / 3 * 2;
+        return fullHeight / 3 * 4;
+    }
+
+    private static int getMostSuitable(char c) {
+        String str = String.valueOf(c);
+        if (allMiddle(str))
+            return 1;//(fullHeight / 3 * 2);
+
         if ((hasUp(str) || hasUpperCase(str) || hasNotIn26(str)) && hasDown(str))
-            return (fullHeight / 3 * 4);
-        if (hasUp(str) || hasDown(str) || hasUpperCase(str)) return (fullHeight);
-        if (hasNotIn26(str)) return (fullHeight);
-        return (fullHeight / 3 * 4);
+            return 2;//(fullHeight / 3 * 4);
+
+        if (hasUp(str) || hasDown(str) || hasUpperCase(str))
+            return 0;//(fullHeight);
+
+        if (hasNotIn26(str))
+            return 0;//(fullHeight);
+        return 2;//(fullHeight / 3 * 4);
     }
 }

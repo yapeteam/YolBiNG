@@ -220,12 +220,10 @@ public class RenderUtil implements IMinecraft {
     private static final Map<Integer, Integer> shadowCache = new HashMap<>();
 
     public static void drawBloomShadow(float x, float y, float width, float height, int blurRadius, Color color) {
-        drawBloomShadow(x,y,width,height,blurRadius,0,color);
+        drawBloomShadow(x, y, width, height, blurRadius, 0, color);
     }
 
-
-
-        public static void drawBloomShadow(float x, float y, float width, float height, int blurRadius,int roundRadius, Color color) {
+    public static void drawBloomShadow(float x, float y, float width, float height, int blurRadius, int roundRadius, Color color) {
         glPushMatrix();
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0.01f);
         width = width + blurRadius * 2;

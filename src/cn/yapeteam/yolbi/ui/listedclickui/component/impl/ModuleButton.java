@@ -9,6 +9,7 @@ import cn.yapeteam.yolbi.ui.listedclickui.component.Limitation;
 import cn.yapeteam.yolbi.util.render.RenderUtil;
 import cn.yapeteam.yolbi.values.Value;
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.client.renderer.GlStateManager;
 
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ public class ModuleButton extends AbstractComponent {
     @Getter
     private final Module module;
     @Getter
+    @Setter
     private float realY;
 
     public ModuleButton(AbstractComponent parent, Module module) {
@@ -113,7 +115,7 @@ public class ModuleButton extends AbstractComponent {
             RenderUtil.drawRect(getX(), getY(), getX() + getWidth(), getY() + getHeight(), module.isEnabled() ? (ImplScreen.getComponentColor((all - 1 - index) * 100)) : (isHovering(getX(), getY(), getWidth(), getHeight(), mouseX, mouseY) && (!((Panel) getParent()).getScreenIn().getCurrentPanel().isHovering(mouseX, mouseY) || ((Panel) getParent()).isCurrent()) ? ImplScreen.MainTheme[0].getRGB() : ImplScreen.MainTheme[1].getRGB()));
             AbstractFontRenderer font = YolBi.instance.getFontManager().getPingFang14();
             AbstractFontRenderer icon = YolBi.instance.getFontManager().getFLUXICON14();
-            font.drawString(module.getName(), getX() + 5, getY() + (getHeight() - font.getStringHeight(module.getName())) / 2f + 1, !ImplScreen.getClientThemeModuleInstance().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
+            font.drawString(module.getName(), getX() + 5, getY() + (getHeight() - font.getStringHeight(module.getName())) / 2f, !ImplScreen.getClientThemeModuleInstance().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
             if (getChildComponents().size() > 1) {
                 GlStateManager.pushMatrix();
                 float x = getX() + getWidth() - icon.getStringWidth("g") - 3;
@@ -157,9 +159,5 @@ public class ModuleButton extends AbstractComponent {
     public void mouseReleased(float mouseX, float mouseY, int state) {
         if (extended)
             getChildComponents().stream().filter(c -> !(c instanceof ValueButton && !((ValueButton) c).getValue().getVisibility().get())).collect(Collectors.toList()).forEach(c -> c.mouseReleased(mouseX, mouseY, state));
-    }
-
-    public void setRealY(float realY) {
-        this.realY = realY;
     }
 }

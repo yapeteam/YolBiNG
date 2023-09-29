@@ -4,19 +4,17 @@ import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
 import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
-import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
-import cn.yapeteam.yolbi.util.render.RenderUtil;
+import cn.yapeteam.yolbi.module.impl.visual.Notification;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 
 import javax.sound.sampled.*;
-import java.awt.*;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 
 @ModuleInfo(name = "KillEffect", category = ModuleCategory.MISC)
@@ -73,24 +71,19 @@ public class KillEffect extends Module {
      */
     private void play() {
         try {
-            play(AudioSystem.getAudioInputStream(KillEffect.class.getResourceAsStream("/assets/minecraft/yolbi/sound/kill.wav")));
+            //noinspection DataFlowIssue
+            play(AudioSystem.getAudioInputStream(new BufferedInputStream(KillEffect.class.getResourceAsStream("/assets/minecraft/yolbi/sound/kill.wav"))));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private float cX = 0, cY = 0, tX = 0, tY = 0;
 
     private Entity lastAttacked = null;
-    int w = 70, h = 15;
+
 
     @Override
     protected void onEnable() {
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-        tX = sr.getScaledWidth();
-        tY = sr.getScaledHeight();
-        cX = sr.getScaledWidth();
-        cY = tY;
         lastAttacked = null;
         wait = false;
     }
@@ -99,7 +92,6 @@ public class KillEffect extends Module {
 
     @Listener
     private void onUpdate(MotionEvent e) {
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
         for (Entity entity : Minecraft.getMinecraft().theWorld.loadedEntityList) {
             if (!wait && entity instanceof EntityPlayer && ((EntityPlayer) entity).getHealth() == 0 && lastAttacked != null && entity.getDisplayName().getUnformattedTextForChat().equals(lastAttacked.getDisplayName().getUnformattedTextForChat())) {
                 wait = true;
@@ -109,30 +101,16 @@ public class KillEffect extends Module {
                     play();
                     wait = false;
                 }).start();
-                tX = sr.getScaledWidth() - w;
-                tY = sr.getScaledHeight() - h;
-                cX = sr.getScaledWidth();
-                cY = tY;
+                YolBi.instance.getModuleManager().getModule(Notification.class).add(new cn.yapeteam.yolbi.ui.noti.Notification("Killed 1 Player"));
             }
         }
-        cX += (tX - cX) / 7f;
-        if (Math.round(cX) == Math.round(tX)) {
-            tX = sr.getScaledWidth();
-            tY = sr.getScaledHeight();
-        }
-    }
-
-    @Listener
-    private void onRender2D(RenderEvent e) {
-        RenderUtil.drawRect2(cX, cY, w, h, new Color(49, 49, 49).getRGB());
-        YolBi.instance.getFontManager().getPingFang18().drawString("Killed 1 Player", cX + 5, cY + (h - YolBi.instance.getFontManager().getPingFang18().getHeight()) / 2f, -1);
     }
 
     @Listener
     private void onAttack(PacketSendEvent e) {
         if (e.getPacket() instanceof C02PacketUseEntity) {
             C02PacketUseEntity packet = e.getPacket();
-            if (packet.getAction() == C02PacketUseEntity.Action.ATTACK) {
+            if (packet.getAction() == C02PacketUseEntity.Action.ATTACK && !packet.getEntity().isDead) {
                 lastAttacked = packet.getEntity();
             }
         }

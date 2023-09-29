@@ -1517,7 +1517,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
             if (this.currentScreen != null) {
                 try {
-                    this.currentScreen.panoramaTimer++;
+                    GuiScreen.panoramaTimer++;
                     this.currentScreen.updateScreen();
                 } catch (Throwable throwable) {
                     CrashReport crashreport1 = CrashReport.makeCrashReport(throwable, "Ticking screen");
