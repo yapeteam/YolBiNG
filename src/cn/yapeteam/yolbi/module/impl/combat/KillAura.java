@@ -163,6 +163,8 @@ public class KillAura extends Module {
             }
 
             stopTargeting();
+            mc.thePlayer.rotationYaw = YolBi.instance.getCameraHandler().getYaw();
+            mc.thePlayer.rotationPitch = YolBi.instance.getCameraHandler().getPitch();
         }
 
         YolBi.instance.getSlotSpoofHandler().stopSpoofing();

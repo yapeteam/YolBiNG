@@ -119,7 +119,8 @@ public class Scaffold extends Module {
     @Override
     public void onDisable() {
         KeyboardUtil.resetKeybindings(mc.gameSettings.keyBindSprint, mc.gameSettings.keyBindSneak);
-
+        mc.thePlayer.rotationYaw = YolBi.instance.getCameraHandler().getYaw();
+        mc.thePlayer.rotationPitch = YolBi.instance.getCameraHandler().getPitch();
         switchToOriginalSlot();
     }
 
@@ -542,5 +543,4 @@ public class Scaffold extends Module {
     public double getNegativeExpand() {
         return mc.gameSettings.keyBindJump.isKeyDown() || !mc.thePlayer.onGround ? offGroundNegativeExpand.getValue() : negativeExpand.getValue();
     }
-
 }
