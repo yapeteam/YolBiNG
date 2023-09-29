@@ -25,6 +25,31 @@ import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
 
+/*
+ *                        _oo0oo_
+ *                       o8888888o
+ *                       88" . "88
+ *                       (| -_- |)
+ *                       0\  =  /0
+ *                     ___/`---'\___
+ *                   .' \\|     |// '.
+ *                  / \\|||  :  |||// \
+ *                 / _||||| -:- |||||- \
+ *                |   | \\\  - /// |   |
+ *                | \_|  ''\---/''  |_/ |
+ *                \  .-\__  '-'  ___/-. /
+ *              ___'. .'  /--.--\  `. .'___
+ *           ."" '<  `.___\_<|>_/___.' >' "".
+ *          | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+ *          \  \ `_.   \_ __\ /__ _/   .-` /  /
+ *      =====`-.____`.___ \_____/___.-`___.-'=====
+ *                        `=---='
+ *
+ *
+ *      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *
+ *            佛祖保佑     永不宕机     永无BUG
+ */
 @Getter
 public class YolBi implements IMinecraft {
 
@@ -86,7 +111,8 @@ public class YolBi implements IMinecraft {
         try {
             ViaMCP.create();
 
-            // In case you want a version slider like in the Minecraft options, you can use this code here, please choose one of those:
+            // In case you want a version slider like in the Minecraft options, you can use
+            // this code here, please choose one of those:
             ViaMCP.INSTANCE.initAsyncSlider(); // For top left aligned slider
         } catch (Exception e) {
             e.printStackTrace();
