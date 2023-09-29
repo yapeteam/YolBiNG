@@ -21,7 +21,6 @@ public class Notification extends Module {
             notification.setTargetY(sr.getScaledHeight() - (cn.yapeteam.yolbi.ui.noti.Notification.getHeight() + 4) * (notifications.indexOf(notification) + 1));
             if (notification.getLeftTime() > 0) notification.render();
             else notifications.remove(notification);
-            notification.setIndex(i);
         }
     }
 
@@ -30,6 +29,7 @@ public class Notification extends Module {
         notification.setTargetX(sr.getScaledWidth() - notification.getWidth() - 2);
         notification.setCurrentX(sr.getScaledWidth() + 2);
         notification.setCurrentY(sr.getScaledHeight() - (cn.yapeteam.yolbi.ui.noti.Notification.getHeight() + 4) * (notifications.size() + 1));
+        notification.setIndex(notifications.size());
         notifications.add(notification);
     }
 }
