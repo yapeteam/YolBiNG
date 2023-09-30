@@ -16,6 +16,7 @@ import net.minecraft.util.EnumFacing;
 /**
  * Source: HYTC07全反开源.kt
  */
+@Deprecated
 @ModuleInfo(name = "GrimVelocity", category = ModuleCategory.COMBAT)
 public class GrimVelocity extends Module {
     private int S08 = 0;

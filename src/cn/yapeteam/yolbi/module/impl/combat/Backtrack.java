@@ -95,9 +95,9 @@ public class Backtrack extends Module {
                     double serverY = packet.getY();
                     double serverZ = packet.getZ();
 
-                    double d0 = (double) serverX / 32.0D;
-                    double d1 = (double) serverY / 32.0D;
-                    double d2 = (double) serverZ / 32.0D;
+                    double d0 = serverX / 32.0D;
+                    double d1 = serverY / 32.0D;
+                    double d2 = serverZ / 32.0D;
 
                     double x, y, z;
 
