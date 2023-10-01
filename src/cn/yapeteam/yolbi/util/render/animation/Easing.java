@@ -1,5 +1,6 @@
 package cn.yapeteam.yolbi.util.render.animation;
 
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.function.Function;
@@ -14,6 +15,7 @@ import static java.lang.Math.sin;
  *
  * @author Patrick
  */
+@Getter
 public enum Easing {
     LINEAR(x -> x),
     EASE_IN_QUAD(x -> x * x),
@@ -81,10 +83,6 @@ public enum Easing {
 
     Easing(final Function<Double, Double> function) {
         this.function = function;
-    }
-
-    public Function<Double, Double> getFunction() {
-        return function;
     }
 
     @Override
