@@ -3,17 +3,14 @@ package cn.yapeteam.yolbi.values;
 import lombok.Getter;
 import lombok.Setter;
 
+@Getter
 public class Value<T> {
     protected T value;
-    @Getter
     public String name;
-    @Getter
     protected String desc;
-    @Getter
     @Setter
     private ChangedCallback<T> callback = null;
 
-    @Getter
     @Setter
     private Visibility visibility = () -> true;
 
@@ -24,10 +21,6 @@ public class Value<T> {
     public Value(String name, String desc) {
         this.name = name;
         this.desc = desc;
-    }
-
-    public T getValue() {
-        return value;
     }
 
     public void setValue(T value) {

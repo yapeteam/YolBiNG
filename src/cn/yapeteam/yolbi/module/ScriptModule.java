@@ -9,7 +9,7 @@ public class ScriptModule extends Module {
 
     public ScriptModule(String source) {
         try {
-            this.script = new Script(source);
+            this.script = new Script(source, this);
         } catch (NoSuchFieldException | NoSuchMethodException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

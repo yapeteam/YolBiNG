@@ -12,8 +12,9 @@ public class Script {
     private final Map<String, CopyOnWriteArrayList<Runnable>> codeBlocks = new HashMap<>();
     private final Map<String, Object> objectsPool = new HashMap<>();
 
-    public Script(String source) throws NoSuchFieldException, ClassNotFoundException, NoSuchMethodException {
+    public Script(String source, Object parent) throws NoSuchFieldException, ClassNotFoundException, NoSuchMethodException {
         Compiler.compile(stacks, codeBlocks, source, objectsPool, true);
+        objectsPool.put("this", parent);
         stacks.forEach(Runnable::run);
     }
 

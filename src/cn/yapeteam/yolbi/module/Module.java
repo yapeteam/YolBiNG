@@ -95,6 +95,16 @@ public abstract class Module implements IMinecraft {
         }
     }
 
+    /**
+     * for fucking script
+     *
+     * @param value Value
+     */
+    @SuppressWarnings("unused")
+    public void addValue(Value<?> value) {
+        this.values.add(value);
+    }
+
     public void addValues(Value<?>... values) {
         this.values.addAll(Arrays.asList(values));
     }
