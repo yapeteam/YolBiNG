@@ -114,17 +114,15 @@ public class ModuleButton extends AbstractComponent {
             GlStateManager.color(1, 1, 1, 1);
             RenderUtil.drawRect(getX(), getY(), getX() + getWidth(), getY() + getHeight(), module.isEnabled() ? (ImplScreen.getComponentColor((all - 1 - index) * 100)) : (isHovering(getX(), getY(), getWidth(), getHeight(), mouseX, mouseY) && (!((Panel) getParent()).getScreenIn().getCurrentPanel().isHovering(mouseX, mouseY) || ((Panel) getParent()).isCurrent()) ? ImplScreen.MainTheme[0].getRGB() : ImplScreen.MainTheme[1].getRGB()));
             AbstractFontRenderer font = YolBi.instance.getFontManager().getPingFang14();
-            AbstractFontRenderer icon = YolBi.instance.getFontManager().getFLUXICON14();
             font.drawString(YolBi.instance.getLanguageManager().translate(module.getName()), getX() + 5, getY() + (getHeight() - font.getStringHeight(YolBi.instance.getLanguageManager().translate(module.getName()))) / 2f, !ImplScreen.getClientThemeModuleInstance().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
             if (getChildComponents().size() > 1) {
-                GlStateManager.pushMatrix();
-                float x = getX() + getWidth() - icon.getStringWidth("g") - 3;
-                float tx = x + icon.getStringWidth("g") / 2f, ty = getY() + (getHeight() - icon.getStringHeight("g")) / 2f + 2;
-                GlStateManager.translate(tx, ty, 0.0f);
-                GlStateManager.rotate(90, 0.0f, 0.0f, 1.0f);
-                GlStateManager.translate(-tx, -ty, 0.0f);
-                icon.drawString("g", x, getY() + (getHeight() - icon.getStringHeight("g")) / 2f, !ImplScreen.getClientThemeModuleInstance().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
-                GlStateManager.popMatrix();
+                float x = getX() + getWidth() - 5;
+                float top_bottom = 5;
+                float y = getY() + top_bottom;
+                for (int i = 0; i < 3; i++) {
+                    RenderUtil.circle(x, y, 0.1f, !ImplScreen.getClientThemeModuleInstance().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
+                    y += (getHeight() - top_bottom * 2) / 2f;
+                }
             }
         }
         if (extended)
