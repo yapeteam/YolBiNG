@@ -1,7 +1,7 @@
 package net.minecraft.block;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.block.NoteEvent;
+import cn.yapeteam.yolbi.event.impl.block.EventNote;
 import com.google.common.collect.Lists;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -90,7 +90,7 @@ public class BlockNote extends BlockContainer {
      * Called on both Client and Server when World#addBlockEvent is called
      */
     public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam) {
-        YolBi.instance.getEventManager().post(new NoteEvent(pos, eventParam, eventID));
+        YolBi.instance.getEventManager().post(new EventNote(pos, eventParam, eventID));
         float f = (float) Math.pow(2.0D, (double) (eventParam - 12) / 12.0D);
         worldIn.playSoundEffect((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, "note." + this.getInstrument(eventID), 3.0F, f);
         worldIn.spawnParticle(EnumParticleTypes.NOTE, (double) pos.getX() + 0.5D, (double) pos.getY() + 1.2D, (double) pos.getZ() + 0.5D, (double) eventParam / 24.0D, 0.0D, 0.0D);

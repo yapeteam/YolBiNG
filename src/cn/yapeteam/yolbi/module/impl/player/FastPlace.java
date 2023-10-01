@@ -1,9 +1,9 @@
 package cn.yapeteam.yolbi.module.impl.player;
 
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
-import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
-import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
+import cn.yapeteam.yolbi.event.impl.game.EventTick;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketSend;
+import cn.yapeteam.yolbi.event.impl.render.EventRender2D;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -32,7 +32,7 @@ public class FastPlace extends Module {
     }
 
     @Listener
-    public void onTick(TickEvent event) {
+    public void onTick(EventTick event) {
         if (delay.is("Every tick")) {
             mc.rightClickDelayTimer = 0;
         } else if (delay.is("Every 2 ticks")) {
@@ -52,7 +52,7 @@ public class FastPlace extends Module {
     }
 
     @Listener
-    public void onRender(RenderEvent event) {
+    public void onRender(EventRender2D event) {
         if (delay.is("No CPS cap") || (delay.is("Every tick on render") && !placedBlock)) {
             if (mc.gameSettings.keyBindUseItem.isPressed() || Mouse.isButtonDown(1)) {
                 mc.rightClickDelayTimer = 0;
@@ -62,7 +62,7 @@ public class FastPlace extends Module {
     }
 
     @Listener
-    public void onSend(PacketSendEvent event) {
+    public void onSend(EventPacketSend event) {
         if (event.getPacket() instanceof C08PacketPlayerBlockPlacement) {
             C08PacketPlayerBlockPlacement packet = event.getPacket();
 

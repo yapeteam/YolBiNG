@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.render.ItemRenderEvent;
+import cn.yapeteam.yolbi.event.impl.render.EventItemRender;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -346,7 +346,7 @@ public class ItemRenderer
 
             if (this.itemToRender != null)
             {
-                ItemRenderEvent event = new ItemRenderEvent(abstractclientplayer.getItemInUseCount() > 0 && this.itemToRender.getItemUseAction() == EnumAction.BLOCK);
+                EventItemRender event = new EventItemRender(abstractclientplayer.getItemInUseCount() > 0 && this.itemToRender.getItemUseAction() == EnumAction.BLOCK);
                 YolBi.instance.getEventManager().post(event);
 
                 boolean renderedBlocking = false;

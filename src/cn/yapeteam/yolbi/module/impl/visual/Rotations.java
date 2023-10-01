@@ -2,8 +2,8 @@ package cn.yapeteam.yolbi.module.impl.visual;
 
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.Priority;
-import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
-import cn.yapeteam.yolbi.event.impl.render.RotationsRenderEvent;
+import cn.yapeteam.yolbi.event.impl.player.EventMotion;
+import cn.yapeteam.yolbi.event.impl.render.EventRotationsRender;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -24,7 +24,7 @@ public class Rotations extends Module {
     }
 
     @Listener(Priority.LOWER)
-    public void onMotion(MotionEvent event) {
+    public void onMotion(EventMotion event) {
         customRender = mc.thePlayer.rotationYaw != event.getYaw() || mc.thePlayer.rotationPitch != event.getPitch();
 
         this.lastYaw = yaw;
@@ -35,7 +35,7 @@ public class Rotations extends Module {
     }
 
     @Listener(Priority.LOWER)
-    public void onRotsRender(RotationsRenderEvent event) {
+    public void onRotsRender(EventRotationsRender event) {
         if (customRender) {
             float partialTicks = event.getPartialTicks();
 

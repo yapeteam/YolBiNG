@@ -1,7 +1,7 @@
 package cn.yapeteam.yolbi.module.impl.player;
 
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
+import cn.yapeteam.yolbi.event.impl.player.EventPostMotion;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -21,7 +21,7 @@ public class Timer extends Module {
     }
 
     @Listener
-    public void onPostMotion(PostMotionEvent event) {
+    public void onPostMotion(EventPostMotion event) {
         mc.timer.timerSpeed = speed.getValue().floatValue();
     }
 }

@@ -2,8 +2,8 @@ package cn.yapeteam.yolbi.module.impl.movement;
 
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.Priority;
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
-import cn.yapeteam.yolbi.event.impl.player.StrafeEvent;
+import cn.yapeteam.yolbi.event.impl.game.EventTick;
+import cn.yapeteam.yolbi.event.impl.player.EventStrafe;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -28,12 +28,12 @@ public class Sprint extends Module {
     }
 
     @Listener
-    public void onStrafe(StrafeEvent event) {
+    public void onStrafe(EventStrafe event) {
         if (Objects.equals(mode.getValue(), "Legit")) mc.gameSettings.keyBindSprint.setPressed(true);
     }
 
     @Listener(Priority.HIGH)
-    public void onTick(TickEvent event) {
+    public void onTick(EventTick event) {
         if (mode.is("Simple")) {
             mc.gameSettings.keyBindSprint.setPressed(true);
 

@@ -2,8 +2,8 @@ package cn.yapeteam.yolbi.module.impl.movement;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
-import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketReceive;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketSend;
 import cn.yapeteam.yolbi.event.impl.player.*;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
@@ -164,7 +164,7 @@ public class Fly extends Module {
     }
 
     @Listener
-    public void onUpdate(UpdateEvent event) {
+    public void onUpdate(EventUpdate event) {
         switch (mode.getValue()) {
             case "Velocity":
                 switch (velocityMode.getValue()) {
@@ -224,7 +224,7 @@ public class Fly extends Module {
     }
 
     @Listener
-    public void onMove(MoveEvent event) {
+    public void onMove(EventMove event) {
         switch (mode.getValue()) {
             case "Vanilla":
                 switch (vanillaMode.getValue()) {
@@ -492,7 +492,7 @@ public class Fly extends Module {
     }
 
     @Listener
-    public void onEntityAction(EntityActionEvent event) {
+    public void onEntityAction(EventEntityAction event) {
         switch (mode.getValue()) {
             case "Velocity":
                 if (velocityMode.is("Wait for hit")) {
@@ -512,7 +512,7 @@ public class Fly extends Module {
     }
 
     @Listener
-    public void onMotion(MotionEvent event) {
+    public void onMotion(EventMotion event) {
         switch (mode.getValue()) {
             case "Velocity":
                 if (velocityMode.is("Bow") || velocityMode.is("Bow2")) {
@@ -528,12 +528,12 @@ public class Fly extends Module {
     }
 
     @Listener
-    public void onPostMotion(PostMotionEvent event) {
+    public void onPostMotion(EventPostMotion event) {
 
     }
 
     @Listener
-    public void onReceive(PacketReceiveEvent event) {
+    public void onReceive(EventPacketReceive event) {
         if (event.getPacket() instanceof S12PacketEntityVelocity) {
             S12PacketEntityVelocity packet = event.getPacket();
 
@@ -556,7 +556,7 @@ public class Fly extends Module {
     }
 
     @Listener
-    public void onSend(PacketSendEvent event) {
+    public void onSend(EventPacketSend event) {
         switch (mode.getValue()) {
             case "Velocity":
                 if (velocityMode.is("Wait for hit") || velocityMode.is("Bow2")) {

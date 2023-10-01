@@ -1,7 +1,7 @@
 package cn.yapeteam.yolbi.module;
 
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
+import cn.yapeteam.yolbi.event.impl.render.EventRender2D;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,7 +38,7 @@ public abstract class HUDModule extends Module {
     }
 
     @Listener
-    private void onRender(RenderEvent event) {
+    private void onRender(EventRender2D event) {
         boolean inChat = mc.currentScreen instanceof GuiChat;
 
         if (this.isEnabled()) {

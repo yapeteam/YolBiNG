@@ -3,7 +3,7 @@ package cn.yapeteam.yolbi.module.impl.player;
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.Priority;
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
+import cn.yapeteam.yolbi.event.impl.game.EventTick;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -37,7 +37,7 @@ public class AutoTool extends Module {
     }
 
     @Listener(Priority.LOW)
-    public void onTick(TickEvent event) {
+    public void onTick(EventTick event) {
         if ((Mouse.isButtonDown(0) || mc.gameSettings.keyBindAttack.isKeyDown()) && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
             Block block = mc.theWorld.getBlockState(mc.objectMouseOver.getBlockPos()).getBlock();
 

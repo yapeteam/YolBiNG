@@ -1,10 +1,10 @@
 package cn.yapeteam.yolbi.module.impl.movement;
 
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
-import cn.yapeteam.yolbi.event.impl.player.PostStepEvent;
-import cn.yapeteam.yolbi.event.impl.player.PreStepEvent;
-import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
+import cn.yapeteam.yolbi.event.impl.player.EventMotion;
+import cn.yapeteam.yolbi.event.impl.player.EventPostStep;
+import cn.yapeteam.yolbi.event.impl.player.EventPreStep;
+import cn.yapeteam.yolbi.event.impl.player.EventUpdate;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -38,7 +38,7 @@ public class Step extends Module {
     }
 
     @Listener
-    public void onUpdate(UpdateEvent event) {
+    public void onUpdate(EventUpdate event) {
         switch (mode.getValue()) {
             case "Vanilla":
                 mc.thePlayer.stepHeight = height.getValue().floatValue();
@@ -55,7 +55,7 @@ public class Step extends Module {
     }
 
     @Listener
-    public void onPreStep(PreStepEvent event) {
+    public void onPreStep(EventPreStep event) {
         if (!mode.is("Vanilla")) {
             if (mc.thePlayer.onGround && prevOffGround) {
                 if (event.getHeight() > 0.6) {
@@ -66,7 +66,7 @@ public class Step extends Module {
     }
 
     @Listener
-    public void onPostStep(PostStepEvent event) {
+    public void onPostStep(EventPostStep event) {
         if (event.getHeight() > 0.6F) {
             if (timer.getValue() < 1) {
                 mc.timer.timerSpeed = timer.getValue().floatValue();
@@ -81,7 +81,7 @@ public class Step extends Module {
     }
 
     @Listener
-    public void onMotion(MotionEvent event) {
+    public void onMotion(EventMotion event) {
         prevOffGround = !event.isOnGround();
     }
 

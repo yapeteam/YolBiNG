@@ -2,7 +2,7 @@ package cn.yapeteam.yolbi.module.impl.visual;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
+import cn.yapeteam.yolbi.event.impl.player.EventPostMotion;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.module.*;
 import cn.yapeteam.yolbi.util.animation.AnimationHolder;
@@ -102,7 +102,7 @@ public class ModuleList extends HUDModule {
     }
 
     @Listener
-    public void onPostMotion(PostMotionEvent event) {
+    public void onPostMotion(EventPostMotion event) {
         sort();
     }
 

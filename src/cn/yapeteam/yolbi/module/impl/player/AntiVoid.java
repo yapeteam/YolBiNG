@@ -3,9 +3,9 @@ package cn.yapeteam.yolbi.module.impl.player;
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.Priority;
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
-import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
-import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
+import cn.yapeteam.yolbi.event.impl.game.EventTick;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketReceive;
+import cn.yapeteam.yolbi.event.impl.player.EventMotion;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -73,7 +73,7 @@ public class AntiVoid extends Module {
     }
 
     @Listener(Priority.HIGHER)
-    public void onTick(TickEvent event) {
+    public void onTick(EventTick event) {
         if (mc.thePlayer.ticksExisted < 10) {
             collisionBlock = null;
             return;
@@ -156,7 +156,7 @@ public class AntiVoid extends Module {
     }
 
     @Listener(Priority.LOWER)
-    public void onMotion(MotionEvent event) {
+    public void onMotion(EventMotion event) {
         switch (mode.getValue()) {
             case "Flag":
                 if (shouldSetback()) {
@@ -167,7 +167,7 @@ public class AntiVoid extends Module {
     }
 
     @Listener
-    public void onReceive(PacketReceiveEvent event) {
+    public void onReceive(EventPacketReceive event) {
         if (event.getPacket() instanceof S08PacketPlayerPosLook) {
             S08PacketPlayerPosLook packet = event.getPacket();
 

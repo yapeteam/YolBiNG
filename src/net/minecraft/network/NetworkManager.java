@@ -1,9 +1,9 @@
 package net.minecraft.network;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.network.FinalPacketSendEvent;
-import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
-import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
+import cn.yapeteam.yolbi.event.impl.network.EventFinalPacketSend;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketReceive;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketSend;
 import cn.yapeteam.yolbi.util.network.PacketUtil;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -133,7 +133,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 
     protected void channelRead0(ChannelHandlerContext p_channelRead0_1_, Packet p_channelRead0_2_) throws Exception {
         if (this.channel.isOpen()) {
-            PacketReceiveEvent event = new PacketReceiveEvent(p_channelRead0_2_);
+            EventPacketReceive event = new EventPacketReceive(p_channelRead0_2_);
 
             YolBi.instance.getEventManager().post(event);
 
@@ -159,7 +159,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
 
     public void sendPacket(Packet packetIn) {
         if (this.isChannelOpen()) {
-            PacketSendEvent event = new PacketSendEvent(packetIn);
+            EventPacketSend event = new EventPacketSend(packetIn);
 
             if (!PacketUtil.shouldIgnorePacket(packetIn)) {
                 YolBi.instance.getEventManager().post(event);
@@ -180,7 +180,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
     }
 
     public void sendPacketFinal(Packet packetIn) {
-        FinalPacketSendEvent event = new FinalPacketSendEvent(packetIn);
+        EventFinalPacketSend event = new EventFinalPacketSend(packetIn);
 
         if (!PacketUtil.shouldIgnorePacket(packetIn)) {
             YolBi.instance.getEventManager().post(event);

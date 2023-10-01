@@ -1,7 +1,7 @@
 package net.minecraft.client.entity;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.network.ChatSendEvent;
+import cn.yapeteam.yolbi.event.impl.network.EventChat;
 import cn.yapeteam.yolbi.event.impl.player.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
@@ -148,7 +148,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
      */
     public void onUpdate() {
         if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ))) {
-            YolBi.instance.getEventManager().post(new UpdateEvent());
+            YolBi.instance.getEventManager().post(new EventUpdate());
             super.onUpdate();
 
             if (this.isRiding()) {
@@ -157,14 +157,14 @@ public class EntityPlayerSP extends AbstractClientPlayer {
             } else {
                 this.onUpdateWalkingPlayer();
 
-                YolBi.instance.getEventManager().post(new PostMotionEvent());
+                YolBi.instance.getEventManager().post(new EventPostMotion());
             }
         }
     }
 
     @Override
     public void moveEntity(double x, double y, double z) {
-        MoveEvent event = new MoveEvent(x, y, z);
+        EventMove event = new EventMove(x, y, z);
 
         YolBi.instance.getEventManager().post(event);
 
@@ -183,7 +183,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
      * called every tick when the player is on foot. Performs all the things that normally happen during movement.
      */
     public void onUpdateWalkingPlayer() {
-        EntityActionEvent actionEvent = new EntityActionEvent(this.isSprinting(), this.isSneaking());
+        EventEntityAction actionEvent = new EventEntityAction(this.isSprinting(), this.isSneaking());
         YolBi.instance.getEventManager().post(actionEvent);
 
         boolean flag = actionEvent.isSprinting();
@@ -210,7 +210,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
             this.serverSneakState = flag1;
         }
 
-        MotionEvent motionEvent = new MotionEvent(this.posX, this.getEntityBoundingBox().minY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround);
+        EventMotion motionEvent = new EventMotion(this.posX, this.getEntityBoundingBox().minY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround);
         YolBi.instance.getEventManager().post(motionEvent);
 
         if (this.isCurrentViewEntity()) {
@@ -274,7 +274,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
      * @param message used on EntityPlayerSP.sendChatMessage - as inbound message
      */
     public void sendChatMessage(String message) {
-        ChatSendEvent event = new ChatSendEvent(message);
+        EventChat event = new EventChat(message);
         YolBi.instance.getEventManager().post(event);
 
         if (event.isCancelled()) return;
@@ -681,7 +681,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         boolean noslowAllowSprint = false;
 
         if (this.isUsingItem() && !this.isRiding()) {
-            SlowdownEvent event = new SlowdownEvent(0.2F, 0.2F, false);
+            EventSlowdown event = new EventSlowdown(0.2F, 0.2F, false);
             YolBi.instance.getEventManager().post(event);
 
             this.movementInput.moveStrafe *= event.getForward();

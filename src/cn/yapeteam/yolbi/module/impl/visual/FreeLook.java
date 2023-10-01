@@ -2,7 +2,7 @@ package cn.yapeteam.yolbi.module.impl.visual;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
+import cn.yapeteam.yolbi.event.impl.game.EventTick;
 import cn.yapeteam.yolbi.module.EventListenType;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
@@ -20,7 +20,7 @@ public class FreeLook extends Module {
     }
 
     @Listener
-    public void onTick(TickEvent event) {
+    public void onTick(EventTick event) {
         if (mc.thePlayer.ticksExisted < 10) {
             stop();
         }

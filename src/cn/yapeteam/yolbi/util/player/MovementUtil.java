@@ -1,7 +1,7 @@
 package cn.yapeteam.yolbi.util.player;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.player.MoveEvent;
+import cn.yapeteam.yolbi.event.impl.player.EventMove;
 import cn.yapeteam.yolbi.module.impl.combat.KillAura;
 import cn.yapeteam.yolbi.module.impl.combat.TargetStrafe;
 import cn.yapeteam.yolbi.util.IMinecraft;
@@ -15,7 +15,7 @@ public class MovementUtil implements IMinecraft {
         strafe(getHorizontalMotion());
     }
 
-    public static void strafe(MoveEvent event) {
+    public static void strafe(EventMove event) {
         strafe(event, getHorizontalMotion());
     }
 
@@ -30,7 +30,7 @@ public class MovementUtil implements IMinecraft {
         }
     }
 
-    public static void strafe(MoveEvent event, double speed) {
+    public static void strafe(EventMove event, double speed) {
         float direction = (float) Math.toRadians(getPlayerDirection());
 
         KillAura killaura = YolBi.instance.getModuleManager().getModule(KillAura.class);
@@ -49,7 +49,7 @@ public class MovementUtil implements IMinecraft {
         }
     }
 
-    public static void strafeNoTargetStrafe(MoveEvent event, double speed) {
+    public static void strafeNoTargetStrafe(EventMove event, double speed) {
         float direction = (float) Math.toRadians(getPlayerDirection());
 
         if (isMoving()) {
@@ -142,7 +142,7 @@ public class MovementUtil implements IMinecraft {
         mc.thePlayer.motionZ *= mult;
     }
 
-    public static void motionMult(MoveEvent event, double mult) {
+    public static void motionMult(EventMove event, double mult) {
         event.setX(mc.thePlayer.motionX *= mult);
         event.setZ(mc.thePlayer.motionZ *= mult);
     }
@@ -153,13 +153,13 @@ public class MovementUtil implements IMinecraft {
         mc.thePlayer.motionZ += (double)(MathHelper.cos(f) * amount);
     }
 
-    public static void boost(MoveEvent event, double amount) {
+    public static void boost(EventMove event, double amount) {
         float f = getPlayerDirection() * 0.017453292F;
         event.setX(mc.thePlayer.motionX -= (double)(MathHelper.sin(f) * amount));
         event.setZ(mc.thePlayer.motionZ += (double)(MathHelper.cos(f) * amount));
     }
 
-    public static void jump(MoveEvent event) {
+    public static void jump(EventMove event) {
         double jumpY = (double) mc.thePlayer.getJumpUpwardsMotion();
 
         if(mc.thePlayer.isPotionActive(Potion.jump)) {

@@ -2,10 +2,10 @@ package cn.yapeteam.yolbi.module.impl.combat;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
+import cn.yapeteam.yolbi.event.impl.game.EventTick;
 import cn.yapeteam.yolbi.event.impl.player.*;
-import cn.yapeteam.yolbi.event.impl.render.ItemRenderEvent;
-import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
+import cn.yapeteam.yolbi.event.impl.render.EventItemRender;
+import cn.yapeteam.yolbi.event.impl.render.EventRender2D;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -186,7 +186,7 @@ public class KillAura extends Module {
     }
 
     @Listener
-    public void onRender(RenderEvent event) {
+    public void onRender(EventRender2D event) {
         if (mc.thePlayer == null || mc.thePlayer.ticksExisted < 10) {
             this.setEnabled(false);
             return;
@@ -220,7 +220,7 @@ public class KillAura extends Module {
     }
 
     @Listener
-    public void onTick(TickEvent event) {
+    public void onTick(EventTick event) {
         if (mc.thePlayer.ticksExisted < 10) {
             this.setEnabled(false);
             return;
@@ -367,7 +367,7 @@ public class KillAura extends Module {
     }
 
     @Listener
-    public void onSlowdown(SlowdownEvent event) {
+    public void onSlowdown(EventSlowdown event) {
         if (canBlock()) {
             if (autoblock.getValue().equals("Blink")) {
                 switch (slowdown.getValue()) {
@@ -396,14 +396,14 @@ public class KillAura extends Module {
     }
 
     @Listener
-    public void onJump(JumpEvent event) {
+    public void onJump(EventJump event) {
         if (target != null && !rotations.is("None") && !moveFix.is("Disabled")) {
             event.setYaw(fixedRotations.getYaw());
         }
     }
 
     @Listener
-    public void onStrafe(StrafeEvent event) {
+    public void onStrafe(EventStrafe event) {
         if (!rotations.is("None") && isRotating()) {
             switch (moveFix.getValue()) {
                 case "Normal":
@@ -687,7 +687,7 @@ public class KillAura extends Module {
     }
 
     @Listener
-    public void onItemRender(ItemRenderEvent event) {
+    public void onItemRender(EventItemRender event) {
         if (canRenderBlocking() && (blocking || !autoblock.is("Not moving")) && !autoblock.is("None")) {
             event.setRenderBlocking(true);
         }
@@ -791,7 +791,7 @@ public class KillAura extends Module {
     }
 
     @Listener
-    public void onMotion(MotionEvent event) {
+    public void onMotion(EventMotion event) {
         if (isRotating()) {
             event.setYaw(fixedRotations.getYaw());
             event.setPitch(fixedRotations.getPitch());
@@ -799,7 +799,7 @@ public class KillAura extends Module {
     }
 
     @Listener
-    public void onPostMotion(PostMotionEvent event) {
+    public void onPostMotion(EventPostMotion event) {
         if (couldBlock) {
             postAutoblock();
         }

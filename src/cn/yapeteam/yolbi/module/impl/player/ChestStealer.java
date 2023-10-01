@@ -2,7 +2,7 @@ package cn.yapeteam.yolbi.module.impl.player;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
+import cn.yapeteam.yolbi.event.impl.player.EventUpdate;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -37,7 +37,7 @@ public class ChestStealer extends Module {
     }
 
     @Listener
-    public void onUpdate(UpdateEvent event) {
+    public void onUpdate(EventUpdate event) {
         if (mc.thePlayer.openContainer != null && mc.thePlayer.openContainer instanceof ContainerChest && (!isGUI() || !guiDetect.getValue())) {
             ContainerChest container = (ContainerChest) mc.thePlayer.openContainer;
 

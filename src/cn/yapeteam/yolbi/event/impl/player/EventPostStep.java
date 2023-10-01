@@ -1,6 +1,6 @@
 package cn.yapeteam.yolbi.event.impl.player;
 
-import cn.yapeteam.yolbi.event.type.CancellableEvent;
+import cn.yapeteam.yolbi.event.Event;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,8 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class MoveEvent extends CancellableEvent {
+public class EventPostStep extends Event {
 
-    private double x, y, z;
+    private float height;
 
 }

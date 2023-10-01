@@ -6,7 +6,7 @@ import lombok.Setter;
 import net.minecraft.network.Packet;
 
 @AllArgsConstructor
-public class FinalPacketSendEvent extends CancellableEvent {
+public class EventPacketSend extends CancellableEvent {
 
     @Setter
     private Packet packet;

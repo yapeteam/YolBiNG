@@ -1,8 +1,8 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
-import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketReceive;
+import cn.yapeteam.yolbi.event.impl.player.EventMotion;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -23,7 +23,7 @@ public class GrimVelocity extends Module {
     private boolean isVel = false;
 
     @Listener
-    private void onUpdate(MotionEvent e) {
+    private void onUpdate(EventMotion e) {
         if (isVel) {
             isVel = false;
             mc.getNetHandler().getNetworkManager().sendPacket(
@@ -37,7 +37,7 @@ public class GrimVelocity extends Module {
     }
 
     @Listener
-    private void onReceive(PacketReceiveEvent e) {
+    private void onReceive(EventPacketReceive e) {
         val packet = e.getPacket();
         if (S08 > 0) {
             S08--;

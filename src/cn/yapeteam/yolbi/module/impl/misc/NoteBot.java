@@ -1,8 +1,8 @@
 package cn.yapeteam.yolbi.module.impl.misc;
 
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.block.NoteEvent;
-import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
+import cn.yapeteam.yolbi.event.impl.block.EventNote;
+import cn.yapeteam.yolbi.event.impl.player.EventMotion;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -77,7 +77,7 @@ public class NoteBot extends Module {
     }
 
     @Listener
-    private void onNote(NoteEvent e) {
+    private void onNote(EventNote e) {
         if (playing) return;
         checkedList.stream().filter(p -> p.getPos() == null && !hasPos(checkedList, e.getPos()) && p.getInst() == e.getPitch()).findFirst().ifPresent(pair -> pair.setPos(e.getPos()));
         for (BNIPair pair : checkedList)
@@ -117,7 +117,7 @@ public class NoteBot extends Module {
     TimerUtil timerUtil = new TimerUtil();
 
     @Listener
-    private void onUpdate(MotionEvent e) {
+    private void onUpdate(EventMotion e) {
         if (playingMusic == null) {
             stopListening();
             return;

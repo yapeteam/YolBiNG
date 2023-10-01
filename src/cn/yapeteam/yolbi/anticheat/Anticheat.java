@@ -4,15 +4,15 @@ import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.anticheat.impl.BotCheck;
 import cn.yapeteam.yolbi.anticheat.impl.FlyCheck;
 import cn.yapeteam.yolbi.anticheat.impl.SpeedCheck;
-import cn.yapeteam.yolbi.event.impl.player.EntityMoveEvent;
-import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
-import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
+import cn.yapeteam.yolbi.event.Listener;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketReceive;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketSend;
+import cn.yapeteam.yolbi.event.impl.player.EventEntityMove;
+import cn.yapeteam.yolbi.util.IMinecraft;
 import cn.yapeteam.yolbi.util.network.ServerUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.server.S3DPacketDisplayScoreboard;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.util.IMinecraft;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +29,7 @@ public class Anticheat implements IMinecraft {
     }
 
     @Listener
-    public void onEntityMove(EntityMoveEvent event) {
+    public void onEntityMove(EventEntityMove event) {
         Entity entity = event.getEntity();
 
         if(entity instanceof EntityPlayer) {
@@ -60,7 +60,7 @@ public class Anticheat implements IMinecraft {
     }
 
     @Listener
-    public void onReceive(PacketReceiveEvent event) {
+    public void onReceive(EventPacketReceive event) {
         if(event.getPacket() instanceof S3DPacketDisplayScoreboard) {
             S3DPacketDisplayScoreboard packet = event.getPacket();
 
@@ -75,7 +75,7 @@ public class Anticheat implements IMinecraft {
     }
 
     @Listener
-    public void onSend(PacketSendEvent event) {
+    public void onSend(EventPacketSend event) {
         if(mc.thePlayer == null || mc.thePlayer.ticksExisted < 5) {
             if(shouldClear) {
                 players.clear();

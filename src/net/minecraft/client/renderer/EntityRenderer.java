@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.render.Render3DEvent;
+import cn.yapeteam.yolbi.event.impl.render.EventRender3D;
 import cn.yapeteam.yolbi.handler.client.CameraHandler;
 import cn.yapeteam.yolbi.module.impl.combat.Reach;
 import cn.yapeteam.yolbi.module.impl.visual.Ambience;
@@ -1661,7 +1661,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
         }
 
         this.mc.mcProfiler.endStartSection("hand");
-        YolBi.instance.getEventManager().post(new Render3DEvent(partialTicks));
+        YolBi.instance.getEventManager().post(new EventRender3D(partialTicks));
 
         if (this.renderHand && !Shaders.isShadowPass) {
             if (flag) {

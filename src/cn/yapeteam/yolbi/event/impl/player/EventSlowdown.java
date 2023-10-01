@@ -1,17 +1,16 @@
 package cn.yapeteam.yolbi.event.impl.player;
 
+import cn.yapeteam.yolbi.event.Event;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import cn.yapeteam.yolbi.event.Event;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class JumpEvent extends Event {
+public class EventSlowdown extends Event {
 
-    private double motionY;
-    private float yaw;
-    private boolean boosting;
+    private float forward, strafe;
+    private boolean allowedSprinting;
 
 }

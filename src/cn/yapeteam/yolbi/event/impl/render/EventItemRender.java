@@ -1,12 +1,12 @@
 package cn.yapeteam.yolbi.event.impl.render;
 
+import cn.yapeteam.yolbi.event.Event;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
-import cn.yapeteam.yolbi.event.Event;
 
 @Setter
 @AllArgsConstructor
-public class ItemRenderEvent extends Event {
+public class EventItemRender extends Event {
 
     private boolean renderBlocking;
 

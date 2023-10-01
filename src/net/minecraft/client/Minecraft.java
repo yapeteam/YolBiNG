@@ -1,8 +1,8 @@
 package net.minecraft.client;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.game.KeyPressEvent;
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
+import cn.yapeteam.yolbi.event.impl.game.EventKey;
+import cn.yapeteam.yolbi.event.impl.game.EventTick;
 import cn.yapeteam.yolbi.module.impl.combat.DelayRemover;
 import cn.yapeteam.yolbi.module.impl.combat.KillAura;
 import cn.yapeteam.yolbi.module.impl.combat.TickBase;
@@ -1577,7 +1577,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
                 --this.leftClickCounter;
             }
 
-            YolBi.instance.getEventManager().post(new TickEvent());
+            YolBi.instance.getEventManager().post(new EventTick());
 
             this.mcProfiler.endStartSection("keyboard");
 
@@ -1611,7 +1611,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
                     if (this.currentScreen != null) {
                         this.currentScreen.handleKeyboardInput();
                     } else {
-                        YolBi.instance.getEventManager().post(new KeyPressEvent(k));
+                        YolBi.instance.getEventManager().post(new EventKey(k));
 
                         if (k == 1) {
                             this.displayInGameMenu();

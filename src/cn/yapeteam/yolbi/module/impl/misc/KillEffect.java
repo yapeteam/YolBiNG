@@ -2,8 +2,8 @@ package cn.yapeteam.yolbi.module.impl.misc;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
-import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketSend;
+import cn.yapeteam.yolbi.event.impl.player.EventMotion;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -91,7 +91,7 @@ public class KillEffect extends Module {
     private volatile boolean wait = false;
 
     @Listener
-    private void onUpdate(MotionEvent e) {
+    private void onUpdate(EventMotion e) {
         for (Entity entity : Minecraft.getMinecraft().theWorld.loadedEntityList) {
             if (!wait && entity instanceof EntityPlayer && ((EntityPlayer) entity).getHealth() == 0 && lastAttacked != null && entity.getDisplayName().getUnformattedTextForChat().equals(lastAttacked.getDisplayName().getUnformattedTextForChat())) {
                 wait = true;
@@ -107,7 +107,7 @@ public class KillEffect extends Module {
     }
 
     @Listener
-    private void onAttack(PacketSendEvent e) {
+    private void onAttack(EventPacketSend e) {
         if (e.getPacket() instanceof C02PacketUseEntity) {
             C02PacketUseEntity packet = e.getPacket();
             if (packet.getAction() == C02PacketUseEntity.Action.ATTACK && !packet.getEntity().isDead) {

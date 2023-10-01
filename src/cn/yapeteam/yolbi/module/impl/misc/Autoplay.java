@@ -1,8 +1,8 @@
 package cn.yapeteam.yolbi.module.impl.misc;
 
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
-import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
+import cn.yapeteam.yolbi.event.impl.game.EventTick;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketReceive;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -36,7 +36,7 @@ public class Autoplay extends Module {
     }
 
     @Listener
-    public void onTick(TickEvent event) {
+    public void onTick(EventTick event) {
         if (waiting && timer.getTimeElapsed() >= delay.getValue()) {
             String command = "";
 
@@ -57,7 +57,7 @@ public class Autoplay extends Module {
     }
 
     @Listener
-    public void onReceive(PacketReceiveEvent event) {
+    public void onReceive(EventPacketReceive event) {
         if (event.getPacket() instanceof S02PacketChat) {
             S02PacketChat packet = event.getPacket();
 

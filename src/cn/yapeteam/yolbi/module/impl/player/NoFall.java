@@ -2,7 +2,7 @@ package cn.yapeteam.yolbi.module.impl.player;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
+import cn.yapeteam.yolbi.event.impl.player.EventMotion;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -44,7 +44,7 @@ public class NoFall extends Module {
     }
 
     @Listener
-    public void onMotion(MotionEvent event) {
+    public void onMotion(EventMotion event) {
         double y = event.getY();
 
         double motionY = y - lastY;

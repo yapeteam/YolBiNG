@@ -2,8 +2,8 @@ package cn.yapeteam.yolbi.module.impl.combat;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
-import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketReceive;
+import cn.yapeteam.yolbi.event.impl.player.EventPostMotion;
 import cn.yapeteam.yolbi.handler.packet.DelayedPacket;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
@@ -54,7 +54,7 @@ public class Backtrack extends Module {
     }
 
     @Listener
-    public void onReceive(PacketReceiveEvent event) {
+    public void onReceive(EventPacketReceive event) {
         if (mc.thePlayer == null || mc.thePlayer.ticksExisted < 5) {
             if (!delayedPackets.isEmpty()) {
                 delayedPackets.clear();
@@ -137,7 +137,7 @@ public class Backtrack extends Module {
     }
 
     @Listener
-    public void onPostMotion(PostMotionEvent event) {
+    public void onPostMotion(EventPostMotion event) {
         updatePackets();
     }
 

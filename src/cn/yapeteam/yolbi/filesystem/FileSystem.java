@@ -7,6 +7,7 @@ import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.ColorValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
+import lombok.Getter;
 import net.minecraft.client.Minecraft;
 
 import java.awt.*;
@@ -14,23 +15,24 @@ import java.io.*;
 import java.util.ArrayList;
 
 @SuppressWarnings("DuplicatedCode")
+@Getter
 public class FileSystem {
-    private final File vestigeDir;
-    private final File vestigeConfigDir;
+    private final File yolbiDir;
+    private final File configDir;
 
     public FileSystem() {
         File mcDir = Minecraft.getMinecraft().mcDataDir;
 
-        vestigeDir = new File(mcDir, "YolBiNextGen");
+        yolbiDir = new File(mcDir, "YolBiNextGen");
 
-        if (!vestigeDir.exists()) {
-            boolean ignored = vestigeDir.mkdir();
+        if (!yolbiDir.exists()) {
+            boolean ignored = yolbiDir.mkdir();
         }
 
-        vestigeConfigDir = new File(vestigeDir, "configs");
+        configDir = new File(yolbiDir, "configs");
 
-        if (!vestigeConfigDir.exists()) {
-            boolean ignored = vestigeConfigDir.mkdir();
+        if (!configDir.exists()) {
+            boolean ignored = configDir.mkdir();
         }
     }
 
@@ -38,7 +40,7 @@ public class FileSystem {
         configName = configName.toLowerCase();
 
         try {
-            File configFile = new File(vestigeConfigDir, configName + ".txt");
+            File configFile = new File(configDir, configName + ".txt");
 
             if (!configFile.exists()) {
                 boolean ignored = configFile.createNewFile();
@@ -82,7 +84,7 @@ public class FileSystem {
 
     public boolean loadConfig(String configName, boolean defaultConfig) {
         try {
-            File configFile = new File(vestigeConfigDir, configName + ".txt");
+            File configFile = new File(configDir, configName + ".txt");
 
             if (configFile.exists()) {
                 BufferedReader reader = new BufferedReader(new FileReader(configFile));
@@ -150,7 +152,7 @@ public class FileSystem {
 
     public void saveKeybinds() {
         try {
-            File keybindsFile = new File(vestigeDir, "keybinds.txt");
+            File keybindsFile = new File(yolbiDir, "keybinds.txt");
 
             if (!keybindsFile.exists()) {
                 boolean ignored = keybindsFile.createNewFile();
@@ -176,7 +178,7 @@ public class FileSystem {
 
     public void loadKeybinds() {
         try {
-            File keybindsFile = new File(vestigeDir, "keybinds.txt");
+            File keybindsFile = new File(yolbiDir, "keybinds.txt");
 
             if (keybindsFile.exists()) {
                 BufferedReader reader = new BufferedReader(new FileReader(keybindsFile));

@@ -2,8 +2,8 @@ package cn.yapeteam.yolbi.module.impl.combat;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
-import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
+import cn.yapeteam.yolbi.event.impl.player.EventPostMotion;
+import cn.yapeteam.yolbi.event.impl.render.EventRender2D;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -62,7 +62,7 @@ public class TickBase extends Module {
     }
 
     @Listener
-    public void onPostMotion(PostMotionEvent event) {
+    public void onPostMotion(EventPostMotion event) {
         if (freezing) {
             mc.thePlayer.posX = mc.thePlayer.lastTickPosX;
             mc.thePlayer.posY = mc.thePlayer.lastTickPosY;
@@ -71,7 +71,7 @@ public class TickBase extends Module {
     }
 
     @Listener
-    public void onRender(RenderEvent event) {
+    public void onRender(EventRender2D event) {
         if (freezing) {
             mc.timer.renderPartialTicks = 0F;
         }

@@ -1,8 +1,8 @@
 package net.minecraft.entity;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.player.PostStepEvent;
-import cn.yapeteam.yolbi.event.impl.player.PreStepEvent;
+import cn.yapeteam.yolbi.event.impl.player.EventPostStep;
+import cn.yapeteam.yolbi.event.impl.player.EventPreStep;
 import cn.yapeteam.yolbi.module.impl.misc.PacketFix;
 import cn.yapeteam.yolbi.module.impl.movement.SafeWalk;
 import net.minecraft.block.*;
@@ -677,7 +677,7 @@ public abstract class Entity implements ICommandSender {
                 boolean isPlayer = this == Minecraft.getMinecraft().thePlayer;
 
                 if (isPlayer) {
-                    PreStepEvent event = new PreStepEvent(this.stepHeight);
+                    EventPreStep event = new EventPreStep(this.stepHeight);
 
                     YolBi.instance.getEventManager().post(event);
 
@@ -761,7 +761,7 @@ public abstract class Entity implements ICommandSender {
                 }
 
                 if (isPlayer) {
-                    YolBi.instance.getEventManager().post(new PostStepEvent((float) (this.getEntityBoundingBox().minY - this.posY)));
+                    YolBi.instance.getEventManager().post(new EventPostStep((float) (this.getEntityBoundingBox().minY - this.posY)));
                 }
             }
 

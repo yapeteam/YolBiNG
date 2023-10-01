@@ -1,8 +1,8 @@
 package cn.yapeteam.yolbi.module.impl.combat;
 
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
-import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
+import cn.yapeteam.yolbi.event.impl.game.EventTick;
+import cn.yapeteam.yolbi.event.impl.render.EventRender2D;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -34,7 +34,7 @@ public class AutoClicker extends Module {
     }
 
     @Listener
-    public void onRender(RenderEvent event) {
+    public void onRender(EventRender2D event) {
         if (wasHoldingMouse) {
             long maxDelay = (long) (1000.0 / minCPS.getValue());
             long minDelay = (long) (1000.0 / maxCPS.getValue());
@@ -49,7 +49,7 @@ public class AutoClicker extends Module {
     }
 
     @Listener
-    public void onTick(TickEvent event) {
+    public void onTick(EventTick event) {
         if (Mouse.isButtonDown(0)) {
             if (wasHoldingMouse && clickingTick) {
                 mc.leftClickCounter = 0;

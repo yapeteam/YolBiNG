@@ -16,6 +16,6 @@ import net.minecraft.entity.Entity;
 @Setter
 @Getter
 @AllArgsConstructor
-public class AttackEvent extends CancellableEvent {
+public class EventAttack extends CancellableEvent {
     private Entity targetEntity;
 }

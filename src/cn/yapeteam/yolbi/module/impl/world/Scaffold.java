@@ -150,7 +150,7 @@ public class Scaffold extends Module {
     }
 
     @Listener
-    public void onUpdate(UpdateEvent event) {
+    public void onUpdate(EventUpdate event) {
         if (mc.thePlayer.ticksExisted < 10) {
             this.setEnabled(false);
             return;
@@ -321,7 +321,7 @@ public class Scaffold extends Module {
     }
 
     @Listener
-    public void onStrafe(StrafeEvent event) {
+    public void onStrafe(EventStrafe event) {
         if (moveFix.getValue() && isRotating) {
             event.setYaw(rotations.getYaw());
 
@@ -351,14 +351,14 @@ public class Scaffold extends Module {
     }
 
     @Listener
-    public void onJump(JumpEvent event) {
+    public void onJump(EventJump event) {
         if (moveFix.getValue() && isRotating) {
             event.setYaw(rotations.getYaw());
         }
     }
 
     @Listener
-    public void onEntityAction(EntityActionEvent event) {
+    public void onEntityAction(EventEntityAction event) {
         if (noSprintMode.is("Spoof")) {
             if (noSprintTiming.is("Always") || (noSprintTiming.is("When rotating") && isRotating)) {
                 event.setSprinting(false);
@@ -367,7 +367,7 @@ public class Scaffold extends Module {
     }
 
     @Listener
-    public void onMove(MoveEvent event) {
+    public void onMove(EventMove event) {
         if (strafe.getValue() && !moveFix.getValue()) {
             double a = randomisedSpeed.getValue() ? Math.random() * 0.0001 : 0;
 
@@ -415,7 +415,7 @@ public class Scaffold extends Module {
         tower(event);
     }
 
-    public void tower(MoveEvent event) {
+    public void tower(EventMove event) {
         boolean blockUnder = WorldUtil.isBlockUnder(2);
         boolean spacePressed = mc.gameSettings.keyBindJump.isKeyDown();
         boolean isMoving = MovementUtil.isMoving();
@@ -478,7 +478,7 @@ public class Scaffold extends Module {
     }
 
     @Listener
-    public void onMotion(MotionEvent event) {
+    public void onMotion(EventMotion event) {
         if (isRotating) {
             event.setYaw(rotations.getYaw());
             event.setPitch(rotations.getPitch());

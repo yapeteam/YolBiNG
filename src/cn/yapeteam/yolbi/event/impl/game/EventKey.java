@@ -1,13 +1,11 @@
 package cn.yapeteam.yolbi.event.impl.game;
 
+import cn.yapeteam.yolbi.event.Event;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import cn.yapeteam.yolbi.event.Event;
 
 @Getter
 @AllArgsConstructor
-public class KeyPressEvent extends Event {
-
+public class EventKey extends Event {
     private int key;
-
 }

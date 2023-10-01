@@ -57,7 +57,9 @@ public class YolBi implements IMinecraft {
 
     public final String name = "YolBi";
     public final String version = "2.1";
-    public boolean haveGoinTheConfig = false;
+    public boolean haveGotTheConfig = false;
+
+    private FileSystem fileSystem;
 
     private EventManager eventManager;
     private ModuleManager moduleManager;
@@ -73,14 +75,14 @@ public class YolBi implements IMinecraft {
 
     private Anticheat anticheat;
 
-    private FileSystem fileSystem;
-
     private FontManager fontManager;
 
     @Setter
     private boolean destructed;
 
     public void start() throws IOException {
+        fileSystem = new FileSystem();
+
         eventManager = new EventManager();
         moduleManager = new ModuleManager();
         commandManager = new CommandManager();
@@ -96,8 +98,6 @@ public class YolBi implements IMinecraft {
         cameraHandler = new CameraHandler();
 
         anticheat = new Anticheat();
-
-        fileSystem = new FileSystem();
 
         fontManager = new FontManager();
 
@@ -115,7 +115,10 @@ public class YolBi implements IMinecraft {
             // this code here, please choose one of those:
             ViaMCP.INSTANCE.initAsyncSlider(); // For top left aligned slider
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Failed to init ViaMCP");
+            for (StackTraceElement stackTraceElement : e.getStackTrace()) {
+                System.err.println(stackTraceElement.toString());
+            }
         }
     }
 
@@ -127,7 +130,7 @@ public class YolBi implements IMinecraft {
     }
 
     public GuiScreen getMainMenu() {
-        if (!YolBi.instance.haveGoinTheConfig)
+        if (!YolBi.instance.haveGotTheConfig)
             return new ConfigMenu();
         return destructed ? new GuiMainMenu() : new cn.yapeteam.yolbi.ui.mainmenu.ImplScreen();
     }

@@ -1,7 +1,7 @@
 package net.minecraft.client.network;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.player.EntityMoveEvent;
+import cn.yapeteam.yolbi.event.impl.player.EventEntityMove;
 import cn.yapeteam.yolbi.ui.guiMultiplayer.GuiMultiplayer;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;
@@ -410,7 +410,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
             entity.setPositionAndRotation2(d0, d1, d2, f, f1, 3, false);
             entity.onGround = packetIn.getOnGround();
 
-            YolBi.instance.getEventManager().post(new EntityMoveEvent(entity));
+            YolBi.instance.getEventManager().post(new EventEntityMove(entity));
         }
     }
 

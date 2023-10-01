@@ -3,7 +3,8 @@ package cn.yapeteam.yolbi.ui.menu;
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.util.render.DrawUtil;
 import cn.yapeteam.yolbi.util.render.RenderUtil;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 
 import java.awt.*;
 
@@ -25,7 +26,7 @@ public class ConfigMenu extends GuiScreen {
 
     @Override
     public void initGui() {
-        YolBi.instance.haveGoinTheConfig=true;
+        YolBi.instance.haveGotTheConfig = true;
     }
 
     @Override

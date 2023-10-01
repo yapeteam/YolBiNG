@@ -1,8 +1,8 @@
 package cn.yapeteam.yolbi.module.impl.player;
 
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
-import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketReceive;
+import cn.yapeteam.yolbi.event.impl.player.EventUpdate;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -67,7 +67,7 @@ public class AutoGapple extends Module {
     }
 
     @Listener
-    protected void onPacket(PacketReceiveEvent event) {
+    protected void onPacket(EventPacketReceive event) {
         final Packet packet = event.getPacket();
         if (eating != -1 && packet instanceof C03PacketPlayer) {
             eating++;
@@ -77,7 +77,7 @@ public class AutoGapple extends Module {
     }
 
     @Listener
-    protected void onUpdate(UpdateEvent event) {
+    protected void onUpdate(EventUpdate event) {
         if (tryHeal) {
             int gappleInHotbar;
             try {

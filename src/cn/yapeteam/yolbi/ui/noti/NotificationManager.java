@@ -2,7 +2,7 @@ package cn.yapeteam.yolbi.ui.noti;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
+import cn.yapeteam.yolbi.event.impl.render.EventRender2D;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.impl.visual.Notifications;
 import cn.yapeteam.yolbi.util.IMinecraft;
@@ -23,7 +23,7 @@ public class NotificationManager implements IMinecraft {
     }
 
     @Listener
-    private void onRender(RenderEvent e) {
+    private void onRender(EventRender2D e) {
         if (!notificationModule.isEnabled()) return;
         ScaledResolution sr = new ScaledResolution(mc);
         for (int i = 0; i < notifications.size(); i++) {

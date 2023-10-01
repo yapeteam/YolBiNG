@@ -2,7 +2,7 @@ package cn.yapeteam.yolbi.module.impl.player;
 
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.Priority;
-import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
+import cn.yapeteam.yolbi.event.impl.render.EventRender2D;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -28,7 +28,7 @@ public class AutoPlace extends Module {
     }
 
     @Listener(Priority.HIGH)
-    public void onRender(RenderEvent event) {
+    public void onRender(EventRender2D event) {
         if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
             EnumFacing facing = mc.objectMouseOver.sideHit;
 

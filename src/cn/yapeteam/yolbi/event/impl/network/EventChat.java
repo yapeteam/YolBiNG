@@ -8,6 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ChatSendEvent extends CancellableEvent {
+public class EventChat extends CancellableEvent {
     private String message;
 }

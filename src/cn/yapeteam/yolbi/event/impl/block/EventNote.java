@@ -7,7 +7,7 @@ import net.minecraft.util.BlockPos;
 
 @Getter
 @AllArgsConstructor
-public class NoteEvent extends Event {
+public class EventNote extends Event {
     private final BlockPos pos;
     private final int note, pitch;
 }

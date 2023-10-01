@@ -1,9 +1,9 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
-import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
-import cn.yapeteam.yolbi.event.impl.render.Render3DEvent;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketReceive;
+import cn.yapeteam.yolbi.event.impl.player.EventMotion;
+import cn.yapeteam.yolbi.event.impl.render.EventRender3D;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -64,12 +64,12 @@ public class Ambience extends Module {
     }
 
     @Listener
-    protected void onRender3D(Render3DEvent event) {
+    protected void onRender3D(EventRender3D event) {
         mc.theWorld.setWorldTime((time.getValue().intValue() + (System.currentTimeMillis() * speed.getValue().intValue())));
     }
 
     @Listener
-    protected void onPreMotionEvent(MotionEvent event) {
+    protected void onPreMotionEvent(EventMotion event) {
         if (mc.thePlayer.ticksExisted % 20 == 0) {
 
             switch (this.weather.getValue()) {
@@ -98,7 +98,7 @@ public class Ambience extends Module {
     }
 
     @Listener
-    protected void onPacketReceiveEvent(PacketReceiveEvent event) {
+    protected void onPacketReceiveEvent(EventPacketReceive event) {
         if (event.getPacket() instanceof S03PacketTimeUpdate) {
             event.setCancelled(true);
         } else if (event.getPacket() instanceof S2BPacketChangeGameState && !this.weather.is("Unchanged")) {

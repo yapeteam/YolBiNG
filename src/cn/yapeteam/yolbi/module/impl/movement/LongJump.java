@@ -2,11 +2,11 @@ package cn.yapeteam.yolbi.module.impl.movement;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
-import cn.yapeteam.yolbi.event.impl.player.EntityActionEvent;
-import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
-import cn.yapeteam.yolbi.event.impl.player.MoveEvent;
-import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketReceive;
+import cn.yapeteam.yolbi.event.impl.player.EventEntityAction;
+import cn.yapeteam.yolbi.event.impl.player.EventMotion;
+import cn.yapeteam.yolbi.event.impl.player.EventMove;
+import cn.yapeteam.yolbi.event.impl.player.EventUpdate;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -73,7 +73,7 @@ public class LongJump extends Module {
     }
 
     @Listener
-    public void onUpdate(UpdateEvent event) {
+    public void onUpdate(EventUpdate event) {
         switch (mode.getValue()) {
             case "Self damage":
                 if (started) {
@@ -151,7 +151,7 @@ public class LongJump extends Module {
     }
 
     @Listener
-    public void onEntityAction(EntityActionEvent event) {
+    public void onEntityAction(EventEntityAction event) {
         if (mode.is("Self damage") && stopMovement.getValue()) {
             if (counter < 4) {
                 event.setSprinting(false);
@@ -160,7 +160,7 @@ public class LongJump extends Module {
     }
 
     @Listener
-    public void onMove(MoveEvent event) {
+    public void onMove(EventMove event) {
         switch (mode.getValue()) {
             case "Vanilla":
                 if (mc.thePlayer.onGround) {
@@ -206,7 +206,7 @@ public class LongJump extends Module {
     }
 
     @Listener
-    public void onMotion(MotionEvent event) {
+    public void onMotion(EventMotion event) {
         switch (mode.getValue()) {
             case "Self damage":
                 if (!started && counter < 3) {
@@ -217,7 +217,7 @@ public class LongJump extends Module {
     }
 
     @Listener
-    public void onReceive(PacketReceiveEvent event) {
+    public void onReceive(EventPacketReceive event) {
         switch (mode.getValue()) {
             case "Self damage":
                 if (event.getPacket() instanceof S12PacketEntityVelocity) {

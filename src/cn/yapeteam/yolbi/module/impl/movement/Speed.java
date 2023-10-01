@@ -1,9 +1,9 @@
 package cn.yapeteam.yolbi.module.impl.movement;
 
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketReceive;
 import cn.yapeteam.yolbi.event.impl.player.*;
-import cn.yapeteam.yolbi.event.impl.render.Render3DEvent;
+import cn.yapeteam.yolbi.event.impl.render.EventRender3D;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -170,7 +170,7 @@ public class Speed extends Module {
     }
 
     @Listener
-    public void onStrafe(StrafeEvent event) {
+    public void onStrafe(EventStrafe event) {
         switch (mode.getValue()) {
             case "Watchdog":
                 if (watchdogMode.is("Test")) {
@@ -198,7 +198,7 @@ public class Speed extends Module {
     }
 
     @Listener
-    public void onJump(JumpEvent event) {
+    public void onJump(EventJump event) {
         switch (mode.getValue()) {
             case "Strafe":
                 if (allDirSprint.getValue()) {
@@ -221,7 +221,7 @@ public class Speed extends Module {
     }
 
     @Listener
-    public void onUpdate(UpdateEvent event) {
+    public void onUpdate(EventUpdate event) {
         switch (mode.getValue()) {
             case "Vulcan":
                 for (int i = 8; i >= 0; i--) {
@@ -270,7 +270,7 @@ public class Speed extends Module {
 
 
     @Listener
-    public void onMove(MoveEvent event) {
+    public void onMove(EventMove event) {
         if (!takingVelocity && mc.thePlayer.onGround) {
         }
 
@@ -693,7 +693,7 @@ public class Speed extends Module {
     }
 
     @Listener
-    public void onEntityAction(EntityActionEvent event) {
+    public void onEntityAction(EventEntityAction event) {
         switch (mode.getValue()) {
             case "Fake strafe":
                 lastActualX = actualX;
@@ -847,7 +847,7 @@ public class Speed extends Module {
     }
 
     @Listener
-    public void onMotion(MotionEvent event) {
+    public void onMotion(EventMotion event) {
         switch (mode.getValue()) {
             case "Fake strafe":
                 event.setX(actualX);
@@ -898,7 +898,7 @@ public class Speed extends Module {
     }
 
     @Listener
-    public void onRender3D(Render3DEvent event) {
+    public void onRender3D(EventRender3D event) {
         switch (mode.getValue()) {
             case "Fake strafe":
                 if (renderRealPosBox.getValue() && mc.gameSettings.thirdPersonView > 0) {
@@ -913,7 +913,7 @@ public class Speed extends Module {
     }
 
     @Listener
-    public void onReceive(PacketReceiveEvent event) {
+    public void onReceive(EventPacketReceive event) {
         if (event.getPacket() instanceof S12PacketEntityVelocity) {
             S12PacketEntityVelocity packet = event.getPacket();
 

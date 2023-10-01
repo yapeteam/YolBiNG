@@ -2,7 +2,7 @@ package cn.yapeteam.yolbi.module.impl.visual;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
+import cn.yapeteam.yolbi.event.impl.render.EventRender2D;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -71,7 +71,7 @@ public class ItemESP extends Module {
     }
 
     @Listener
-    protected void onRender(RenderEvent event) {
+    protected void onRender(EventRender2D event) {
         for (Entity o : this.mc.theWorld.getLoadedEntityList()) {
             if (o instanceof EntityItem) {
                 IBakedModel ibakedmodel = mc.getRenderItem().getItemModelMesher().getItemModel(((EntityItem) o).getEntityItem());

@@ -2,9 +2,9 @@ package cn.yapeteam.yolbi.module.impl.combat;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
-import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
-import cn.yapeteam.yolbi.event.impl.player.MoveEvent;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketSend;
+import cn.yapeteam.yolbi.event.impl.player.EventMotion;
+import cn.yapeteam.yolbi.event.impl.player.EventMove;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -46,7 +46,7 @@ public class Criticals extends Module {
     }
 
     @Listener
-    public void onSend(PacketSendEvent event) {
+    public void onSend(EventPacketSend event) {
         if (event.getPacket() instanceof C02PacketUseEntity) {
             C02PacketUseEntity packet = event.getPacket();
 
@@ -79,7 +79,7 @@ public class Criticals extends Module {
     }
 
     @Listener
-    public void onMove(MoveEvent event) {
+    public void onMove(EventMove event) {
         if (killauraModule.isEnabled() && killauraModule.getTarget() != null) {
             if (killauraModule.getTarget() instanceof EntityPlayer) {
                 EntityPlayer target = (EntityPlayer) killauraModule.getTarget();
@@ -102,7 +102,7 @@ public class Criticals extends Module {
     }
 
     @Listener
-    public void onMotion(MotionEvent event) {
+    public void onMotion(EventMotion event) {
         if (mode.is("Edit")) {
             if (killauraModule.isEnabled() && killauraModule.getTarget() != null) {
                 if (killauraModule.getTarget() instanceof EntityPlayer) {

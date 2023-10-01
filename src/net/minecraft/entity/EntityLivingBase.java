@@ -1,8 +1,8 @@
 package net.minecraft.entity;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.player.JumpEvent;
-import cn.yapeteam.yolbi.event.impl.player.StrafeEvent;
+import cn.yapeteam.yolbi.event.impl.player.EventJump;
+import cn.yapeteam.yolbi.event.impl.player.EventStrafe;
 import cn.yapeteam.yolbi.module.impl.combat.TickBase;
 import cn.yapeteam.yolbi.module.impl.misc.PacketFix;
 import cn.yapeteam.yolbi.module.impl.movement.NoJumpDelay;
@@ -1357,7 +1357,7 @@ public abstract class EntityLivingBase extends Entity {
             jumpY += (double) ((float) (this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F);
         }
 
-        JumpEvent event = new JumpEvent(jumpY, this.rotationYaw, this.isSprinting());
+        EventJump event = new EventJump(jumpY, this.rotationYaw, this.isSprinting());
 
         if (this == Minecraft.getMinecraft().thePlayer) {
             YolBi.instance.getEventManager().post(event);
@@ -1407,7 +1407,7 @@ public abstract class EntityLivingBase extends Entity {
                         f5 = this.jumpMovementFactor;
                     }
 
-                    StrafeEvent event = new StrafeEvent(forward, strafe, f4, f5, this.rotationYaw);
+                    EventStrafe event = new EventStrafe(forward, strafe, f4, f5, this.rotationYaw);
 
                     if (this == Minecraft.getMinecraft().thePlayer) {
                         YolBi.instance.getEventManager().post(event);

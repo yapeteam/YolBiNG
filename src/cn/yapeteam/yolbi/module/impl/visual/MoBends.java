@@ -1,8 +1,8 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
-import cn.yapeteam.yolbi.event.impl.render.Render3DEvent;
+import cn.yapeteam.yolbi.event.impl.game.EventTick;
+import cn.yapeteam.yolbi.event.impl.render.EventRender3D;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -57,7 +57,7 @@ public class MoBends extends Module {
     public ResourceLocation texture_NULL = new ResourceLocation("mobends/textures/white.png");
 
     @Listener
-    protected void onRender3D(Render3DEvent event) {
+    protected void onRender3D(EventRender3D event) {
         if (mc.theWorld == null) {
             return;
         }
@@ -87,7 +87,7 @@ public class MoBends extends Module {
     }
 
     @Listener
-    protected void onTick(TickEvent event) {
+    protected void onTick(EventTick event) {
         if (mc.theWorld == null) {
             return;
         }

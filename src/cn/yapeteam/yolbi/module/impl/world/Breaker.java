@@ -1,10 +1,10 @@
 package cn.yapeteam.yolbi.module.impl.world;
 
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
-import cn.yapeteam.yolbi.event.impl.player.JumpEvent;
-import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
-import cn.yapeteam.yolbi.event.impl.player.StrafeEvent;
+import cn.yapeteam.yolbi.event.impl.game.EventTick;
+import cn.yapeteam.yolbi.event.impl.player.EventJump;
+import cn.yapeteam.yolbi.event.impl.player.EventMotion;
+import cn.yapeteam.yolbi.event.impl.player.EventStrafe;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -53,7 +53,7 @@ public class Breaker extends Module {
     }
 
     @Listener
-    public void onTick(TickEvent event) {
+    public void onTick(EventTick event) {
         bedPos = null;
 
         boolean found = false;
@@ -119,21 +119,21 @@ public class Breaker extends Module {
     }
 
     @Listener
-    public void onStrafe(StrafeEvent event) {
+    public void onStrafe(EventStrafe event) {
         if (bedPos != null && rotate.getValue() && moveFix.getValue()) {
             event.setYaw(rotations.getYaw());
         }
     }
 
     @Listener
-    public void onJump(JumpEvent event) {
+    public void onJump(EventJump event) {
         if (bedPos != null && rotate.getValue() && moveFix.getValue()) {
             event.setYaw(rotations.getYaw());
         }
     }
 
     @Listener
-    public void onMotion(MotionEvent event) {
+    public void onMotion(EventMotion event) {
         if (bedPos != null && rotate.getValue()) {
             event.setYaw(rotations.getYaw());
             event.setPitch(rotations.getPitch());

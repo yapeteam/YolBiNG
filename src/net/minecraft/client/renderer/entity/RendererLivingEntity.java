@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.render.RotationsRenderEvent;
+import cn.yapeteam.yolbi.event.impl.render.EventRotationsRender;
 import cn.yapeteam.yolbi.module.impl.visual.Chams;
 import cn.yapeteam.yolbi.module.impl.visual.MoBends;
 import com.google.common.collect.Lists;
@@ -146,7 +146,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 
             try
             {
-                RotationsRenderEvent event = new RotationsRenderEvent(this.interpolateRotation(entity.prevRotationYawHead, entity.rotationYawHead, partialTicks), this.interpolateRotation(entity.prevRenderYawOffset, entity.renderYawOffset, partialTicks), entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, partialTicks);
+                EventRotationsRender event = new EventRotationsRender(this.interpolateRotation(entity.prevRotationYawHead, entity.rotationYawHead, partialTicks), this.interpolateRotation(entity.prevRenderYawOffset, entity.renderYawOffset, partialTicks), entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, partialTicks);
 
                 if(entity == renderManager.livingPlayer) {
                     YolBi.instance.getEventManager().post(event);

@@ -4,9 +4,9 @@ import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.command.impl.Bind;
 import cn.yapeteam.yolbi.command.impl.Config;
 import cn.yapeteam.yolbi.command.impl.Toggle;
-import cn.yapeteam.yolbi.event.impl.network.ChatSendEvent;
-import cn.yapeteam.yolbi.util.misc.LogUtil;
 import cn.yapeteam.yolbi.event.Listener;
+import cn.yapeteam.yolbi.event.impl.network.EventChat;
+import cn.yapeteam.yolbi.util.misc.LogUtil;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class CommandManager {
     }
 
     @Listener
-    public void onChatSend(ChatSendEvent event) {
+    public void onChatSend(EventChat event) {
         String message = event.getMessage();
 
         if(message.startsWith(".")) {

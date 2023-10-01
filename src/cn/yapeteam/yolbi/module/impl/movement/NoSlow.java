@@ -2,13 +2,13 @@ package cn.yapeteam.yolbi.module.impl.movement;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.network.PacketReceiveEvent;
-import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
-import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
-import cn.yapeteam.yolbi.event.impl.player.PostMotionEvent;
-import cn.yapeteam.yolbi.event.impl.player.SlowdownEvent;
-import cn.yapeteam.yolbi.event.impl.player.UpdateEvent;
-import cn.yapeteam.yolbi.event.impl.render.ItemRenderEvent;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketReceive;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketSend;
+import cn.yapeteam.yolbi.event.impl.player.EventMotion;
+import cn.yapeteam.yolbi.event.impl.player.EventPostMotion;
+import cn.yapeteam.yolbi.event.impl.player.EventSlowdown;
+import cn.yapeteam.yolbi.event.impl.player.EventUpdate;
+import cn.yapeteam.yolbi.event.impl.render.EventItemRender;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -88,7 +88,7 @@ public class NoSlow extends Module {
     }
 
     @Listener
-    public void onUpdate(UpdateEvent event) {
+    public void onUpdate(EventUpdate event) {
         if (isUsingItem()) {
             if (isBlocking()) {
                 switch (swordMethod.getValue()) {
@@ -254,7 +254,7 @@ public class NoSlow extends Module {
     }
 
     @Listener
-    public void onPostMotion(PostMotionEvent event) {
+    public void onPostMotion(EventPostMotion event) {
         boolean usingItem = mc.thePlayer.isUsingItem();
         if (usingItem) {
             if (isBlocking()) {
@@ -316,7 +316,7 @@ public class NoSlow extends Module {
     }
 
     @Listener
-    public void onSlowdown(SlowdownEvent event) {
+    public void onSlowdown(EventSlowdown event) {
         if (!((isBlocking() && swordMethod.is("None")) || (!isBlocking() && consumableMethod.is("None")))) {
             event.setForward(forward.getValue().floatValue());
             event.setStrafe(strafe.getValue().floatValue());
@@ -325,7 +325,7 @@ public class NoSlow extends Module {
     }
 
     @Listener
-    public void onSend(PacketSendEvent event) {
+    public void onSend(EventPacketSend event) {
         if (event.getPacket() instanceof C07PacketPlayerDigging) {
             C07PacketPlayerDigging packet = event.getPacket();
 
@@ -343,7 +343,7 @@ public class NoSlow extends Module {
     }
 
     @Listener
-    public void onReceive(PacketReceiveEvent event) {
+    public void onReceive(EventPacketReceive event) {
         Packet packet = event.getPacket();
         if (swordMethod.is("GrimAC") || consumableMethod.is("GrimAC")) {
             if (nextTemp) {
@@ -355,7 +355,7 @@ public class NoSlow extends Module {
     }
 
     @Listener
-    public void onItemRender(ItemRenderEvent event) {
+    public void onItemRender(EventItemRender event) {
         if (isHoldingSword() && pressingUseItem() && swordMethod.is("Blink")) {
             event.setRenderBlocking(true);
         }
@@ -366,7 +366,7 @@ public class NoSlow extends Module {
     }
 
     @Listener
-    public void onMotion(MotionEvent event) {
+    public void onMotion(EventMotion event) {
         if (isUsingItem() && MovementUtil.isMoving()) {
             if (isBlocking()) {
                 switch (swordMethod.getValue()) {

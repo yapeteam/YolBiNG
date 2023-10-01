@@ -1,7 +1,7 @@
 package net.minecraft.client.gui;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.impl.render.RenderEvent;
+import cn.yapeteam.yolbi.event.impl.render.EventRender2D;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -334,7 +334,7 @@ public class GuiIngame extends Gui
             this.overlayPlayerList.updatePlayerList(false);
         }
 
-        YolBi.instance.getEventManager().post(new RenderEvent(partialTicks,scaledresolution));
+        YolBi.instance.getEventManager().post(new EventRender2D(partialTicks, scaledresolution));
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableLighting();

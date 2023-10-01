@@ -1,9 +1,9 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
 import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.player.AttackEvent;
-import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
-import cn.yapeteam.yolbi.event.impl.render.Render3DEvent;
+import cn.yapeteam.yolbi.event.impl.player.EventAttack;
+import cn.yapeteam.yolbi.event.impl.player.EventMotion;
+import cn.yapeteam.yolbi.event.impl.render.EventRender3D;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -39,14 +39,14 @@ public class Particles extends Module {
     }
 
     @Listener
-    public void onAttack(final AttackEvent event) {
+    public void onAttack(final EventAttack event) {
         if (event.getTargetEntity() instanceof EntityLivingBase) {
             target = (EntityLivingBase) event.getTargetEntity();
         }
     }
 
     @Listener
-    public void onMotion(final MotionEvent event) {
+    public void onMotion(final EventMotion event) {
         if (target != null && target.hurtTime >= 9 && mc.thePlayer.getDistance(target.posX, target.posY, target.posZ) < 10) {
             for (int i = 0; i <= amount.getValue(); i++)
                 particles.add(new Particle(new Vec3(target.posX + (Math.random() - 0.5) * 0.5, target.posY + Math.random() * 1 + 0.5, target.posZ + (Math.random() - 0.5) * 0.5)));
@@ -55,7 +55,7 @@ public class Particles extends Module {
     }
 
     @Listener
-    public void onRender3D(final Render3DEvent event) {
+    public void onRender3D(final EventRender3D event) {
         if (particles.isEmpty())
             return;
 

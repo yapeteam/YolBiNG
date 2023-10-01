@@ -1,16 +1,16 @@
 package cn.yapeteam.yolbi.handler.packet;
 
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.Listener;
+import cn.yapeteam.yolbi.event.impl.network.EventFinalPacketSend;
+import cn.yapeteam.yolbi.util.IMinecraft;
+import cn.yapeteam.yolbi.util.network.PacketUtil;
 import lombok.Getter;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
-import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.network.FinalPacketSendEvent;
-import cn.yapeteam.yolbi.util.IMinecraft;
-import cn.yapeteam.yolbi.util.network.PacketUtil;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -31,7 +31,7 @@ public class PacketBlinkHandler implements IMinecraft {
     }
 
     @Listener(20)
-    public void onFinalSend(FinalPacketSendEvent event) {
+    public void onFinalSend(EventFinalPacketSend event) {
         if(mc.thePlayer == null || mc.thePlayer.ticksExisted < 5) {
             if(!clearedPackets) {
                 packetsQueue.clear();

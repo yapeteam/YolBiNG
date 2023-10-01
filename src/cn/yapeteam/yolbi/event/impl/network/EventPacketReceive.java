@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import net.minecraft.network.Packet;
 
 @AllArgsConstructor
-public class PacketReceiveEvent extends CancellableEvent {
+public class EventPacketReceive extends CancellableEvent {
 
     private Packet packet;
 

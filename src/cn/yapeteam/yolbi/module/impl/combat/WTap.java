@@ -3,8 +3,8 @@ package cn.yapeteam.yolbi.module.impl.combat;
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.Priority;
-import cn.yapeteam.yolbi.event.impl.game.TickEvent;
-import cn.yapeteam.yolbi.event.impl.player.EntityActionEvent;
+import cn.yapeteam.yolbi.event.impl.game.EventTick;
+import cn.yapeteam.yolbi.event.impl.player.EventEntityAction;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
@@ -42,7 +42,7 @@ public class WTap extends Module {
     }
 
     @Listener(Priority.LOW)
-    public void onTick(TickEvent event) {
+    public void onTick(EventTick event) {
         if (mode.is("Legit")) {
             if (stoppedLastTick) {
                 mc.gameSettings.keyBindForward.setPressed(Keyboard.isKeyDown(mc.gameSettings.keyBindForward.getKeyCode()));
@@ -70,7 +70,7 @@ public class WTap extends Module {
     }
 
     @Listener(Priority.LOW)
-    public void onEntityAction(EntityActionEvent event) {
+    public void onEntityAction(EventEntityAction event) {
         if (mode.is("Spoof")) {
             EntityLivingBase target = getCurrentTarget();
 

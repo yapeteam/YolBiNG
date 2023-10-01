@@ -1,15 +1,15 @@
 package cn.yapeteam.yolbi.handler.packet;
 
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.Listener;
+import cn.yapeteam.yolbi.event.impl.network.EventPacketSend;
+import cn.yapeteam.yolbi.event.impl.player.EventMotion;
+import cn.yapeteam.yolbi.util.IMinecraft;
+import cn.yapeteam.yolbi.util.network.PacketUtil;
 import lombok.Getter;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
-import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.event.Listener;
-import cn.yapeteam.yolbi.event.impl.player.MotionEvent;
-import cn.yapeteam.yolbi.event.impl.network.PacketSendEvent;
-import cn.yapeteam.yolbi.util.IMinecraft;
-import cn.yapeteam.yolbi.util.network.PacketUtil;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -32,7 +32,7 @@ public class PacketDelayHandler implements IMinecraft {
     }
 
     @Listener(10)
-    public void onSend(PacketSendEvent event) {
+    public void onSend(EventPacketSend event) {
         if(mc.thePlayer == null || mc.thePlayer.ticksExisted < 5) {
             if(!clearedPackets) {
                 delayedPackets.clear();
@@ -59,7 +59,7 @@ public class PacketDelayHandler implements IMinecraft {
     }
 
     @Listener(10)
-    public void onMotion(MotionEvent event) {
+    public void onMotion(EventMotion event) {
         if(!delayedPackets.isEmpty()) {
             ArrayList<DelayedPacket> toRemove = new ArrayList<>();
 
