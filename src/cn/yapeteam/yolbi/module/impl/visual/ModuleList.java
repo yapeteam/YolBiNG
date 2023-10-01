@@ -56,7 +56,7 @@ public class ModuleList extends HUDModule {
 
     public ModuleList() {
         super(5, 5, 100, 200, AlignType.RIGHT);
-        this.addValues(mode, font, animType, animDuration, verticalSpacing, box, extraWidth, boxAlpha, leftOutline, rightOutline, topOutline, bottomOutline, alignMode);
+        this.addValues(mode, font, translate, animType, animDuration, verticalSpacing, box, extraWidth, boxAlpha, leftOutline, rightOutline, topOutline, bottomOutline, alignMode);
         this.listenType = EventListenType.MANUAL;
         this.startListening();
         this.setEnabledSilently(true);

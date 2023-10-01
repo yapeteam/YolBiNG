@@ -184,6 +184,9 @@
       "Particles": "攻击粒子"
     },
     {
+      "PotionEffect": "药水效果显示"
+    },
+    {
       "Rotations": "显示转头"
     },
     {

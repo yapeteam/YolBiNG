@@ -120,7 +120,7 @@ public class ModuleButton extends AbstractComponent {
                 float top_bottom = 5;
                 float y = getY() + top_bottom;
                 for (int i = 0; i < 3; i++) {
-                    RenderUtil.circle(x, y, 0.1f, !ImplScreen.getClientThemeModuleInstance().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
+                    RenderUtil.circle(x, y, 0.09f, !ImplScreen.getClientThemeModuleInstance().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
                     y += (getHeight() - top_bottom * 2) / 2f;
                 }
             }
