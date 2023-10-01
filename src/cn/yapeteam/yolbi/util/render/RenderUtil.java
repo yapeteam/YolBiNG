@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityEgg;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.GL11;
@@ -211,6 +212,22 @@ public class RenderUtil implements IMinecraft {
         GL11.glDepthMask(true);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glColor4d(1, 1, 1, 1);
+    }
+    public static void renderItemIcon(final int x, final int y, final ItemStack itemStack) {
+        if (itemStack != null) {
+            GlStateManager.pushMatrix();
+            GlStateManager.enableRescaleNormal();
+            GlStateManager.enableBlend();
+            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+            RenderHelper.enableGUIStandardItemLighting();
+
+            mc.getRenderItem().renderItemAndEffectIntoGUI(itemStack, x, y);
+
+            GlStateManager.disableRescaleNormal();
+            GlStateManager.disableBlend();
+            RenderHelper.disableStandardItemLighting();
+            GlStateManager.popMatrix();
+        }
     }
 
     public static double interpolate(double current, double old, double scale) {
