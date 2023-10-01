@@ -27,7 +27,7 @@ public class AutoTool extends Module {
     private boolean wasDigging;
     private int windowX,windowY=0;
     private ItemStack lastItem=null;
-    private final Animation animation = new Animation(Easing.EASE_OUT_ELASTIC,3000);
+    private final Animation animation = new Animation(Easing.EASE_IN_OUT_ELASTIC,1000);
     private final BooleanValue spoof = new BooleanValue("Item spoof", false);
     private final BooleanValue render = new BooleanValue("Render Item", true);
 

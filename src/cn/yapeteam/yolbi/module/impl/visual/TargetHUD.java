@@ -26,7 +26,7 @@ import java.awt.*;
 @ModuleInfo(name = "TargetHUD", category = ModuleCategory.VISUAL)
 public class TargetHUD extends HUDModule {
 
-    private final ModeValue<String> mode = new ModeValue<>("Mode", "Normal", "Normal", "Bloom");
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Normal", "Normal", "Bloom","Mode1");
 
     private final ModeValue<AnimationType> animationType = AnimationUtil.getAnimationType(AnimationType.POP2);
     private final NumberValue<Integer> animationDuration = AnimationUtil.getAnimationDuration(400);
@@ -134,6 +134,15 @@ public class TargetHUD extends HUDModule {
                         RenderUtil.drawBloomShadow(x, y, width, height, 20, 10, acolor);
                         f = f + 1;
                         Gui.drawRect(x + 52, y + 35, endAnimX, y + 45, tcolor.getRGB());
+                        break;
+                    case "Mode1":
+
+                        Gui.drawRect(x, y, x + width, y + height, 0x85000000);
+                        Gui.drawRect(x + 52, y + 35, x + 54 + 79 * healthMult, y + 45, theme.getColor(0));
+
+                        for (double i = x + 52; i < endAnimX; i++) {
+                            Gui.drawRect(i, y + 35, i + 1, y + 45, theme.getColor((int) (200 + i * 5)));
+                        }
                         break;
                 }
 

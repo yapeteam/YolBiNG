@@ -24,6 +24,8 @@ public class FontManager {
             PingFang25,
             PingFang36,
             PingFang72,
+            PingFangBold12,
+            PingFangBold16,
             PingFangBold18,
             LightBeach72,
             MainIcon36;
@@ -43,6 +45,8 @@ public class FontManager {
         PingFang25 = new FontRenderer(getFontFromTTF("PingFang_Normal", 25, Font.PLAIN), true);
         PingFang36 = new FontRenderer(getFontFromTTF("PingFang_Normal", 36, Font.PLAIN), true);
         PingFang72 = new FontRenderer(getFontFromTTF("PingFang_Normal", 72, Font.PLAIN), true);
+        PingFangBold12 = new FontRenderer(getFontFromTTF("PingFang_Bold", 12, Font.PLAIN), true);
+        PingFangBold16 = new FontRenderer(getFontFromTTF("PingFang_Bold", 16, Font.PLAIN), true);
         PingFangBold18 = new FontRenderer(getFontFromTTF("PingFang_Bold", 18, Font.PLAIN), true);
         FLUXICON14 = new FontRenderer(getFontFromTTF("fluxicon", 14, Font.PLAIN), true);
         LightBeach72 = new FontRenderer(getFontFromTTF("LightBeach", 72, Font.PLAIN), true);

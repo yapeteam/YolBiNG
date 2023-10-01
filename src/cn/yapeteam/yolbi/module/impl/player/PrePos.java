@@ -8,6 +8,8 @@ import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.util.render.RenderUtil;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * @author yuxiangll
@@ -49,6 +51,16 @@ public class PrePos extends Module {
         RenderUtil.renderEntityBox(mc.getRenderManager(),event.getPartialTicks(),mc.thePlayer);
         RenderUtil.prepareBoxRender(3.25F, 1F, 1F, 1F, 0.2F);
         for (float i=0.5f;i<=10;i=i+0.05f){
+//            RenderManager rm = mc.getRenderManager();
+//            float partialTicks = event.getPartialTicks();
+//
+//            mc.theWorld.getLoadedEntityList().stream().filter(entity ->
+//                    entity != mc.thePlayer &&
+//                            (!(entity.isInvisible() || entity.isInvisibleToPlayer(mc.thePlayer))) &&
+//                            entity instanceof EntityPlayer
+//            ).forEach(entity -> RenderUtil.renderEntityBox(rm, partialTicks, entity));
+
+
             RenderUtil.renderCustomPlayerBox(mc.getRenderManager(), event.getPartialTicks(), actualX+mc.thePlayer.motionX*i, actualY, actualZ+mc.thePlayer.motionZ*i,
                     lastActualX+mc.thePlayer.motionX*i, lastActualY, lastActualZ+mc.thePlayer.motionZ*i);
         }
