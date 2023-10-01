@@ -115,7 +115,7 @@ public class ModuleButton extends AbstractComponent {
             RenderUtil.drawRect(getX(), getY(), getX() + getWidth(), getY() + getHeight(), module.isEnabled() ? (ImplScreen.getComponentColor((all - 1 - index) * 100)) : (isHovering(getX(), getY(), getWidth(), getHeight(), mouseX, mouseY) && (!((Panel) getParent()).getScreenIn().getCurrentPanel().isHovering(mouseX, mouseY) || ((Panel) getParent()).isCurrent()) ? ImplScreen.MainTheme[0].getRGB() : ImplScreen.MainTheme[1].getRGB()));
             AbstractFontRenderer font = YolBi.instance.getFontManager().getPingFang14();
             AbstractFontRenderer icon = YolBi.instance.getFontManager().getFLUXICON14();
-            font.drawString(YolBi.instance.getLanguageManager().translate(module.getName()), getX() + 5, getY() + (getHeight() - font.getStringHeight(module.getName())) / 2f, !ImplScreen.getClientThemeModuleInstance().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
+            font.drawString(YolBi.instance.getLanguageManager().translate(module.getName()), getX() + 5, getY() + (getHeight() - font.getStringHeight(YolBi.instance.getLanguageManager().translate(module.getName()))) / 2f, !ImplScreen.getClientThemeModuleInstance().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
             if (getChildComponents().size() > 1) {
                 GlStateManager.pushMatrix();
                 float x = getX() + getWidth() - icon.getStringWidth("g") - 3;
