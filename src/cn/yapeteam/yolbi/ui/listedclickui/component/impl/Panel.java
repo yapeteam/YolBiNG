@@ -56,7 +56,7 @@ public class Panel extends AbstractComponent {
                 ry += ImplScreen.moduleHeight + ImplScreen.moduleSpacing + moduleButton.getExtend();
             }
         scrollCache += (scroll - scrollCache) / 5f;
-        super.update();
+        getChildComponents().forEach(AbstractComponent::update);
     }
 
     @Getter
@@ -82,6 +82,7 @@ public class Panel extends AbstractComponent {
                 this.scroll += scroll;
                 setWheel(0);
             }
+            getChildComponents().forEach(AbstractComponent::update);
         }
         if (isDragging()) {
             setX(mouseX - dragX);
@@ -107,6 +108,11 @@ public class Panel extends AbstractComponent {
 
     public boolean isCurrent() {
         return screenIn.getCurrentPanel() == this;
+    }
+
+    @Override
+    public boolean isHovering(float mouseX, float mouseY) {
+        return isHovering(getX(), getY() + ImplScreen.panelTopHeight, getWidth(), getHeight() - ImplScreen.panelTopHeight, mouseX, mouseY);
     }
 
     private float dragX = 0, dragY = 0;

@@ -74,20 +74,18 @@ public class ImplScreen extends GuiScreen {
         }
     }
 
-    @Override
-    public void updateScreen() {
+    public void update() {
         float wheel = Mouse.getDWheel();
         panels.forEach(p -> {
             p.setWheel(wheel);
             p.update();
         });
         MainTheme[2] = new Color(YolBi.instance.getModuleManager().getModule(ClientTheme.class).getColor(0));
-        super.updateScreen();
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        updateScreen();
+        update();
         panels.forEach(p -> p.drawComponent(mouseX, mouseY, partialTicks, null));
     }
 

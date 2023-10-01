@@ -101,7 +101,7 @@ public class ValueButton extends AbstractComponent {
                 String text = modeValue.getName() + " | " + modeValue.getValue();
                 font.drawString(text, getX() + (getWidth() - font.getStringWidth(text)) / 2f, getY() + (getHeight() - font.getHeight()) / 2f - 3, -1);
                 font.drawString("|", getX() + (getWidth() - font.getStringWidth("|")) / 2f, getY() + getHeight() / 2f - 0.5f, ImplScreen.getComponentColor((all - 1 - index) * 100));
-                icon.drawString("h i", getX() + (getWidth() - icon.getStringWidth("h i")) / 2f, getY() + getHeight() / 2f + 3, ImplScreen.getComponentColor((all - 1 - index) * 100));
+                icon.drawString("h i", getX() + (getWidth() - icon.getStringWidth("h i")) / 2f, getY() + getHeight() / 2f + 0.5f, ImplScreen.getComponentColor((all - 1 - index) * 100));
             } else if (value instanceof ColorValue) {
                 ColorValue colorValue = (ColorValue) value;
                 font.drawString(colorValue.getName() + ":", getX() + (getWidth() - font.getStringWidth(colorValue.getName() + ":") - 2 - 5) / 2f, getY() + 2 - 3, ImplScreen.getComponentColor((all - 1 - index) * 100));
