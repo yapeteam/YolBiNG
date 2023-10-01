@@ -27,8 +27,8 @@ public class ImplScreen extends GuiScreen {
     @Getter
     private final CopyOnWriteArrayList<Panel> panels = new CopyOnWriteArrayList<>();
     public static final float
-            panelStartX = 12, panelY = 22, panelWidth = 90, panelTopHeight = 17, panelMaxHeight = 200, panelSpacing = 10,
-            moduleHeight = 17, moduleSpacing = 0.5f,
+            panelStartX = 12, panelY = 22, panelWidth = 90, panelTopHeight = 17, panelMaxHeight = 200, panelSpacing = 5,
+            moduleHeight = 19, moduleSpacing = 0.5f,
             valueSpacing = 0.5f,
             keyBindHeight = 10;
     public static Color[] MainTheme = new Color[]{new Color(26, 25, 26), new Color(31, 30, 31), new Color(5, 134, 105), new Color(38, 37, 38), new Color(45, 45, 45)};
