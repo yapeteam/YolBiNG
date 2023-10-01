@@ -28,7 +28,7 @@ public class ModuleManager {
 
     public final List<Module> modules = new ArrayList<>();
     public List<HUDModule> hudModules;
-    private File scriptDir;
+    private final File scriptDir;
 
     public ModuleManager() {
         Reflections reflections = new Reflections("cn.yapeteam.yolbi.module");
