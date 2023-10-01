@@ -1,5 +1,7 @@
 package cn.yapeteam.yolbi.script;
 
+import cn.yapeteam.yolbi.util.misc.StringUtil;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -208,9 +210,9 @@ public class Compiler {
     @SuppressWarnings("DuplicatedCode")
     public static void compile(CopyOnWriteArrayList<Runnable> stacks, Map<String, CopyOnWriteArrayList<Runnable>> codeBlocks, String source, Map<String, Object> objectsPool, boolean debug) throws ClassNotFoundException, NoSuchFieldException, NoSuchMethodException {
         long lineNum = 0;
-        for (String line : Util.split(source, debug ? ";" : splitter)) {
+        for (String line : StringUtil.split(source, debug ? ";" : splitter)) {
             lineNum++;
-            Iterator<String> iterator = Arrays.asList(Util.split(line, debug ? " " : space)).iterator();
+            Iterator<String> iterator = Arrays.asList(StringUtil.split(line, debug ? " " : space)).iterator();
             while (iterator.hasNext()) {
                 String keyword = iterator.next();
                 switch (keyword) {

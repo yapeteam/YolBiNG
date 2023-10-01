@@ -1,6 +1,4 @@
-{
-  "languages": [
-    "简体中文.json",
-    "English.json"
-  ]
-}
+[
+  "简体中文.json",
+  "English.json"
+]

@@ -1,4 +1,4 @@
-package cn.yapeteam.yolbi.script;
+package cn.yapeteam.yolbi.util.misc;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class Util {
+public class StringUtil {
     public static String[] split(String str, String splitter) {
         if (!str.contains(splitter))
             return new String[]{};

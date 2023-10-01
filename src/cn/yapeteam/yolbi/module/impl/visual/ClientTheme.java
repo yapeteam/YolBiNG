@@ -1,5 +1,6 @@
 package cn.yapeteam.yolbi.module.impl.visual;
 
+import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.module.EventListenType;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
@@ -8,6 +9,7 @@ import cn.yapeteam.yolbi.util.render.ColorUtil;
 import cn.yapeteam.yolbi.values.impl.ColorValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
@@ -21,10 +23,28 @@ public class ClientTheme extends Module {
     private final NumberValue<Double> brightness = new NumberValue<>("Brightness", () -> color.is("Rainbow"), 0.9, 0.05, 1.0, 0.05);
 
     public ClientTheme() {
-        this.addValues(color, color1, color2, color3, saturation, brightness);
-
+        String[] languages = new String[YolBi.instance.getLanguageManager().getLanguages().size()];
+        for (int i = 0; i < languages.length; i++)
+            languages[i] = YolBi.instance.getLanguageManager().getLanguages().get(i).getName();
+        ModeValue<String> language = getLanguage(languages);
+        this.addValues(language, color, color1, color2, color3, saturation, brightness);
         this.listenType = EventListenType.MANUAL;
         this.startListening();
+    }
+
+    @NotNull
+    private static ModeValue<String> getLanguage(String[] languages) {
+        ModeValue<String> language = new ModeValue<>("Language", "English", languages);
+        language.setCallback((oldV, newV) -> {
+            if (YolBi.instance.getLanguageManager().getLanguages().stream().noneMatch(l -> l.getName().equals(newV))) {
+                System.err.println("Language noneMatch: " + newV);
+                YolBi.instance.getLanguageManager().getLanguages().forEach(System.out::println);
+                return oldV;
+            }
+            YolBi.instance.getLanguageManager().setCurrent(newV);
+            return newV;
+        });
+        return language;
     }
 
     @Override

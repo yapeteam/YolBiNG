@@ -10,7 +10,7 @@ import cn.yapeteam.yolbi.event.impl.network.EventPacketReceive;
 import cn.yapeteam.yolbi.event.impl.network.EventPacketSend;
 import cn.yapeteam.yolbi.event.impl.render.EventRender2D;
 import cn.yapeteam.yolbi.event.impl.render.EventRender3D;
-import cn.yapeteam.yolbi.script.Util;
+import cn.yapeteam.yolbi.util.misc.StringUtil;
 import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.NotNull;
 import org.reflections.Reflections;
@@ -75,6 +75,7 @@ public class ModuleManager {
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                      NoSuchMethodException e) {
                 System.err.println("Failed to load Module: " + aClass.getSimpleName());
+                e.printStackTrace();
             }
         }
     }
@@ -83,7 +84,7 @@ public class ModuleManager {
         List<File> files = Arrays.stream(Objects.requireNonNull(scriptDir.listFiles())).filter(f -> f.getName().endsWith(".spt")).collect(Collectors.toList());
         for (File file : files) {
             try {
-                ScriptModule module = new ScriptModule(Util.readString(Files.newInputStream(file.toPath()))) {
+                ScriptModule module = new ScriptModule(StringUtil.readString(Files.newInputStream(file.toPath()))) {
                     {
                         getScript().runBlock("init");
                     }
@@ -142,6 +143,10 @@ public class ModuleManager {
                         getScript().getObjectsPool().put("event", e);
                     }
                 };
+                if (modules.stream().anyMatch(m -> m.getName().equals(file.getName().replace(".spt", "")))) {
+                    System.err.println("Name duplicate: " + file.getName() + ", this script will not be loaded.");
+                    continue;
+                }
                 module.setName(file.getName().replace(".spt", ""));
                 module.setCategory(ModuleCategory.SCRIPT);
                 module.listenType = EventListenType.AUTOMATIC;

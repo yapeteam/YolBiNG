@@ -1,7 +1,7 @@
 package cn.yapeteam.yolbi.ui.menu;
 
 import cn.yapeteam.yolbi.YolBi;
-import cn.yapeteam.yolbi.font.cfont.VestigeFontRenderer;
+import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.ui.guiMultiplayer.GuiMultiplayer;
 import cn.yapeteam.yolbi.ui.menu.components.Button;
 import cn.yapeteam.yolbi.util.misc.AudioUtil;
@@ -40,7 +40,7 @@ public class VestigeMainMenu extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        VestigeFontRenderer bigFont = (VestigeFontRenderer) YolBi.instance.getFontManager().getProductSans23();
+        AbstractFontRenderer bigFont = YolBi.instance.getFontManager().getProductSans23();
 
         ScaledResolution sr = new ScaledResolution(mc);
 
@@ -69,7 +69,7 @@ public class VestigeMainMenu extends GuiScreen {
 
             String buttonName = button.getName();
 
-            bigFont.drawStringWithShadow(buttonName, sr.getScaledWidth() / 2f - bigFont.getStringWidth(buttonName) / 2, y + 5, textColor);
+            bigFont.drawStringWithShadow(buttonName, sr.getScaledWidth() / 2f - bigFont.getStringWidth(buttonName) / 2, (float) (y + 5), textColor);
 
             y += buttonHeight;
         }

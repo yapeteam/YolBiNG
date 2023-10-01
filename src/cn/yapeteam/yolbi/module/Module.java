@@ -53,7 +53,7 @@ public abstract class Module implements IMinecraft {
                 }
                 onDisable();
             }
-            YolBi.instance.getNotificationManager().add(new Notification("Module toggled: " + name + (enabled ? " enabled" : " disabled")));
+            YolBi.instance.getNotificationManager().add(new Notification("Module toggled: " + YolBi.instance.getLanguageManager().translate(name) + (enabled ? " enabled" : " disabled")));
         }
     }
 

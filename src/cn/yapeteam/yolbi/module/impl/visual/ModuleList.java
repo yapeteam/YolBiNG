@@ -24,12 +24,12 @@ import java.util.Collections;
 @SuppressWarnings("DuplicatedCode")
 @ModuleInfo(name = "Module List", category = ModuleCategory.VISUAL)
 public class ModuleList extends HUDModule {
-
     private boolean initialised;
 
     private final ArrayList<AnimationHolder<Module>> modules = new ArrayList<>();
 
     private final ModeValue<String> mode = new ModeValue<>("Mode", "Simple", "Simple", "New", "Outline", "Bloom", "Custom");
+    private final BooleanValue translate = new BooleanValue("translate", true);
 
     private final ModeValue<String> font = FontUtil.getFontSetting(() -> mode.is("Custom"));
 
@@ -423,6 +423,7 @@ public class ModuleList extends HUDModule {
     }
 
     public void drawString(String text, float x, float y, int color) {
+        text = translate.getValue() ? YolBi.instance.getLanguageManager().translate(text) : text;
         switch (mode.getValue()) {
             case "Simple":
                 mc.fontRendererObj.drawString(text, x, y, color);
@@ -441,6 +442,7 @@ public class ModuleList extends HUDModule {
     }
 
     public void drawStringWithShadow(String text, float x, float y, int color) {
+        text = translate.getValue() ? YolBi.instance.getLanguageManager().translate(text) : text;
         switch (mode.getValue()) {
             case "Simple":
                 mc.fontRendererObj.drawStringWithShadow(text, x, y, color);
@@ -456,19 +458,20 @@ public class ModuleList extends HUDModule {
         }
     }
 
-    public double getStringWidth(String s) {
+    public double getStringWidth(String text) {
+        text = translate.getValue() ? YolBi.instance.getLanguageManager().translate(text) : text;
         switch (mode.getValue()) {
             case "Simple":
-                return mc.fontRendererObj.getStringWidth(s);
+                return mc.fontRendererObj.getStringWidth(text);
             case "New":
             case "Bloom":
             case "Outline":
-                return productSans.getStringWidth(s);
+                return productSans.getStringWidth(text);
             case "Custom":
-                return FontUtil.getStringWidth(font.getValue(), s);
+                return FontUtil.getStringWidth(font.getValue(), text);
         }
 
-        return mc.fontRendererObj.getStringWidth(s);
+        return mc.fontRendererObj.getStringWidth(text);
     }
 
     public float getFontHeight() {

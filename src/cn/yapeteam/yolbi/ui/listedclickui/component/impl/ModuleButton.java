@@ -76,7 +76,7 @@ public class ModuleButton extends AbstractComponent {
         int extend = 0;
         for (AbstractComponent component : getChildComponents())
             if (!(component instanceof ValueButton && !((ValueButton) component).getValue().getVisibility().get()))
-                extend += component.getHeight() + ImplScreen.valueSpacing;
+                extend += (int) (component.getHeight() + ImplScreen.valueSpacing);
         if (lastExpand != extend) {
             if (extended) {
                 getParent().setHeight(getParent().getHeight() + (extend - lastExpand));//更新展开长度
@@ -115,15 +115,15 @@ public class ModuleButton extends AbstractComponent {
             RenderUtil.drawRect(getX(), getY(), getX() + getWidth(), getY() + getHeight(), module.isEnabled() ? (ImplScreen.getComponentColor((all - 1 - index) * 100)) : (isHovering(getX(), getY(), getWidth(), getHeight(), mouseX, mouseY) && (!((Panel) getParent()).getScreenIn().getCurrentPanel().isHovering(mouseX, mouseY) || ((Panel) getParent()).isCurrent()) ? ImplScreen.MainTheme[0].getRGB() : ImplScreen.MainTheme[1].getRGB()));
             AbstractFontRenderer font = YolBi.instance.getFontManager().getPingFang14();
             AbstractFontRenderer icon = YolBi.instance.getFontManager().getFLUXICON14();
-            font.drawString(module.getName(), getX() + 5, getY() + (getHeight() - font.getStringHeight(module.getName())) / 2f, !ImplScreen.getClientThemeModuleInstance().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
+            font.drawString(YolBi.instance.getLanguageManager().translate(module.getName()), getX() + 5, getY() + (getHeight() - font.getStringHeight(module.getName())) / 2f, !ImplScreen.getClientThemeModuleInstance().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
             if (getChildComponents().size() > 1) {
                 GlStateManager.pushMatrix();
                 float x = getX() + getWidth() - icon.getStringWidth("g") - 3;
-                float tx = x + icon.getStringWidth("g") / 2f, ty = getY() + (getHeight() - icon.getHeight()) / 2f + 2;
+                float tx = x + icon.getStringWidth("g") / 2f, ty = getY() + (getHeight() - icon.getStringHeight("g")) / 2f + 2;
                 GlStateManager.translate(tx, ty, 0.0f);
                 GlStateManager.rotate(90, 0.0f, 0.0f, 1.0f);
                 GlStateManager.translate(-tx, -ty, 0.0f);
-                icon.drawString("g", x, getY() + (getHeight() - icon.getHeight()) / 2f, !ImplScreen.getClientThemeModuleInstance().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
+                icon.drawString("g", x, getY() + (getHeight() - icon.getStringHeight("g")) / 2f, !ImplScreen.getClientThemeModuleInstance().color.is("Vape") && module.isEnabled() ? ImplScreen.MainTheme[4].getRGB() : -1);
                 GlStateManager.popMatrix();
             }
         }
@@ -136,11 +136,11 @@ public class ModuleButton extends AbstractComponent {
         if (isHovering(getParent().getX(), getParent().getY() + ImplScreen.panelTopHeight, getParent().getWidth(), getParent().getHeight() - ImplScreen.panelTopHeight, mouseX, mouseY))
             if (isHovering(getX(), getY(), getWidth(), getHeight(), mouseX, mouseY)) {
                 if (mouseButton == 0) module.setEnabled(!module.isEnabled());
-                if (mouseButton == 1 && getChildComponents().size() >= 1) {
+                if (mouseButton == 1 && !getChildComponents().isEmpty()) {
                     int extend = 0;
                     for (AbstractComponent component : getChildComponents())
                         if (!(component instanceof ValueButton && !((ValueButton) component).getValue().getVisibility().get()))
-                            extend += component.getHeight() + ImplScreen.valueSpacing;
+                            extend += (int) (component.getHeight() + ImplScreen.valueSpacing);
                     extended = !extended;
                     if (extended) {
                         parentExtendedHeight += Math.min(extend, 100);

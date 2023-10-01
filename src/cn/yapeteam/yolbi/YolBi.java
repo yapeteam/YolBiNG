@@ -11,6 +11,7 @@ import cn.yapeteam.yolbi.handler.client.KeybindHandler;
 import cn.yapeteam.yolbi.handler.client.SlotSpoofHandler;
 import cn.yapeteam.yolbi.handler.packet.PacketBlinkHandler;
 import cn.yapeteam.yolbi.handler.packet.PacketDelayHandler;
+import cn.yapeteam.yolbi.lang.LanguageManager;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleManager;
 import cn.yapeteam.yolbi.ui.menu.ConfigMenu;
@@ -65,6 +66,7 @@ public class YolBi implements IMinecraft {
     private ModuleManager moduleManager;
     private CommandManager commandManager;
     private NotificationManager notificationManager;
+    private LanguageManager languageManager;
 
     private PacketDelayHandler packetDelayHandler;
     private PacketBlinkHandler packetBlinkHandler;
@@ -82,6 +84,8 @@ public class YolBi implements IMinecraft {
 
     public void start() throws IOException {
         fileSystem = new FileSystem();
+
+        languageManager = new LanguageManager();
 
         eventManager = new EventManager();
         moduleManager = new ModuleManager();
@@ -124,13 +128,18 @@ public class YolBi implements IMinecraft {
 
     public void shutdown() {
         if (!destructed) {
-            instance.fileSystem.saveDefaultConfig();
-            instance.fileSystem.saveKeybinds();
+            fileSystem.saveDefaultConfig();
+            fileSystem.saveKeybinds();
+            try {
+                languageManager.save();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public GuiScreen getMainMenu() {
-        if (!YolBi.instance.haveGotTheConfig)
+        if (!haveGotTheConfig)
             return new ConfigMenu();
         return destructed ? new GuiMainMenu() : new cn.yapeteam.yolbi.ui.mainmenu.ImplScreen();
     }

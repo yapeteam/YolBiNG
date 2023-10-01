@@ -32,7 +32,11 @@ public class ModeValue<T> extends Value<T> {
     }
 
     public void setMode(String str) {
-        Arrays.stream(modes).filter(m -> m.toString().equals(str)).findFirst().ifPresent(toSet -> value = toSet);
+        value = getCallback() != null ? getCallback().run(value, getMode(str)) : getMode(str);
+    }
+
+    public T getMode(String name) {
+        return Arrays.stream(modes).filter(m -> m.toString().equals(name)).findFirst().orElse(null);
     }
 
     public void increment() {

@@ -96,7 +96,7 @@ public class FontRenderer implements IResourceManagerReloadListener, IBFFontRend
         this.readGlyphSizes();
     }
 
-    public FontRenderer(Font font, int size, boolean antiAlias) {
+    public FontRenderer(Font font, boolean antiAlias) {
         ResourceLocation res = new ResourceLocation("textures/font/ascii.png");
         this.gameSettings = Minecraft.getMinecraft().gameSettings;
         locationFontTextureBase = res;
@@ -135,7 +135,7 @@ public class FontRenderer implements IResourceManagerReloadListener, IBFFontRend
 
         if (res.getResourcePath().equalsIgnoreCase("textures/font/ascii.png") && this.getStringCache() == null) {
             this.setStringCache(new StringCache(colorCode));
-            this.getStringCache().setDefaultFont(font, size, antiAlias);
+            this.getStringCache().setDefaultFont(font, font.getSize(), antiAlias);
         }
         this.readGlyphSizes();
     }

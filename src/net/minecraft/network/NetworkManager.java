@@ -4,6 +4,7 @@ import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.impl.network.EventFinalPacketSend;
 import cn.yapeteam.yolbi.event.impl.network.EventPacketReceive;
 import cn.yapeteam.yolbi.event.impl.network.EventPacketSend;
+import cn.yapeteam.yolbi.event.impl.player.EventAttack;
 import cn.yapeteam.yolbi.util.network.PacketUtil;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -30,6 +31,7 @@ import io.netty.handler.timeout.TimeoutException;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.util.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.Validate;
@@ -166,6 +168,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
             }
 
             if (event.isCancelled()) return;
+
+            if (packetIn instanceof C02PacketUseEntity && ((C02PacketUseEntity) packetIn).getAction() == C02PacketUseEntity.Action.ATTACK) {
+                EventAttack attackEvent = new EventAttack(((C02PacketUseEntity) packetIn).getEntity());
+                YolBi.instance.getEventManager().post(attackEvent);
+                if (attackEvent.isCancelled()) {
+                    return;
+                }
+            }
 
             sendPacketFinal(event.getPacket());
         } else {
