@@ -32,21 +32,25 @@ public class ModuleManager {
     private final File scriptDir, externalDir;
 
     public ModuleManager() {
-        Reflections reflections = new Reflections("cn.yapeteam.yolbi.module");
-        for (Class<? extends Module> aClass : reflections.getSubTypesOf(Module.class))
-            registerModule(aClass);
         try {
-            Field classes = ClassLoader.class.getDeclaredField("classes");
-            classes.setAccessible(true);
-            Vector<Class<?>> list = (Vector<Class<?>>) classes.get(Minecraft.class.getClassLoader());
-            //noinspection ForLoopReplaceableByForEach
-            for (int i = 0; i < list.size(); i++) {
-                Class<?> aClass = list.get(i);
-                if (aClass.getName().startsWith("cn.yapeteam.yolbi.module"))
-                    registerModule((Class<? extends Module>) aClass);
+            Class.forName("Start");
+            Reflections reflections = new Reflections("cn.yapeteam.yolbi.module");
+            for (Class<? extends Module> aClass : reflections.getSubTypesOf(Module.class))
+                registerModule(aClass);
+        } catch (ClassNotFoundException e) {
+            try {
+                Field classes = ClassLoader.class.getDeclaredField("classes");
+                classes.setAccessible(true);
+                Vector<Class<?>> list = (Vector<Class<?>>) classes.get(Minecraft.class.getClassLoader());
+                //noinspection ForLoopReplaceableByForEach
+                for (int i = 0; i < list.size(); i++) {
+                    Class<?> aClass = list.get(i);
+                    if (aClass.getName().startsWith("cn.yapeteam.yolbi.module"))
+                        registerModule((Class<? extends Module>) aClass);
+                }
+            } catch (NoSuchFieldException | IllegalAccessException ex) {
+                throw new RuntimeException(ex);
             }
-        } catch (NoSuchFieldException | IllegalAccessException ex) {
-            throw new RuntimeException(ex);
         }
 
         externalDir = new File(YolBi.instance.getFileSystem().getYolbiDir(), "externals");
