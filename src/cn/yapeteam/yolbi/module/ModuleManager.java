@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,7 +29,7 @@ public class ModuleManager {
 
     public final List<Module> modules = new ArrayList<>();
     public List<HUDModule> hudModules;
-    private final File scriptDir;
+    private final File scriptDir, externalDir;
 
     public ModuleManager() {
         Reflections reflections = new Reflections("cn.yapeteam.yolbi.module");
@@ -47,6 +48,12 @@ public class ModuleManager {
         } catch (NoSuchFieldException | IllegalAccessException ex) {
             throw new RuntimeException(ex);
         }
+
+        externalDir = new File(YolBi.instance.getFileSystem().getYolbiDir(), "externals");
+        if (!externalDir.exists()) {
+            if (!externalDir.mkdir())
+                System.err.println("Failed to create externalDir.");
+        } else loadExternalModules();
 
         scriptDir = new File(YolBi.instance.getFileSystem().getYolbiDir(), "scripts");
         if (!scriptDir.exists()) {
@@ -77,6 +84,25 @@ public class ModuleManager {
                 System.err.println("Failed to load Module: " + aClass.getSimpleName());
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void loadExternalModules() {
+        try {
+            Method defineClass = ClassLoader.class.getDeclaredMethod("defineClass", String.class, byte[].class, int.class, int.class);
+            defineClass.setAccessible(true);
+            for (File file : Arrays.stream(Objects.requireNonNull(externalDir.listFiles())).filter(f -> f.getName().endsWith(".class")).collect(Collectors.toList())) {
+                try {
+                    byte[] classBytes = Files.readAllBytes(file.toPath());
+                    Class<?> clazz = (Class<?>) defineClass.invoke(Minecraft.class.getClassLoader(), null, classBytes, 0, classBytes.length);
+                    if (clazz.isAnnotationPresent(ModuleInfo.class))
+                        registerModule((Class<? extends Module>) clazz);
+                } catch (IOException | IllegalAccessException | InvocationTargetException e) {
+                    System.err.println("Failed to load ExternalModule: " + file.getName());
+                }
+            }
+        } catch (NoSuchMethodException e) {
+            System.err.println("Failed to get Method 'defineClass' from java/lang/ClassLoader");
         }
     }
 

@@ -15,7 +15,7 @@ public class Main {
         System.out.println(LanguageUtil.languogeJson.get("1"));
 
         //LanguageUtil languageUtil = new LanguageUtil();
-        //languageUtil.loadLanguage("简体中文.json");
+        //languageUtil.loadLanguage("Chinese.json");
         //LanguageUtil.loadLanguage("简体中文");
     }
 }

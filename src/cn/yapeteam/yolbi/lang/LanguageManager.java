@@ -56,6 +56,7 @@ public class LanguageManager implements IMinecraft {
     }
 
     private String readFromResource(String name) throws IOException {
+        System.out.println("/assets/minecraft/yolbi/lang/" + name);
         return StringUtil.readString(getClass().getResourceAsStream("/assets/minecraft/yolbi/lang/" + name));
     }
 
