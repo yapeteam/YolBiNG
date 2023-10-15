@@ -121,56 +121,56 @@ public class ModuleManager {
 
                     @Listener
                     private void onKey(EventKey e) {
-                        getScript().runBlock("onKey");
                         getScript().getObjectsPool().put("event", e);
+                        getScript().runBlock("onKey");
                     }
 
                     @Listener
                     private void onTick(EventTick e) {
-                        getScript().runBlock("onTick");
                         getScript().getObjectsPool().put("event", e);
+                        getScript().runBlock("onTick");
                     }
 
                     @Listener
                     private void onChat(EventChat e) {
-                        getScript().runBlock("onChat");
                         getScript().getObjectsPool().put("event", e);
+                        getScript().runBlock("onChat");
                     }
 
                     @Listener
                     private void onFinalPacketSend(EventFinalPacketSend e) {
-                        getScript().runBlock("onFinalPacketSend");
                         getScript().getObjectsPool().put("event", e);
+                        getScript().runBlock("onFinalPacketSend");
                     }
 
                     @Listener
                     private void onPacketReceive(EventPacketReceive e) {
-                        getScript().runBlock("onPacketReceive");
                         getScript().getObjectsPool().put("event", e);
+                        getScript().runBlock("onPacketReceive");
                     }
 
                     @Listener
                     private void onPacketSend(EventPacketSend e) {
-                        getScript().runBlock("onPacketSend");
                         getScript().getObjectsPool().put("event", e);
+                        getScript().runBlock("onPacketSend");
                     }
 
                     @Listener
                     private void onMotion(EventRender2D e) {
-                        getScript().runBlock("onMotion");
                         getScript().getObjectsPool().put("event", e);
+                        getScript().runBlock("onMotion");
                     }
 
                     @Listener
                     private void onRender2D(EventRender2D e) {
-                        getScript().runBlock("onRender2D");
                         getScript().getObjectsPool().put("event", e);
+                        getScript().runBlock("onRender2D");
                     }
 
                     @Listener
                     private void onRender3D(EventRender3D e) {
-                        getScript().runBlock("onRender2D");
                         getScript().getObjectsPool().put("event", e);
+                        getScript().runBlock("onRender2D");
                     }
                 };
                 if (modules.stream().anyMatch(m -> m.getName().equals(file.getName().replace(".spt", "")))) {
