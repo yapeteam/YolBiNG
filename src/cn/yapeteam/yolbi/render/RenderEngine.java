@@ -49,7 +49,7 @@ public class RenderEngine {
             new Thread(() -> {
                 synchronized ((Object) threads) {
                     threads++;
-                    int width = shader.width, height = shader.height;
+                    int width = (int) shader.width, height = (int) shader.height;
                     int size = width * height;
                     ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
                     BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR_PRE);

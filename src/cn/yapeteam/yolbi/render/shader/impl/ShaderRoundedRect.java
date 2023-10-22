@@ -6,13 +6,15 @@ import java.util.Arrays;
 
 public class ShaderRoundedRect extends Shader {
     private final float radius;
+    private final int color;
 
-    public ShaderRoundedRect(int width, int height, float radius, int level, boolean antiAlias) {
-        this.identifier = Arrays.deepHashCode(new Object[]{width, height, radius, level, antiAlias});
+    public ShaderRoundedRect(float width, float height, float radius, int color, int level, boolean antiAlias) {
+        this.identifier = Arrays.deepHashCode(new Object[]{width, height, radius, color, level, antiAlias});
         this.level = level;
         this.width = width * level;
         this.height = height * level;
         this.radius = radius * level;
+        this.color = color;
         this.antiAlias = antiAlias;
     }
 
@@ -54,6 +56,6 @@ public class ShaderRoundedRect extends Shader {
                     return 0;
             }
         }
-        return -1;
+        return color;
     }
 }

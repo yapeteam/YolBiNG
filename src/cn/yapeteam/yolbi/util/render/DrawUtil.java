@@ -168,6 +168,11 @@ public class DrawUtil implements IMinecraft {
         Color color1 = new Color(color);
         GlStateManager.color(color1.getRed() / 255f, color1.getGreen() / 255f, color1.getGreen() / 255f);
         glPushMatrix();
+        GlStateManager.alphaFunc(GL11.GL_GREATER, 0.01f);
+        glEnable(GL11.GL_TEXTURE_2D);
+        glDisable(GL_CULL_FACE);
+        glEnable(GL11.GL_ALPHA_TEST);
+        GlStateManager.enableBlend();
         GL11.glBegin(GL11.GL_QUADS);
         GL11.glTexCoord2f(0, 0); // top left
         GL11.glVertex2f(x, y);
@@ -184,6 +189,7 @@ public class DrawUtil implements IMinecraft {
         enableTexture2D();
         disableBlend();
         GlStateManager.resetColor();
+
         glEnable(GL_CULL_FACE);
         glPopMatrix();
     }

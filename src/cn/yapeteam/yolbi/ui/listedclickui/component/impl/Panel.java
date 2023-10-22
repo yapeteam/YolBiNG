@@ -4,6 +4,8 @@ import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
+import cn.yapeteam.yolbi.render.RenderEngine;
+import cn.yapeteam.yolbi.render.shader.impl.ShaderRoundedRect;
 import cn.yapeteam.yolbi.ui.listedclickui.ImplScreen;
 import cn.yapeteam.yolbi.ui.listedclickui.component.AbstractComponent;
 import cn.yapeteam.yolbi.ui.listedclickui.component.Limitation;
@@ -89,7 +91,8 @@ public class Panel extends AbstractComponent {
             setY(mouseY - dragY);
         }
         RenderUtil.drawBloomShadow(getX(), getY(), getWidth(), getHeight(), 5, new Color(0));
-        RenderUtil.drawFastRoundedRect(getX(), getY(), getX() + getWidth(), getY() + getHeight() + 1, 3, ImplScreen.MainTheme[0].getRGB());
+        RenderEngine.instance.render(new ShaderRoundedRect(getWidth(), getHeight(), 3, ImplScreen.MainTheme[0].getRGB(), 3, true), getX(), getY(), -1);
+        //RenderUtil.drawFastRoundedRect(getX(), getY(), getX() + getWidth(), getY() + getHeight() + 1, 3, ImplScreen.MainTheme[0].getRGB());
         RenderUtil.drawRect(getX(), getY() + ImplScreen.panelTopHeight - 0.5f, getX() + getWidth(), getY() + ImplScreen.panelTopHeight, new Color(210, 210, 210, 84).getRGB());
         AbstractFontRenderer font = YolBi.instance.getFontManager().getPingFangBold18();
         font.drawString(
