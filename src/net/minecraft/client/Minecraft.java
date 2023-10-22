@@ -2,6 +2,7 @@ package net.minecraft.client;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.impl.game.EventKey;
+import cn.yapeteam.yolbi.event.impl.game.EventLoop;
 import cn.yapeteam.yolbi.event.impl.game.EventTick;
 import cn.yapeteam.yolbi.module.impl.combat.DelayRemover;
 import cn.yapeteam.yolbi.module.impl.combat.KillAura;
@@ -921,7 +922,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
                 Util.func_181617_a((FutureTask) this.scheduledTasks.poll(), logger);
             }
         }
-
+        YolBi.instance.getEventManager().post(new EventLoop());
         this.mcProfiler.endSection();
         long l = System.nanoTime();
         this.mcProfiler.startSection("tick");

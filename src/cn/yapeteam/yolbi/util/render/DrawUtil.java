@@ -14,17 +14,18 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
+import static net.minecraft.client.renderer.GlStateManager.disableBlend;
+import static net.minecraft.client.renderer.GlStateManager.enableTexture2D;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
 
 public class DrawUtil implements IMinecraft {
 
     public static void drawGradientVerticalRect(double left, double top, double right, double bottom, int startColor, int endColor) {
-        float f = (float)(startColor >> 24 & 255) / 255.0F;
-        float f1 = (float)(startColor >> 16 & 255) / 255.0F;
-        float f2 = (float)(startColor >> 8 & 255) / 255.0F;
-        float f3 = (float)(startColor & 255) / 255.0F;
-        float f4 = (float)(endColor >> 24 & 255) / 255.0F;
+        float f = (float) (startColor >> 24 & 255) / 255.0F;
+        float f1 = (float) (startColor >> 16 & 255) / 255.0F;
+        float f2 = (float) (startColor >> 8 & 255) / 255.0F;
+        float f3 = (float) (startColor & 255) / 255.0F;
+        float f4 = (float) (endColor >> 24 & 255) / 255.0F;
         float f5 = (float) (endColor >> 16 & 255) / 255.0F;
         float f6 = (float) (endColor >> 8 & 255) / 255.0F;
         float f7 = (float) (endColor & 255) / 255.0F;
@@ -48,13 +49,13 @@ public class DrawUtil implements IMinecraft {
     }
 
     public static void drawGradientSideRect(double left, double top, double right, double bottom, int startColor, int endColor) {
-        float f = (float)(startColor >> 24 & 255) / 255.0F;
-        float f1 = (float)(startColor >> 16 & 255) / 255.0F;
-        float f2 = (float)(startColor >> 8 & 255) / 255.0F;
-        float f3 = (float)(startColor & 255) / 255.0F;
+        float f = (float) (startColor >> 24 & 255) / 255.0F;
+        float f1 = (float) (startColor >> 16 & 255) / 255.0F;
+        float f2 = (float) (startColor >> 8 & 255) / 255.0F;
+        float f3 = (float) (startColor & 255) / 255.0F;
 
-        float f4 = (float)(endColor >> 24 & 255) / 255.0F;
-        float f5 = (float)(endColor >> 16 & 255) / 255.0F;
+        float f4 = (float) (endColor >> 24 & 255) / 255.0F;
+        float f5 = (float) (endColor >> 16 & 255) / 255.0F;
         float f6 = (float) (endColor >> 8 & 255) / 255.0F;
         float f7 = (float) (endColor & 255) / 255.0F;
 
@@ -78,15 +79,15 @@ public class DrawUtil implements IMinecraft {
     }
 
     public static void drawDiagonalGradient(double left, double top, double right, double bottom, int startColor, int endColor, DiagonalType diagonal) {
-        float f = (float)(startColor >> 24 & 255) / 255.0F;
-        float f1 = (float)(startColor >> 16 & 255) / 255.0F;
-        float f2 = (float)(startColor >> 8 & 255) / 255.0F;
-        float f3 = (float)(startColor & 255) / 255.0F;
+        float f = (float) (startColor >> 24 & 255) / 255.0F;
+        float f1 = (float) (startColor >> 16 & 255) / 255.0F;
+        float f2 = (float) (startColor >> 8 & 255) / 255.0F;
+        float f3 = (float) (startColor & 255) / 255.0F;
 
-        float f4 = (float)(endColor >> 24 & 255) / 255.0F;
-        float f5 = (float)(endColor >> 16 & 255) / 255.0F;
-        float f6 = (float)(endColor >> 8 & 255) / 255.0F;
-        float f7 = (float)(endColor & 255) / 255.0F;
+        float f4 = (float) (endColor >> 24 & 255) / 255.0F;
+        float f5 = (float) (endColor >> 16 & 255) / 255.0F;
+        float f6 = (float) (endColor >> 8 & 255) / 255.0F;
+        float f7 = (float) (endColor & 255) / 255.0F;
 
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
@@ -97,25 +98,25 @@ public class DrawUtil implements IMinecraft {
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
 
-        if(diagonal == DiagonalType.RIGHT_TOP) {
+        if (diagonal == DiagonalType.RIGHT_TOP) {
             worldrenderer.pos(right, top, 0).color(f5, f6, f7, f4).endVertex();
         } else {
             worldrenderer.pos(right, top, 0).color(f1, f2, f3, f).endVertex();
         }
 
-        if(diagonal == DiagonalType.LEFT_TOP) {
+        if (diagonal == DiagonalType.LEFT_TOP) {
             worldrenderer.pos(left, top, 0).color(f5, f6, f7, f4).endVertex();
         } else {
             worldrenderer.pos(left, top, 0).color(f1, f2, f3, f).endVertex();
         }
 
-        if(diagonal == DiagonalType.LEFT_BOTTOM) {
+        if (diagonal == DiagonalType.LEFT_BOTTOM) {
             worldrenderer.pos(left, bottom, 0).color(f5, f6, f7, f4).endVertex();
         } else {
             worldrenderer.pos(left, bottom, 0).color(f1, f2, f3, f).endVertex();
         }
 
-        if(diagonal == DiagonalType.RIGHT_BOTTOM) {
+        if (diagonal == DiagonalType.RIGHT_BOTTOM) {
             worldrenderer.pos(right, bottom, 0).color(f5, f6, f7, f4).endVertex();
         } else {
             worldrenderer.pos(right, bottom, 0).color(f1, f2, f3, f).endVertex();
@@ -162,6 +163,32 @@ public class DrawUtil implements IMinecraft {
         }
     }
 
+    public static void drawImage(int image, float x, float y, float width, float height, int color) {
+        GlStateManager.bindTexture(image);
+        Color color1 = new Color(color);
+        GlStateManager.color(color1.getRed() / 255f, color1.getGreen() / 255f, color1.getGreen() / 255f);
+        glPushMatrix();
+        GL11.glBegin(GL11.GL_QUADS);
+        GL11.glTexCoord2f(0, 0); // top left
+        GL11.glVertex2f(x, y);
+
+        GL11.glTexCoord2f(0, 1); // bottom left
+        GL11.glVertex2f(x, y + height);
+
+        GL11.glTexCoord2f(1, 1); // bottom right
+        GL11.glVertex2f(x + width, y + height);
+
+        GL11.glTexCoord2f(1, 0); // top right
+        GL11.glVertex2f(x + width, y);
+        GL11.glEnd();
+        enableTexture2D();
+        disableBlend();
+        GlStateManager.resetColor();
+        glEnable(GL_CULL_FACE);
+        glPopMatrix();
+    }
+
+
     public static void drawImage2(ResourceLocation image, int x, int y, int width, int height) {
         glDisable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
@@ -174,6 +201,7 @@ public class DrawUtil implements IMinecraft {
         glDisable(GL_BLEND);
         glEnable(GL_DEPTH_TEST);
     }
+
     public static void drawImage2(ResourceLocation image, int x, int y, int width, int height, float alpha) {
         glDisable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
