@@ -8,19 +8,15 @@ import java.util.ArrayList;
 /**
  * @author TIMER_err
  */
+@Getter
 public abstract class AbstractComponent implements Component {
-    @Getter
     private final ArrayList<AbstractComponent> childComponents = new ArrayList<>();
-    @Getter
     @Setter
     private float x, y, width, height;
-    @Getter
     @Setter
     private boolean dragging = false;
-    @Getter
     @Setter
     private float wheel = 0;
-    @Getter
     private final AbstractComponent parent;
 
     public AbstractComponent(AbstractComponent parent) {

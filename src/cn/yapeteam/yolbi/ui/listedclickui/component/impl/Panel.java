@@ -74,13 +74,7 @@ public class Panel extends AbstractComponent {
             if (this.scroll > 0 || -this.scroll > getChildComponents().size() * (ImplScreen.moduleHeight + ImplScreen.moduleSpacing) - ImplScreen.moduleSpacing + allExpand - (getHeight() - ImplScreen.panelTopHeight))
                 this.scroll = 0;
             if (isHovering(getX(), getY(), getWidth(), getHeight(), mouseX, mouseY)) {
-                float scroll = 0;
-                if (getWheel() > 0) scroll = 20;
-                if (getWheel() < 0) scroll = -20;
-                if (((ModuleButton) getChildComponents().get(getChildComponents().size() - 1)).getRealY() + ImplScreen.moduleHeight + ((ModuleButton) getChildComponents().get(getChildComponents().size() - 1)).getExtend() + scroll < getY() + getHeight())
-                    scroll = -(((ModuleButton) getChildComponents().get(getChildComponents().size() - 1)).getRealY() + ImplScreen.moduleHeight + ((ModuleButton) getChildComponents().get(getChildComponents().size() - 1)).getExtend() - getY() - getHeight());
-                if (((ModuleButton) getChildComponents().get(0)).getRealY() + scroll > getY() + ImplScreen.panelTopHeight)
-                    scroll = -(getChildComponents().get(0).getY() - (getY() + ImplScreen.panelTopHeight));
+                float scroll = scroll();
                 this.scroll += scroll;
                 setWheel(0);
             }
@@ -108,6 +102,17 @@ public class Panel extends AbstractComponent {
         });
         super.drawComponent(mouseX, mouseY, partialTicks, limitation);
         limitation.end();
+    }
+
+    private float scroll() {
+        float scroll = 0;
+        if (getWheel() > 0) scroll = 20;
+        if (getWheel() < 0) scroll = -20;
+        if (((ModuleButton) getChildComponents().get(getChildComponents().size() - 1)).getRealY() + ImplScreen.moduleHeight + ((ModuleButton) getChildComponents().get(getChildComponents().size() - 1)).getExtend() + scroll < getY() + getHeight())
+            scroll = -(((ModuleButton) getChildComponents().get(getChildComponents().size() - 1)).getRealY() + ImplScreen.moduleHeight + ((ModuleButton) getChildComponents().get(getChildComponents().size() - 1)).getExtend() - getY() - getHeight());
+        if (((ModuleButton) getChildComponents().get(0)).getRealY() + scroll > getY() + ImplScreen.panelTopHeight)
+            scroll = -(getChildComponents().get(0).getY() - (getY() + ImplScreen.panelTopHeight));
+        return scroll;
     }
 
     public boolean isCurrent() {
