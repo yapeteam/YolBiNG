@@ -3,7 +3,6 @@ package cn.yapeteam.yolbi.render;
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.game.EventLoop;
-import cn.yapeteam.yolbi.event.impl.game.EventTick;
 import cn.yapeteam.yolbi.render.shader.Shader;
 import cn.yapeteam.yolbi.util.render.DrawUtil;
 import cn.yapeteam.yolbi.util.render.gaussianblur.GaussianFilter;
@@ -32,11 +31,6 @@ public class RenderEngine {
     }
 
     private volatile int threads = 0;
-
-    @Listener
-    private void onTick(EventTick e) {
-        System.out.println(threads);
-    }
 
     @Listener
     private void run(EventLoop e) {

@@ -18,44 +18,28 @@ public class ShaderRoundedRect extends Shader {
         this.antiAlias = antiAlias;
     }
 
+    @SuppressWarnings("DuplicatedCode")
     @Override
     public int dispose(float relativeX, float relativeY, float screenWidth, float screenHeight, int pixel) {
         float radius2 = radius * radius;
-        float a, a2, b, b2;
-        if (relativeX <= radius) {
-            a = relativeX - radius;
-            a2 = a * a;
-            b = relativeY - radius;
-            b2 = b * b;
-            if (relativeY <= radius) {
-                if (a2 + b2 >= radius2)
-                    return 0;
-            }
-            if (relativeY >= height - radius) {
-                b = relativeY - (height - radius);
-                b2 = b * b;
-                if (a2 + b2 >= radius2)
-                    return 0;
-            }
+        float left = relativeX - radius;
+        float right = width - relativeX - radius;
+        float top = relativeY - radius;
+        float bottom = height - relativeY - radius;
+
+        if (left <= 0 && top <= 0 && left * left + top * top >= radius2) {
+            return 0;
         }
-        if (relativeX >= width - radius) {
-            a = relativeX - (width - radius);
-            a2 = a * a;
-            b = relativeY - radius;
-            b2 = b * b;
-            if (relativeY <= radius) {
-                if (a2 + b2 >= radius2)
-                    return 0;
-            }
-            if (relativeY >= height - radius) {
-                a = relativeX - (width - radius);
-                a2 = a * a;
-                b = relativeY - (height - radius);
-                b2 = b * b;
-                if (a2 + b2 >= radius2)
-                    return 0;
-            }
+        if (right <= 0 && top <= 0 && right * right + top * top >= radius2) {
+            return 0;
         }
+        if (left <= 0 && bottom <= 0 && left * left + bottom * bottom >= radius2) {
+            return 0;
+        }
+        if (right <= 0 && bottom <= 0 && right * right + bottom * bottom >= radius2) {
+            return 0;
+        }
+
         return color;
     }
 }

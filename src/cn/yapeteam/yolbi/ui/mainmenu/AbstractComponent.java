@@ -8,13 +8,11 @@ import java.util.ArrayList;
 /**
  * @author TIMER_err
  */
+@Getter
 public abstract class AbstractComponent implements Component {
-    @Getter
     private final AbstractComponent parent;
-    @Getter
     private final ArrayList<AbstractComponent> childComponents = new ArrayList<>();
 
-    @Getter
     @Setter
     private float x, y, width, height;
 
