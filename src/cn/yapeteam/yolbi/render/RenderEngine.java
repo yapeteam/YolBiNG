@@ -32,6 +32,40 @@ public class RenderEngine {
 
     private volatile int threads = 0;
 
+    private void dispose(Shader shader) {
+        disposing.add(shader.identifier);
+        Runnable connect = () -> {
+            synchronized ((Object) threads) {
+                threads++;
+                int width = (int) shader.width, height = (int) shader.height;
+                int size = width * height;
+                ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+                BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR_PRE);
+                for (int i = 0; i < size; i++) {
+                    int x = i % width, y = i / width;
+                    image.setRGB(x, y, shader.dispose(x, y, sr.getScaledWidth(), sr.getScaledHeight(), 0));
+                }
+                image = shader.antiAlias ? new GaussianFilter(shader.level / 2f).filter(image, null) : image;
+                BufferedImage finalImage = image;
+                tasks.add(() ->
+                        textureMap.put(
+                                shader.identifier,
+                                TextureUtil.uploadTextureImageAllocate(
+                                        TextureUtil.glGenTextures(),
+                                        finalImage,
+                                        true, false
+                                )
+                        )
+                );
+                threads--;
+                disposing.remove((Object) shader.identifier);
+            }
+        };
+        if (shader.multithreading)
+            new Thread(connect).start();
+        else connect.run();
+    }
+
     @Listener
     private void run(EventLoop e) {
         for (Runnable task : tasks) {
@@ -39,43 +73,19 @@ public class RenderEngine {
             tasks.remove(task);
         }
         for (Shader shader : shaderList) {
-            disposing.add(shader.identifier);
-            new Thread(() -> {
-                synchronized ((Object) threads) {
-                    threads++;
-                    int width = (int) shader.width, height = (int) shader.height;
-                    int size = width * height;
-                    ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-                    BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR_PRE);
-                    for (int i = 0; i < size; i++) {
-                        int x = i % width, y = i / width;
-                        image.setRGB(x, y, shader.dispose(x, y, sr.getScaledWidth(), sr.getScaledHeight(), 0));
-                    }
-                    image = shader.antiAlias ? new GaussianFilter(shader.level / 2f).filter(image, null) : image;
-                    BufferedImage finalImage = image;
-                    tasks.add(() ->
-                            textureMap.put(
-                                    shader.identifier,
-                                    TextureUtil.uploadTextureImageAllocate(
-                                            TextureUtil.glGenTextures(),
-                                            finalImage,
-                                            true, false
-                                    )
-                            )
-                    );
-                    threads--;
-                    disposing.remove((Object) shader.identifier);
-                }
-            }).start();
+            dispose(shader);
             shaderList.remove(shader);
         }
     }
 
     public void render(Shader shader, float x, float y, int color) {
         Integer identifier = textureMap.get(shader.identifier);
+        if (identifier == null && !shaderList.contains(shader) && !disposing.contains(shader.identifier)) {
+            if (shader.multithreading)
+                shaderList.add(shader);
+            else dispose(shader);
+        }
         if (identifier != null)
             DrawUtil.drawImage(identifier, x, y, shader.getRealWidth(), shader.getRealHeight(), color);
-        else if (!shaderList.contains(shader) && !disposing.contains(shader.identifier))
-            shaderList.add(shader);
     }
 }

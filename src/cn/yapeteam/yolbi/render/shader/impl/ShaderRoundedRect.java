@@ -6,16 +6,20 @@ import java.util.Arrays;
 
 public class ShaderRoundedRect extends Shader {
     private final float radius;
-    private final int color;
 
-    public ShaderRoundedRect(float width, float height, float radius, int color, int level, boolean antiAlias) {
-        this.identifier = Arrays.deepHashCode(new Object[]{width, height, radius, color, level, antiAlias});
-        this.level = level;
-        this.width = width * level;
-        this.height = height * level;
+    public ShaderRoundedRect(float width, float height, float radius, int color, int level, boolean antiAlias, boolean multithreading) {
+        super(width, height, color,
+                Arrays.deepHashCode(new Object[]{
+                        width,
+                        height,
+                        radius,
+                        color,
+                        level,
+                        antiAlias
+                }),
+                level, antiAlias, multithreading
+        );
         this.radius = radius * level;
-        this.color = color;
-        this.antiAlias = antiAlias;
     }
 
     @SuppressWarnings("DuplicatedCode")

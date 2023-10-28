@@ -19,7 +19,6 @@ public abstract class AbstractBufferedImageOp implements BufferedImageOp, Clonea
 
 
     public Rectangle2D getBounds2D(BufferedImage src) {
-        /*  40 */
         return new Rectangle(0, 0, src.getWidth(), src.getHeight());
     }
 
@@ -35,7 +34,6 @@ public abstract class AbstractBufferedImageOp implements BufferedImageOp, Clonea
 
 
     public RenderingHints getRenderingHints() {
-        /*  56 */
         return null;
     }
 
