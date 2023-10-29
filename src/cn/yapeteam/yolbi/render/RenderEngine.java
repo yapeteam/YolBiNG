@@ -47,16 +47,17 @@ public class RenderEngine {
                 }
                 image = shader.antiAlias ? new GaussianFilter(shader.level / 2f).filter(image, null) : image;
                 BufferedImage finalImage = image;
-                tasks.add(() ->
-                        textureMap.put(
-                                shader.identifier,
-                                TextureUtil.uploadTextureImageAllocate(
-                                        TextureUtil.glGenTextures(),
-                                        finalImage,
-                                        true, false
-                                )
+                Runnable task = () -> textureMap.put(
+                        shader.identifier,
+                        TextureUtil.uploadTextureImageAllocate(
+                                TextureUtil.glGenTextures(),
+                                finalImage,
+                                true, false
                         )
                 );
+                if (shader.multithreading)
+                    tasks.add(task);
+                else task.run();
                 threads--;
                 disposing.remove((Object) shader.identifier);
             }
@@ -83,7 +84,10 @@ public class RenderEngine {
         if (identifier == null && !shaderList.contains(shader) && !disposing.contains(shader.identifier)) {
             if (shader.multithreading)
                 shaderList.add(shader);
-            else dispose(shader);
+            else {
+                dispose(shader);
+                identifier = textureMap.get(shader.identifier);
+            }
         }
         if (identifier != null)
             DrawUtil.drawImage(identifier, x, y, shader.getRealWidth(), shader.getRealHeight(), color);
