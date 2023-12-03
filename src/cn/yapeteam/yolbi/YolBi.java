@@ -14,6 +14,7 @@ import cn.yapeteam.yolbi.handler.packet.PacketDelayHandler;
 import cn.yapeteam.yolbi.lang.LanguageManager;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleManager;
+import cn.yapeteam.yolbi.ui.mainmenu.ImplScreen;
 import cn.yapeteam.yolbi.ui.menu.ConfigMenu;
 import cn.yapeteam.yolbi.ui.noti.NotificationManager;
 import cn.yapeteam.yolbi.util.IMinecraft;
@@ -78,38 +79,35 @@ public class YolBi implements IMinecraft {
     private Anticheat anticheat;
 
     private FontManager fontManager;
+    private GuiMainMenu guiMainMenu;
+    private ImplScreen cguiMainMenu;
+
 
     @Setter
     private boolean destructed;
 
     public void start() throws IOException {
+
+
         fileSystem = new FileSystem();
-
         languageManager = new LanguageManager();
-
         eventManager = new EventManager();
         moduleManager = new ModuleManager();
         commandManager = new CommandManager();
         notificationManager = new NotificationManager();
-
         packetDelayHandler = new PacketDelayHandler();
         packetBlinkHandler = new PacketBlinkHandler();
-
         keybindHandler = new KeybindHandler();
         balanceHandler = new BalanceHandler();
         slotSpoofHandler = new SlotSpoofHandler();
-
-        cameraHandler = new CameraHandler();
-
-        anticheat = new Anticheat();
-
+        cameraHandler = new CameraHandler(); // 1057
+        anticheat = new Anticheat(); // 1054
         fontManager = new FontManager();
-
+        guiMainMenu = new GuiMainMenu();
+        cguiMainMenu = new cn.yapeteam.yolbi.ui.mainmenu.ImplScreen();
         fileSystem.loadDefaultConfig();
         fileSystem.loadKeybinds();
-
         moduleManager.modules.forEach(Module::onClientStarted);
-
         FontUtil.initFonts();
 
         try {
@@ -124,6 +122,7 @@ public class YolBi implements IMinecraft {
                 System.err.println(stackTraceElement.toString());
             }
         }
+
     }
 
     public void shutdown() {
@@ -139,8 +138,9 @@ public class YolBi implements IMinecraft {
     }
 
     public GuiScreen getMainMenu() {
+
         if (!haveGotTheConfig)
             return new ConfigMenu();
-        return destructed ? new GuiMainMenu() : new cn.yapeteam.yolbi.ui.mainmenu.ImplScreen();
+        return destructed ? guiMainMenu : cguiMainMenu;
     }
 }
