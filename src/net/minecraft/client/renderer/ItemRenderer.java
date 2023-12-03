@@ -2,6 +2,7 @@ package net.minecraft.client.renderer;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.impl.render.EventItemRender;
+import cn.yapeteam.yolbi.module.impl.visual.Animations;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -276,17 +277,21 @@ public class ItemRenderer
      * @param equipProgress The progress of the animation to equip (raise from out of frame) while switching held items.
      * @param swingProgress The progress of the arm swing animation.
      */
-    private void transformFirstPersonItem(float equipProgress, float swingProgress)
-    {
-        GlStateManager.translate(0.56F, -0.52F, -0.71999997F);
+    private void transformFirstPersonItem(float equipProgress, float swingProgress) {
+        boolean animations = Animations.getInstance().isEnabled();
+        double x = animations ? .56 + (Animations.getInstance().xpos.getValue() * .01) : .56;
+        double y = animations ? .52 - (Animations.getInstance().ypos.getValue() * .01) : .52;
+        double size = animations ? .40 + (Animations.getInstance().size.getValue() * .01) : .40;
+
+        GlStateManager.translate(x, -y, -0.71999997F);
         GlStateManager.translate(0.0F, equipProgress * -0.6F, 0.0F);
         GlStateManager.rotate(45.0F, 0.0F, 1.0F, 0.0F);
-        float f = MathHelper.sin(swingProgress * swingProgress * (float)Math.PI);
-        float f1 = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float)Math.PI);
+        float f = MathHelper.sin(swingProgress * swingProgress * (float) Math.PI);
+        float f1 = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float) Math.PI);
         GlStateManager.rotate(f * -20.0F, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(f1 * -20.0F, 0.0F, 0.0F, 1.0F);
         GlStateManager.rotate(f1 * -80.0F, 1.0F, 0.0F, 0.0F);
-        GlStateManager.scale(0.4F, 0.4F, 0.4F);
+        GlStateManager.scale(size, size, size);
     }
 
     private void func_178098_a(float p_178098_1_, AbstractClientPlayer clientPlayer)
@@ -316,13 +321,14 @@ public class ItemRenderer
         GlStateManager.scale(1.0F, 1.0F, 1.0F + f1 * 0.2F);
     }
 
-    private void func_178103_d()
+    private void doBlockTransformations()
     {
         GlStateManager.translate(-0.5F, 0.2F, 0.0F);
         GlStateManager.rotate(30.0F, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(-80.0F, 1.0F, 0.0F, 0.0F);
         GlStateManager.rotate(60.0F, 0.0F, 1.0F, 0.0F);
     }
+
 
     /**
      * Renders the active item in the player's hand when in first person mode. Args: partialTickTime
@@ -335,7 +341,7 @@ public class ItemRenderer
         {
             float f = 1.0F - (this.prevEquippedProgress + (this.equippedProgress - this.prevEquippedProgress) * partialTicks);
             AbstractClientPlayer abstractclientplayer = this.mc.thePlayer;
-            float f1 = abstractclientplayer.getSwingProgress(partialTicks);
+            float swingProgress = abstractclientplayer.getSwingProgress(partialTicks);
             float f2 = abstractclientplayer.prevRotationPitch + (abstractclientplayer.rotationPitch - abstractclientplayer.prevRotationPitch) * partialTicks;
             float f3 = abstractclientplayer.prevRotationYaw + (abstractclientplayer.rotationYaw - abstractclientplayer.prevRotationYaw) * partialTicks;
             this.func_178101_a(f2, f3);
@@ -353,7 +359,7 @@ public class ItemRenderer
 
                 if (this.itemToRender.getItem() instanceof ItemMap)
                 {
-                    this.renderItemMap(abstractclientplayer, f2, f, f1);
+                    this.renderItemMap(abstractclientplayer, f2, f, swingProgress);
                 }
                 else if (abstractclientplayer.getItemInUseCount() > 0)
                 {
@@ -374,14 +380,98 @@ public class ItemRenderer
                         case BLOCK:
                             //this.transformFirstPersonItem(f, 0.0F);
                             //this.func_178103_d();
-                            if(mc.thePlayer.isSwingInProgress) {
-                                this.transformFirstPersonItem(f, f1);
-                                this.func_178103_d();
-                                GlStateManager.translate(-0.15F, 0.2F, 0.2F);
-                            } else {
-                                this.transformFirstPersonItem(f, f1);
-                                this.func_178103_d();
-                                GlStateManager.translate(-0.15F, 0.2F, 0.2F);
+                            if (Animations.getInstance().isEnabled()){
+                                float var15 = MathHelper.sin(swingProgress * swingProgress * 3.1415927F);
+                                float var16 = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * 3.1415927F);
+                                switch (Animations.getInstance().modeValue.getValue()){
+                                    case "Stella":
+                                        this.transformFirstPersonItem(-0.1F, swingProgress);
+                                        GlStateManager.translate(-0.5F, 0.4F, -0.2F);
+                                        GlStateManager.rotate(32, 0, 1, 0);
+                                        GlStateManager.rotate(-70, 1, 0, 0);
+                                        GlStateManager.rotate(40, 0, 1, 0);
+                                        break;
+                                    case "Middle":
+                                        GlStateManager.popMatrix();
+                                        GL11.glRotated(25, 0, 0.2, 0);
+                                        this.transformFirstPersonItem(0.0f, swingProgress);
+                                        GlStateManager.scale(0.9F, 0.9F, 0.9F);
+                                        this.doBlockTransformations();
+                                        GlStateManager.pushMatrix();
+                                        break;
+                                    case "1.7":
+                                        this.transformFirstPersonItem(f, swingProgress);
+                                        GlStateManager.translate(0, 0.3, 0);
+                                        this.doBlockTransformations();
+                                        break;
+                                    case "Smooth":
+                                        this.transformFirstPersonItem(swingProgress / 5, swingProgress);
+                                        GlStateManager.translate(0, 0.2, 0);
+                                        GlStateManager.rotate(-var15, 4, -0.8F, -1F);
+                                        this.doBlockTransformations();
+                                        break;
+                                    case "Exhi":
+                                        this.transformFirstPersonItem(f / 2, 0);
+                                        GlStateManager.rotate(-var16 * 40.0F / 2.0F, var16 / 2.0F, -0.0F, 9.0F);
+                                        GlStateManager.rotate(-var16 * 30.0F, 1.0F, var16 / 2.0F, -0.0F);
+                                        this.doBlockTransformations();
+                                        GL11.glTranslatef(-0.05F, this.mc.thePlayer.isSneaking() ? -0.2F : 0.0F, 0.1F);
+                                        break;
+                                    case "Exhi 2":
+                                        this.transformFirstPersonItem(f / 2, swingProgress);
+                                        GlStateManager.rotate(var16 * 30.0F, -var16, -0.0F, 9.0F);
+                                        GlStateManager.rotate(var16 * 40.0F, 1.0F, -var16, -0.0F);
+                                        GlStateManager.translate(0, 0.3F, 0);
+                                        this.doBlockTransformations();
+                                        GL11.glTranslatef(-0.05F, this.mc.thePlayer.isSneaking() ? -0.2F : 0.0F, 0.1F);
+                                        break;
+                                    case "Exhi 3":
+                                        this.transformFirstPersonItem(f / 2.0f, swingProgress);
+                                        this.doBlockTransformations();
+                                        GL11.glTranslatef(-0.05F, this.mc.thePlayer.isSneaking() ? -0.2F : 0F, 0.3F);
+                                        break;
+                                    case "Exhi 4":
+                                        this.transformFirstPersonItem(f / 2.0F, 0.0f);
+                                        GlStateManager.translate(0.0F, 0.3F, -0.0F);
+                                        GlStateManager.rotate(-var16 * 30.0F, 1, 0, 2.0F);
+                                        GlStateManager.rotate(-var16 * 44.0F, 1.5F, (float) (var16 / 1.2), 0F);
+                                        this.doBlockTransformations();
+                                        GL11.glTranslatef(-0.05F, this.mc.thePlayer.isSneaking() ? -0.2F : 0F, 0.3F);
+                                        break;
+                                    case "Exhi 5":
+                                        this.transformFirstPersonItem(f / 2.0F, swingProgress);
+                                        GlStateManager.rotate(var16 * 30.0F, -var16, 0.0F, 9.0F);
+                                        GlStateManager.rotate(var16 * 40.0F, 1.0F, -var16, -0.0F);
+                                        this.doBlockTransformations();
+                                        GL11.glTranslatef(-0.05F, this.mc.thePlayer.isSneaking() ? -0.2F : 0F, 0.3F);
+                                        break;
+                                    case "Shred":
+                                        this.transformFirstPersonItem(f / 2, swingProgress);
+                                        GlStateManager.rotate(var15 * 30.0F / 2.0F, -var15, -0.0F, 9.0F);
+                                        GlStateManager.rotate(var15 * 40.0F, 1.0F, -var15 / 2.0F, -0.0F);
+                                        this.doBlockTransformations();
+                                        GL11.glTranslatef(-0.05F, this.mc.thePlayer.isSneaking() ? -0.2F : 0.0F, 0.1F);
+                                        break;
+                                    case "Sigma":
+                                        this.transformFirstPersonItem(f * 0.5f, 0);
+                                        GlStateManager.rotate(-var15 * 55 / 2.0F, -8.0F, -0.0F, 9.0F);
+                                        GlStateManager.rotate(-var15 * 45, 1.0F, var15 / 2, -0.0F);
+                                        this.doBlockTransformations();
+                                        GL11.glTranslated(1.2, 0.3, 0.5);
+                                        GL11.glTranslatef(-1, this.mc.thePlayer.isSneaking() ? -0.1F : -0.2F, 0.2F);
+                                        break;
+                                }
+
+                            }else {
+                                if(mc.thePlayer.isSwingInProgress) {
+                                    this.transformFirstPersonItem(f, swingProgress);
+                                    this.doBlockTransformations();
+                                    GlStateManager.translate(-0.15F, 0.2F, 0.2F);
+                                } else {
+                                    this.transformFirstPersonItem(f, swingProgress);
+                                    this.doBlockTransformations();
+                                    GlStateManager.translate(-0.15F, 0.2F, 0.2F);
+                                }
                             }
                             renderedBlocking = true;
                             break;
@@ -390,32 +480,34 @@ public class ItemRenderer
                             this.transformFirstPersonItem(f, 0.0F);
                             this.func_178098_a(partialTicks, abstractclientplayer);
                     }
-                }
-                else
-                {
+                } else {
                     if(!event.shouldRenderBlocking()) {
-                        this.func_178105_d(f1);
-                        this.transformFirstPersonItem(f, f1);
+                        this.func_178105_d(swingProgress);
+                        this.transformFirstPersonItem(f, swingProgress);
                     }
                 }
 
                 if(event.shouldRenderBlocking() && !renderedBlocking) {
                     if(mc.thePlayer.isSwingInProgress) {
-                        this.transformFirstPersonItem(f, f1);
-                        this.func_178103_d();
+                        this.transformFirstPersonItem(f, swingProgress);
+                        this.doBlockTransformations();
                         GlStateManager.translate(-0.15F, 0.2F, 0.2F);
                     } else {
-                        this.transformFirstPersonItem(f, f1);
-                        this.func_178103_d();
+                        this.transformFirstPersonItem(f, swingProgress);
+                        this.doBlockTransformations();
                         GlStateManager.translate(-0.15F, 0.2F, 0.2F);
                     }
                 }
 
+
+
                 this.renderItem(abstractclientplayer, this.itemToRender, ItemCameraTransforms.TransformType.FIRST_PERSON);
             }
+
+
             else if (!abstractclientplayer.isInvisible())
             {
-                this.func_178095_a(abstractclientplayer, f, f1);
+                this.func_178095_a(abstractclientplayer, f, swingProgress);
             }
 
             GlStateManager.popMatrix();

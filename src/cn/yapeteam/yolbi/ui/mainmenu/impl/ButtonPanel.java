@@ -51,19 +51,24 @@ public class ButtonPanel extends AbstractComponent {
     public void drawComponent(int mouseX, int mouseY, float partialTicks) {
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
         setX((sr.getScaledWidth() - getWidth()) / 2f);
-        setY((sr.getScaledHeight() - getHeight()) / 2f + 20);
+        setY(sr.getScaledHeight() - getHeight() -30);
         getChildComponents().forEach(c -> {
             if (c instanceof Button) {
                 Button button = (Button) c;
                 button.setX(getX() + lrSpacing + getChildComponents().indexOf(button) * (buttonWidth + buttonSpacing));
-                button.setY(getY() + (getHeight() - buttonWidth) / 2f);
+                button.setY(getY() + getHeight() - buttonWidth);
             }
         });
 
-        RenderUtil.drawBloomShadow(getX(), getY(), getWidth(), getHeight(), 5, new Color(0));
-        RenderUtil.drawFastRoundedRect2(getX(), getY(), getWidth(), getHeight(), 3, -1);
+        //RenderUtil.drawBloomShadow(getX(), getY(), getWidth(), getHeight(), 5, new Color(0x2F000000, true));
+        //RenderUtil.drawBloomShadow(getX(), getY(), getWidth(), getHeight(), 2,10, new Color(0x91949494, true));
+
+        //RenderUtil.drawFastRoundedRect2(getX(), getY(), getWidth(), getHeight(), 3, -1);
+
         Stencil.write(false);
-        RenderUtil.drawFastRoundedRect2(getX(), getY(), getWidth(), getHeight(), 3, -1);
+        RenderUtil.drawBloomShadow(getX(), getY(), getWidth(), getHeight(), 5, new Color(0x90999999, true));
+
+        //RenderUtil.drawFastRoundedRect2(getX(), getY(), getWidth(), getHeight(), 3, -1);
         Stencil.erase(true);
         super.drawComponent(mouseX, mouseY, partialTicks);
         Stencil.dispose();

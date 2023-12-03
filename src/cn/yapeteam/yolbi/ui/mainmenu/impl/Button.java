@@ -37,7 +37,7 @@ public class Button extends AbstractComponent {
 
     @Override
     public void init() {
-        Label label = new Label(this, text, new Color(0));
+        Label label = new Label(this, text, new Color(0xD5FFFFFF, true));
         label.setX(getX());
         label.setY(getY());
         label.setWidth(getWidth());
@@ -70,8 +70,11 @@ public class Button extends AbstractComponent {
             circle = new Circle(getWidth(), 40, () -> lastHovered);
         } else if (!isHovering(mouseX, mouseY))
             lastHovered = false;
-        RenderUtil.drawBloomShadow(getX(), getY() + COff, getWidth(), getHeight(), 10, new Color(0));
-        RenderUtil.drawFastRoundedRect2(getX(), getY() + COff, getWidth(), getHeight(), 5, new Color(216, 216, 216).getRGB());
+
+        RenderUtil.drawBloomShadow(getX(), getY() + COff, getWidth(), getHeight(), 10, new Color(0x42000000, true));
+
+        RenderUtil.drawBloomShadow(getX(), getY() + COff, getWidth(), getHeight(), 10, new Color(0x6FB7B7B7, true));
+
         font.drawString(icon, getX() + (getWidth() - font.getStringWidth(icon)) / 2f, getY() + COff + (getHeight() - font.getHeight()) / 2f + 5.5f, 0);
         Stencil.write(false);
         RenderUtil.drawFastRoundedRect2(getX(), getY() + COff, getWidth(), getHeight(), 5, new Color(216, 216, 216).getRGB());

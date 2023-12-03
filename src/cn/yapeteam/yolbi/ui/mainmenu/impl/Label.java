@@ -10,15 +10,14 @@ import java.awt.*;
 /**
  * @author TIMER_err
  */
+@Getter
+@Setter
 public class Label extends AbstractComponent {
-    @Getter
-    @Setter
+
     private AbstractFontRenderer font;
-    @Getter
-    @Setter
+
     private String text;
-    @Getter
-    @Setter
+
     private Color color;
 
     public Label(AbstractComponent parent, String text, Color color) {

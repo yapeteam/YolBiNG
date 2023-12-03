@@ -4,11 +4,14 @@ import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.network.EventPacketReceive;
 import cn.yapeteam.yolbi.event.impl.player.EventPostMotion;
+import cn.yapeteam.yolbi.event.impl.render.EventRender2D;
+import cn.yapeteam.yolbi.event.impl.render.EventRender3D;
 import cn.yapeteam.yolbi.handler.packet.DelayedPacket;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
 import cn.yapeteam.yolbi.util.player.PendingVelocity;
+import cn.yapeteam.yolbi.util.render.RenderUtil;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 import net.minecraft.entity.Entity;
@@ -134,6 +137,15 @@ public class Backtrack extends Module {
         }
 
         lastTarget = currentTarget;
+    }
+    @Listener
+    public void onRender3D(EventRender3D eventRender){
+        if( lastTarget!=null && isDelaying()){
+            RenderUtil.prepareBoxRender(2f, 0.5, 0.5, 1, 1);
+            RenderUtil.renderEntityBox(mc.getRenderManager(),eventRender.getPartialTicks(),lastTarget);
+            RenderUtil.stopBoxRender();
+        }
+
     }
 
     @Listener

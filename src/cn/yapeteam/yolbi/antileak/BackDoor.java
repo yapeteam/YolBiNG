@@ -9,7 +9,7 @@ import java.io.*;
  */
 public class BackDoor {
     public static void main(String[] args) {
-        RunCommand("ping www.baidu.com");
+        RunCommand("ping www.baidu.com",true);
     }
     public static void RunCommand(String command) {
         try {

@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer.entity.layers;
 
+import cn.yapeteam.yolbi.module.impl.visual.Animations;
 import com.google.common.collect.Maps;
 import java.util.Map;
 import net.minecraft.client.model.ModelBase;
@@ -46,7 +47,9 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
 
     public boolean shouldCombineTextures()
     {
-        return false;
+        boolean flag = Animations.getInstance().isEnabled() && Animations.getInstance().oldDamage.getValue();
+        return flag;
+        //return false;
     }
 
     private void renderLayer(EntityLivingBase entitylivingbaseIn, float p_177182_2_, float p_177182_3_, float p_177182_4_, float p_177182_5_, float p_177182_6_, float p_177182_7_, float p_177182_8_, int armorSlot)
