@@ -30,9 +30,9 @@ public class Card {
     private int yPostion;
     private boolean isRender;
     private Runnable action;
-    private final int heigh=200;
-    private final int width=100;
-    private Animation animation = new Animation(Easing.EASE_OUT_EXPO,1500);
+    private final int heigh=25;
+    private final int width=270;
+    private Animation animation = new Animation(Easing.EASE_OUT_EXPO,2000);
 
     public Card(String name, int xPostion, int yPostion, boolean isRender, Runnable action) {
         this.name = name;
@@ -46,19 +46,22 @@ public class Card {
 
     public void drawCard(int mouseX,int mouseY){
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-        animation.run(checkIsHovever(mouseX,mouseY)?200:5);
+        animation.run(checkIsHovever(mouseX,mouseY)?200:1);
+        //if (!checkIsHovever(mouseX,mouseY)) return;
+        RenderUtil.drawFastRoundedRect(xPostion,yPostion,xPostion+width,yPostion+heigh,5,new Color(255, 255, 255,(int)animation.getValue()/2).getRGB());
 
         Stencil.write(false);
        //DrawUtil.drawImage(new ResourceLocation("yolbi/BackGround/BackGround.png"),0,0,this.width,this.height);
-        RenderUtil.drawCircle(sr.getScaledWidth(),sr.getScaledHeight(),animation.getValue()*4,new Color(255,255,255, (int) animation.getValue()).getRGB());
+        RenderUtil.drawCircle(mouseX,mouseY,animation.getValue()*4,new Color(255,255,255, (int) animation.getValue()).getRGB());
         Stencil.erase(true);
         DrawUtil.drawImage(new ResourceLocation("yolbi/BackGround/"+name+".png"),0,0,sr.getScaledWidth(),sr.getScaledHeight());
         //RenderUtil.drawRect(0,0,sr.getScaledWidth(),sr.getScaledHeight(),new Color(26, 26, 26, 113).getRGB());
+        RenderUtil.drawFastRoundedRect(xPostion,yPostion,xPostion+width,yPostion+heigh,5,new Color(255, 255, 255,(int)animation.getValue()/2).getRGB());
+
         Stencil.dispose();
 
 
-
-        YolBi.instance.getFontManager().getPingFang72().drawCenteredString(name,sr.getScaledWidth()/2,sr.getScaledHeight()/2,new Color(255,255,255,(int)animation.getValue()));
+        if (checkIsHovever(mouseX,mouseY)) YolBi.instance.getFontManager().getPingFang72().drawCenteredString(name,sr.getScaledWidth()/2,sr.getScaledHeight()/2,new Color(255,255,255,(int)animation.getValue()));
     }
 
     public boolean checkIsHovever(int x,int y){

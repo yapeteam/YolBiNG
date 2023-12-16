@@ -3,6 +3,7 @@ package net.minecraft.client.entity;
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.impl.network.EventChat;
 import cn.yapeteam.yolbi.event.impl.player.*;
+import cn.yapeteam.yolbi.module.impl.exploit.AutoLeave;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;

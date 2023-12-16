@@ -3,7 +3,9 @@ package cn.yapeteam.yolbi.ui.noti;
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.module.impl.visual.ClientTheme;
+import cn.yapeteam.yolbi.module.impl.visual.Notifications;
 import cn.yapeteam.yolbi.util.IMinecraft;
+import cn.yapeteam.yolbi.util.render.RenderUtil;
 import cn.yapeteam.yolbi.util.render.animation.Animation;
 import cn.yapeteam.yolbi.util.render.animation.Easing;
 import lombok.Getter;
@@ -31,7 +33,7 @@ public class Notification implements IMinecraft {
     private float currentX, currentY;
     public float width = 70;
     @Getter
-    private static final int height = 15;
+    private static int height = 15;
     public static final int delay = 3000;
     private static final int leaveTime = 200;
     @Getter
@@ -70,7 +72,8 @@ public class Notification implements IMinecraft {
 
     private final Animation animationShp, animationX, animationY;
 
-    public void render() {
+    private void renderYolbi() {
+        height = 15;
         ScaledResolution sr = new ScaledResolution(mc);
         leftTime = (int) (delay - (System.currentTimeMillis() - beginTime));
         if (leftTime <= leaveTime) setTargetX(sr.getScaledWidth() + 2);
@@ -136,5 +139,38 @@ public class Notification implements IMinecraft {
         if (!line) GL11.glDisable(2848);
         if (!blend) GL11.glDisable(3042);
         GL11.glColor4f(1, 1, 1, 1);
+    }
+
+    public void render(Notifications notification) {
+        switch (notification.mode.getValue().toString()){
+            case "Yolbi":{
+                renderYolbi();
+                break;
+            }
+            case "Tag":{
+                renderTag();
+                break;
+            }
+        }
+    }
+
+    private void renderTag() {
+        height = 25;
+        ScaledResolution sr = new ScaledResolution(mc);
+
+        leftTime = (int) (delay - (System.currentTimeMillis() - beginTime));
+        if (leftTime <= leaveTime) setTargetX(sr.getScaledWidth() + 2);
+        animationShp.run(leftTime > leaveTime ? 0 : height / 2f);
+        animationX.run(targetX);
+        animationY.run(targetY);
+        currentX = (float) animationX.getValue();
+        currentY = (float) animationY.getValue();
+
+        AbstractFontRenderer font = YolBi.instance.getFontManager().getPingFang16();
+        width = font.getStringWidth(text) + 10;
+        RenderUtil.drawBloomShadow(currentX,currentY,width,height,10,1,new Color(0, 0, 0, 200));
+        RenderUtil.drawFastRoundedRect(currentX,currentY,currentX+width,currentY+height,1,new Color(25, 25, 25, 255).getRGB());
+        YolBi.instance.getFontManager().getPingFang16().drawString(text,currentX + (width - font.getStringWidth(text)) / 2f, currentY + (height - font.getStringHeight(text)) / 2f,new Color(255,255,255,200));
+
     }
 }

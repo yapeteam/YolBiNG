@@ -2,6 +2,10 @@ package net.minecraft.block;
 
 import java.util.List;
 import java.util.Random;
+
+import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.event.EventManager;
+import cn.yapeteam.yolbi.event.impl.block.EventBlockBB;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -500,7 +504,9 @@ public class Block
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity)
     {
         AxisAlignedBB axisalignedbb = this.getCollisionBoundingBox(worldIn, pos, state);
-
+        EventBlockBB eventBlockBB = new EventBlockBB(pos,state.getBlock(),axisalignedbb);
+        YolBi.instance.getEventManager().post(eventBlockBB);
+        axisalignedbb = eventBlockBB.getAxisAlignedBB();
         if (axisalignedbb != null && mask.intersectsWith(axisalignedbb))
         {
             list.add(axisalignedbb);

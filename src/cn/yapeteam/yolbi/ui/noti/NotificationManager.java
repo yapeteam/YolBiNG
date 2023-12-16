@@ -29,7 +29,7 @@ public class NotificationManager implements IMinecraft {
         for (int i = 0; i < notifications.size(); i++) {
             Notification notification = notifications.get(i);
             notification.setTargetY(sr.getScaledHeight() - (Notification.getHeight() + 4) * (notifications.indexOf(notification) + 1));
-            if (notification.getLeftTime() > 0) notification.render();
+            if (notification.getLeftTime() > 0) notification.render((Notifications) notificationModule);
             else notifications.remove(notification);
         }
     }

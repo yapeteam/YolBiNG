@@ -2,7 +2,11 @@ package cn.yapeteam.yolbi.module;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.ui.noti.Notification;
+import cn.yapeteam.yolbi.ui.noti.NotificationINFO;
+import cn.yapeteam.yolbi.ui.noti.NotificationInfoType;
 import cn.yapeteam.yolbi.util.IMinecraft;
+import cn.yapeteam.yolbi.util.render.animation.Animation;
+import cn.yapeteam.yolbi.util.render.animation.Easing;
 import cn.yapeteam.yolbi.values.Value;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import lombok.Getter;
@@ -53,7 +57,13 @@ public abstract class Module implements IMinecraft {
                 }
                 onDisable();
             }
-            YolBi.instance.getNotificationManager().add(new Notification("Module toggled: " + YolBi.instance.getLanguageManager().translate(name) + (enabled ? " enabled" : " disabled")));
+            //todo post info
+            //YolBi.instance.getInfoMannager().post(new NotificationINFO(YolBi.instance.getLanguageManager().translate(name) + (enabled ? YolBi.instance.getLanguageManager().translate("enable") : YolBi.instance.getLanguageManager().translate("disable")), new Animation(Easing.EASE_IN_OUT_ELASTIC,1000), NotificationInfoType.INFO));
+
+
+
+
+            YolBi.instance.getNotificationManager().add(new Notification( YolBi.instance.getLanguageManager().translate(name) + (enabled ? YolBi.instance.getLanguageManager().translate("enable") : YolBi.instance.getLanguageManager().translate("disable"))));
         }
     }
 

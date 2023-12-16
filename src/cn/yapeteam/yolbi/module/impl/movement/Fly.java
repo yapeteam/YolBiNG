@@ -2,6 +2,7 @@ package cn.yapeteam.yolbi.module.impl.movement;
 
 import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.event.Listener;
+import cn.yapeteam.yolbi.event.impl.block.EventBlockBB;
 import cn.yapeteam.yolbi.event.impl.network.EventPacketReceive;
 import cn.yapeteam.yolbi.event.impl.network.EventPacketSend;
 import cn.yapeteam.yolbi.event.impl.player.*;
@@ -24,6 +25,8 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
+import net.minecraft.stats.StatList;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
@@ -31,10 +34,15 @@ import net.minecraft.util.MathHelper;
 @SuppressWarnings("SwitchStatementWithTooFewBranches")
 @ModuleInfo(name = "Fly", category = ModuleCategory.MOVEMENT)
 public class Fly extends Module {
-    private final ModeValue<String> mode = new ModeValue<>("Mode", "Vanilla", "Vanilla", "Collision", "NCP", "Blocksmc", "Velocity");
+    private final ModeValue<String> mode = new ModeValue<>("Mode", "Vanilla", "Vanilla", "Collision", "NCP", "Blocksmc", "Velocity","VerusCustom");
 
     private final ModeValue<String> vanillaMode = new ModeValue<>("Vanilla Mode", () -> mode.is("Vanilla"), "Motion", "Motion", "Creative");
     private final NumberValue<Double> vanillaSpeed = new NumberValue<>("Vanilla speed", () -> mode.is("Vanilla") && vanillaMode.is("Motion"), 2.0, 0.2, 9.0, 0.2);
+
+    private final NumberValue<Double> groundSpeedValue = new NumberValue<>("GroundSpeed", () -> mode.is("VerusCustom") , 2.0, 0.1, 9.0, 0.1);
+    private final NumberValue<Double> airSpeedValue = new NumberValue<>("AirSpeed", () -> mode.is("VerusCustom") , 2.0, 0.1, 9.0, 0.1);
+    private final NumberValue<Integer> hopDelayValue = new NumberValue<>("HopDelay", () -> mode.is("VerusCustom") , 10, 1, 20, 1);
+
     private final NumberValue<Double> vanillaVerticalSpeed = new NumberValue<>("Vanilla vertical speed", () -> mode.is("Vanilla") && vanillaMode.is("Motion"), 2.0, 0.2, 9.0, 0.2);
 
     private final ModeValue<String> collisionMode = new ModeValue<>("Collision mode", () -> mode.is("Collision"), "Airwalk", "Airwalk", "Airjump");
@@ -64,18 +72,22 @@ public class Fly extends Module {
     private boolean notMoving;
 
     private float lastYaw;
+    private int waitTicks; //VerusCustom
+    private double launchY;
 
     private BlockPos lastBarrier;
     private final TimerUtil DJCTimer = new TimerUtil();
 
     public Fly() {
-        this.addValues(mode, vanillaMode, vanillaSpeed, vanillaVerticalSpeed, ncpMode, ncpSpeed, damage, DJC, Timer, velocityMode, automated);
+        this.addValues(mode, vanillaMode, vanillaSpeed, vanillaVerticalSpeed, ncpMode, ncpSpeed, damage, DJC, Timer, velocityMode, automated
+        ,groundSpeedValue,airSpeedValue,hopDelayValue);
     }
 
     @Override
     public void onEnable() {
+        launchY = mc.thePlayer.posY;
         counter = ticks = 0;
-
+        waitTicks = 0;
         started = false;
 
         notMoving = false;
@@ -486,6 +498,24 @@ public class Fly extends Module {
                     MovementUtil.strafe(event, 0.1);
                 }
                 break;
+            case "VerusCustom":{
+                if (MovementUtil.isMoving()) {
+                    if (mc.thePlayer.onGround) {
+                        MovementUtil.strafe(groundSpeedValue.getValue());
+                        waitTicks++;
+                        if (waitTicks >= hopDelayValue.getValue()) {
+                            waitTicks = 0;
+                            mc.thePlayer.triggerAchievement(StatList.jumpStat);
+                            mc.thePlayer.motionY = 0.0;
+                            event.setY(0.41999998688698);
+                        }
+                    } else {
+                        MovementUtil.strafe(airSpeedValue.getValue());
+                    }
+                }
+
+                break;
+            }
         }
 
         takingVelocity = false;
@@ -530,6 +560,15 @@ public class Fly extends Module {
     @Listener
     public void onPostMotion(EventPostMotion event) {
 
+    }
+    @Listener
+    public void onBlockBB(EventBlockBB event){
+        if (mode.is("VerusCustom")){
+            if (event.getBlock() instanceof BlockAir && event.getY() <= launchY){
+                event.setAxisAlignedBB(AxisAlignedBB.fromBounds(event.getX(), event.getY(), event.getZ(), event.getX() + 1.0, launchY, event.getZ() + 1.0));
+
+            }
+        }
     }
 
     @Listener

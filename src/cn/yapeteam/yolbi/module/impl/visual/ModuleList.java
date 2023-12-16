@@ -35,6 +35,7 @@ public class ModuleList extends HUDModule {
 
     private final ModeValue<AnimationType> animType = AnimationUtil.getAnimationType(() -> mode.is("Custom"), AnimationType.POP);
     private final NumberValue<Integer> animDuration = AnimationUtil.getAnimationDuration(() -> mode.is("Custom"), 250);
+    private final NumberValue<Integer> bloom = new NumberValue<>("Bloom",()->mode.is("Bloom"),10,0,100,1);
 
     private final NumberValue<Double> verticalSpacing = new NumberValue<>("Vertical spacing", () -> mode.is("Custom"), 10.5, 8.0, 20.0, 0.5);
 
@@ -56,7 +57,7 @@ public class ModuleList extends HUDModule {
 
     public ModuleList() {
         super(5, 5, 100, 200, AlignType.RIGHT);
-        this.addValues(mode, font, translate, animType, animDuration, verticalSpacing, box, extraWidth, boxAlpha, leftOutline, rightOutline, topOutline, bottomOutline, alignMode);
+        this.addValues(mode, font, translate, animType, animDuration, verticalSpacing, box, extraWidth, boxAlpha, leftOutline, rightOutline, topOutline, bottomOutline, alignMode,bloom);
         this.listenType = EventListenType.MANUAL;
         this.startListening();
         this.setEnabledSilently(true);
@@ -188,7 +189,7 @@ public class ModuleList extends HUDModule {
                     //RenderUtil.drawBloomShadow();
                     //Gui.drawRect(startX, startY, startX + 2, endY, getColor((int) (startY * -17)));
                     Color alColor = new Color(getColor((int) (startY * -17)));
-                    RenderUtil.drawBloomShadow(startX + 2, startY, endX - startX - 2, endY - startY, 20,
+                    RenderUtil.drawBloomShadow(startX + 2, startY, endX - startX - 2, endY - startY, bloom.getValue(),
                             new Color(alColor.getRed(), alColor.getGreen(), alColor.getBlue(), 200)
                     );
                     //Gui.drawRect(startX + 2, startY, endX, endY, 0x70000000);
@@ -445,10 +446,10 @@ public class ModuleList extends HUDModule {
         text = translate.getValue() ? YolBi.instance.getLanguageManager().translate(text) : text;
         switch (mode.getValue()) {
             case "Simple":
-                mc.fontRendererObj.drawStringWithShadow(text, x, y, color);
-                break;
             case "New":
             case "Bloom":
+                mc.fontRendererObj.drawStringWithShadow(text, x, y, color);
+                break;
             case "Outline":
                 productSans.drawStringWithShadow(text, x, y, color);
                 break;

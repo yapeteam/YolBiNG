@@ -16,6 +16,7 @@ import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleManager;
 import cn.yapeteam.yolbi.ui.mainmenu.ImplScreen;
 import cn.yapeteam.yolbi.ui.menu.ConfigMenu;
+import cn.yapeteam.yolbi.ui.noti.InfoMannager;
 import cn.yapeteam.yolbi.ui.noti.NotificationManager;
 import cn.yapeteam.yolbi.util.IMinecraft;
 import cn.yapeteam.yolbi.util.render.FontUtil;
@@ -60,6 +61,7 @@ public class YolBi implements IMinecraft {
     public final String name = "YolBi";
     public final String version = "2.1";
     public boolean haveGotTheConfig = false;
+    private InfoMannager infoMannager;
 
     private FileSystem fileSystem;
 
@@ -88,7 +90,6 @@ public class YolBi implements IMinecraft {
 
     public void start() throws IOException {
 
-
         fileSystem = new FileSystem();
         languageManager = new LanguageManager();
         eventManager = new EventManager();
@@ -107,6 +108,8 @@ public class YolBi implements IMinecraft {
         cguiMainMenu = new cn.yapeteam.yolbi.ui.mainmenu.ImplScreen();
         fileSystem.loadDefaultConfig();
         fileSystem.loadKeybinds();
+        infoMannager = new InfoMannager();
+
         moduleManager.modules.forEach(Module::onClientStarted);
         FontUtil.initFonts();
 
@@ -139,8 +142,8 @@ public class YolBi implements IMinecraft {
 
     public GuiScreen getMainMenu() {
 
-        if (!haveGotTheConfig)
-            return new ConfigMenu();
+//        if (!haveGotTheConfig)
+//            return new ConfigMenu();
         return destructed ? guiMainMenu : cguiMainMenu;
     }
 }

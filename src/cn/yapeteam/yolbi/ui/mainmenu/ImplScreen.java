@@ -27,23 +27,26 @@ import java.util.List;
  */
 public class ImplScreen extends GuiScreen {
 
-    private Card SinglePlayerCard = new Card("SinglePlayer",0,height/2+100,true,
-            () -> Minecraft.getMinecraft().displayGuiScreen(new GuiSelectWorld(this)));
-    private Card Multiplayerard = new Card("Multiplayer",100,height/2+100,true,
-            () -> Minecraft.getMinecraft().displayGuiScreen(new GuiMultiplayer(this)));
-    private Card AltsCard = new Card("Alts",200,height/2+100,true,
-            () -> Minecraft.getMinecraft().displayGuiScreen(new AltLoginScreen()));
-    private Card OptionsCard = new Card("Options",300,height/2+100,true,
-            () -> Minecraft.getMinecraft().displayGuiScreen(new GuiOptions(this, Minecraft.getMinecraft().gameSettings)));
-    private Card InfoCard = new Card("Info",400,height/2+100,true,
-            () -> Minecraft.getMinecraft().displayGuiScreen(new InfoGui()));
-    private Card ExitCard = new Card("Exit",510,height/2+100,true,
-            () -> Minecraft.getMinecraft().shutdown());
+
 
     private final LinkedList<Card> cardList = new LinkedList<>();
 
     @Override
     public void initGui() {
+        //trhjuyy
+        final ScaledResolution scaledResolution = new ScaledResolution(mc);
+        Card SinglePlayerCard = new Card("SinglePlayer",width/2-135,scaledResolution.getScaledHeight()/2-75,true,
+                () -> Minecraft.getMinecraft().displayGuiScreen(new GuiSelectWorld(this)));
+        Card Multiplayerard = new Card("Multiplayer",width/2-135,scaledResolution.getScaledHeight()/2-45,true,
+                () -> Minecraft.getMinecraft().displayGuiScreen(new GuiMultiplayer(this)));
+        Card AltsCard = new Card("Alts",width/2-135,scaledResolution.getScaledHeight()/2-15,true,
+                () -> Minecraft.getMinecraft().displayGuiScreen(new AltLoginScreen()));
+        Card OptionsCard = new Card("Options",width/2-135,scaledResolution.getScaledHeight()/2+15,true,
+                () -> Minecraft.getMinecraft().displayGuiScreen(new GuiOptions(this, Minecraft.getMinecraft().gameSettings)));
+        Card InfoCard = new Card("Info",width/2-135,scaledResolution.getScaledHeight()/2+45,true,
+                () -> Minecraft.getMinecraft().displayGuiScreen(new InfoGui()));
+        Card ExitCard = new Card("Exit",width/2-135,scaledResolution.getScaledHeight()/2+75,true,
+                () -> Minecraft.getMinecraft().shutdown());
         cardList.clear();
         cardList.add(SinglePlayerCard);
         cardList.add(Multiplayerard);

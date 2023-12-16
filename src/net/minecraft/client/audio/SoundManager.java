@@ -1,5 +1,6 @@
 package net.minecraft.client.audio;
 
+import cn.yapeteam.yolbi.module.impl.exploit.AutoLeave;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.HashMultimap;
@@ -347,6 +348,9 @@ public class SoundManager
                 if (soundeventaccessorcomposite == null)
                 {
                     logger.warn(LOG_MARKER, "Unable to play unknown soundEvent: {}", new Object[] {sound.getSoundLocation()});
+                    //if (AutoLeave.getInstance().isEnabled() && (new Object[] {sound.getSoundLocation()}).toString().contains("minecraft:entity.player.attack.nodamage")){
+                    //    AutoLeave.leave();
+                    //}
                 }
                 else
                 {
