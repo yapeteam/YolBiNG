@@ -26,9 +26,11 @@ import cn.yapeteam.yolbi.values.impl.NumberValue;
 import lombok.Getter;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -101,6 +103,8 @@ public class KillAura extends Module {
     private final BooleanValue monsters = new BooleanValue("Monsters", false);
     private final BooleanValue invisibles = new BooleanValue("Invisibles", false);
     private final BooleanValue attackDead = new BooleanValue("Attack dead", false);
+    private final BooleanValue attackAll = new BooleanValue("Attack All", false);
+
 
     private boolean hadTarget;
 
@@ -137,7 +141,7 @@ public class KillAura extends Module {
     public KillAura() {
         minAPS.setCallback((oldV, newV) -> newV > maxAPS.getValue() ? oldV : newV);
         maxAPS.setCallback((oldV, newV) -> newV < minAPS.getValue() ? oldV : newV);
-        this.addValues(mode, filter, rotations, randomAmount, startingRange, range, rotationRange, raycast, attackDelayMode, minAPS, maxAPS, attackDelay, failRate, hurtTime, autoblock, noHitOnFirstTick, blockTiming, blinkTicks, blockHurtTime, whileTargetNotLooking, slowdown, whileHitting, whileSpeedEnabled, keepSprint, moveFix, delayTransactions, whileInventoryOpened, whileScaffoldEnabled, whileUsingBreaker, players, animals, monsters, invisibles, attackDead);
+        this.addValues(mode, filter, rotations, randomAmount, startingRange, range, rotationRange, raycast, attackDelayMode, minAPS, maxAPS, attackDelay, failRate, hurtTime, autoblock, noHitOnFirstTick, blockTiming, blinkTicks, blockHurtTime, whileTargetNotLooking, slowdown, whileHitting, whileSpeedEnabled, keepSprint, moveFix, delayTransactions, whileInventoryOpened, whileScaffoldEnabled, whileUsingBreaker, players, animals, monsters, invisibles, attackDead,attackAll);
         killaura = this;
     }
 
@@ -858,7 +862,8 @@ public class KillAura extends Module {
             }
         }
 
-        if (entity instanceof EntityAnimal && !animals.getValue()) {
+
+        if (entity instanceof EntityAnimal  && !animals.getValue()) {
             return false;
         }
 
@@ -867,7 +872,9 @@ public class KillAura extends Module {
         }
 
         if (!(entity instanceof EntityPlayer || entity instanceof EntityAnimal || entity instanceof EntityMob)) {
-            return false;
+            if (!(entity instanceof EntityVillager)){
+                return false;
+            }
         }
 
         if (entity.isDead && !attackDead.getValue()) {

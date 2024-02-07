@@ -5,6 +5,7 @@ import cn.yapeteam.yolbi.event.Listener;
 import cn.yapeteam.yolbi.event.impl.player.EventPostMotion;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.module.*;
+import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.util.animation.AnimationHolder;
 import cn.yapeteam.yolbi.util.animation.AnimationType;
 import cn.yapeteam.yolbi.util.animation.AnimationUtil;

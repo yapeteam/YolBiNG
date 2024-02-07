@@ -7,9 +7,6 @@ import cn.yapeteam.yolbi.util.misc.AudioUtil;
 import cn.yapeteam.yolbi.util.network.MicrosoftExternalLogin;
 import cn.yapeteam.yolbi.util.render.ColorUtil;
 import cn.yapeteam.yolbi.util.render.DrawUtil;
-import fr.litarvan.openauth.microsoft.MicrosoftAuthResult;
-import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
-import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.gui.*;
@@ -152,37 +149,6 @@ public class AltLoginScreen extends GuiScreen {
             if(mouseX > startX && mouseX < endX && mouseY > y && mouseY < y + buttonHeight) {
                 switch (button.getName()) {
                     case "Login":
-                        new Thread(() -> {
-                            if(password.getText().isEmpty()) {
-                                String[] infos = email.getText().split(":");
-
-                                if(infos.length == 3) {
-                                    Session session = new Session(infos[0], infos[1], infos[2], "mojang");
-
-                                    mc.setSession(session);
-
-                                    status = "Loaded raw session";
-                                } else {
-                                    mc.setSession(new Session(email.getText(), "none", "none", "mojang"));
-                                    status = "Logged into " + email.getText() + " - cracked account";
-                                }
-                            } else {
-                                status = "Logging in...";
-
-                                MicrosoftAuthenticator authenticator = new MicrosoftAuthenticator();
-                                MicrosoftAuthResult result = null;
-
-                                try {
-                                    result = authenticator.loginWithCredentials(email.getText(), password.getText());
-                                    mc.setSession(new Session(result.getProfile().getName(), result.getProfile().getId(), result.getAccessToken(), "mojang"));
-
-                                    status = "Logged into " + mc.getSession().getUsername();
-                                } catch (MicrosoftAuthenticationException e) {
-                                    e.printStackTrace();
-                                    status = "Login failed !";
-                                }
-                            }
-                        }).start();
                         break;
                     case "Import email:pass":
                         try {

@@ -20,6 +20,7 @@ import java.net.Proxy.Type;
 import java.util.List;
 
 public class Main {
+    public static Session session = null;
     public static void main(String[] p_main_0_) {
         try {
             Class.forName("Start");
@@ -97,7 +98,7 @@ public class Main {
         String s5 = optionset.has(optionspec17) ? optionspec17.value(optionset) : null;
         String s6 = optionset.valueOf(optionspec);
         Integer integer = optionset.valueOf(optionspec1);
-        Session session = new Session(optionspec9.value(optionset), s4, optionspec11.value(optionset), optionspec18.value(optionset));
+        if (session == null) session = new Session(optionspec9.value(optionset), s4, optionspec11.value(optionset), optionspec18.value(optionset));
         GameConfiguration gameconfiguration = new GameConfiguration(new GameConfiguration.UserInformation(session, propertymap, propertymap1, proxy), new GameConfiguration.DisplayInformation(i, j, flag, flag1), new GameConfiguration.FolderInformation(file1, file3, file2, s5), new GameConfiguration.GameInformation(flag2, s3), new GameConfiguration.ServerInformation(s6, integer));
         Runtime.getRuntime().addShutdownHook(new Thread("Client Shutdown Thread") {
             public void run() {
