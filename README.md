@@ -1,2 +1,2 @@
 # YolBiNG
-yolk next generate
+yolb next generate
