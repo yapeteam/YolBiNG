@@ -2,7 +2,7 @@
 <div align="center">
 <h1>YolBI NG</h1>
 <p>
-    <img width="200" src="https://avatars.githubusercontent.com/u/159465859？s=200&v=4">
+    <img width="200" src="https://avatars.githubusercontent.com/u/159465859?s=200&v=4">
 </p>
 
 [Website](https://yapeteam.github.io) |
