@@ -1,0 +1,216 @@
+{
+  "map": [
+    {
+      "AimAssist": "自瞄"
+    },
+    {
+      "AntiBot": "アンチボット"
+    },
+    {
+      "AutoClicker": "オートクリッカー"
+    },
+    {
+      "Backtrack": "後戻り"
+    },
+    {
+      "Criticals": "クリティカル"
+    },
+    {
+      "DelayRemover": "ディレイリムーバー"
+    },
+    {
+      "KillAura": "キルオーラ"
+    },
+    {
+      "Reach": "達する"
+    },
+    {
+      "Target Strafe": "標的機銃掃射"
+    },
+    {
+      "Teams": "チーム"
+    },
+    {
+      "TickBase": "ティックベース"
+    },
+    {
+      "Velocity": "速度"
+    },
+    {
+      "WTap": "走位"
+    },
+    {
+      "BowBomb": "ボウボム"
+    },
+    {
+      "Disabler": "ディセーブル"
+    },
+    {
+      "KeepInv": "キープインブ"
+    },
+    {
+      "PacketDebugger": "パケットデバッガ"
+    },
+    {
+      "Strafe Converter": "機銃掃射コンバーター"
+    },
+    {
+      "AntiCheat": "アンチチート"
+    },
+    {
+      "Autoplay": "自动游玩"
+    },
+    {
+      "KillEffect": "キルエフェクト"
+    },
+    {
+      "NoteBot": "ノートボット"
+    },
+    {
+      "PacketFix 1.12.2": "1.12.2 パケットフィックス"
+    },
+    {
+      "Self Destruct": "自己破壊"
+    },
+    {
+      "Blink": "瞬く"
+    },
+    {
+      "Fly": "飞行"
+    },
+    {
+      "Inventory Move": "在庫移動"
+    },
+    {
+      "LongJump": "走り幅跳び"
+    },
+    {
+      "NoJumpDelay": "ジャンプ遅延なし"
+    },
+    {
+      "NoSlow": "ノースロー"
+    },
+    {
+      "SafeWalk": "セーフウォーク"
+    },
+    {
+      "Speed": "速度"
+    },
+    {
+      "Sprint": "スプリント"
+    },
+    {
+      "Step": "歩"
+    },
+    {
+      "AntiVoid": "アンチヴォイド"
+    },
+    {
+      "AutoGapple": "オートガップル"
+    },
+    {
+      "AutoPlace": "自動配置"
+    },
+    {
+      "AutoTool": "オートツール"
+    },
+    {
+      "ChestStealer": "チェストスティーラー"
+    },
+    {
+      "FastPlace": "ファストプレイス"
+    },
+    {
+      "InventoryManager": "インベントリマネージャー"
+    },
+    {
+      "NoFall": "ノーフォール"
+    },
+    {
+      "PrePos": "プレポジット"
+    },
+    {
+      "Timer": "タイマー"
+    },
+    {
+      "Ambience": "雰囲気"
+    },
+    {
+      "Animations": "アニメーション"
+    },
+    {
+      "Chams": "チャムス"
+    },
+    {
+      "ClickUI": "クリックUI"
+    },
+    {
+      "ClientTheme": "クライアントテーマ"
+    },
+    {
+      "ESP": "ESPの"
+    },
+    {
+      "FreeLook": "フリールック"
+    },
+    {
+      "FullBright": "フルブライト"
+    },
+    {
+      "IngameInfo": "IngameInfo"
+    },
+    {
+      "ItemESP": "アイテムESP"
+    },
+    {
+      "ItemPhysic": "アイテム物理"
+    },
+    {
+      "Keystrokes": "キーストローク"
+    },
+    {
+      "MoBends": "モベンド"
+    },
+    {
+      "Module List": "モジュール一覧"
+    },
+    {
+      "NameProtect": "ネームプロテクト"
+    },
+    {
+      "Notifications": "通知"
+    },
+    {
+      "Particles": "粒子"
+    },
+    {
+      "PotionEffect": "ポーション効果"
+    },
+    {
+      "Rotations": "回転"
+    },
+    {
+      "TargetHUD": "ターゲットHUD"
+    },
+    {
+      "Watermark": "透かし"
+    },
+    {
+      "Xray": "X 線"
+    },
+    {
+      "AutoBridge": "オートブリッジ"
+    },
+    {
+      "Breaker": "ブレーカー"
+    },
+    {
+      "Scaffold": "スキャフォールド"
+    },
+    {
+      "enable": "エネーブル"
+    },{
+      "disable": "無効にする"
+    }
+  ]
+}
