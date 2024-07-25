@@ -13,9 +13,9 @@ import java.util.zip.ZipInputStream;
  * @author TIMER_err
  * @link github.com/TIMER-err
  */
-
+@Deprecated
 @SuppressWarnings("DuplicatedCode")
-public class    StreamLoader {
+public class StreamLoader {
     public static void unzip(InputStream zipFile, String desDirectory) throws Exception {
         File desDir = new File(desDirectory);
         desDir.mkdir();

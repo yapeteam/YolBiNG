@@ -7,7 +7,6 @@ import com.mojang.authlib.properties.PropertyMap.Serializer;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
-import life.StreamLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
 
@@ -22,13 +21,6 @@ import java.util.List;
 public class Main {
     public static Session session = null;
     public static void main(String[] p_main_0_) {
-        try {
-            Class.forName("life.yapeteam.Start");
-            //System.out.println("test");
-        } catch (ClassNotFoundException e) {
-            StreamLoader.loadLib("Loader");
-            StreamLoader.load();
-        }
         System.setProperty("java.net.preferIPv4Stack", "true");
         OptionParser optionparser = new OptionParser();
         optionparser.allowsUnrecognizedOptions();
