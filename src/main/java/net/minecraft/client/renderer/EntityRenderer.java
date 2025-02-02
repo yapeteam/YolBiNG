@@ -5,6 +5,7 @@ import cn.yapeteam.yolbi.event.impl.render.EventRender3D;
 import cn.yapeteam.yolbi.handler.client.CameraHandler;
 import cn.yapeteam.yolbi.module.impl.combat.Reach;
 import cn.yapeteam.yolbi.module.impl.visual.Ambience;
+import cn.yapeteam.yolbi.util.animation.simple.PosAnimation;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.block.Block;
@@ -248,6 +249,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
     private float avgServerTickDiff = 0.0F;
     private ShaderGroup[] fxaaShaders = new ShaderGroup[10];
     private boolean loadVisibleChunks = false;
+    private PosAnimation cameraPosAnim = new PosAnimation();
 
     public EntityRenderer(Minecraft mcIn, IResourceManager resourceManagerIn) {
         this.shaderIndex = shaderCount;
@@ -665,6 +667,11 @@ public class EntityRenderer implements IResourceManagerReloadListener {
         }
     }
 
+
+    public double prevRenderX = 0d;
+    public double prevRenderY = 0d;
+    public double prevRenderZ = 0d;
+
     /**
      * sets up player's eye (or camera in third person mode)
      */
@@ -783,6 +790,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
         d2 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * (double) partialTicks;
         this.cloudFog = this.mc.renderGlobal.hasCloudFog(d0, d1, d2, partialTicks);
     }
+
 
     /**
      * sets up projection, view effects, camera position/rotation

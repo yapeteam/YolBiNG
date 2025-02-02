@@ -46,6 +46,7 @@ public class KillAura extends Module {
     @Getter
     private EntityLivingBase target;
     private static KillAura killaura;
+    private float lerpProc = 1f;
 
     public static KillAura getInstance() {
         return killaura;
@@ -53,8 +54,9 @@ public class KillAura extends Module {
 
     public final ModeValue<String> mode = new ModeValue<>("Mode", "Single", "Single", "Switch", "Fast Switch");
     private final ModeValue<String> filter = new ModeValue<>("Filter", "Range", "Range", "Health");
-    private final ModeValue<String> rotations = new ModeValue<>("Rotations", "Normal", "Normal", "Randomised", "Smooth", "None");
+    private final ModeValue<String> rotations = new ModeValue<>("Rotations", "Normal", "Normal", "Randomised", "Smooth", "LinearInterpolate","None");
     private final NumberValue<Double> randomAmount = new NumberValue<>("Random amount", () -> rotations.is("Randomised"), 4.0, 0.25, 10.0, 0.25);
+    private final NumberValue<Float> rotationSpeed = new NumberValue<>("Rotation Speed", () -> rotations.is("LinearInterpolate"), 0.9f, 0.01f, 1f, 0.01f);
 
     public final NumberValue<Double> startingRange = new NumberValue<>("Starting range", 4.0, 3.0, 6.0, 0.05);
     public final NumberValue<Double> range = new NumberValue<>("Range", 4.0, 3.0, 6.0, 0.05);
@@ -141,17 +143,16 @@ public class KillAura extends Module {
     public KillAura() {
         minAPS.setCallback((oldV, newV) -> newV > maxAPS.getValue() ? oldV : newV);
         maxAPS.setCallback((oldV, newV) -> newV < minAPS.getValue() ? oldV : newV);
-        this.addValues(mode, filter, rotations, randomAmount, startingRange, range, rotationRange, raycast, attackDelayMode, minAPS, maxAPS, attackDelay, failRate, hurtTime, autoblock, noHitOnFirstTick, blockTiming, blinkTicks, blockHurtTime, whileTargetNotLooking, slowdown, whileHitting, whileSpeedEnabled, keepSprint, moveFix, delayTransactions, whileInventoryOpened, whileScaffoldEnabled, whileUsingBreaker, players, animals, monsters, invisibles, attackDead,attackAll);
+        this.addValues(mode, filter, rotations, randomAmount,rotationSpeed, startingRange, range, rotationRange, raycast, attackDelayMode, minAPS, maxAPS, attackDelay, failRate, hurtTime, autoblock, noHitOnFirstTick, blockTiming, blinkTicks, blockHurtTime, whileTargetNotLooking, slowdown, whileHitting, whileSpeedEnabled, keepSprint, moveFix, delayTransactions, whileInventoryOpened, whileScaffoldEnabled, whileUsingBreaker, players, animals, monsters, invisibles, attackDead,attackAll);
         killaura = this;
     }
 
     @Override
     public void onEnable() {
         fixedRotations = new FixedRotations(mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch);
-
         rotSpeed = 15;
         done = false;
-
+        lerpProc = 1f;
         random = 0.5;
 
         attackNextTick = false;
@@ -447,6 +448,7 @@ public class KillAura extends Module {
 
     private boolean canBlock() {
         ItemStack stack = mc.thePlayer.getHeldItem();
+        if (autoblock.is("None")) return false;
 
         if (autoblock.is("Blink")) {
             if (antivoidModule.isBlinking()) {
@@ -766,11 +768,24 @@ public class KillAura extends Module {
 
                     done = false;
                     break;
+                case "LinearInterpolate":
+
+                    //lerpProc += rotationSpeed.getValue()/100f;
+
+                    yaw = yaw + (rots[0] - yaw) * rotationSpeed.getValue();
+                    pitch = pitch + (rots[1] - pitch) * rotationSpeed.getValue();
+
+                    done = false;
+                    break;
             }
         } else {
             if (rotations.getValue().equals("Smooth")) {
                 rotSpeed = 15;
 
+                if (!hadTarget) {
+                    done = true;
+                }
+            }else if (rotations.getValue().equals("LinearInterpolate")) {
                 if (!hadTarget) {
                     done = true;
                 }
@@ -785,6 +800,8 @@ public class KillAura extends Module {
             case "Normal":
             case "Randomised":
                 return target != null;
+
+            case "LinearInterpolate":
             case "Smooth":
                 return target != null || !done;
             case "None":

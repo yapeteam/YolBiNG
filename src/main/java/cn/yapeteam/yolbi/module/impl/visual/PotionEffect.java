@@ -77,7 +77,7 @@ public class PotionEffect extends HUDModule {
                 name = name + " " + I18n.format("enchantment.level.4");
             }
             if (inflag && numcount==lastNum-1){
-                System.out.println("Testtttt");
+                //System.out.println("Testtttt");
                 animation.run(200);
                 RenderUtil.drawBloomShadow((float) (this.posX.getValue().intValue()+animation.getValue()),this.posY.getValue().intValue()+forPosY,
                         100f,18f,5,5,new Color(0,0,0,120));

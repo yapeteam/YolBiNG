@@ -14,11 +14,10 @@ import java.util.Objects;
 
 @ModuleInfo(name = "Sprint", category = ModuleCategory.MOVEMENT)
 public class Sprint extends Module {
-    public final ModeValue<String> mode = new ModeValue<>("Mode", "Simple", "Simpe", "Legit");
+    public final ModeValue<String> mode = new ModeValue<>("Mode", "Simple", "Simple");
 
 
     public Sprint() {
-        this.setEnabledSilently(true);
         this.addValues(mode);
     }
 
@@ -27,21 +26,12 @@ public class Sprint extends Module {
         mc.gameSettings.keyBindSprint.setPressed(false);
     }
 
-    @Listener
-    public void onStrafe(EventStrafe event) {
-        if (Objects.equals(mode.getValue(), "Legit")) mc.gameSettings.keyBindSprint.setPressed(true);
-    }
 
-    @Listener(Priority.HIGH)
+    @Listener
     public void onTick(EventTick event) {
         if (mode.is("Simple")) {
             mc.gameSettings.keyBindSprint.setPressed(true);
 
-            // It's needed on hypixel for some reason with spoof autoblock only (otherwise you can sprint sideaways for some reason), if you find the issue please let me know.
-            // It doesn't do that on other servers btw
-            if (mc.thePlayer.moveForward <= 0F && ServerUtil.isOnHypixel()) {
-                mc.thePlayer.setSprinting(false); // Sprint ticks are over 0 even if mc.thePlayer.isSprinting() returns false
-            }
         }
     }
 }

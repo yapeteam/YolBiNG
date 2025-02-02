@@ -49,6 +49,14 @@ public class Animation {
         }
     }
 
+
+    public void isNotAndRun(final double destinationValue) {
+        if (this.value != destinationValue) {
+            run(destinationValue);
+        }
+    }
+
+
     /**
      * Returns the progress of the animation
      *

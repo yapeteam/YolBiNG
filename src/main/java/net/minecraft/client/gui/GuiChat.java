@@ -179,26 +179,14 @@ public class GuiChat extends GuiScreen
     {
         if (mouseButton == 0)
         {
-            ScaledResolution sr = new ScaledResolution(mc);
 
             for(HUDModule m : YolBi.instance.getModuleManager().hudModules) {
-                double startX = m.posX.getValue();
-                double startY = m.posY.getValue();
-
-                double endX = startX + m.getWidth();
-                double endY = startY + m.getHeight();
-
-                if(m.getAlignType() == AlignType.RIGHT) {
-                    if(mouseX < sr.getScaledWidth() - startX && mouseX > sr.getScaledWidth() - endX && mouseY > startY && mouseY < endY) {
-                        m.setHoldingMouse(true);
-                        break;
-                    }
-                } else if(m.getAlignType() == AlignType.LEFT) {
-                    if(mouseX > startX && mouseX < endX && mouseY > startY && mouseY < endY) {
-                        m.setHoldingMouse(true);
-                        break;
-                    }
+                if (m.isHoverMouse()){
+                    m.setHoldingMouse(true);
+                    break;
                 }
+
+
             }
 
             IChatComponent ichatcomponent = this.mc.ingameGUI.getChatGUI().getChatComponent(Mouse.getX(), Mouse.getY());
@@ -349,6 +337,36 @@ public class GuiChat extends GuiScreen
             this.handleComponentHover(ichatcomponent, mouseX, mouseY);
         }
 
+
+        ScaledResolution sr = new ScaledResolution(mc);
+        for(HUDModule m : YolBi.instance.getModuleManager().hudModules) {
+            double startX = m.posX.getValue();
+            double startY = m.posY.getValue();
+
+            double endX = startX + m.getWidth();
+            double endY = startY + m.getHeight();
+
+
+            if(m.getAlignType() == AlignType.RIGHT) {
+                if(mouseX < sr.getScaledWidth() - startX && mouseX > sr.getScaledWidth() - endX && mouseY > startY && mouseY < endY) {
+                    m.setHoverMouse(true);
+                    break;
+                }else {
+                    m.setHoverMouse(false);
+                }
+            } else if(m.getAlignType() == AlignType.LEFT) {
+                if(mouseX > startX && mouseX < endX && mouseY > startY && mouseY < endY) {
+                    m.setHoverMouse(true);
+                    break;
+                }else {
+                    m.setHoverMouse(false);
+                }
+            }
+
+        }
+
+
+
         YolBi.instance.getModuleManager().hudModules.forEach(m -> {
             double startX = m.posX.getValue();
             double startY = m.posY.getValue();
@@ -366,6 +384,13 @@ public class GuiChat extends GuiScreen
 
         lastMouseX = mouseX;
         lastMouseY = mouseY;
+
+
+
+
+
+
+
 
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
