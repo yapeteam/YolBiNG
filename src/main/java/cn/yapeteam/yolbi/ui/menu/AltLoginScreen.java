@@ -4,13 +4,16 @@ import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.ui.menu.components.Button;
 import cn.yapeteam.yolbi.util.misc.AudioUtil;
-import cn.yapeteam.yolbi.util.network.MicrosoftExternalLogin;
 import cn.yapeteam.yolbi.util.render.ColorUtil;
 import cn.yapeteam.yolbi.util.render.DrawUtil;
 import lombok.Getter;
 import lombok.Setter;
+import net.lenni0451.commons.httpclient.HttpClient;
 import net.minecraft.client.gui.*;
 import net.minecraft.util.Session;
+import net.raphimc.minecraftauth.MinecraftAuth;
+import net.raphimc.minecraftauth.step.java.session.StepFullJavaSession;
+import net.raphimc.minecraftauth.step.msa.StepMsaDeviceCode;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -39,6 +42,7 @@ public class AltLoginScreen extends GuiScreen {
     private AbstractFontRenderer font;
 
     private final int textColor = new Color(220, 220, 220).getRGB();
+
 
     @Override
     public void initGui() {
@@ -175,13 +179,36 @@ public class AltLoginScreen extends GuiScreen {
                     case "Login from browser":
                         new Thread(() -> {
                             try {
-                                new MicrosoftExternalLogin(this).start();
+                                HttpClient httpClient = MinecraftAuth.createHttpClient();
+                                StepFullJavaSession.FullJavaSession javaSession = MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.getFromInput(httpClient, new StepMsaDeviceCode.MsaDeviceCodeCallback(msaDeviceCode -> {
+                                    // Method to generate a verification URL and a code for the user to enter on that page
+                                    System.out.println("Go to " + msaDeviceCode.getVerificationUri());
+                                    System.out.println("Enter code " + msaDeviceCode.getUserCode());
+
+                                    // There is also a method to generate a direct URL without needing the user to enter a code
+                                    System.out.println("Go to " + msaDeviceCode.getDirectVerificationUri());
+                                    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(msaDeviceCode.getDirectVerificationUri()), null);
+                                    status = "Login URL copied to your clipboard.";
+                                }));
+                                //System.out.println("Username: " + javaSession.getMcProfile().getName());
+                                //System.out.println("Access token: " + javaSession.getMcProfile().getMcToken().getAccessToken());
+                                //System.out.println("Player certificates: " + javaSession.getPlayerCertificates());
+                                mc.setSession(
+                                        new Session(
+                                                javaSession.getMcProfile().getName(),
+                                                javaSession.getMcProfile().getId().toString(),
+                                                javaSession.getMcProfile().getMcToken().getAccessToken(),
+                                                "Microsoft"
+                                        )
+                                );
+                                status = "Login Success !";
                             } catch (Exception e) {
                                 e.printStackTrace();
 
                                 status = "Login failed !";
                             }
                         }).start();
+
                         break;
                     case "Back":
                         mc.displayGuiScreen(YolBi.instance.getMainMenu());
