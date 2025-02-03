@@ -7,6 +7,7 @@ import cn.yapeteam.yolbi.event.impl.render.EventRender2D;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
+import cn.yapeteam.yolbi.util.player.PlayerUtil;
 import cn.yapeteam.yolbi.values.impl.NumberValue;
 
 @ModuleInfo(name = "TickBase", category = ModuleCategory.COMBAT)
@@ -52,7 +53,7 @@ public class TickBase extends Module {
             freezing = false;
         }
 
-        if (killauraModule.isEnabled() && (killauraModule.getTarget() == null || killauraModule.getDistanceToEntity(killauraModule.getTarget()) > killauraModule.range.getValue())) {
+        if (killauraModule.isEnabled() && (killauraModule.getTarget() == null || PlayerUtil.getDistanceToEntity(killauraModule.getTarget()) > killauraModule.range.getValue())) {
             if (killauraModule.findTarget(!killauraModule.mode.is("Fast Switch"), killauraModule.startingRange.getValue() + 0.75) != null && mc.thePlayer.hurtTime <= 2) {
                 return counter = ticks.getValue();
             }

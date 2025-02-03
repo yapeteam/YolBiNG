@@ -1,6 +1,7 @@
 package cn.yapeteam.yolbi.ui.menu;
 
 import cn.yapeteam.yolbi.YolBi;
+import cn.yapeteam.yolbi.filesystem.FileSystem;
 import cn.yapeteam.yolbi.font.AbstractFontRenderer;
 import cn.yapeteam.yolbi.ui.menu.components.Button;
 import cn.yapeteam.yolbi.util.misc.AudioUtil;
@@ -21,11 +22,13 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class AltLoginScreen extends GuiScreen {
 
     private GuiTextField email;
     private GuiPasswordField password;
+    public ArrayList<String> accountsList = new ArrayList<>();
 
     private final Button[] buttons = {
             new Button("Login"),
@@ -63,6 +66,7 @@ public class AltLoginScreen extends GuiScreen {
             button.updateState(false);
             button.setAnimationDone(true);
         }
+        accountsList = YolBi.instance.getFileSystem().loadAccounts();
     }
 
     @Override
@@ -202,6 +206,9 @@ public class AltLoginScreen extends GuiScreen {
                                         )
                                 );
                                 status = "Login Success !";
+                                 //accountsList.add(javaSession.getMcProfile().getName()+":"+javaSession.getMcProfile().getId().toString()+":"+javaSession.getMcProfile().getMcToken().getAccessToken());
+                                //YolBi.instance.getFileSystem().saveAccounts(accountsList);
+
                             } catch (Exception e) {
                                 e.printStackTrace();
 

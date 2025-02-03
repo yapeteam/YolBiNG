@@ -19,6 +19,7 @@ import cn.yapeteam.yolbi.util.misc.TimerUtil;
 import cn.yapeteam.yolbi.util.network.PacketUtil;
 import cn.yapeteam.yolbi.util.player.FixedRotations;
 import cn.yapeteam.yolbi.util.player.MovementUtil;
+import cn.yapeteam.yolbi.util.player.PlayerUtil;
 import cn.yapeteam.yolbi.util.player.RotationsUtil;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
 import cn.yapeteam.yolbi.values.impl.ModeValue;
@@ -54,9 +55,9 @@ public class KillAura extends Module {
 
     public final ModeValue<String> mode = new ModeValue<>("Mode", "Single", "Single", "Switch", "Fast Switch");
     private final ModeValue<String> filter = new ModeValue<>("Filter", "Range", "Range", "Health");
-    private final ModeValue<String> rotations = new ModeValue<>("Rotations", "Normal", "Normal", "Randomised", "Smooth", "LinearInterpolate","None");
+    private final ModeValue<String> rotations = new ModeValue<>("Rotations", "Normal", "Normal", "Randomised", "Smooth", "LinearInterpolate","三角插值","None");
     private final NumberValue<Double> randomAmount = new NumberValue<>("Random amount", () -> rotations.is("Randomised"), 4.0, 0.25, 10.0, 0.25);
-    private final NumberValue<Float> rotationSpeed = new NumberValue<>("Rotation Speed", () -> rotations.is("LinearInterpolate"), 0.9f, 0.01f, 1f, 0.01f);
+    private final NumberValue<Float> rotationSpeed = new NumberValue<>("Rotation Speed", () -> rotations.is("LinearInterpolate") || rotations.is("三角插值"), 0.9f, 0.01f, 1f, 0.01f);
 
     public final NumberValue<Double> startingRange = new NumberValue<>("Starting range", 4.0, 3.0, 6.0, 0.05);
     public final NumberValue<Double> range = new NumberValue<>("Range", 4.0, 3.0, 6.0, 0.05);
@@ -94,7 +95,7 @@ public class KillAura extends Module {
 
     private final ModeValue<String> moveFix = new ModeValue<>("Move fix", "Disabled", "Disabled", "Normal", "Silent");
 
-    private final BooleanValue delayTransactions = new BooleanValue("Delay transactions", false);
+    //private final BooleanValue delayTransactions = new BooleanValue("Delay transactions", false);
 
     private final BooleanValue whileInventoryOpened = new BooleanValue("While inventory opened", false);
     private final BooleanValue whileScaffoldEnabled = new BooleanValue("While scaffold opened", false);
@@ -143,7 +144,7 @@ public class KillAura extends Module {
     public KillAura() {
         minAPS.setCallback((oldV, newV) -> newV > maxAPS.getValue() ? oldV : newV);
         maxAPS.setCallback((oldV, newV) -> newV < minAPS.getValue() ? oldV : newV);
-        this.addValues(mode, filter, rotations, randomAmount,rotationSpeed, startingRange, range, rotationRange, raycast, attackDelayMode, minAPS, maxAPS, attackDelay, failRate, hurtTime, autoblock, noHitOnFirstTick, blockTiming, blinkTicks, blockHurtTime, whileTargetNotLooking, slowdown, whileHitting, whileSpeedEnabled, keepSprint, moveFix, delayTransactions, whileInventoryOpened, whileScaffoldEnabled, whileUsingBreaker, players, animals, monsters, invisibles, attackDead,attackAll);
+        this.addValues(mode, filter, rotations, randomAmount,rotationSpeed, startingRange, range, rotationRange, raycast, attackDelayMode, minAPS, maxAPS, attackDelay, failRate, hurtTime, autoblock, noHitOnFirstTick, blockTiming, blinkTicks, blockHurtTime, whileTargetNotLooking, slowdown, whileHitting, whileSpeedEnabled, keepSprint, moveFix, whileInventoryOpened, whileScaffoldEnabled, whileUsingBreaker, players, animals, monsters, invisibles, attackDead,attackAll);
         killaura = this;
     }
 
@@ -185,9 +186,9 @@ public class KillAura extends Module {
 
         attackNextTick = false;
 
-        if (delayTransactions.getValue()) {
-            YolBi.instance.getPacketDelayHandler().stopAll();
-        }
+//        if (delayTransactions.getValue()) {
+//            YolBi.instance.getPacketDelayHandler().stopAll();
+//        }
     }
 
     @Listener
@@ -261,7 +262,7 @@ public class KillAura extends Module {
 
         boolean attackTick = false;
 
-        if (getDistanceToEntity(target) <= (hadTarget ? range.getValue() : startingRange.getValue())) {
+        if (PlayerUtil.getDistanceToEntity(target) <= (hadTarget ? range.getValue() : startingRange.getValue())) {
             if (target.hurtTime <= hurtTime.getValue()) {
                 switch (attackDelayMode.getValue()) {
                     case "APS":
@@ -281,9 +282,9 @@ public class KillAura extends Module {
                 }
             }
 
-            if (delayTransactions.getValue()) {
-                YolBi.instance.getPacketDelayHandler().startDelayingPing(2000);
-            }
+//            if (delayTransactions.getValue()) {
+//                YolBi.instance.getPacketDelayHandler().startDelayingPing(2000);
+//            }
 
             hadTarget = true;
         } else {
@@ -775,17 +776,22 @@ public class KillAura extends Module {
                     yaw = yaw + (rots[0] - yaw) * rotationSpeed.getValue();
                     pitch = pitch + (rots[1] - pitch) * rotationSpeed.getValue();
 
-                    done = false;
+                    //done = false;
+                    break;
+                case "三角插值":
+
+                    yaw = (float) (yaw + (rots[0] - yaw) * (1-Math.cos(Math.PI*rotationSpeed.getValue()))/2);
+                    pitch = (float) (pitch + (rots[1] - pitch) * (1-Math.cos(Math.PI*rotationSpeed.getValue()))/2);
+                    //done = false;
+
+
+
                     break;
             }
         } else {
             if (rotations.getValue().equals("Smooth")) {
                 rotSpeed = 15;
 
-                if (!hadTarget) {
-                    done = true;
-                }
-            }else if (rotations.getValue().equals("LinearInterpolate")) {
                 if (!hadTarget) {
                     done = true;
                 }
@@ -799,9 +805,11 @@ public class KillAura extends Module {
         switch (rotations.getValue()) {
             case "Normal":
             case "Randomised":
+            case "LinearInterpolate":
+            case "三角插值":
                 return target != null;
 
-            case "LinearInterpolate":
+
             case "Smooth":
                 return target != null || !done;
             case "None":
@@ -865,7 +873,7 @@ public class KillAura extends Module {
     }
 
     public boolean canAttack(EntityLivingBase entity, double range) {
-        if (getDistanceToEntity(entity) > range) {
+        if (PlayerUtil.getDistanceToEntity(entity) > range) {
             return false;
         }
 
@@ -901,21 +909,7 @@ public class KillAura extends Module {
         return antibotModule.canAttack(entity, this);
     }
 
-    public double getDistanceToEntity(EntityLivingBase entity) {
-        Vec3 playerVec = new Vec3(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
 
-        if (speedModule.isEnabled() && speedModule.mode.is("Pathfind")) {
-            playerVec = new Vec3(speedModule.getActualX(), speedModule.getActualY() + mc.thePlayer.getEyeHeight(), speedModule.getActualZ());
-        }
-
-        double yDiff = mc.thePlayer.posY - entity.posY;
-
-        double targetY = yDiff > 0 ? entity.posY + entity.getEyeHeight() : -yDiff < mc.thePlayer.getEyeHeight() ? mc.thePlayer.posY + mc.thePlayer.getEyeHeight() : entity.posY;
-
-        Vec3 targetVec = new Vec3(entity.posX, targetY, entity.posZ);
-
-        return playerVec.distanceTo(targetVec) - 0.3F;
-    }
 
     public double getDistanceCustomPosition(double x, double y, double z, double eyeHeight) {
         Vec3 playerVec = new Vec3(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);

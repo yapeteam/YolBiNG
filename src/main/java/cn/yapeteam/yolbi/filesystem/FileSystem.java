@@ -213,6 +213,58 @@ public class FileSystem {
         }
     }
 
+    public void saveAccounts(ArrayList<String> alts) {
+        try {
+            File accountsFile = new File(yolbiDir, "Accounts.txt");
+
+            if (!accountsFile.exists()) {
+                boolean ignored = accountsFile.createNewFile();
+            }
+
+            PrintWriter writer = new PrintWriter(accountsFile);
+
+            ArrayList<String> toWrite = new ArrayList<>();
+
+
+            for (String s : alts) {
+                toWrite.add(s);
+            }
+
+            for (String s : toWrite) {
+                writer.println(s);
+            }
+
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<String> loadAccounts() {
+        try {
+            File accountsFile = new File(yolbiDir, "Accounts.txt");
+
+            if (accountsFile.exists()) {
+                BufferedReader reader = new BufferedReader(new FileReader(accountsFile));
+
+                ArrayList<String> lines = new ArrayList<>();
+
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    lines.add(line);
+                }
+
+                reader.close();
+                return lines;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     public void saveDefaultConfig() {
         saveConfig("default");
     }

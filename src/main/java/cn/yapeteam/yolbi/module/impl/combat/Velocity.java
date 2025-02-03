@@ -216,6 +216,9 @@ public class Velocity extends Module {
                                     packet.setMotionZ((((int) ((double) packet.getMotionZ() * -0.1))));
                                 }
                             }
+
+
+                            break;
                         }
                     }
                 }

@@ -4,6 +4,7 @@ import cn.yapeteam.yolbi.YolBi;
 import cn.yapeteam.yolbi.module.Module;
 import cn.yapeteam.yolbi.module.ModuleCategory;
 import cn.yapeteam.yolbi.module.ModuleInfo;
+import cn.yapeteam.yolbi.util.player.PlayerUtil;
 import cn.yapeteam.yolbi.util.player.RotationsUtil;
 import cn.yapeteam.yolbi.util.world.WorldUtil;
 import cn.yapeteam.yolbi.values.impl.BooleanValue;
@@ -35,14 +36,14 @@ public class TargetStrafe extends Module {
 
         EntityLivingBase target = killaura.getTarget();
 
-        double distance = killaura.getDistanceToEntity(target);
+        double distance = PlayerUtil.getDistanceToEntity(target);
 
         float direction;
 
         if (distance > maxRange.getValue()) {
             direction = RotationsUtil.getRotationsToEntity(target, false)[0];
         } else {
-            double offset = (90 - killaura.getDistanceToEntity(target) * 5);
+            double offset = (90 - PlayerUtil.getDistanceToEntity(target) * 5);
 
             if (!goingRight) {
                 offset = -offset;

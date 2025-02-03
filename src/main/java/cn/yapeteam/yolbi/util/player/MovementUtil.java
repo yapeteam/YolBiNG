@@ -5,6 +5,8 @@ import cn.yapeteam.yolbi.event.impl.player.EventMove;
 import cn.yapeteam.yolbi.module.impl.combat.KillAura;
 import cn.yapeteam.yolbi.module.impl.combat.TargetStrafe;
 import cn.yapeteam.yolbi.util.IMinecraft;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Keyboard;
@@ -123,6 +125,10 @@ public class MovementUtil implements IMinecraft {
 
     public static boolean isMoving() {
         return mc.thePlayer.moveForward != 0 || mc.thePlayer.moveStrafing != 0;
+    }
+    public static boolean isMoving(EntityLivingBase entity) {
+        return entity.moveForward != 0 || entity.moveStrafing != 0;
+        //return mc.thePlayer.moveForward != 0 || mc.thePlayer.moveStrafing != 0;
     }
 
     public static int getSpeedAmplifier() {
