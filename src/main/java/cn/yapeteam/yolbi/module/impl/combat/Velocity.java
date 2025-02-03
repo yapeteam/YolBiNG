@@ -208,7 +208,7 @@ public class Velocity extends Module {
                             break;
                         }
                         case "Matrix": {
-
+                            //todo 还有很大问题
                             if (packet.getEntityID() == mc.thePlayer.getEntityId() && mc.thePlayer.hurtTime > 0) {
                                 if (reduced) return;
                                 if (mc.thePlayer.isSprinting()) {
