@@ -24,7 +24,7 @@ import net.minecraft.network.play.server.S12PacketEntityVelocity;
 @ModuleInfo(name = "Velocity", category = ModuleCategory.COMBAT)
 public class Velocity extends Module {
     public final ModeValue<String> mode = new ModeValue<>("Mode", "Packet",
-            "Packet", "Hypixel", "Packet loss", "Legit", "Intave", "Martix","RMC","BetterJump","Yawlegit","Sneak");
+            "Packet", "Hypixel", "Packet loss", "Legit", "Intave", "Matrix","RMC","BetterJump","Yawlegit","Sneak");
     private final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", () -> (mode.is("Packet") || mode.is("Intave")), 0, 0, 100, 2);
     private final NumberValue<Integer> vertical = new NumberValue<>("Vertical", () -> mode.is("Packet"), 0, 0, 100, 2);
 
@@ -57,7 +57,7 @@ public class Velocity extends Module {
     private int Bhurt;
     private boolean BblinkRunning;
     private int BStart2;
-
+    private boolean reduced = false;
     public Velocity() {
         this.addValues(mode, horizontal, vertical,YawlegitModeset,YawlegitAngleOffset);
     }
@@ -65,13 +65,14 @@ public class Velocity extends Module {
     @Override
     public void onEnable() {
         reducing = false;
+        reduced = false;
         offGroundTicks = 0;
 
     }
 
     @Override
     public void onDisable() {
-
+        reduced = false;
         if (mode.is("Hypixel") && pendingVelocity) {
             pendingVelocity = false;
             mc.thePlayer.motionY = motionY;
@@ -206,15 +207,28 @@ public class Velocity extends Module {
                             }
                             break;
                         }
-                        case "Martix": {
-                            if (packet.getEntityID() == mc.thePlayer.getEntityId()) {
-                                if (!flag) {
-                                    event.setCancelled(true);
-                                } else {
-                                    flag = false;
-                                    packet.setMotionX((((int) ((double) packet.getMotionX() * -0.1))));
-                                    packet.setMotionZ((((int) ((double) packet.getMotionZ() * -0.1))));
+                        case "Matrix": {
+
+                            if (packet.getEntityID() == mc.thePlayer.getEntityId() && mc.thePlayer.hurtTime > 0) {
+                                if (reduced) return;
+                                if (mc.thePlayer.isSprinting()) {
+                                    final double motionX = mc.thePlayer.motionX;
+                                    final double motionZ = mc.thePlayer.motionZ;
+
+                                    if (Math.abs(motionX) < 0.625 && Math.abs(motionZ) < 0.625) {
+                                        mc.thePlayer.motionX = motionX * 0.4;
+                                        mc.thePlayer.motionZ = motionZ * 0.4;
+                                    } else if (Math.abs(motionX) < 1.25 && Math.abs(motionZ) < 1.25) {
+                                        mc.thePlayer.motionX = motionX * 0.67;
+                                        mc.thePlayer.motionZ = motionZ * 0.67;
+                                    }
+                                    mc.thePlayer.setSprinting(false);
+
+
                                 }
+                                reduced = true;
+
+
                             }
 
 

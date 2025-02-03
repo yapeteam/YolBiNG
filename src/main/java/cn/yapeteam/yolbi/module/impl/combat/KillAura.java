@@ -41,6 +41,7 @@ import net.minecraft.util.Vec3;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Random;
 
 @ModuleInfo(name = "KillAura", category = ModuleCategory.COMBAT)
 public class KillAura extends Module {
@@ -57,7 +58,8 @@ public class KillAura extends Module {
     private final ModeValue<String> filter = new ModeValue<>("Filter", "Range", "Range", "Health");
     private final ModeValue<String> rotations = new ModeValue<>("Rotations", "Normal", "Normal", "Randomised", "Smooth", "LinearInterpolate","三角插值","None");
     private final NumberValue<Double> randomAmount = new NumberValue<>("Random amount", () -> rotations.is("Randomised"), 4.0, 0.25, 10.0, 0.25);
-    private final NumberValue<Float> rotationSpeed = new NumberValue<>("Rotation Speed", () -> rotations.is("LinearInterpolate") || rotations.is("三角插值"), 0.9f, 0.01f, 1f, 0.01f);
+    private final NumberValue<Float> rotationSpeedMin = new NumberValue<>("Rotation Speed", () -> rotations.is("LinearInterpolate") || rotations.is("三角插值"), 0.9f, 0.01f, 1f, 0.01f);
+    private final NumberValue<Float> rotationSpeedMax = new NumberValue<>("Rotation Speed", () -> rotations.is("LinearInterpolate") || rotations.is("三角插值"), 0.9f, 0.01f, 1f, 0.01f);
 
     public final NumberValue<Double> startingRange = new NumberValue<>("Starting range", 4.0, 3.0, 6.0, 0.05);
     public final NumberValue<Double> range = new NumberValue<>("Range", 4.0, 3.0, 6.0, 0.05);
@@ -140,11 +142,15 @@ public class KillAura extends Module {
     private int lastSlot;
 
     private final TimerUtil attackTimer = new TimerUtil();
+    private final Random random1 = new Random();
 
     public KillAura() {
         minAPS.setCallback((oldV, newV) -> newV > maxAPS.getValue() ? oldV : newV);
         maxAPS.setCallback((oldV, newV) -> newV < minAPS.getValue() ? oldV : newV);
-        this.addValues(mode, filter, rotations, randomAmount,rotationSpeed, startingRange, range, rotationRange, raycast, attackDelayMode, minAPS, maxAPS, attackDelay, failRate, hurtTime, autoblock, noHitOnFirstTick, blockTiming, blinkTicks, blockHurtTime, whileTargetNotLooking, slowdown, whileHitting, whileSpeedEnabled, keepSprint, moveFix, whileInventoryOpened, whileScaffoldEnabled, whileUsingBreaker, players, animals, monsters, invisibles, attackDead,attackAll);
+        rotationSpeedMin.setCallback((oldV, newV) -> newV > rotationSpeedMax.getValue() ? oldV : newV);
+        rotationSpeedMax.setCallback((oldV, newV) -> newV < rotationSpeedMin.getValue() ? oldV : newV);
+
+        this.addValues(mode, filter, rotations, randomAmount,rotationSpeedMin,rotationSpeedMax, startingRange, range, rotationRange, raycast, attackDelayMode, minAPS, maxAPS, attackDelay, failRate, hurtTime, autoblock, noHitOnFirstTick, blockTiming, blinkTicks, blockHurtTime, whileTargetNotLooking, slowdown, whileHitting, whileSpeedEnabled, keepSprint, moveFix, whileInventoryOpened, whileScaffoldEnabled, whileUsingBreaker, players, animals, monsters, invisibles, attackDead,attackAll);
         killaura = this;
     }
 
@@ -164,7 +170,7 @@ public class KillAura extends Module {
     @Override
     public void onDisable() {
         if (mc.thePlayer != null) {
-            if (hadTarget && rotations.is("Smooth")) {
+            if (hadTarget && (rotations.is("Smooth"))|| rotations.is("三角插值")) {
                 mc.thePlayer.rotationYaw = fixedRotations.getYaw();
             }
 
@@ -773,15 +779,15 @@ public class KillAura extends Module {
 
                     //lerpProc += rotationSpeed.getValue()/100f;
 
-                    yaw = yaw + (rots[0] - yaw) * rotationSpeed.getValue();
-                    pitch = pitch + (rots[1] - pitch) * rotationSpeed.getValue();
+                    yaw = yaw + (rots[0] - yaw) * (rotationSpeedMin.getValue()+(rotationSpeedMax.getValue()-rotationSpeedMin.getValue())) * random1.nextFloat();
+                    pitch = pitch + (rots[1] - pitch) * (rotationSpeedMin.getValue()+(rotationSpeedMax.getValue()-rotationSpeedMin.getValue())) * random1.nextFloat();
 
                     //done = false;
                     break;
                 case "三角插值":
 
-                    yaw = (float) (yaw + (rots[0] - yaw) * (1-Math.cos(Math.PI*rotationSpeed.getValue()))/2);
-                    pitch = (float) (pitch + (rots[1] - pitch) * (1-Math.cos(Math.PI*rotationSpeed.getValue()))/2);
+                    yaw = (float) (yaw + (rots[0] - yaw) * (1-Math.cos(Math.PI*(rotationSpeedMin.getValue()+(rotationSpeedMax.getValue()-rotationSpeedMin.getValue())) * random1.nextFloat()))/2);
+                    pitch = (float) (pitch + (rots[1] - pitch) * (1-Math.cos(Math.PI*(rotationSpeedMin.getValue()+(rotationSpeedMax.getValue()-rotationSpeedMin.getValue())) * random1.nextFloat()))/2);
                     //done = false;
 
 
