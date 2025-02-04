@@ -171,7 +171,8 @@ public class KillAura extends Module {
     public void onDisable() {
         if (mc.thePlayer != null) {
             if (hadTarget && (rotations.is("Smooth"))|| rotations.is("三角插值")) {
-                mc.thePlayer.rotationYaw = fixedRotations.getYaw();
+                if (fixedRotations != null)
+                    mc.thePlayer.rotationYaw = fixedRotations.getYaw();
             }
 
             stopTargeting();
